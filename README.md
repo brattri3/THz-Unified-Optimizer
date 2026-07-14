@@ -1,4 +1,4 @@
-﻿# THz Unified Optimizer
+# THz Unified Optimizer
 
 Unified framework for extracting physical parameters (pitch, wire diameter) of wire-grid polarizers from Time-Domain Terahertz Spectroscopy (THz-TDS) data.
 
@@ -10,22 +10,23 @@ Unified framework for extracting physical parameters (pitch, wire diameter) of w
 2. **2D Спектрально-угловая оптимизация (Nelder-Mead / L-BFGS-B)**: минимизация расхождений на полной матрице спектров (частота-угол).
 
 ## Структура проекта
-- src/ — исходный код оптимизатора:
+- unified_optimizer/ — исходный код оптимизатора:
   - model_blanco.py — теоретическая модель на основе матриц Джонса.
   - optimizer_1d.py и optimizer_2d.py — алгоритмы подгонки.
   - data_manager.py — загрузчик данных.
-  - un_pipeline.py — главный скрипт, запускающий оба метода для всех серий.
+  - run_pipeline.py — главный скрипт, запускающий оба метода для всех серий.
 - data_pool/ — папка с экспериментальными данными (фон, сигнал) для разных углов.
 - docs/ — артефакты, документы, черновики статей и иллюстрации, описывающие результаты.
 
 ## Запуск
-1. Установите зависимости:
-   `ash
-   pip install -r requirements.txt
-   `
-2. Настройте параметры в src/config.py при необходимости.
+1. Создайте виртуальное окружение и установите зависимости:
+   ```bash
+   python -m venv .venv
+   .venv\Scripts\pip install -r requirements.txt
+   ```
+2. Настройте параметры в `unified_optimizer/config.py` при необходимости.
 3. Запустите пайплайн:
-   `ash
-   python src/run_pipeline.py
-   `
-4. Отчет будет сгенерирован в папке src/results/.
+   ```bash
+   .venv\Scripts\python -m unified_optimizer.run_pipeline
+   ```
+4. Отчет будет сгенерирован в папке `results/optimization_report.md` в корне проекта.

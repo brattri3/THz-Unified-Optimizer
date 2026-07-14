@@ -2,8 +2,9 @@ from pathlib import Path
 
 # --- ПУТИ К ДАННЫМ ---
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data_pool"
-RESULTS_DIR = BASE_DIR / "results"
+DATA_DIR = BASE_DIR.parent / "data_pool"
+RESULTS_DIR = BASE_DIR.parent / "results"
+
 
 # Создаем папку результатов, если её нет
 RESULTS_DIR.mkdir(exist_ok=True)
