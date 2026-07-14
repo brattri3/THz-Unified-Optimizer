@@ -32,4 +32,9 @@
 - **Исправление багов**: Устранен `UnicodeEncodeError` на Windows путем удаления эмодзи из принтов в `run_pipeline.py`.
 - **Инструкции**: Создан отчет `docs/artifacts/walkthrough_normalize.md` с результатами тестирования.
 
+### 2026-07-14 14:31 | Antigravity IDE
+- **Расширение параметров**: Добавлен вывод всех 6 параметров 1D оптимизации (`P`, `D`, `theta_offset`, `alpha`, `gamma`, `eps_floor`) и 4 параметров 2D оптимизации (`P`, `D`, `theta_offset`, `loss_factor`) в терминал.
+- **Отчеты**: Добавлены новые колонки (`Alpha / Loss_factor`, `Gamma`, `Шумовой порог`) в сравнительную таблицу Markdown-отчета `optimization_report.md` в `analytics.py`.
+
+
 

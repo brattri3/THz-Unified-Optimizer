@@ -46,14 +46,15 @@ def main():
             print("  Запуск 1D Интегральной оптимизации...")
             res_1d = optimize_1d_integral(data_dict)
             print(f"    P = {res_1d['P_eff_um']:.3f} мкм, D = {res_1d['D_eff_um']:.3f} мкм, "
-                  f"Сдвиг = {res_1d['theta_offset']:.2f}°")
+                  f"Сдвиг = {res_1d['theta_offset']:.2f}°, alpha = {res_1d['alpha']:.3f}, "
+                  f"gamma = {res_1d['gamma']:.2f}, eps = {res_1d['eps_floor']:.3e}")
             results[ds]['1D'] = res_1d
               
         if args.method in ["2d", "both"]:
             print("  Запуск 2D Спектральной оптимизации...")
             res_2d = optimize_2d_spectral(data_dict)
             print(f"    P = {res_2d['P_eff_um']:.3f} мкм, D = {res_2d['D_eff_um']:.3f} мкм, "
-                  f"Сдвиг = {res_2d['theta_offset']:.2f}°")
+                  f"Сдвиг = {res_2d['theta_offset']:.2f}°, loss_factor = {res_2d['loss_factor']:.3f}")
             results[ds]['2D'] = res_2d
         
     # Обработка глобального усреднения
@@ -65,12 +66,18 @@ def main():
         if args.method in ["1d", "both"]:
             print("  Запуск 1D Интегральной оптимизации...")
             res_1d_glob = optimize_1d_integral(global_dict)
+            print(f"    P = {res_1d_glob['P_eff_um']:.3f} мкм, D = {res_1d_glob['D_eff_um']:.3f} мкм, "
+                  f"Сдвиг = {res_1d_glob['theta_offset']:.2f}°, alpha = {res_1d_glob['alpha']:.3f}, "
+                  f"gamma = {res_1d_glob['gamma']:.2f}, eps = {res_1d_glob['eps_floor']:.3e}")
             results['Global_Average']['1D'] = res_1d_glob
             
         if args.method in ["2d", "both"]:
             print("  Запуск 2D Спектральной оптимизации...")
             res_2d_glob = optimize_2d_spectral(global_dict)
+            print(f"    P = {res_2d_glob['P_eff_um']:.3f} мкм, D = {res_2d_glob['D_eff_um']:.3f} мкм, "
+                  f"Сдвиг = {res_2d_glob['theta_offset']:.2f}°, loss_factor = {res_2d_glob['loss_factor']:.3f}")
             results['Global_Average']['2D'] = res_2d_glob
+
     
     # Генерация отчета
     if results:
