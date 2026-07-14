@@ -17,9 +17,17 @@ class TestDataManager(unittest.TestCase):
         self.assertEqual(rep, 1)
         self.assertEqual(type_, "bg")
         
+        # Файл с углом, требующим нормализации (например, 270deg -> -90deg, 350deg -> -10deg)
+        ds, angle, rep, type_ = parse_filename("series1_270deg_rep1_sig.txt")
+        self.assertEqual(angle, -90.0)
+        
+        ds, angle, rep, type_ = parse_filename("series1_350deg_rep1_sig.txt")
+        self.assertEqual(angle, -10.0)
+        
         # Некорректный файл
         with self.assertRaises(ValueError):
             parse_filename("wrong_format.txt")
+
 
 if __name__ == '__main__':
     unittest.main()

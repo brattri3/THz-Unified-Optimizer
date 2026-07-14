@@ -76,7 +76,8 @@ def main():
     if results:
         report_path = config.RESULTS_DIR / "optimization_report.md"
         generate_report(results, report_path)
-        print(f"\n✅ Отчет успешно сгенерирован: {report_path}")
+        print(f"\n[OK] Отчет успешно сгенерирован: {report_path}")
+
 
 if __name__ == "__main__":
     main()

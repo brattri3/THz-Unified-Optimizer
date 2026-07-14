@@ -1,0 +1,5 @@
+- `[x]` Создать файл `unified_optimizer/utils.py` с функцией `normalize_angle`
+- `[x]` Интегрировать нормализацию углов в `unified_optimizer/data_manager.py`
+- `[x]` Обновить тесты в `unified_optimizer/tests/test_data_manager.py`
+- `[x]` Запустить автотесты
+- `[x]` Запустить ручной прогон пайплайна для проверки нормализации в терминале

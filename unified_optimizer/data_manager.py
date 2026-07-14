@@ -4,6 +4,8 @@ import numpy as np
 import re
 from typing import Dict, List, Tuple
 
+from unified_optimizer.utils import normalize_angle
+
 def parse_filename(filename: str) -> tuple:
     """
     Парсит имя нормализованного файла вида {dataset}_{angle}deg_rep{N}_{type}.txt
@@ -16,9 +18,11 @@ def parse_filename(filename: str) -> tuple:
         raise ValueError(f"Неверный формат имени файла: {filename}")
     dataset_name = match.group(1)
     angle_deg = float(match.group(2))
+    angle_deg = normalize_angle(angle_deg)
     rep = int(match.group(3))
     type_ = match.group(4)
     return dataset_name, angle_deg, rep, type_
+
 
 def load_tds(filepath: Path) -> Tuple[np.ndarray, np.ndarray]:
     """Загружает файл ТГц-данных, вычитает постоянную составляющую."""
