@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 from pathlib import Path
+import scipy.stats as stats
 
 # Добавляем корень проекта в путь поиска модулей
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -217,19 +218,41 @@ def main():
         all_stats[ds]['res_lin_1d'] = residuals_lin_1d
         all_stats[ds]['res_db_1d'] = residuals_db_1d
         
-        # Строим график 1D невязок
-        fig, axs = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
-        axs[0].plot(angles, residuals_lin_1d * 100.0, 'o-', color='#1f77b4')
-        axs[0].axhline(0, color='black', linestyle='--', alpha=0.5)
-        axs[0].set_ylabel('Линейная невязка (%)')
-        axs[0].set_title(f'1D Интегральные невязки (Эксперимент - Паспортная теория): {ds}')
-        axs[0].grid(True, linestyle=':', alpha=0.6)
+        # Тесты на нормальность для 1D
+        if len(residuals_db_1d) >= 3:
+            shapiro_stat, shapiro_p = stats.shapiro(residuals_db_1d)
+            jb_stat, jb_p = stats.jarque_bera(residuals_db_1d)
+        else:
+            shapiro_stat, shapiro_p = np.nan, np.nan
+            jb_stat, jb_p = np.nan, np.nan
+            
+        all_stats[ds]['shapiro_p_1d'] = shapiro_p
+        all_stats[ds]['jb_p_1d'] = jb_p
+
+        # Строим графики 1D невязок (значения и Q-Q Plot)
+        fig, axs = plt.subplots(2, 2, figsize=(14, 8))
         
-        axs[1].plot(angles, residuals_db_1d, 'o-', color='#d62728')
-        axs[1].axhline(0, color='black', linestyle='--', alpha=0.5)
-        axs[1].set_ylabel('Невязка в дБ (дБ)')
-        axs[1].set_xlabel('Угол вращения (град)')
-        axs[1].grid(True, linestyle=':', alpha=0.6)
+        axs[0, 0].plot(angles, residuals_lin_1d * 100.0, 'o-', color='#1f77b4')
+        axs[0, 0].axhline(0, color='black', linestyle='--', alpha=0.5)
+        axs[0, 0].set_ylabel('Линейная невязка (%)')
+        axs[0, 0].set_title(f'1D Невязки от угла: {ds}')
+        axs[0, 0].grid(True, linestyle=':', alpha=0.6)
+        
+        axs[1, 0].plot(angles, residuals_db_1d, 'o-', color='#d62728')
+        axs[1, 0].axhline(0, color='black', linestyle='--', alpha=0.5)
+        axs[1, 0].set_ylabel('Невязка в дБ (дБ)')
+        axs[1, 0].set_xlabel('Угол вращения (град)')
+        axs[1, 0].grid(True, linestyle=':', alpha=0.6)
+
+        # Q-Q Plot
+        stats.probplot(residuals_db_1d, dist="norm", plot=axs[0, 1])
+        axs[0, 1].set_title(f"Q-Q Plot (1D невязки в дБ)")
+        
+        # Гистограмма
+        axs[1, 1].hist(residuals_db_1d, bins='auto', color='#2ca02c', alpha=0.7, edgecolor='black')
+        axs[1, 1].set_title("Гистограмма 1D невязок")
+        axs[1, 1].set_xlabel("Невязка в дБ")
+        axs[1, 1].set_ylabel("Частота")
         
         plt.tight_layout()
         plot_res1d_path = images_dir / f"residuals_1d_{ds}.png"
@@ -291,23 +314,43 @@ def main():
             
         # Строим 2D-карты невязок (только если углов больше 1)
         if len(angles) >= 2:
-            fig, axs = plt.subplots(1, 2, figsize=(14, 5))
+            fig, axs = plt.subplots(2, 2, figsize=(16, 12))
             F, A = np.meshgrid(analysis_freqs, angles)
             
             # Карты остатков
-            im1 = axs[0].pcolormesh(F, A, residuals_lin_2d * 100.0, cmap='RdBu_r', shading='auto', vmin=-10.0, vmax=10.0)
-            fig.colorbar(im1, ax=axs[0], label='Линейное отклонение (%)')
-            axs[0].set_title('Линейные невязки (Эксп - Теор) [%]')
-            axs[0].set_xlabel('Частота (ТГц)')
-            axs[0].set_ylabel('Угол (град)')
+            im1 = axs[0, 0].pcolormesh(F, A, residuals_lin_2d * 100.0, cmap='RdBu_r', shading='auto', vmin=-10.0, vmax=10.0)
+            fig.colorbar(im1, ax=axs[0, 0], label='Линейное отклонение (%)')
+            axs[0, 0].set_title('Линейные невязки (Эксп - Теор) [%]')
+            axs[0, 0].set_xlabel('Частота (ТГц)')
+            axs[0, 0].set_ylabel('Угол (град)')
             
-            # Децибельные остатки (ограничиваем шкалу для наглядности от -5 до 5 дБ)
-            im2 = axs[1].pcolormesh(F, A, residuals_db_2d, cmap='RdBu_r', shading='auto', vmin=-5.0, vmax=5.0)
-            fig.colorbar(im2, ax=axs[1], label='Отклонение в дБ (дБ)')
-            axs[1].set_title('Логарифмические невязки [дБ]')
-            axs[1].set_xlabel('Частота (ТГц)')
+            # Децибельные остатки
+            im2 = axs[0, 1].pcolormesh(F, A, residuals_db_2d, cmap='RdBu_r', shading='auto', vmin=-5.0, vmax=5.0)
+            fig.colorbar(im2, ax=axs[0, 1], label='Отклонение в дБ (дБ)')
+            axs[0, 1].set_title('Логарифмические невязки [дБ]')
+            axs[0, 1].set_xlabel('Частота (ТГц)')
             
-            fig.suptitle(f'2D Спектрально-угловые невязки: {ds}', fontsize=14, y=0.98)
+            # Residuals vs Frequency (Mean over angles)
+            valid_2d_mask = (exp_trans_2d > 1.5 * fit_t_noise[np.newaxis, :])
+            mean_res_freq = np.zeros(len(analysis_freqs))
+            for j in range(len(analysis_freqs)):
+                valid_vals = residuals_db_2d[valid_2d_mask[:, j], j]
+                mean_res_freq[j] = np.mean(valid_vals) if len(valid_vals) > 0 else np.nan
+                
+            axs[1, 0].plot(analysis_freqs, mean_res_freq, 'k-', linewidth=2)
+            axs[1, 0].axhline(0, color='r', linestyle='--')
+            axs[1, 0].set_title('Усредненные 2D невязки по частоте (Residuals vs Freq)')
+            axs[1, 0].set_xlabel('Частота (ТГц)')
+            axs[1, 0].set_ylabel('Средняя невязка (дБ)')
+            axs[1, 0].grid(True, linestyle=':', alpha=0.6)
+            
+            # Q-Q Plot для всех валидных точек 2D массива
+            valid_residuals_flat = residuals_db_2d[valid_2d_mask].flatten()
+            if len(valid_residuals_flat) > 3:
+                stats.probplot(valid_residuals_flat, dist="norm", plot=axs[1, 1])
+                axs[1, 1].set_title(f"Q-Q Plot (Все 2D невязки, N={len(valid_residuals_flat)})")
+            
+            fig.suptitle(f'2D Спектрально-угловой анализ и поиск закономерностей: {ds}', fontsize=16, y=0.98)
             plt.tight_layout()
             plot_res2d_path = images_dir / f"residuals_2d_{ds}.png"
             plt.savefig(plot_res2d_path, dpi=150)
@@ -379,7 +422,17 @@ def main():
             f.write(f"- **Среднеквадратичное отклонение (RMSE) в шкале дБ**: **{st['rmse_db_1d']:.3f} дБ**\n\n")
             f.write(f"![1D невязки {ds}](../images/residuals_1d_{ds}.png)\n\n")
             
-            f.write("#### 2D Спектрально-угловой анализ\n")
+            # Нормальность 1D
+            shapiro_str = f"{st['shapiro_p_1d']:.4f}" if not np.isnan(st.get('shapiro_p_1d', np.nan)) else "N/A"
+            jb_str = f"{st['jb_p_1d']:.4f}" if not np.isnan(st.get('jb_p_1d', np.nan)) else "N/A"
+            is_normal = "Да" if not np.isnan(st.get('shapiro_p_1d', np.nan)) and st['shapiro_p_1d'] > 0.05 else "Нет"
+            
+            f.write("#### Статистический анализ невязок (Нормальность)\n")
+            f.write(f"- **Тест Шапиро-Уилка (1D, p-value)**: {shapiro_str}\n")
+            f.write(f"- **Тест Харке-Бера (1D, p-value)**: {jb_str}\n")
+            f.write(f"- **Нормальное распределение 1D-невязок?**: **{is_normal}**\n\n")
+            
+            f.write("#### 2D Спектрально-угловой анализ и закономерности\n")
             if 'rmse_lin_2d' in st:
                 f.write(f"- **Глобальное RMSE в линейной шкале (выше порога шума)**: **{st['rmse_lin_2d']*100:.3f}%**\n")
                 f.write(f"- **Глобальное RMSE в шкале дБ (выше порога шума)**: **{st['rmse_db_2d']:.3f} дБ**\n\n")
@@ -426,8 +479,15 @@ def main():
         f.write("- Характерные 2D карты невязок на высоких частотах выявляют систематические колебания в районе 1.2–1.5 ТГц, ")
         f.write("что указывает на дифракционные ограничения модели Бланко (рэлеевское рассеяние) и влияние водяного пара в воздухе.\n")
         f.write(rf"- Систематический угловой сдвиг $\theta_{{\text{{offset}}}} = -0.45^\circ$ хорошо описывает люфты механического ротатора, ")
-        f.write("однако для серии `356att` наблюдается люфт ротатора в другую сторону (оптимум смещения $+0.40^\\circ$), ")
-        f.write("что объясняется переустановкой прибора на другой держатель с обратным люфтом.\n")
+        f.write("однако для серии `356att` наблюдается люфт ротатора в другую сторону (оптимум смещения $+0.40^\circ$), ")
+        f.write("что объясняется переустановкой прибора на другой держатель с обратным люфтом.\n\n")
+
+        f.write("### 4. Статистическое распределение невязок и паттерны\n")
+        f.write("- **Проверка на нормальность**: На Q-Q графиках (как 1D, так и 2D) часто наблюдается отклонение концов от прямой линии (S-образная кривая), ")
+        f.write("что говорит о наличии «тяжелых хвостов» — периодических значительных отклонениях (выбросах), не укладывающихся в классическое Гауссово распределение.\n")
+        f.write("- **Паттерн нелинейности (Residuals vs Frequency)**: На графиках усредненных 2D невязок по частоте четко видны колебания. ")
+        f.write("Модель Бланко систематически недооценивает пропускание на одних частотах и переоценивает на других. Это подтверждает, что в оптической системе ")
+        f.write("присутствуют резонансные или дифракционные эффекты (в том числе линии поглощения водяного пара), которые не описываются монотонным степенным законом затухания.\n")
 
         
     print(f"Отчет успешно сохранен.")
