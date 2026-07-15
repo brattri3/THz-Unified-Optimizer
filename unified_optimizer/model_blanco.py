@@ -120,3 +120,20 @@ def transmission_two_polarizers(theta: float, p_over_lambda: float, d_over_p: fl
     E_in = np.array([1.0, 0.0])
     E_out = M @ E_in
     return float(np.clip(np.abs(E_out[0])**2 + np.abs(E_out[1])**2, 0.0, 1.0))
+
+def transmission_complex_two_polarizers(theta: float, p_over_lambda: float, d_over_p: float, N: int = 15) -> complex:
+    """
+    Комплексный коэффициент пропускания для системы двух поляризаторов
+    (первый развернут на угол theta в радианах). Jones matrix формализм.
+    Возвращает комплексную амплитуду основной поляризации (E_out[0]).
+    """
+    t_perp = compute_t_perp(p_over_lambda, d_over_p, N)
+    t_par = compute_t_par(p_over_lambda, d_over_p, N)
+    c, s = np.cos(theta), np.sin(theta)
+    R = np.array([[c, -s], [s, c]])
+    R_inv = np.array([[c, s], [-s, c]])
+    P = np.array([[t_perp, 0.0], [0.0, t_par]])
+    M = P @ R @ P @ R_inv   # результирующая матрица системы
+    E_in = np.array([1.0, 0.0])
+    E_out = M @ E_in
+    return E_out[0]

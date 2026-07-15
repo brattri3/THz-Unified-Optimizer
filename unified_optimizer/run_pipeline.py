@@ -55,7 +55,7 @@ def main():
             res_2d = optimize_2d_spectral(data_dict)
             print(f"    P = {res_2d['P_eff_um']:.3f} мкм, D = {res_2d['D_eff_um']:.3f} мкм, "
                   f"Сдвиг = {res_2d['theta_offset']:.2f}°, loss_factor = {res_2d['loss_factor']:.3f}, "
-                  f"gamma = {res_2d['gamma']:.2f}")
+                  f"gamma = {res_2d['gamma']:.2f}, tau_ps = {res_2d['tau_ps']:.3f}")
             results[ds]['2D'] = res_2d
         
     # Обработка глобального усреднения
@@ -77,7 +77,7 @@ def main():
             res_2d_glob = optimize_2d_spectral(global_dict)
             print(f"    P = {res_2d_glob['P_eff_um']:.3f} мкм, D = {res_2d_glob['D_eff_um']:.3f} мкм, "
                   f"Сдвиг = {res_2d_glob['theta_offset']:.2f}°, loss_factor = {res_2d_glob['loss_factor']:.3f}, "
-                  f"gamma = {res_2d_glob['gamma']:.2f}")
+                  f"gamma = {res_2d_glob['gamma']:.2f}, tau_ps = {res_2d_glob['tau_ps']:.3f}")
             results['Global_Average']['2D'] = res_2d_glob
 
     
