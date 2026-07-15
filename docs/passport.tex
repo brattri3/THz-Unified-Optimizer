@@ -1,0 +1,184 @@
+% !TeX program = xelatex
+% ============================================================
+% passport.tex - Technical Passport and Calibration Certificate
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage{myconfig}
+\usepackage{booktabs}
+
+% Reset figure numbering to sequential and translate captions to English
+\counterwithout{figure}{section}
+\captionsetup[figure]{name=Figure, labelsep=period, font=small, labelfont=bf, justification=centering}
+
+% Narrow fields locally to strictly fit everything on 2 pages
+\geometry{
+	left=1.4cm,
+	right=1.4cm,
+	top=1.0cm,
+	bottom=1.0cm,
+	headheight=0.4cm,
+	footskip=0.4cm
+}
+
+% Tighten spacing around floats (figures/tables) to compress vertical size
+\setlength{\floatsep}{4pt plus 2pt minus 1pt}
+\setlength{\textfloatsep}{4pt plus 2pt minus 1pt}
+\setlength{\intextsep}{4pt plus 2pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{2pt plus 1pt minus 1pt}
+
+\singlespacing % Single line spacing for compact layout
+
+\begin{document}
+	\pagestyle{empty} % Remove page numbers for certificate template
+	
+	% ==========================================
+	% PAGE 1: TITLE BLOCK & SPECIFICATIONS
+	% ==========================================
+	\noindent
+	\begin{minipage}[c]{0.26\textwidth}
+		\vspace{0pt}
+		\includegraphics[width=\textwidth]{tydex_logo}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[c]{0.72\textwidth}
+		\vspace{0pt}
+		\raggedleft
+		{\large\bfseries Tydex LLC} \\
+		{\small Spectral Research Department} \\
+		\vspace{0.2em}
+		{\color{headerblue}\large\bfseries TECHNICAL PASSPORT AND CALIBRATION CERTIFICATE} \\
+		{\color{headerblue}\Large\bfseries THz Tunable Precision Attenuator} \\
+		{\small Model: \textbf{ATT-11-16-CA85} \quad | \quad Serial No: \textbf{\#02721}}
+	\end{minipage}
+	
+	\vspace{0.3em}
+	\hrule
+	\vspace{0.3em}
+	
+	% Temporarily redefine footnote symbol to asterisk
+	\renewcommand{\thefootnote}{*}
+	
+	\noindent
+	\begin{minipage}[t]{0.81\textwidth}
+		\vspace{0pt}
+		\noindent\textbf{1. Application and Design} \\
+		The \mycode{ATT-11-16-CA85} THz Tunable Precision Attenuator (clear aperture 85~mm) consists of two independent wire-grid polarizers. Figure 1 shows the experimental setup scheme for THz radiation transmission through grids $P_1$ and $P_2$. The first polarizer is aligned with the polarization vector of the incident beam (angle $\theta_1 = 0^\circ$), while the rotatable polarizer (analyzer) is rotated by an angle of $\theta_2 = \theta$. The introduced attenuation is controlled by varying the relative angle $\theta = \theta_2 - \theta_1$. The device is individually calibrated for the frequency range from 0.05 to 2.0 THz ($\lambda > 150$~$\mu$m).
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.16\textwidth}
+		\vspace{0pt}
+		\centering
+		\includegraphics[width=\textwidth]{passport_microphoto}
+		\par\vspace{1pt}
+		{\small Grid structure photo}
+	\end{minipage}
+	
+	\vspace{0.3em}
+	
+	\noindent\textbf{2. Technical and Calibration Specifications}
+	\begin{table}[H]
+		\centering
+		\small % Using small font size for table as per technical documentation standards
+		\begin{tabularx}{\textwidth}{lX}
+			\toprule
+			\textbf{Parameter} & \textbf{Value / Specification} \\
+			\midrule
+			Clear aperture (holder diameter) & 85~mm \\
+			Nominal grid period $P$ / wire diameter $D$ & $16.0$~$\mu$m / $11.0$~$\mu$m \\
+			Measured geometric period $P_{\text{geom}}$ (via photo) & $15.93 \pm 5.03$~$\mu$m ($\pm 31.6\%$, quality class "A") \\
+			Calibration frequency range & 0.05 -- 2.0 THz \\
+			\midrule
+			\textbf{Blanco model effective parameters} & \textbf{For calibration curve calculations (95\% CI):} \\
+			Effective grid period $P_{\text{eff}}$ & $15.50 \pm 0.05$~$\mu$m \\
+			Effective strip width $D_{\text{eff}}$\footnotemark[1] & $5.67 \pm 0.08$~$\mu$m (drift-filtered ensemble mean) \\
+			Ohmic loss factor $loss\_factor$ & $0.255 \pm 0.035$ dB/THz$^{1.58}$ (power-law exponent $\gamma = 1.58$) \\
+			Systematic angular offset $\theta_{\text{offset}}$ & $-0.45^\circ \pm 0.08^\circ$ (rotator backlash compensation) \\
+			Model approximation error (RMSE)\footnotemark[2] & $\pm 1.39$ dB (dynamic range up to $-45$ dB) \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	\footnotetext[1]{\scriptsize The Blanco model maps a cylindrical wire grid to an equivalent flat strip grid. A round wire of nominal diameter $D = 11.0$~$\mu$m interacts similarly to a flat metal strip of width $d \approx D/2$, yielding $D_{\text{eff}} \approx 5.67$~$\mu$m. The loss factor incorporates a power-law frequency dependence $e^{-\alpha \nu^\gamma}$ with $\gamma=1.58$ to physically capture the transition from skin-effect absorption ($\propto \nu^{0.5}$) to Rayleigh scattering on grid edge imperfections ($\propto \nu^4$). See: Blanco et al., \textit{Int. J. Infrared Millim. Waves}, vol. 7, no. 11, 1986.}
+	\footnotetext[2]{\scriptsize The 2D residuals analysis shows that the model approximation error is dominated by unmodeled multiple inter-grid reflections and diffraction scattering at large angles ($\theta > 50^\circ$), whereas for small angles ($\theta < 45^\circ$) the local fit RMSE is under $\pm 0.1$ dB.}
+	
+	\vspace{-0.5em}
+	
+	\noindent\textbf{3. Experimental Setup and Methodology} \\
+	The calibration of the attenuator was performed on a Menlo Tera K8 time-domain terahertz spectrometer (THz-TDS). The incident radiation possessed horizontal linear polarization. The experimental transmission scheme is shown in Figure 1.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.68\textwidth]{fig0_1}
+		\vspace{0.5em}
+		\caption{Experimental setup scheme for attenuator calibration with polarizer angle $\theta_1$ and analyzer angle $\theta_2$.}
+		\label{fig:scheme}
+	\end{figure}
+	
+	\newpage
+	
+	% ==========================================
+	% PAGE 2: CALIBRATION CURVES & ERROR ANALYSIS
+	% ==========================================
+	\begin{center}
+		{\color{headerblue}\large\bfseries CALIBRATION CARDS AND ATTENUATOR ERRORS}
+	\end{center}
+	
+	\vspace{0.2em}
+	
+	\noindent\textbf{4. Attenuator Application Scenarios} \\
+	Depending on the receiver type, the power transmission $T(\theta, \nu)$ is calculated via the Blanco model\textsuperscript{*}, where $t_{\perp}(\nu) = t_{\perp,0}(\nu) e^{-\frac{1}{2}\alpha \nu^{\gamma}}$, $t_{\parallel}(\nu) = t_{\parallel,0}(\nu) e^{-\frac{1}{2}\alpha \nu^{\gamma}}$ are loss-corrected complex amplitude transmission coefficients ($t_{\perp,0}, t_{\parallel,0}$ are pure electrodynamic Blanco coefficients, $\alpha = 0.0587$~Np/THz$^\gamma$, $\gamma = 1.58$), $\theta_{\text{offset}}$ is the systematic angular offset, and $T_{\text{noise}}$ is the noise floor:
+	\begin{itemize}[leftmargin=0.6cm, itemsep=2pt, parsep=0pt, topsep=2pt]
+		\item \textbf{Scenario A} (PCA Menlo Tera K8 --- polarization-sensitive detector): \\
+		$T(\theta, \nu) = \left| t_{\perp}(\nu) \cos^2(\theta - \theta_{\text{offset}}) + t_{\parallel}(\nu) \sin^2(\theta - \theta_{\text{offset}}) \right|^2 + T_{\text{noise}}$
+		\item \textbf{Scenario B} (Bolometer / Golay Cell --- polarization-insensitive detector): \\
+		$T(\theta, \nu) = |t_{\perp}(\nu)|^2 \cos^2(\theta - \theta_{\text{offset}}) + |t_{\parallel}(\nu)|^2 \sin^2(\theta - \theta_{\text{offset}}) + T_{\text{noise}}$
+	\end{itemize}
+	
+	\vspace{0.3em}
+	
+	\noindent\textbf{5. Calibration Transmission and Attenuation Curves} \\
+	For manual attenuation adjustment, use the graphical curves in Figure 2. To set the required attenuation $A$ (in dB), locate the target value on the vertical scale of Figure 2 (either right or left) and find the corresponding rotator angle $\theta$. The left panel shows the linear transmission scale for low attenuation ($0^\circ - 60^\circ$), while the right panel displays the decibel scale for deep attenuation ($30^\circ - 90^\circ$). The Menlo experimental data points in Figure 2 correspond to the Scenario A measurements and confirm the high accuracy of the Blanco model\textsuperscript{*}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.96\textwidth]{passport_calibration}
+		\vspace{-0.5em}
+		\caption{Calibration curves: low attenuation in linear scale (left) and deep attenuation in decibel scale (right). Right axes display alternative units.}
+		\label{fig:calib}
+	\end{figure}
+	
+	\vspace{-0.5em}
+	
+	\noindent
+	\begin{minipage}[t]{0.56\textwidth}
+		\vspace{0pt}
+		\noindent\textbf{6. Angular Position Error Analysis} \\
+		Due to the trigonometric nature of the Malus law, the sensitivity of the attenuation to the rotator angle error $\Delta \theta$ increases sharply at angles $\theta > 70^\circ$. Figure 3 shows the attenuation error $\Delta A$ for Scenario A under instrumental rotator backlashes of $\Delta\theta = 0.5^\circ$ and $1.0^\circ$.
+		
+		\vspace{0.4em}
+		\noindent\textbf{7. Calculation Software and Physical Limitations} \\
+		The delivery package includes specialized software to calculate the exact attenuation at any frequency $\nu$ for any angle $\theta$. The software is individually calibrated for the specific device (Serial No. \#02721) using the effective parameters $P_{\text{eff}}$, $D_{\text{eff}}$, and $\theta_{\text{offset}}$. The software is distributed via email. \\
+		\textit{Limitations}: At frequencies below 10 GHz ($\lambda > 3$ cm), the holder's clear aperture (85 mm) becomes comparable to the wavelength, leading to beam diffraction at the edges.
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.40\textwidth}
+		\vspace{0pt}
+		\centering
+		\includegraphics[width=\textwidth]{passport_error}
+		\vspace{-0.6em}
+		\captionof{figure}{Attenuation error $\Delta A$ as a function of the rotator angle under backlashes $\Delta\theta = 0.5^\circ$ and $1.0^\circ$ (Scenario A).}
+		\label{fig:error}
+	\end{minipage}
+	
+	\vspace{0.6em}
+	\hrule
+	\vspace{0.4em}
+	\begin{center}
+		\small
+		Calibration Date: June 29, 2026 \\
+		\vspace{0.3em}
+		\textbf{Spectral Research Department, Tydex LLC} \hfill \textbf{Operator Signature: \underline{\hspace{4cm}}}
+	\end{center}
+	
+\end{document}
