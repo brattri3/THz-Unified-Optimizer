@@ -24,7 +24,7 @@ def get_transmission_spectra(t_s, E_s, t_b, E_b):
     
     return freq, spec_s, spec_b, transmission
 
-def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, t_noise, N=15):
+def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, t_noise, gamma=1.0, N=15):
     t_perp_arr = []
     t_par_arr = []
     d_over_p = d / p
@@ -37,6 +37,7 @@ def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_
     t_perp_arr = np.array(t_perp_arr)
     t_par_arr = np.array(t_par_arr)
     
+    angles_deg = np.array(angles_deg)
     adjusted_angles_rad = np.deg2rad(angles_deg - angle_offset)
     cos_a = np.cos(adjusted_angles_rad)[:, np.newaxis]
     sin_a = np.sin(adjusted_angles_rad)[:, np.newaxis]
@@ -44,8 +45,15 @@ def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_
     t_perp = t_perp_arr[np.newaxis, :]
     t_par = t_par_arr[np.newaxis, :]
     
-    t_perp_eff = t_perp * np.exp(-0.5 * loss_factor * freqs_thz)[np.newaxis, :]
-    t_par_eff = t_par * np.exp(-0.5 * loss_factor * freqs_thz)[np.newaxis, :]
+    if config.USE_POWER_LAW:
+        # loss_factor передан в дБ/ТГц^gamma, переводим в Np (амплитудное затухание)
+        loss_factor_np = loss_factor / 4.343
+        t_perp_eff = t_perp * np.exp(-0.5 * loss_factor_np * (freqs_thz ** gamma))[np.newaxis, :]
+        t_par_eff = t_par * np.exp(-0.5 * loss_factor_np * (freqs_thz ** gamma))[np.newaxis, :]
+    else:
+        # Линейные потери в Np/ТГц
+        t_perp_eff = t_perp * np.exp(-0.5 * loss_factor * freqs_thz)[np.newaxis, :]
+        t_par_eff = t_par * np.exp(-0.5 * loss_factor * freqs_thz)[np.newaxis, :]
     
     E_out = cos_a**2 * t_perp_eff + sin_a**2 * t_par_eff
     T_ideal = np.abs(E_out)**2
@@ -55,9 +63,14 @@ def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_
 
 def optimize_2d_spectral(data_dict):
     """
-    Выполняет 2D спектрально-угловую оптимизацию (по Nelder-Mead).
+    Выполняет прецизионную 2D спектрально-угловую оптимизацию (по Nelder-Mead).
+    Конфигурируется через параметры в config.py.
     """
     angles = sorted(list(data_dict.keys()))
+    if config.ANGLES_LIMIT_2D is not None:
+        min_a, max_a = config.ANGLES_LIMIT_2D
+        angles = [a for a in angles if min_a <= a <= max_a]
+        
     angles_val = np.array(angles)
     
     bg_spectra = []
@@ -80,7 +93,8 @@ def optimize_2d_spectral(data_dict):
     dr_power = (bg_avg / noise_floor_amplitude)**2
     t_noise_floor = 1.0 / dr_power
     
-    target_indices = np.where((freqs_common >= config.F_MIN) & (freqs_common <= config.F_MAX))[0]
+    f_max = getattr(config, 'F_MAX_2D', config.F_MAX)
+    target_indices = np.where((freqs_common >= config.F_MIN) & (freqs_common <= f_max))[0]
     analysis_freqs = freqs_common[target_indices]
     fit_t_noise = t_noise_floor[target_indices]
     
@@ -90,23 +104,49 @@ def optimize_2d_spectral(data_dict):
         
     exp_trans_db_2d = 10 * np.log10(np.maximum(exp_trans_2d, 1e-12))
     
-    def loss_function_2d(params_scaled):
-        p_um, d_um, loss_factor, angle_offset = params_scaled
+    # Определение свободных параметров
+    free_params = []
+    if config.P_FIXED is None:
+        free_params.append(('P_um', config.P_DEFAULT * 1e6, (5.0, 40.0)))
+    free_params.append(('D_um', config.D_DEFAULT * 1e6, (1.0, 25.0)))
+    
+    init_loss = 0.3 if config.USE_POWER_LAW else 0.15
+    free_params.append(('loss_factor', init_loss, (0.0, 5.0)))
+    
+    if config.USE_POWER_LAW and config.OPTIMIZE_GAMMA:
+        free_params.append(('gamma', config.GAMMA_DEFAULT, (0.1, 3.0)))
+    free_params.append(('angle_offset', 0.0, (-10.0, 10.0)))
+    
+    initial_guess = [p[1] for p in free_params]
+    
+    def loss_function_2d(free_vals):
+        p_um = config.P_FIXED * 1e6 if config.P_FIXED is not None else 16.0
+        d_um = config.D_DEFAULT * 1e6
+        loss_factor = 0.3 if config.USE_POWER_LAW else 0.15
+        gamma = config.GAMMA_DEFAULT if config.USE_POWER_LAW else 1.0
+        angle_offset = 0.0
         
-        if p_um <= 5.0 or p_um >= 40.0: return 1e8
-        if d_um <= 1.0 or d_um >= 25.0: return 1e8
-        if d_um >= p_um: return 1e8 + (d_um - p_um) * 1e9
-        if loss_factor < 0.0 or loss_factor > 5.0: return 1e8
-        if angle_offset < -10.0 or angle_offset > 10.0: return 1e8
+        for val, (name, _, bounds) in zip(free_vals, free_params):
+            if val < bounds[0] or val > bounds[1]:
+                return 1e8
+            if name == 'P_um': p_um = val
+            elif name == 'D_um': d_um = val
+            elif name == 'loss_factor': loss_factor = val
+            elif name == 'gamma': gamma = val
+            elif name == 'angle_offset': angle_offset = val
+            
+        if d_um >= p_um:
+            return 1e8 + (d_um - p_um) * 1e9
             
         p = p_um * 1e-6
         d = d_um * 1e-6
-            
-        theo_linear = compute_theoretical_grid_2d(angles_val, analysis_freqs, p, d, loss_factor, angle_offset, fit_t_noise)
+        
+        theo_linear = compute_theoretical_grid_2d(angles_val, analysis_freqs, p, d, loss_factor, angle_offset, fit_t_noise, gamma=gamma)
         theo_db = 10 * np.log10(np.maximum(theo_linear, 1e-12))
         
         valid_mask = exp_trans_2d > 1.5 * fit_t_noise[np.newaxis, :]
-        if np.sum(valid_mask) == 0: return 1e8
+        if np.sum(valid_mask) == 0:
+            return 1e8
             
         diff_lin = exp_trans_2d[valid_mask] - theo_linear[valid_mask]
         rmse_lin = np.sqrt(np.mean(diff_lin**2))
@@ -114,20 +154,34 @@ def optimize_2d_spectral(data_dict):
         
         return config.W_LINEAR * rmse_lin + config.W_DB * rmse_db
 
-    initial_guess = [config.P_DEFAULT * 1e6, config.D_DEFAULT * 1e6, 0.0, 0.0]
     res = minimize(
         loss_function_2d, 
         initial_guess, 
         method='Nelder-Mead',
-        options={'maxiter': 50, 'xatol': 1e-2, 'fatol': 1e-2}
+        options={'maxiter': 500, 'xatol': 1e-4, 'fatol': 1e-4}
     )
     
-    p_f, d_f, a_f, th_f = res.x
+    final_vals = res.x
+    p_um = config.P_FIXED * 1e6 if config.P_FIXED is not None else 16.0
+    d_um = config.D_DEFAULT * 1e6
+    loss_factor = 0.3 if config.USE_POWER_LAW else 0.15
+    gamma = config.GAMMA_DEFAULT if config.USE_POWER_LAW else 1.0
+    angle_offset = 0.0
+    
+    for val, (name, _, _) in zip(final_vals, free_params):
+        if name == 'P_um': p_um = val
+        elif name == 'D_um': d_um = val
+        elif name == 'loss_factor': loss_factor = val
+        elif name == 'gamma': gamma = val
+        elif name == 'angle_offset': angle_offset = val
+        
     return {
-        'P_eff_um': p_f,
-        'D_eff_um': d_f,
-        'loss_factor': a_f,
-        'theta_offset': th_f,
+        'P_eff_um': p_um,
+        'D_eff_um': d_um,
+        'loss_factor': loss_factor,
+        'gamma': gamma,
+        'theta_offset': angle_offset,
         'success': res.success,
         'fun': res.fun
     }
+

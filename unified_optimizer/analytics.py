@@ -16,12 +16,15 @@ def generate_report(results: dict, output_path: Path):
         
         for ds, ds_results in results.items():
             r1 = ds_results.get('1D')
+            r2 = ds_results.get('2D')
             if r1:
                 f.write(f"| **{ds}** | 1D | {r1['P_eff_um']:.3f} | {r1['D_eff_um']:.3f} | {r1['theta_offset']:.2f} | {r1['alpha']:.3f} | {r1['gamma']:.2f} | {r1['eps_floor']:.3e} | {r1['fun']:.3e} |\n")
-            
-            r2 = ds_results.get('2D')
-            if r2:
-                f.write(f"| | 2D | {r2['P_eff_um']:.3f} | {r2['D_eff_um']:.3f} | {r2['theta_offset']:.2f} | {r2['loss_factor']:.3f} | - | - | {r2['fun']:.3e} |\n")
+                if r2:
+                    f.write(f"| | 2D | {r2['P_eff_um']:.3f} | {r2['D_eff_um']:.3f} | {r2['theta_offset']:.2f} | {r2['loss_factor']:.3f} | {r2['gamma']:.2f} | - | {r2['fun']:.3e} |\n")
+            elif r2:
+                f.write(f"| **{ds}** | 2D | {r2['P_eff_um']:.3f} | {r2['D_eff_um']:.3f} | {r2['theta_offset']:.2f} | {r2['loss_factor']:.3f} | {r2['gamma']:.2f} | - | {r2['fun']:.3e} |\n")
+
+
 
                 
         f.write("\n## Анализ расхождений (Выбросы и погрешности)\n\n")
