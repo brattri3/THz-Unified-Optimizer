@@ -110,15 +110,29 @@ def main():
         # Приводим к [-pi, pi]
         res_phase = (res_phase + np.pi) % (2 * np.pi) - np.pi
         
+        # --- 3-sigma outlier rejection ---
         if np.sum(valid_2d_mask) > 0:
-            rmse_amp = np.sqrt(np.mean(res_amp_db[valid_2d_mask]**2))
-            rmse_phase = np.sqrt(np.mean(res_phase[valid_2d_mask]**2))
+            mean_amp = np.mean(res_amp_db[valid_2d_mask])
+            std_amp = np.std(res_amp_db[valid_2d_mask])
+            amp_inliers = np.abs(res_amp_db - mean_amp) < 3 * std_amp
+            
+            mean_phase = np.mean(res_phase[valid_2d_mask])
+            std_phase = np.std(res_phase[valid_2d_mask])
+            phase_inliers = np.abs(res_phase - mean_phase) < 3 * std_phase
+            
+            valid_amp_mask = valid_2d_mask & amp_inliers
+            valid_phase_mask = valid_2d_mask & phase_inliers
+            
+            rmse_amp = np.sqrt(np.mean(res_amp_db[valid_amp_mask]**2))
+            rmse_phase = np.sqrt(np.mean(res_phase[valid_phase_mask]**2))
         else:
             rmse_amp, rmse_phase = 0.0, 0.0
+            valid_amp_mask = valid_2d_mask.copy()
+            valid_phase_mask = valid_2d_mask.copy()
             
         # Тесты на нормальность по амплитуде и фазе
-        valid_amp = res_amp_db[valid_2d_mask].flatten()
-        valid_phase = res_phase[valid_2d_mask].flatten()
+        valid_amp = res_amp_db[valid_amp_mask].flatten()
+        valid_phase = res_phase[valid_phase_mask].flatten()
         
         if len(valid_amp) >= 3:
             shapiro_amp, p_shapiro_amp = stats.shapiro(valid_amp)
@@ -145,7 +159,7 @@ def main():
             # --- График 1: Амплитудные невязки ---
             fig, axs = plt.subplots(2, 2, figsize=(16, 12))
             
-            im1 = axs[0, 0].pcolormesh(F, A, np.where(valid_2d_mask, res_amp_db, np.nan), cmap='RdBu_r', shading='auto', vmin=-3.0, vmax=3.0)
+            im1 = axs[0, 0].pcolormesh(F, A, np.where(valid_amp_mask, res_amp_db, np.nan), cmap='RdBu_r', shading='auto', vmin=-3.0, vmax=3.0)
             fig.colorbar(im1, ax=axs[0, 0], label='Амплитудная невязка (дБ)')
             axs[0, 0].set_title('Карта амплитудных невязок [дБ]')
             axs[0, 0].set_xlabel('Частота (ТГц)')
@@ -157,7 +171,7 @@ def main():
                 
             mean_res_amp = np.zeros(len(analysis_freqs))
             for j in range(len(analysis_freqs)):
-                valid_vals = res_amp_db[valid_2d_mask[:, j], j]
+                valid_vals = res_amp_db[valid_amp_mask[:, j], j]
                 mean_res_amp[j] = np.mean(valid_vals) if len(valid_vals) > 0 else np.nan
                 
             axs[1, 0].plot(analysis_freqs, mean_res_amp, 'k-', linewidth=2)
@@ -185,7 +199,7 @@ def main():
             # --- График 2: Фазовые невязки ---
             fig, axs = plt.subplots(2, 2, figsize=(16, 12))
             
-            im1 = axs[0, 0].pcolormesh(F, A, np.where(valid_2d_mask, res_phase, np.nan), cmap='PRGn', shading='auto', vmin=-0.5, vmax=0.5)
+            im1 = axs[0, 0].pcolormesh(F, A, np.where(valid_phase_mask, res_phase, np.nan), cmap='PRGn', shading='auto', vmin=-0.5, vmax=0.5)
             fig.colorbar(im1, ax=axs[0, 0], label='Фазовая невязка (рад)')
             axs[0, 0].set_title('Карта фазовых невязок [рад]')
             axs[0, 0].set_xlabel('Частота (ТГц)')
@@ -196,7 +210,7 @@ def main():
                 
             mean_res_phase = np.zeros(len(analysis_freqs))
             for j in range(len(analysis_freqs)):
-                valid_vals = res_phase[valid_2d_mask[:, j], j]
+                valid_vals = res_phase[valid_phase_mask[:, j], j]
                 mean_res_phase[j] = np.mean(valid_vals) if len(valid_vals) > 0 else np.nan
                 
             axs[1, 0].plot(analysis_freqs, mean_res_phase, 'k-', linewidth=2)

@@ -158,10 +158,20 @@ def optimize_2d_spectral(data_dict):
                 valid_mask[:, water_idx] = False
                 
         if np.sum(valid_mask) == 0:
-            return 1e8
+            return 1e6
             
         diff_complex = exp_trans_2d[valid_mask] - theo_complex[valid_mask]
-        rmse_complex = np.sqrt(np.mean(np.abs(diff_complex)**2))
+        diff_abs = np.abs(diff_complex)
+        
+        # Удаление статистических выбросов (> 3 сигма) для устойчивости фиттинга
+        mean_diff = np.mean(diff_abs)
+        std_diff = np.std(diff_abs)
+        inliers = diff_abs < (mean_diff + 3 * std_diff)
+        
+        if np.sum(inliers) == 0:
+            return 1e6
+            
+        rmse_complex = np.sqrt(np.mean(diff_abs[inliers]**2))
         
         return rmse_complex
 
