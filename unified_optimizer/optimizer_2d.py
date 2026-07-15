@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import minimize
 import time
+from unified_optimizer.utils import find_auto_water_mask
 
 from unified_optimizer import config, model_blanco
 
@@ -107,6 +108,10 @@ def optimize_2d_spectral(data_dict):
     for i, ang in enumerate(angles):
         exp_trans_2d[i, :] = individual_results[ang][target_indices]
         
+    # Вычисление автоматической маски воды (outlier rejection)
+    Y_mean_db = np.mean(20 * np.log10(np.maximum(np.abs(exp_trans_2d), 1e-12)), axis=0)
+    auto_water_mask, _ = find_auto_water_mask(analysis_freqs, Y_mean_db)
+        
     free_params = []
     if config.P_FIXED is None:
         free_params.append(('P_um', config.P_DEFAULT * 1e6, (5.0, 40.0)))
@@ -151,11 +156,8 @@ def optimize_2d_spectral(data_dict):
         # Маска достоверных точек
         valid_mask = np.abs(exp_trans_2d) > 1.5 * np.sqrt(fit_t_noise[np.newaxis, :])
         
-        # Вырезание линий воды
-        if hasattr(config, 'WATER_LINES_THZ'):
-            for w_min, w_max in config.WATER_LINES_THZ:
-                water_idx = (analysis_freqs >= w_min) & (analysis_freqs <= w_max)
-                valid_mask[:, water_idx] = False
+        # Применяем автоматическую маску
+        valid_mask = valid_mask & auto_water_mask[np.newaxis, :]
                 
         if np.sum(valid_mask) == 0:
             return 1e6

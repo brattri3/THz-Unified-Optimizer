@@ -12,6 +12,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 from unified_optimizer.data_manager import DataManager
 from unified_optimizer import config
 from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
+from unified_optimizer.utils import find_auto_water_mask
 
 # Новые оптимизированные параметры для комплексной модели
 P_OPT = 15.50e-6
@@ -72,17 +73,15 @@ def main():
         # Маска частот с учетом линий воды
         target_indices = np.where((freqs_common >= config.F_MIN) & (freqs_common <= config.F_MAX))[0]
         
-        # Исключаем водяные линии
-        water_mask = np.ones(len(target_indices), dtype=bool)
-        for w_min, w_max in config.WATER_LINES_THZ:
-            w_idx = (freqs_common[target_indices] >= w_min) & (freqs_common[target_indices] <= w_max)
-            water_mask[w_idx] = False
-            
         analysis_freqs = freqs_common[target_indices]
         
         exp_trans_2d = np.zeros((len(angles), len(analysis_freqs)), dtype=np.complex128)
         for i, ang in enumerate(angles):
             exp_trans_2d[i, :] = individual_results[ang][target_indices]
+            
+        # Исключаем водяные линии автоматически
+        Y_mean_db = np.mean(20 * np.log10(np.maximum(np.abs(exp_trans_2d), 1e-12)), axis=0)
+        water_mask, water_intervals = find_auto_water_mask(analysis_freqs, Y_mean_db)
             
         # Расчет теоретической сетки с параметром tau_ps
         theo_trans_2d = compute_theoretical_grid_2d(
@@ -166,7 +165,7 @@ def main():
             axs[0, 0].set_ylabel('Угол (град)')
             
             # Highlight masked areas
-            for w_min, w_max in config.WATER_LINES_THZ:
+            for w_min, w_max in water_intervals:
                 axs[0, 0].axvspan(w_min, w_max, color='gray', alpha=0.3)
                 
             mean_res_amp = np.zeros(len(analysis_freqs))
@@ -175,7 +174,7 @@ def main():
                 mean_res_amp[j] = np.mean(valid_vals) if len(valid_vals) > 0 else np.nan
                 
             axs[1, 0].plot(analysis_freqs, mean_res_amp, 'k-', linewidth=2)
-            for w_min, w_max in config.WATER_LINES_THZ:
+            for w_min, w_max in water_intervals:
                 axs[1, 0].axvspan(w_min, w_max, color='gray', alpha=0.3)
             axs[1, 0].axhline(0, color='r', linestyle='--')
             axs[1, 0].set_title('Усредненные по углу амплитудные невязки')
@@ -205,7 +204,7 @@ def main():
             axs[0, 0].set_xlabel('Частота (ТГц)')
             axs[0, 0].set_ylabel('Угол (град)')
             
-            for w_min, w_max in config.WATER_LINES_THZ:
+            for w_min, w_max in water_intervals:
                 axs[0, 0].axvspan(w_min, w_max, color='gray', alpha=0.3)
                 
             mean_res_phase = np.zeros(len(analysis_freqs))
@@ -214,7 +213,7 @@ def main():
                 mean_res_phase[j] = np.mean(valid_vals) if len(valid_vals) > 0 else np.nan
                 
             axs[1, 0].plot(analysis_freqs, mean_res_phase, 'k-', linewidth=2)
-            for w_min, w_max in config.WATER_LINES_THZ:
+            for w_min, w_max in water_intervals:
                 axs[1, 0].axvspan(w_min, w_max, color='gray', alpha=0.3)
             axs[1, 0].axhline(0, color='r', linestyle='--')
             axs[1, 0].set_title('Усредненные по углу фазовые невязки')
