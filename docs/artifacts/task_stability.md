@@ -1,0 +1,6 @@
+- `[x]` Создать папку `scripts/`, если её нет
+- `[x]` Реализовать скрипт `scripts/analyze_stability_and_residuals.py`
+- `[x]` Выполнить расчет стабильности фоновых сигналов и невязок
+- `[x]` Создать отчет `docs/artifacts/residuals_and_stability_report.md`
+- `[x]` Записать изменения в `CHANGELOG.md`
+- `[x]` Закоммитить и запушить изменения в репозиторий
