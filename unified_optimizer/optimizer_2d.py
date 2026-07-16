@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import minimize
 import time
 import logging
-from unified_optimizer.utils import find_auto_water_mask
+from unified_optimizer.utils import find_auto_water_mask, compute_numerical_hessian, estimate_errors_from_hessian
 
 from unified_optimizer import config, model_blanco
 
@@ -115,9 +115,12 @@ def optimize_2d_spectral(data_dict):
         
     free_params = []
     if config.P_FIXED is None:
-        free_params.append(('P_um', config.P_DEFAULT * 1e6, (5.0, 40.0)))
-    p_fixed_um = (config.P_FIXED * 1e6) if config.P_FIXED is not None else 40.0
-    free_params.append(('D_um', config.D_DEFAULT * 1e6, (1.0, p_fixed_um - 0.5)))
+        p_bounds = getattr(config, 'P_BOUNDS', (5.0, 40.0))
+        free_params.append(('P_um', config.P_DEFAULT * 1e6, p_bounds))
+    
+    p_max_um = (config.P_FIXED * 1e6) if config.P_FIXED is not None else (getattr(config, 'P_BOUNDS', (5.0, 40.0))[1])
+    d_bounds = getattr(config, 'D_BOUNDS', (1.0, p_max_um - 0.5))
+    free_params.append(('D_um', config.D_DEFAULT * 1e6, d_bounds))
     
     init_loss = 0.3 if config.USE_POWER_LAW else 0.15
     free_params.append(('loss_factor', init_loss, (0.0, 5.0)))
@@ -128,6 +131,9 @@ def optimize_2d_spectral(data_dict):
     free_params.append(('tau_ps', 0.0, (-10.0, 10.0))) # Фазовая задержка
     
     initial_guess = [p[1] for p in free_params]
+    
+    # Счётчик точек для Гессиана
+    _inliers_count = [0]
     
     def loss_function_2d(free_vals):
         p_um = config.P_FIXED * 1e6 if config.P_FIXED is not None else 16.0
@@ -187,6 +193,7 @@ def optimize_2d_spectral(data_dict):
         W_PHASE = 0.1  # вес фазовой невязки (меньше — фаза шумнее)
         loss_amp = np.mean(amp_residual[inliers]**2)
         loss_phase = np.mean(phase_residual[inliers]**2)
+        _inliers_count[0] = np.sum(inliers)
         return W_AMP * loss_amp + W_PHASE * loss_phase
 
     # --- Логирование сходимости ---
@@ -234,6 +241,16 @@ def optimize_2d_spectral(data_dict):
         if abs(val - bounds[0]) < 0.01 or abs(val - bounds[1]) < 0.01:
             logging.warning(f"  [2D] ВНИМАНИЕ: параметр '{name}'={val:.4f} на границе {bounds}!")
 
+    # Расчет Гессиана для оценки погрешностей
+    param_errors = {}
+    if config.CALC_HESSIAN:
+        logging.info("  [2D] Расчет матрицы Гессиана...")
+        hess = compute_numerical_hessian(loss_function_2d, res.x, h=1e-3)
+        std_errs, _ = estimate_errors_from_hessian(hess, res.fun, _inliers_count[0])
+        for name_val, err in zip([p[0] for p in free_params], std_errs):
+            param_errors[name_val + '_err'] = err
+            logging.info(f"  [2D] Оценка погрешности {name_val}: ±{err:.6f}")
+
     return {
         'P_eff_um': p_um,
         'D_eff_um': d_um,
@@ -242,5 +259,6 @@ def optimize_2d_spectral(data_dict):
         'theta_offset': angle_offset,
         'tau_ps': tau_ps,
         'success': res.success,
-        'fun': res.fun
+        'fun': res.fun,
+        'errors': param_errors
     }
