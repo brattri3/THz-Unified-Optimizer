@@ -37,8 +37,8 @@ def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_
     for f in freqs_thz:
         lambda_m = model_blanco.C_LIGHT / (f * 1e12)
         p_over_lambda = p / lambda_m
-        t_perp_arr.append(model_blanco.compute_t_perp(p_over_lambda, d_over_p, N))
-        t_par_arr.append(model_blanco.compute_t_par(p_over_lambda, d_over_p, N))
+        t_perp_arr.append(model_blanco.compute_t_perp(p_over_lambda, d_over_p, N, freq_thz=f))
+        t_par_arr.append(model_blanco.compute_t_par(p_over_lambda, d_over_p, N, freq_thz=f))
     
     t_perp_arr = np.array(t_perp_arr)
     t_par_arr = np.array(t_par_arr)

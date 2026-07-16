@@ -42,7 +42,11 @@ def main():
     logging.info("==========================================================")
 
     manager = DataManager(config.DATA_DIR)
-    datasets = manager.get_datasets()
+    all_datasets = manager.get_datasets()
+    
+    # Оставляем только физически надежные серии для Global Average и пайплайна
+    reliable_datasets = ['356att', 'series3']
+    datasets = [ds for ds in all_datasets if ds in reliable_datasets]
     
     if args.dry_run:
         datasets = [datasets[0]] if datasets else []

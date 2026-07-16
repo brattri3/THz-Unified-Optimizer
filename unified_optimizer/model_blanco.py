@@ -2,6 +2,19 @@ import numpy as np
 
 EPS = 1e-12
 C_LIGHT = 3e8
+Z0 = 376.7303  # Импеданс вакуума
+
+def get_drude_impedance_normalized(freq_thz: float) -> complex:
+    """Нормализованный поверхностный импеданс вольфрама Z_s / Z_0."""
+    if freq_thz is None or freq_thz <= 0:
+        return 0j
+    omega = freq_thz * 2 * np.pi * 1e12
+    sigma0 = 1.8e7  # См/м (Вольфрам)
+    tau = 8.0e-15   # с
+    sigma_omega = sigma0 / (1.0 - 1j * omega * tau)
+    mu0 = 4 * np.pi * 1e-7
+    Z_s = np.sqrt(1j * omega * mu0 / sigma_omega)
+    return Z_s / Z0
 
 def compute_C(m: int, p_over_lambda: float) -> complex:
     """Вычисляет параметр C_m для m-й гармоники ряда Бланко."""
@@ -76,12 +89,14 @@ def compute_fd(p_over_lambda: float, d_over_p: float) -> float:
         return 0.0
     return p_over_lambda * (np.pi * d_over_p)**2
 
-def compute_t_perp(p_over_lambda: float, d_over_p: float, N: int = 15) -> complex:
+def compute_t_perp(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz: float = None) -> complex:
     """Амплитудный коэффициент пропускания перпендикулярной поляризации."""
     fa = compute_fa(p_over_lambda, d_over_p, N)
     fb = compute_fb(p_over_lambda, d_over_p, N)
-    Za = -1j / fa if abs(fa) > EPS else -1e9j
-    Zb = -1j / fb if abs(fb) > EPS else -1e9j
+    Z_drude = get_drude_impedance_normalized(freq_thz)
+    
+    Za = -1j / fa + Z_drude if abs(fa) > EPS else -1e9j
+    Zb = -1j / fb + Z_drude if abs(fb) > EPS else -1e9j
     num1 = Za**2 + Za*Zb + (Za**2)*Zb
     den1 = 2.0*Za + Za**2 + Zb + Za*Zb
     Z1 = num1 / den1 if abs(den1) > EPS else 0j
@@ -90,12 +105,14 @@ def compute_t_perp(p_over_lambda: float, d_over_p: float, N: int = 15) -> comple
     den_t = (1.0 + Z1) * (Zb + Z2)
     return num_t / den_t if abs(den_t) > EPS else 0j
 
-def compute_t_par(p_over_lambda: float, d_over_p: float, N: int = 15) -> complex:
+def compute_t_par(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz: float = None) -> complex:
     """Амплитудный коэффициент пропускания параллельной поляризации."""
     fc = compute_fc(p_over_lambda, d_over_p, N)
     fd = compute_fd(p_over_lambda, d_over_p)
-    Zc = 1j * fc
-    Zd = -1j * fd
+    Z_drude = get_drude_impedance_normalized(freq_thz)
+    
+    Zc = 1j * fc + Z_drude
+    Zd = -1j * fd + Z_drude
     den34 = 1.0 + Zc + Zd
     if abs(den34) < EPS:
         return 0.0
