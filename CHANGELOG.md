@@ -61,5 +61,12 @@
 - **Комплексный анализ невязок**: Создан новый скрипт `scripts/analyze_complex_residuals.py` для раздельного анализа амплитудных (в дБ) и фазовых (в радианах) невязок на базе новых оптимизированных параметров. 
 - **Аналитика**: Сгенерирован отчет `docs/artifacts/complex_residuals_report.md` с Q-Q графиками, картами невязок и результатами тестов Шапиро-Уилка. Подтверждено выпрямление зависимости $Residuals(Frequency)$ благодаря маскированию линий воды.
 
+### 2026-07-16 15:05 | Antigravity 2.0
+- **Анализ результатов глобальной оптимизации**: Прочитаны и проанализированы файлы `results/overnight_results.json`, `results/overnight_execution.log`, `docs/artifacts/overnight_comprehensive_report.md`.
+- **Выявлены проблемы**: Вырожденные 2D-решения (D=P=15.5 мкм) для series4, series5, Global_Average; series1 аномальна (loss=113.94); series4/5 имеют только 1 угловую точку.
+- **Лучшая серия**: series3 (D=5.80 мкм, close to passport 5.67 мкм, 12 угловых точек).
+- **Создан артефакт**: `docs/artifacts/analysis_optimization_results.md`.
+- **Рекомендации**: Исключить series4/5 из Global_Average, добавить ограничение D < P в 2D-оптимизатор.
+
 ### 2026-07-15 20:06 | Antigravity IDE
 - **Комплексная ночная многомодельная оптимизация**: Создан и успешно выполнен автономный пайплайн `scripts/run_overnight_pipeline.py`. Выполнена последовательная подгонка 1D интегрального и 2D комплексного методов для всех 6 серий данных и глобального усреднения (`Global_Average`). Сформирован сводный отчет `docs/artifacts/overnight_comprehensive_report.md` и сохранен сохранен в JSON-формате `results/overnight_results.json`.
