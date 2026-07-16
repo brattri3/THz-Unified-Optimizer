@@ -1,7 +1,19 @@
+% -*- coding: utf-8 -*-
+% Прекомпиляция: этот шаблон автоматически определяет компилятор (pdfLaTeX, XeLaTeX или LuaLaTeX)
+% и настраивает кириллические шрифты.
 \documentclass[12pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[russian]{babel}
-\usepackage[T2A]{fontenc}
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T2A]{fontenc}
+  \usepackage[russian]{babel}
+\else
+  \usepackage{fontspec}
+  \usepackage[russian]{babel}
+  \setmainfont{Arial} % Убедитесь, что шрифт Arial установлен в системе
+\fi
+
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -10,6 +22,9 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{caption}
+
+% Пути поиска графических файлов для удобства компиляции из разных папок
+\graphicspath{{../images/}{docs/images/}{images/}{../../docs/images/}}
 
 \title{Полный аналитический отчет: Моделирование и комплексный анализ невязок THz-TDS}
 \author{Автоматический анализатор THz-Unified-Optimizer}
@@ -37,11 +52,9 @@
     \item \textbf{Период проволочной решётки ($P$):} $15.500$ мкм (фиксированный паспортный параметр).
     \item \textbf{Диаметр проволоки ($D$):} $4.398$ мкм.
     \item \textbf{Систематический сдвиг угла ($\theta_{offset}$):} $-0.05^\circ$.
-    \item \textbf{Коэффициент потерь ($loss\_factor$):} $0.316$ (со степенью $\gamma = 1.06$).
+    \item \textbf{Коэффициент потерь (loss\_factor):} $0.316$ (со степенью $\gamma = 1.06$).
     \item \textbf{Фазовая задержка ($\tau_{ps}$):} $0.033$ пс.
 \end{itemize}
-
----
 
 \section{Прямое сравнение: Спектральный и Интегральный методы}
 Амплитудный коэффициент пропускания оценивался двумя методами:
@@ -55,14 +68,14 @@
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{../images/grid_spectral_356att.png}
+    \includegraphics[width=0.85\textwidth]{grid_spectral_356att.png}
     \caption{Спектральный анализ пропускания для серии 356att (0.5 и 1.0 ТГц).}
     \label{fig:spec_356}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{../images/grid_integral_356att.png}
+    \includegraphics[width=0.85\textwidth]{grid_integral_356att.png}
     \caption{Интегральный метод пропускания для серии 356att.}
     \label{fig:int_356}
 \end{figure}
@@ -72,19 +85,17 @@
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{../images/grid_spectral_series3.png}
+    \includegraphics[width=0.85\textwidth]{grid_spectral_series3.png}
     \caption{Спектральный анализ пропускания для серии series3 (0.5 и 1.0 ТГц).}
     \label{fig:spec_s3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{../images/grid_integral_series3.png}
+    \includegraphics[width=0.85\textwidth]{grid_integral_series3.png}
     \caption{Интегральный метод пропускания для серии series3.}
     \label{fig:int_s3}
 \end{figure}
-
----
 
 \section{Комплексный анализ невязок (Амплитуда и Фаза)}
 Комплексное отношение спектров образца и фона разделено на амплитудную ($\Delta A$, дБ) и фазовую ($\Delta \phi$, рад) невязки с исключением линий поглощения водяного пара.
@@ -99,7 +110,7 @@
 \begin{table}[H]
 \centering
 \caption{Результаты статистических тестов на нормальность остатков.}
-\begin{tabular}{lrrr}
+\begin{tabular}{lcc}
 \toprule
 Серия / Метрика & Шапиро-Уилк ($p$-value) & Харке-Бера ($p$-value) \\
 \midrule
@@ -118,21 +129,19 @@ series3 (Фаза)      & $1.75 \times 10^{-52}$ & $0.00$ \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{../images/complex_residuals_amp_356att.png}
-    \includegraphics[width=0.48\textwidth]{../images/complex_residuals_amp_series3.png}
+    \includegraphics[width=0.48\textwidth]{complex_residuals_amp_356att.png}
+    \includegraphics[width=0.48\textwidth]{complex_residuals_amp_series3.png}
     \caption{2D карты амплитудных невязок для 356att (слева) и series3 (справа).}
     \label{fig:res_amp}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{../images/complex_residuals_phase_356att.png}
-    \includegraphics[width=0.48\textwidth]{../images/complex_residuals_phase_series3.png}
+    \includegraphics[width=0.48\textwidth]{complex_residuals_phase_356att.png}
+    \includegraphics[width=0.48\textwidth]{complex_residuals_phase_series3.png}
     \caption{2D карты фазовых невязок для 356att (слева) и series3 (справа).}
     \label{fig:res_phase}
 \end{figure}
-
----
 
 \section{Корреляционный анализ невязок между экспериментами}
 Для доказательства систематической природы остаточных ошибок проведен кросс-корреляционный анализ невязок серий \texttt{356att} и \texttt{series3} на 12 общих углах (1357 общих частотно-угловых точек).
@@ -150,7 +159,7 @@ series3 (Фаза)      & $1.75 \times 10^{-52}$ & $0.00$ \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{../images/correlation_angular.png}
+    \includegraphics[width=0.85\textwidth]{correlation_angular.png}
     \caption{Зависимость корреляции невязок амплитуды и фазы от угла $\theta$.}
     \label{fig:corr}
 \end{figure}
@@ -160,8 +169,6 @@ series3 (Фаза)      & $1.75 \times 10^{-52}$ & $0.00$ \\
     \item Дифракция пучка на краях оправы поляризатора.
     \item Локальная анизотропия натяжения нитей.
 \end{itemize}
-
----
 
 \section{Физическое и метрологическое обсуждение результатов}
 
@@ -191,8 +198,6 @@ series3 (Фаза)      & $1.75 \times 10^{-52}$ & $0.00$ \\
     \item \textbf{Локальная неоднородность и анизотропия натяжения сетки:} Шаг $P$ и диаметр $D$ неизбежно имеют флуктуации по площади апертуры. При вращении поляризатора ТГц-пучок просвечивает разные участки сетки, модулируя фазу и амплитуду.
     \item \textbf{Паразитное двулучепреломление и рассеяние:} Модель Бланко пренебрегает рассеянием на шероховатостях нитей. На скользящих углах и высоких частотах ($\nu > 1.2$ ТГц) длина волны становится сопоставимой с пространственными дефектами решетки, запуская механизмы диффузного рассеяния, которые не учитываются омическими потерями Друде.
 \end{enumerate}
-
----
 
 \section{Итоговое метрологическое заключение}
 Интеграция модели проводимости Друде и фазовой задержки $\tau_{ps}$ позволила довести точность электродинамического описания решетки до фундаментального предела (ошибка менее 1 дБ).
