@@ -12,12 +12,12 @@ from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_the
 from unified_optimizer.utils import find_auto_water_mask
 
 # Parameters
-P_OPT = 15.50e-6
-D_OPT = 4.398e-6
-OFFSET_OPT = -0.05
-LOSS_OPT = 0.316
-GAMMA_OPT = 1.06
-TAU_PS_OPT = 0.033
+P_OPT = 17.50e-6
+D_OPT = 5.053e-6
+OFFSET_OPT = -0.183
+LOSS_OPT = 0.287
+GAMMA_OPT = 1.868
+TAU_PS_OPT = 0.0327
 
 def get_residuals_for_ds(manager, ds):
     data_dict = manager.get_data_for_dataset(ds)
@@ -147,6 +147,8 @@ def main():
     plt.savefig(Path(config.BASE_DIR).parent / "docs" / "images" / "correlation_scatter.png")
     plt.close()
 
+    print(f"Global Amplitude Correlation R: {stats.pearsonr(a1_all, a2_all)[0]:.4f}")
+    print(f"Global Phase Correlation R: {stats.pearsonr(p1_all, p2_all)[0]:.4f}")
     print("Plots saved to docs/images/")
     
 if __name__ == "__main__":

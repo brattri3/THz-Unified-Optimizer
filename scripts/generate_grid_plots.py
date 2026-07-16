@@ -11,13 +11,13 @@ from unified_optimizer import config
 from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
 from unified_optimizer.optimizer_1d import theory_T_integral, build_spectral_basis
 
-# Используем оптимальные параметры из 2D оптимизации Global Average (с моделью Друде)
-P_OPT = 15.50e-6
-D_OPT = 4.398e-6
-OFFSET_OPT = -0.05
-LOSS_OPT = 0.316
-GAMMA_OPT = 1.06
-TAU_PS_OPT = 0.033
+# Используем оптимальные параметры из 2D оптимизации Global Average (свободный период P)
+P_OPT = 17.50e-6
+D_OPT = 5.053e-6
+OFFSET_OPT = -0.183
+LOSS_OPT = 0.287
+GAMMA_OPT = 1.868
+TAU_PS_OPT = 0.0327
 
 def main():
     data_dir = Path(config.DATA_DIR)

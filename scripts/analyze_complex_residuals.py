@@ -14,13 +14,13 @@ from unified_optimizer import config
 from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
 from unified_optimizer.utils import find_auto_water_mask
 
-# Новые оптимизированные параметры для комплексной модели (Друде, Global Average)
-P_OPT = 15.50e-6
-D_OPT = 4.398e-6
-OFFSET_OPT = -0.05
-LOSS_OPT = 0.316
-GAMMA_OPT = 1.06
-TAU_PS_OPT = 0.033
+# Новые оптимизированные параметры для комплексной модели (Друде, Global Average, свободный P)
+P_OPT = 17.50e-6
+D_OPT = 5.053e-6
+OFFSET_OPT = -0.183
+LOSS_OPT = 0.287
+GAMMA_OPT = 1.868
+TAU_PS_OPT = 0.0327
 
 def extract_angle_from_name(filename: str) -> float:
     name = Path(filename).stem
