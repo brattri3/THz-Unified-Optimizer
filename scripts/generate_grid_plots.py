@@ -11,13 +11,13 @@ from unified_optimizer import config
 from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
 from unified_optimizer.optimizer_1d import theory_T_integral, build_spectral_basis
 
-# Используем оптимальные параметры из 2D оптимизации
+# Используем оптимальные параметры из 2D оптимизации Global Average (с моделью Друде)
 P_OPT = 15.50e-6
-D_OPT = 4.045e-6
-OFFSET_OPT = 0.35
-LOSS_OPT = 0.295
-GAMMA_OPT = 1.69
-TAU_PS_OPT = 0.029
+D_OPT = 4.398e-6
+OFFSET_OPT = -0.05
+LOSS_OPT = 0.316
+GAMMA_OPT = 1.06
+TAU_PS_OPT = 0.033
 
 def main():
     data_dir = Path(config.DATA_DIR)
@@ -25,7 +25,7 @@ def main():
     images_dir.mkdir(exist_ok=True, parents=True)
     
     manager = DataManager(data_dir)
-    datasets = manager.get_datasets()
+    datasets = [ds for ds in manager.get_datasets() if ds in ['356att', 'series3']]
     
     report_path = Path(config.BASE_DIR.parent / "docs" / "artifacts" / "grid_plots_report.md")
     report_path.parent.mkdir(exist_ok=True, parents=True)

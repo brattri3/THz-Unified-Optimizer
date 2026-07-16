@@ -12,6 +12,15 @@
 
 ---
 
+### 2026-07-16 21:05 | Antigravity IDE
+- **Визуализация и сравнение**: Обновлен скрипт `scripts/generate_grid_plots.py` для использования параметров модели Друде (Global Average) и фильтрации стабильных серий `356att` и `series3`.
+- **Комплексные невязки**: Перестроен скрипт `scripts/analyze_complex_residuals.py` под новые параметры и стабильные серии.
+- **Кросс-серийная корреляция**: Выявлены статистически значимые корреляции невязок ($R_A = 0.282$, $R_\phi = 0.594$) между сериями `356att` и `series3`, возрастающие до 80-85% при углах скрещивания 50°–90°.
+- **Созданы артефакты**:
+  - Отчет о кросс-корреляции: `docs/artifacts/combined_analysis_report.md`
+  - Полный последовательный отчет: `docs/artifacts/final_comprehensive_report.md` (и его PDF-версия `docs/artifacts/final_comprehensive_report.pdf` через `reportlab`)
+  - LaTeX-верстка отчета: `docs/artifacts/report.tex`
+
 ### 2026-07-16 17:35 | Antigravity IDE
 - **Модель Друде**: В `model_blanco.py` и `optimizer_2d.py` интегрирована физическая модель импеданса Друде для вольфрама.
 - **Диагностика данных**: Создан скрипт `scripts/diagnose_symmetry.py`, выявляющий сильную асимметрию в `series1` (72-117%) и `series2` (3-24%).
