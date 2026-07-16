@@ -60,6 +60,11 @@ def main():
         angles = sorted(list(data_dict.keys()))
         logging.info(f"Загружено точек по углам: {len(angles)}")
 
+        MIN_ANGLES = 5  # Минимально необходимое число угловых точек
+        if len(angles) < MIN_ANGLES:
+            logging.warning(f"[{ds}] ПРОПУСК: только {len(angles)} угловых точек (требуется >= {MIN_ANGLES}). Серия исключена.")
+            continue
+
         results[ds] = {}
 
         # 1. 1D Интегральная оптимизация

@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import minimize
 import time
+import logging
 from unified_optimizer.utils import find_auto_water_mask
 
 from unified_optimizer import config, model_blanco
@@ -115,7 +116,8 @@ def optimize_2d_spectral(data_dict):
     free_params = []
     if config.P_FIXED is None:
         free_params.append(('P_um', config.P_DEFAULT * 1e6, (5.0, 40.0)))
-    free_params.append(('D_um', config.D_DEFAULT * 1e6, (1.0, 25.0)))
+    p_fixed_um = (config.P_FIXED * 1e6) if config.P_FIXED is not None else 40.0
+    free_params.append(('D_um', config.D_DEFAULT * 1e6, (1.0, p_fixed_um - 0.5)))
     
     init_loss = 0.3 if config.USE_POWER_LAW else 0.15
     free_params.append(('loss_factor', init_loss, (0.0, 5.0)))
@@ -162,27 +164,54 @@ def optimize_2d_spectral(data_dict):
         if np.sum(valid_mask) == 0:
             return 1e6
             
-        diff_complex = exp_trans_2d[valid_mask] - theo_complex[valid_mask]
-        diff_abs = np.abs(diff_complex)
-        
-        # Удаление статистических выбросов (> 3 сигма) для устойчивости фиттинга
-        mean_diff = np.mean(diff_abs)
-        std_diff = np.std(diff_abs)
-        inliers = diff_abs < (mean_diff + 3 * std_diff)
-        
+        exp_masked = exp_trans_2d[valid_mask]
+        theo_masked = theo_complex[valid_mask]
+
+        # Амплитудная невязка
+        amp_residual = np.abs(exp_masked) - np.abs(theo_masked)
+
+        # Фазовая невязка (корректный unwrap разности)
+        phase_residual = np.angle(exp_masked) - np.angle(theo_masked)
+        phase_residual = np.arctan2(np.sin(phase_residual), np.cos(phase_residual))
+
+        # 3-сигма отсечение по амплитудной невязке
+        amp_abs = np.abs(amp_residual)
+        mean_a, std_a = np.mean(amp_abs), np.std(amp_abs)
+        inliers = amp_abs < (mean_a + 3 * std_a)
+
         if np.sum(inliers) == 0:
             return 1e6
-            
-        rmse_complex = np.sqrt(np.mean(diff_abs[inliers]**2))
-        
-        return rmse_complex
+
+        # Раздельная функция потерь: амплитуда + фаза с весами
+        W_AMP = 1.0    # вес амплитудной невязки
+        W_PHASE = 0.1  # вес фазовой невязки (меньше — фаза шумнее)
+        loss_amp = np.mean(amp_residual[inliers]**2)
+        loss_phase = np.mean(phase_residual[inliers]**2)
+        return W_AMP * loss_amp + W_PHASE * loss_phase
+
+    # --- Логирование сходимости ---
+    _convergence_log = []
+    _iter_counter = [0]
+
+    def _callback_2d(xk):
+        _iter_counter[0] += 1
+        if _iter_counter[0] % 100 == 0:
+            loss_val = loss_function_2d(xk)
+            params_str = ', '.join(
+                f"{name}={val:.4f}" for val, (name, _, _) in zip(xk, free_params)
+            )
+            logging.info(f"  [2D iter={_iter_counter[0]:4d}] loss={loss_val:.6f} | {params_str}")
+        _convergence_log.append(_iter_counter[0])
 
     res = minimize(
-        loss_function_2d, 
-        initial_guess, 
+        loss_function_2d,
+        initial_guess,
         method='Nelder-Mead',
-        options={'maxiter': 1000, 'xatol': 1e-4, 'fatol': 1e-4}
+        callback=_callback_2d,
+        options={'maxiter': 2000, 'xatol': 1e-5, 'fatol': 1e-5}
     )
+    logging.info(f"  [2D] Завершено: success={res.success}, nit={res.nit}, nfev={res.nfev}")
+    logging.info(f"  [2D] Причина: {res.message}")
     
     final_vals = res.x
     p_um = config.P_FIXED * 1e6 if config.P_FIXED is not None else 16.0
@@ -200,6 +229,11 @@ def optimize_2d_spectral(data_dict):
         elif name == 'angle_offset': angle_offset = val
         elif name == 'tau_ps': tau_ps = val
         
+    # Предупреждение при попадании на границы
+    for val, (name, _, bounds) in zip(res.x, free_params):
+        if abs(val - bounds[0]) < 0.01 or abs(val - bounds[1]) < 0.01:
+            logging.warning(f"  [2D] ВНИМАНИЕ: параметр '{name}'={val:.4f} на границе {bounds}!")
+
     return {
         'P_eff_um': p_um,
         'D_eff_um': d_um,

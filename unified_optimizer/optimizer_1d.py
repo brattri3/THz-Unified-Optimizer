@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import minimize
 import time
+import logging
 
 from unified_optimizer import config, model_blanco
 
@@ -68,6 +69,7 @@ def optimize_1d_integral(data_dict):
     x0_1 = [config.P_DEFAULT*1e6, config.D_DEFAULT*1e6, 0.1, 1.0]
     b1 = [(15.5, 16.5), (1.0, 15.0), (0.0, 5.0), (0.1, 3.0)]
     res1 = minimize(loss_stage1, x0_1, bounds=b1, method='L-BFGS-B')
+    logging.info(f"  [1D stage1] fun={res1.fun:.4f}, nit={res1.nit}, x={res1.x.round(3).tolist()}")
     
     # ─── ЭТАП 2: дБ-шкала (4 параметра)
     def loss_stage2(x):
@@ -80,6 +82,7 @@ def optimize_1d_integral(data_dict):
     x0_2 = [p_opt, d_opt, a_opt, g_opt]
     b2 = [(p_opt-0.5, p_opt+0.5), (d_opt-0.5, d_opt+0.5), (0.0, 5.0), (0.1, 3.0)]
     res2 = minimize(loss_stage2, x0_2, bounds=b2, method='L-BFGS-B')
+    logging.info(f"  [1D stage2] fun={res2.fun:.4f}, nit={res2.nit}, x={res2.x.round(3).tolist()}")
     
     # ─── ЭТАП 3: дБ + аппаратные параметры (6 параметров)
     def loss_stage3(x):
@@ -92,6 +95,12 @@ def optimize_1d_integral(data_dict):
     x0_3 = [p_opt, d_opt, a_opt, g_opt, 0.0, 0.0]
     b3 = [(p_opt-0.2, p_opt+0.2), (d_opt-0.2, d_opt+0.2), (0.0, 5.0), (0.1, 3.0), (-5.0, 5.0), (0.0, 1e-2)]
     res3 = minimize(loss_stage3, x0_3, bounds=b3, method='L-BFGS-B')
+    logging.info(f"  [1D stage3] fun={res3.fun:.4f}, nit={res3.nit}, x={res3.x.round(3).tolist()}")
+    # Предупреждение при попадании на границы
+    names3 = ['P_um', 'D_um', 'alpha', 'gamma', 'theta_offset', 'eps_floor']
+    for name, val, bounds in zip(names3, res3.x, b3):
+        if abs(val - bounds[0]) < 0.01 or abs(val - bounds[1]) < 0.01:
+            logging.warning(f"  [1D] ВНИМАНИЕ: параметр '{name}'={val:.4f} на границе {bounds}!")
     
     p_f, d_f, a_f, g_f, th_f, eps_f = res3.x
     return {
