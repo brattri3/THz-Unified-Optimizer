@@ -27,7 +27,7 @@ def get_transmission_spectra(t_s, E_s, t_b, E_b):
     
     return freq, spec_s, spec_b, transmission
 
-def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps, gamma=1.0, N=15):
+def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps, gamma=1.0, N=15, use_drude=True):
     """
     Возвращает комплексный массив пропускания модели.
     """
@@ -37,8 +37,8 @@ def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_
     for f in freqs_thz:
         lambda_m = model_blanco.C_LIGHT / (f * 1e12)
         p_over_lambda = p / lambda_m
-        t_perp_arr.append(model_blanco.compute_t_perp(p_over_lambda, d_over_p, N, freq_thz=f))
-        t_par_arr.append(model_blanco.compute_t_par(p_over_lambda, d_over_p, N, freq_thz=f))
+        t_perp_arr.append(model_blanco.compute_t_perp(p_over_lambda, d_over_p, N, freq_thz=f, use_drude=use_drude))
+        t_par_arr.append(model_blanco.compute_t_par(p_over_lambda, d_over_p, N, freq_thz=f, use_drude=use_drude))
     
     t_perp_arr = np.array(t_perp_arr)
     t_par_arr = np.array(t_par_arr)

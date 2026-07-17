@@ -89,11 +89,11 @@ def compute_fd(p_over_lambda: float, d_over_p: float) -> float:
         return 0.0
     return p_over_lambda * (np.pi * d_over_p)**2
 
-def compute_t_perp(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz: float = None) -> complex:
+def compute_t_perp(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz: float = None, use_drude: bool = True) -> complex:
     """Амплитудный коэффициент пропускания перпендикулярной поляризации."""
     fa = compute_fa(p_over_lambda, d_over_p, N)
     fb = compute_fb(p_over_lambda, d_over_p, N)
-    Z_drude = get_drude_impedance_normalized(freq_thz)
+    Z_drude = get_drude_impedance_normalized(freq_thz) if use_drude else 0j
     
     Za = -1j / fa + Z_drude if abs(fa) > EPS else -1e9j
     Zb = -1j / fb + Z_drude if abs(fb) > EPS else -1e9j
@@ -105,11 +105,11 @@ def compute_t_perp(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz:
     den_t = (1.0 + Z1) * (Zb + Z2)
     return num_t / den_t if abs(den_t) > EPS else 0j
 
-def compute_t_par(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz: float = None) -> complex:
+def compute_t_par(p_over_lambda: float, d_over_p: float, N: int = 15, freq_thz: float = None, use_drude: bool = True) -> complex:
     """Амплитудный коэффициент пропускания параллельной поляризации."""
     fc = compute_fc(p_over_lambda, d_over_p, N)
     fd = compute_fd(p_over_lambda, d_over_p)
-    Z_drude = get_drude_impedance_normalized(freq_thz)
+    Z_drude = get_drude_impedance_normalized(freq_thz) if use_drude else 0j
     
     Zc = 1j * fc + Z_drude
     Zd = -1j * fd + Z_drude

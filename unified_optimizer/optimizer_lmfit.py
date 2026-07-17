@@ -6,7 +6,7 @@ from unified_optimizer import config
 from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
 from unified_optimizer.utils import find_auto_water_mask
 
-def residual_2d_complex(params, angles_val, analysis_freqs, exp_trans_2d, valid_mask):
+def residual_2d_complex(params, angles_val, analysis_freqs, exp_trans_2d, valid_mask, use_drude=True):
     """
     Функция невязки для lmfit. Возвращает 1D массив взвешенных отклонений.
     """
@@ -24,7 +24,7 @@ def residual_2d_complex(params, angles_val, analysis_freqs, exp_trans_2d, valid_
         return np.ones(np.sum(valid_mask) * 2) * 1e6
 
     theo_complex = compute_theoretical_grid_2d(
-        angles_val, analysis_freqs, p, d, loss_factor, angle_offset, tau_ps, gamma=gamma
+        angles_val, analysis_freqs, p, d, loss_factor, angle_offset, tau_ps, gamma=gamma, use_drude=use_drude
     )
 
     exp_masked = exp_trans_2d[valid_mask]
@@ -43,7 +43,7 @@ def residual_2d_complex(params, angles_val, analysis_freqs, exp_trans_2d, valid_
 
     return np.concatenate([amp_residual * W_AMP, phase_residual * W_PHASE])
 
-def run_lmfit_2d(data_dict, dataset_name=""):
+def run_lmfit_2d(data_dict, dataset_name="", use_drude=True, use_scattering=True, free_gamma=True):
     """
     Подготовка данных и запуск LMFIT. Возвращает объект результата (MinimizerResult).
     """
@@ -91,10 +91,10 @@ def run_lmfit_2d(data_dict, dataset_name=""):
     params.add('D_um', value=config.D_DEFAULT * 1e6, min=0.1, max=50.0)
     
     init_loss = 0.3 if config.USE_POWER_LAW else 0.15
-    params.add('loss_factor', value=init_loss, min=0.0, max=5.0)
+    params.add('loss_factor', value=init_loss if use_scattering else 0.0, min=0.0, max=5.0, vary=use_scattering)
     
     if config.USE_POWER_LAW:
-        params.add('gamma', value=config.GAMMA_DEFAULT, min=-5.0, max=10.0, vary=config.OPTIMIZE_GAMMA)
+        params.add('gamma', value=config.GAMMA_DEFAULT if use_scattering else 2.0, min=-5.0, max=10.0, vary=use_scattering and free_gamma)
         
     params.add('angle_offset', value=0.0, min=-10.0, max=10.0)
     params.add('tau_ps', value=0.0, min=-10.0, max=10.0)
@@ -102,7 +102,7 @@ def run_lmfit_2d(data_dict, dataset_name=""):
     logging.info(f"[{dataset_name}] Starting LMFIT optimization...")
     start_time = time.time()
     
-    mini = lmfit.Minimizer(residual_2d_complex, params, fcn_args=(angles_val, analysis_freqs, exp_trans_2d, valid_mask))
+    mini = lmfit.Minimizer(residual_2d_complex, params, fcn_args=(angles_val, analysis_freqs, exp_trans_2d, valid_mask, use_drude))
     result = mini.minimize(method='leastsq')
     
     elapsed = time.time() - start_time
