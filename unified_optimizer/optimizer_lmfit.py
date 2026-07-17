@@ -85,11 +85,10 @@ def run_lmfit_2d(data_dict, dataset_name=""):
     # Инициализация параметров LMFIT
     params = lmfit.Parameters()
     p_fixed_um = (config.P_FIXED * 1e6) if config.P_FIXED is not None else (config.P_DEFAULT * 1e6)
-    p_bounds = getattr(config, 'P_BOUNDS', (5.0, 40.0))
-    d_bounds = getattr(config, 'D_BOUNDS', (1.0, p_bounds[1] - 0.5))
     
-    params.add('P_um', value=p_fixed_um, min=p_bounds[0], max=p_bounds[1], vary=(config.P_FIXED is None))
-    params.add('D_um', value=config.D_DEFAULT * 1e6, min=d_bounds[0], max=d_bounds[1])
+    # Снимаем жесткие границы (оставляем только очень широкие для физической осмысленности)
+    params.add('P_um', value=p_fixed_um, min=1.0, max=100.0, vary=(config.P_FIXED is None))
+    params.add('D_um', value=config.D_DEFAULT * 1e6, min=0.1, max=50.0)
     
     init_loss = 0.3 if config.USE_POWER_LAW else 0.15
     params.add('loss_factor', value=init_loss, min=0.0, max=5.0)

@@ -34,15 +34,15 @@ def main():
     print(report_text)
     
     try:
-        logging.info("Skipping strict confidence intervals as it hits bounds and hangs...")
-        # ci = lmfit.conf_interval(mini, result)
-        # print("\n" + "="*50)
-        # print("CONFIDENCE INTERVALS:")
-        # print("="*50)
-        # lmfit.printfuncs.report_ci(ci)
+        logging.info("Calculating strict confidence intervals (this may take a moment)...")
+        ci = lmfit.conf_interval(mini, result)
+        print("\n" + "="*50)
+        print("CONFIDENCE INTERVALS:")
+        print("="*50)
+        lmfit.printfuncs.report_ci(ci)
         
-        # ci_report = lmfit.printfuncs.ci_report(ci)
-        # report_text += "\n\n" + "="*50 + "\nCONFIDENCE INTERVALS\n" + "="*50 + "\n" + ci_report
+        ci_report = lmfit.printfuncs.ci_report(ci)
+        report_text += "\n\n" + "="*50 + "\nCONFIDENCE INTERVALS\n" + "="*50 + "\n" + ci_report
     except Exception as e:
         logging.warning(f"Failed to compute confidence intervals: {e}")
         

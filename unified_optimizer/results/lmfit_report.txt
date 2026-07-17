@@ -1,23 +1,39 @@
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 96
+    # function evals   = 97
     # data points      = 3020
     # variables        = 6
-    chi-square         = 4.62881678
-    reduced chi-square = 0.00153577
-    Akaike info crit   = -19559.7467
-    Bayesian info crit = -19523.6686
+    chi-square         = 2.16724814
+    reduced chi-square = 7.1906e-04
+    Akaike info crit   = -21851.4527
+    Bayesian info crit = -21815.3747
 [[Variables]]
-    P_um:          17.5000000 +/- 0.33088053 (1.89%) (init = 16)
-    D_um:          5.02659703 +/- 0.59702190 (11.88%) (init = 5.5)
-    loss_factor:   0.42536419 +/- 0.02231478 (5.25%) (init = 0.3)
-    gamma:         1.19038246 +/- 0.14959583 (12.57%) (init = 1.58)
-    angle_offset:  0.53969074 +/- 0.11870821 (22.00%) (init = 0)
-    tau_ps:        0.02303719 +/- 7.1795e-04 (3.12%) (init = 0)
+    P_um:          67.0524899 +/- 0.46884918 (0.70%) (init = 16)
+    D_um:          21.3791175 +/- 0.15094172 (0.71%) (init = 5.5)
+    loss_factor:   0.31770929 +/- 0.01473743 (4.64%) (init = 0.3)
+    gamma:         0.70738169 +/- 0.10258704 (14.50%) (init = 1.58)
+    angle_offset:  0.70103952 +/- 0.08296109 (11.83%) (init = 0)
+    tau_ps:        0.02368248 +/- 4.5278e-04 (1.91%) (init = 0)
 [[Correlations]] (unreported correlations are < 0.100)
-    C(P_um, D_um)                = -0.9991
-    C(loss_factor, angle_offset) = +0.6242
-    C(gamma, angle_offset)       = -0.3551
-    C(loss_factor, gamma)        = -0.2402
-    C(D_um, tau_ps)              = -0.2005
-    C(P_um, tau_ps)              = +0.1808
+    C(P_um, D_um)                = +0.9983
+    C(loss_factor, angle_offset) = +0.5692
+    C(P_um, angle_offset)        = +0.4552
+    C(D_um, angle_offset)        = +0.4157
+    C(P_um, tau_ps)              = +0.3115
+    C(D_um, tau_ps)              = +0.3043
+    C(gamma, angle_offset)       = -0.2810
+    C(P_um, gamma)               = -0.1677
+    C(P_um, loss_factor)         = +0.1582
+    C(D_um, gamma)               = -0.1574
+    C(D_um, loss_factor)         = +0.1336
+
+==================================================
+CONFIDENCE INTERVALS
+==================================================
+                 99.73%    95.45%    68.27%    _BEST_    68.27%    95.45%    99.73%
+ P_um        :  -1.38709  -0.91706  -0.45145  67.05249  +0.46881  +0.92394  +1.37645
+ D_um        :  -0.45026  -0.29758  -0.14645  21.37912  +0.15191  +0.29930  +0.44573
+ loss_factor :  -0.04203  -0.02800  -0.01398   0.31771  +0.01410  +0.02818  +0.04229
+ gamma       :  -0.33538  -0.23140  -0.12045   0.70738  +0.13011  +0.27486  +0.43721
+ angle_offset:  -0.20886  -0.13913  -0.06921   0.70104  +0.07121  +0.14173  +0.21249
+ tau_ps      :  -0.00135  -0.00090  -0.00045   0.02368  +0.00045  +0.00090  +0.00135
