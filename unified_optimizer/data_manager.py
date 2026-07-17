@@ -13,7 +13,7 @@ def parse_filename(filename: str) -> tuple:
     Возвращает (dataset_name, angle_deg, rep, type_)
     """
     name = Path(filename).stem
-    match = re.match(r"^([^_]+)_([+-]?\d+)deg_rep(\d+)_(sig|bg)$", name)
+    match = re.match(r"^(.+)_([+-]?\d+)deg_rep(\d+)_(sig|bg)$", name)
     if not match:
         raise ValueError(f"Неверный формат имени файла: {filename}")
     dataset_name = match.group(1)
@@ -38,7 +38,7 @@ class DataManager:
         self.scan_directory()
 
     def scan_directory(self):
-        for f in self.data_dir.glob("*.txt"):
+        for f in self.data_dir.rglob("*.txt"):
             try:
                 dataset_name, angle, rep, type_ = parse_filename(f.name)
             except ValueError:
@@ -48,8 +48,12 @@ class DataManager:
             if key not in self.raw_data:
                 self.raw_data[key] = {}
             
-            t, E = load_tds(f)
-            self.raw_data[key][type_] = (t, E)
+            try:
+                t, E = load_tds(f)
+                self.raw_data[key][type_] = (t, E)
+            except Exception as e:
+                # Пропускаем пустые шаблоны или поврежденные файлы
+                pass
 
     def get_datasets(self) -> List[str]:
         return sorted(list(set(k[0] for k in self.raw_data.keys())))
