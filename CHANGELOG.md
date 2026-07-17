@@ -21,6 +21,10 @@
 ### 2026-07-16 21:40 | Antigravity 2.0
 - **Сводка идей для статьи**: Создан артефакт `docs/artifacts/paper_ideas_summary.md`, обобщающий физические выводы (D_eff vs D_phys), ограничения интерполяции и планы на будущие эксперименты (Bruker Vertex 70, решетка 40/20 и голографическая пленка).
 
+### 2026-07-17 08:37 | Antigravity 2.0
+- **Создан исполнительный план**: `docs/artifacts/implementation_plan_lmfit.md` — инструкции для агента IDE по созданию нового скрипта аппроксимации с использованием пакета `lmfit` для получения статистических оценок параметров.
+- **Следующий агент (IDE)**: прочитать `CHANGELOG.md`, затем `docs/artifacts/implementation_plan_lmfit.md` и реализовать модуль `optimizer_lmfit.py` и скрипт `run_lmfit_analysis.py`.
+
 ---
 
 ### 2026-07-16 21:05 | Antigravity IDE
