@@ -25,6 +25,10 @@
 - **Создан исполнительный план**: `docs/artifacts/implementation_plan_lmfit.md` — инструкции для агента IDE по созданию нового скрипта аппроксимации с использованием пакета `lmfit` для получения статистических оценок параметров.
 - **Следующий агент (IDE)**: прочитать `CHANGELOG.md`, затем `docs/artifacts/implementation_plan_lmfit.md` и реализовать модуль `optimizer_lmfit.py` и скрипт `run_lmfit_analysis.py`.
 
+### 2026-07-17 09:24 | Antigravity 2.0
+- **Создан исполнительный план**: `docs/artifacts/ablation_study_plan.md` — инструкции для агента IDE по проведению Ablation Study (сравнения вложенных моделей: Pure Blanco, +Drude, +Scattering).
+- **Следующий агент (IDE)**: прочитать `CHANGELOG.md`, затем `docs/artifacts/ablation_study_plan.md` и реализовать скрипт `scripts/run_ablation_study.py` для генерации метрик AIC/BIC и графиков.
+
 ---
 
 ### 2026-07-16 21:05 | Antigravity IDE
