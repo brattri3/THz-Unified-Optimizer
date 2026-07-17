@@ -94,7 +94,7 @@ def run_lmfit_2d(data_dict, dataset_name=""):
     params.add('loss_factor', value=init_loss, min=0.0, max=5.0)
     
     if config.USE_POWER_LAW:
-        params.add('gamma', value=config.GAMMA_DEFAULT, min=0.1, max=3.0, vary=config.OPTIMIZE_GAMMA)
+        params.add('gamma', value=config.GAMMA_DEFAULT, min=-5.0, max=10.0, vary=config.OPTIMIZE_GAMMA)
         
     params.add('angle_offset', value=0.0, min=-10.0, max=10.0)
     params.add('tau_ps', value=0.0, min=-10.0, max=10.0)
