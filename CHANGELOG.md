@@ -177,3 +177,5 @@ glob\), безопасного пропуска пустых шаблонов и
   - План настройки: `docs/artifacts/plan_ide_setup.md`
   - Список задач: `docs/artifacts/task_ide_setup.md`
   - Отчет о проделанной работе: `docs/artifacts/walkthrough_ide_setup.md`
+- **Исправление**: Заменен путь к интерпретатору на относительный `.venv/Scripts/python.exe` в `.vscode/settings.json`, так как расширение Python Environments не поддерживает переменную `${workspaceFolder}`.
+
