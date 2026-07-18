@@ -189,6 +189,10 @@ glob\), безопасного пропуска пустых шаблонов и
   - `docs/artifacts/plan_40_20_analysis.md`
   - `docs/artifacts/diagnose_40_20_report.md`
   - `docs/artifacts/report_40_20.md`
+  - `docs/artifacts/laser_drift_report.md`
   - `docs/images/diagnose_40_20.png`
   - `docs/images/analysis_40_20.png`
+  - `docs/images/laser_drift_bg_40_20.png`
+- **Анализ стабильности фона**: Разработан скрипт `scripts/check_bg_drift.py`. Вычислена интегральная энергия $\int E^2 dt$ с вычитанием DC-составляющей. RSD энергии фона составляет 2.18% (RSD пиковой амплитуды 1.08%), что количественно объясняет дрейф уровня сигнала.
+- **Исправление путей**: Пути сохранения всех сгенерированных отчётов и изображений приведены к стандартному пути проекта `c:\WGP\docs\...`.
 
