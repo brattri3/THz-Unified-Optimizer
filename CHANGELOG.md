@@ -199,7 +199,11 @@ glob\), безопасного пропуска пустых шаблонов и
   - `model_blanco.py`: Добавлена функция `estimate_deff_initial(p_phys, d_phys)` для эмпирической оценки стартового $D_{\text{eff}} = D_{\text{phys}} \cdot (1.0 - 0.85 \cdot D/P)$.
   - `optimizer_2d.py` & `optimizer_lmfit.py`: Добавлена независимая фазовая задержка $\tau_{\text{par\_ps}}$ для параллельной компоненты $t_{\parallel}$.
   - **Результат**: $\chi^2_{\nu}$ снизился с $0.00348$ до **$0.00310$** ($\Delta\text{AIC} = -482.3$), а при свободном $P$ оценённый период сошёлся к **$43.14 \pm 0.93\ \mu\text{m}$** (значительно ближе к паспортным $40.0\ \mu\text{m}$, чем прежние $52.9\ \mu\text{m}$).
-- **Артефакты**:
-  - `docs/artifacts/time_delta_report.md`
-  - `docs/images/time_delta_vs_angle_40_20.png`
+- **Создан мастер-документ спецификации модели**: Написан исчерпывающий отчёт [`docs/artifacts/complete_model_specification.md`](file:///c:/WGP/docs/artifacts/complete_model_specification.md) с полным уравнением модели (Бланко + Друде + Рассеяние + Фазовая анизотропия + Матрицы Джонса), сводной таблицей 8 параметров, результатами Ablation Study ($M_0 \dots M_4$) на двух датасетах, 2D-картами невязок и 4 доказательными иллюстрациями.
+- **Новые иллюстрации доказательств**:
+  - `docs/images/model_ablation_comparison.png`
+  - `docs/images/phase_anisotropy_proof.png`
+  - `docs/images/residuals_comprehensive_maps.png`
+  - `docs/images/deff_scaling_law.png`
+
 
