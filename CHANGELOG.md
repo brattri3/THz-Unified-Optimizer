@@ -179,3 +179,16 @@ glob\), безопасного пропуска пустых шаблонов и
   - Отчет о проделанной работе: `docs/artifacts/walkthrough_ide_setup.md`
 - **Исправление**: Заменен путь к интерпретатору на относительный `.venv/Scripts/python.exe` в `.vscode/settings.json`, так как расширение Python Environments не поддерживает переменную `${workspaceFolder}`.
 
+
+### 2026-07-19 01:43 | Antigravity IDE
+- **Модель Джонса**: Реализована новая функция `transmission_sandwiched_wgp` в `model_blanco.py` для схемы `[Film P1] -> [WGP] -> [Film P2]`.
+- **Диагностика**: Создан и выполнен `scripts/diagnose_40_20.py`. Подтверждена высокая угловая симметрия (< 5% асимметрия) и соответствие закону Малюса.
+- **Оптимизация и статистика**: Создан скрипт `scripts/run_analysis_40_20.py` с мультистартовой подгонкой LMFIT, выполнено Ablation Study ($M_0 \dots M_3$) и статистический анализ остатков.
+- **Физический результат**: Для решётки $P=40\ \mu\text{m}$, $D_{\text{phys}}=20\ \mu\text{m}$ ($D/P=0.50$) получен эффективный диаметр $D_{\text{eff}} = 11.38 \pm 0.02\ \mu\text{m}$ ($D_{\text{eff}}/D_{\text{phys}} = 0.57$). В сравнении со старой решёткой ($D/P=0.71$, $D_{\text{eff}}/D_{\text{phys}}=0.40$) это количественно подтверждает гипотезу о приближении $D_{\text{eff}} \to D_{\text{phys}}$ при уменьшении плотности решётки.
+- **Созданы артефакты**:
+  - `docs/artifacts/plan_40_20_analysis.md`
+  - `docs/artifacts/diagnose_40_20_report.md`
+  - `docs/artifacts/report_40_20.md`
+  - `docs/images/diagnose_40_20.png`
+  - `docs/images/analysis_40_20.png`
+
