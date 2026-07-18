@@ -4,6 +4,16 @@ EPS = 1e-12
 C_LIGHT = 3e8
 Z0 = 376.7303  # Импеданс вакуума
 
+def estimate_deff_initial(p_phys_um: float, d_phys_um: float) -> float:
+    """
+    Эмпирическая оценка стартового эффективного диаметра D_eff
+    на основе относительной плотности решётки (D/P):
+    D_eff_init = D_phys * (1.0 - 0.85 * (D_phys / P))
+    """
+    d_over_p = d_phys_um / p_phys_um
+    factor = np.clip(1.0 - 0.85 * d_over_p, 0.15, 0.95)
+    return float(d_phys_um * factor)
+
 def get_drude_impedance_normalized(freq_thz: float) -> complex:
     """Нормализованный поверхностный импеданс вольфрама Z_s / Z_0."""
     if freq_thz is None or freq_thz <= 0:

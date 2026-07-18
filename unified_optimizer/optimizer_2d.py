@@ -27,9 +27,9 @@ def get_transmission_spectra(t_s, E_s, t_b, E_b):
     
     return freq, spec_s, spec_b, transmission
 
-def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps, gamma=1.0, N=15, use_drude=True):
+def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps, gamma=1.0, N=15, use_drude=True, tau_par_ps=0.0):
     """
-    Возвращает комплексный массив пропускания модели.
+    Возвращает комплексный массив пропускания модели с учетом индивидуального фазового сдвига tau_par_ps.
     """
     t_perp_arr = []
     t_par_arr = []
@@ -57,16 +57,17 @@ def compute_theoretical_grid_2d(angles_deg, freqs_thz, p, d, loss_factor, angle_
     else:
         loss_amp = np.exp(-0.5 * loss_factor * freqs_thz)[np.newaxis, :]
         
-    t_perp_eff = t_perp * loss_amp
-    t_par_eff = t_par * loss_amp
-    
+    # Раздельные фазовые задержки для перпендикулярной и параллельной компонент
+    phase_perp = np.exp(-1j * 2 * np.pi * freqs_thz * tau_ps)[np.newaxis, :]
+    phase_par = np.exp(-1j * 2 * np.pi * freqs_thz * (tau_ps + tau_par_ps))[np.newaxis, :]
+
+    t_perp_eff = t_perp * loss_amp * phase_perp
+    t_par_eff = t_par * loss_amp * phase_par
+
     # Комплексная матрица Джонса
     E_out = cos_a**2 * t_perp_eff + sin_a**2 * t_par_eff
-    
-    # Фазовая задержка из-за разности оптического пути
-    phase_delay = np.exp(-1j * 2 * np.pi * freqs_thz * tau_ps)[np.newaxis, :]
-    
-    return E_out * phase_delay
+
+    return E_out
 
 def optimize_2d_spectral(data_dict):
     """
@@ -118,9 +119,10 @@ def optimize_2d_spectral(data_dict):
         p_bounds = getattr(config, 'P_BOUNDS', (5.0, 40.0))
         free_params.append(('P_um', config.P_DEFAULT * 1e6, p_bounds))
     
-    p_max_um = (config.P_FIXED * 1e6) if config.P_FIXED is not None else (getattr(config, 'P_BOUNDS', (5.0, 40.0))[1])
-    d_bounds = getattr(config, 'D_BOUNDS', (1.0, p_max_um - 0.5))
-    free_params.append(('D_um', config.D_DEFAULT * 1e6, d_bounds))
+    d_max_um = p_max_um - 0.5
+    d_bounds = getattr(config, 'D_BOUNDS', (1.0, d_max_um))
+    d_init_um = model_blanco.estimate_deff_initial(p_max_um, config.D_DEFAULT * 1e6)
+    free_params.append(('D_um', d_init_um, d_bounds))
     
     init_loss = 0.3 if config.USE_POWER_LAW else 0.15
     free_params.append(('loss_factor', init_loss, (0.0, 5.0)))

@@ -16,6 +16,7 @@ def residual_2d_complex(params, angles_val, analysis_freqs, exp_trans_2d, valid_
     gamma = params['gamma'].value if 'gamma' in params else config.GAMMA_DEFAULT
     angle_offset = params['angle_offset'].value
     tau_ps = params['tau_ps'].value
+    tau_par_ps = params['tau_par_ps'].value if 'tau_par_ps' in params else 0.0
 
     p = p_um * 1e-6
     d = d_um * 1e-6
@@ -24,7 +25,7 @@ def residual_2d_complex(params, angles_val, analysis_freqs, exp_trans_2d, valid_
         return np.ones(np.sum(valid_mask) * 2) * 1e6
 
     theo_complex = compute_theoretical_grid_2d(
-        angles_val, analysis_freqs, p, d, loss_factor, angle_offset, tau_ps, gamma=gamma, use_drude=use_drude
+        angles_val, analysis_freqs, p, d, loss_factor, angle_offset, tau_ps, gamma=gamma, use_drude=use_drude, tau_par_ps=tau_par_ps
     )
 
     exp_masked = exp_trans_2d[valid_mask]
@@ -88,7 +89,8 @@ def run_lmfit_2d(data_dict, dataset_name="", use_drude=True, use_scattering=True
     
     # Снимаем жесткие границы (оставляем только очень широкие для физической осмысленности)
     params.add('P_um', value=p_fixed_um, min=1.0, max=100.0, vary=(config.P_FIXED is None))
-    params.add('D_um', value=config.D_DEFAULT * 1e6, min=0.1, max=50.0)
+    d_init_um = model_blanco.estimate_deff_initial(p_fixed_um, config.D_DEFAULT * 1e6)
+    params.add('D_um', value=d_init_um, min=0.1, max=p_fixed_um - 0.5)
     
     init_loss = 0.3 if config.USE_POWER_LAW else 0.15
     params.add('loss_factor', value=init_loss if use_scattering else 0.0, min=0.0, max=5.0, vary=use_scattering)
@@ -98,6 +100,7 @@ def run_lmfit_2d(data_dict, dataset_name="", use_drude=True, use_scattering=True
         
     params.add('angle_offset', value=0.0, min=-10.0, max=10.0)
     params.add('tau_ps', value=0.0, min=-10.0, max=10.0)
+    params.add('tau_par_ps', value=0.0, min=-5.0, max=5.0)
     
     logging.info(f"[{dataset_name}] Starting LMFIT optimization...")
     start_time = time.time()

@@ -89,6 +89,7 @@ def residual_40_20(params, angles_val, analysis_freqs, exp_trans_2d, valid_mask,
     gamma = params['gamma'].value if ('gamma' in params and use_scattering) else 2.0
     angle_offset = params['angle_offset'].value
     tau_ps = params['tau_ps'].value
+    tau_par_ps = params['tau_par_ps'].value if 'tau_par_ps' in params else 0.0
 
     p = p_um * 1e-6
     d = d_um * 1e-6
@@ -98,7 +99,7 @@ def residual_40_20(params, angles_val, analysis_freqs, exp_trans_2d, valid_mask,
 
     theo_complex = compute_theoretical_grid_2d(
         angles_val, analysis_freqs, p, d, loss_factor, angle_offset, tau_ps,
-        gamma=gamma, use_drude=use_drude
+        gamma=gamma, use_drude=use_drude, tau_par_ps=tau_par_ps
     )
 
     exp_masked = exp_trans_2d[valid_mask]
@@ -116,7 +117,7 @@ def residual_40_20(params, angles_val, analysis_freqs, exp_trans_2d, valid_mask,
 
 def run_single_lmfit(angles_val, analysis_freqs, exp_trans_2d, valid_mask,
                      fix_p=True, use_drude=True, use_scattering=True, free_gamma=False):
-    """Запуск одиночной подгонки LMFIT с мультистартом по D_um."""
+    """Запуск одиночной подгонки LMFIT с мультистартом по D_um и параметром tau_par_ps."""
     best_result = None
     best_mini = None
     best_chi2 = 1e12
@@ -136,6 +137,7 @@ def run_single_lmfit(angles_val, analysis_freqs, exp_trans_2d, valid_mask,
 
         params.add('angle_offset', value=0.0, min=-5.0, max=5.0)
         params.add('tau_ps', value=0.0, min=-5.0, max=5.0)
+        params.add('tau_par_ps', value=0.0, min=-5.0, max=5.0)
 
         mini = lmfit.Minimizer(
             residual_40_20, params,
