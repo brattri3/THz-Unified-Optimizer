@@ -245,9 +245,16 @@ def create_presentation():
         p_it.font.size = Pt(14)
         p_it.font.color.rgb = TEXT_MAIN
 
-    out_path = r"c:\THz-Unified-Optimizer\docs\artifacts\presentation_weekly.pptx"
-    prs.save(out_path)
-    print(f"Presentation saved successfully to {out_path}")
+    out_paths = [
+        r"c:\THz-Unified-Optimizer\docs\artifacts\presentation_v2.pptx",
+        r"c:\THz-Unified-Optimizer\docs\artifacts\presentation_weekly.pptx"
+    ]
+    for out_path in out_paths:
+        try:
+            prs.save(out_path)
+            print(f"Presentation saved successfully to {out_path}")
+        except PermissionError:
+            print(f"Warning: Could not save to {out_path} (file locked/permission denied).")
 
 if __name__ == '__main__':
     create_presentation()
