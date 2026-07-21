@@ -185,7 +185,7 @@ def main():
 
     table_p_data = [
         [Paragraph("<b>№</b>", style_th), Paragraph("<b>Параметр</b>", style_th), Paragraph("<b>Физический смысл</b>", style_th), Paragraph("<b>Границы</b>", style_th), Paragraph("<b>Физическое обоснование</b>", style_th)],
-        [Paragraph("1", style_td), Paragraph("<b>P<sub>um</sub></b>", style_td), Paragraph("Период решётки (&mu;m)", style_td_left), Paragraph("[1.0, 100.0]", style_td), Paragraph("Геометрия оправы / непараксиальность пучка P' = P / cos(&theta;<sub>inc</sub>)", style_td_left)],
+        [Paragraph("1", style_td), Paragraph("<b>P<sub>um</sub></b>", style_td), Paragraph("Период решётки (&mu;m)", style_td_left), Paragraph("[1.0, 100.0]", style_td), Paragraph("Непараксиальность сфокусированного пучка P' = P / cos(&theta;<sub>inc</sub>)", style_td_left)],
         [Paragraph("2", style_td), Paragraph("<b>D<sub>um</sub></b>", style_td), Paragraph("Эффективный диаметр D<sub>eff</sub>", style_td_left), Paragraph("[0.1, P-0.5]", style_td), Paragraph("Сжатие электродинамического сечения щели при D/P > 0.3", style_td_left)],
         [Paragraph("3", style_td), Paragraph("<b>loss_factor</b>", style_td), Paragraph("Коэффициент потерь &alpha;<sub>loss</sub>", style_td_left), Paragraph("[0.0, 5.0]", style_td), Paragraph("Затухание поля на субволновых шероховатостях нитей", style_td_left)],
         [Paragraph("4", style_td), Paragraph("<b>&gamma;</b>", style_td), Paragraph("Показатель степени &nu;<sup>&gamma;</sup>", style_td_left), Paragraph("[0.2, 5.0]", style_td), Paragraph("Режим рассеяния (&gamma;=2 рэлеевский затухание)", style_td_left)],
@@ -295,7 +295,7 @@ def main():
 
     story.append(Paragraph(
         "<b>Физическая природа тяжёлых хвостов</b>: Отклонение остатков от нормального закона обусловлено двумя факторами:<br/>"
-        "1. <b>Апертурная дифракция</b> пучка на оправе при скользящих углах &theta; &rarr; 80&deg; &dots; 90&deg;.<br/>"
+        "1. <b>Ограничение динамического диапазона</b> детектора и непараксиальность пучка при скользящих углах &theta; &rarr; 80&deg; &dots; 90&deg; (гипотеза о дифракции на оправе ЛОЖНА: апертура оправы 4\" = 101.6 мм в 8.5 раз превышает диаметр пучка 12 мм).<br/>"
         "2. <b>Флуктуации лазера</b> мощности &approx; 2.18%, формирующие мультипликативный шум.",
         style_body
     ))

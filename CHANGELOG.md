@@ -214,10 +214,12 @@ glob\), безопасного пропуска пустых шаблонов и
   - Реализован генератор `.pptx` презентаций `scripts/build_presentation_pptx.py` с использованием `python-pptx` (темная тема, таблицы, внедренные графики).
   - Сформирована Marp Markdown презентация [`docs/artifacts/presentation_weekly.md`](file:///c:/THz-Unified-Optimizer/docs/artifacts/presentation_weekly.md).
   - Сформирована интерактивная HTML5 презентация [`docs/artifacts/presentation_weekly.html`](file:///c:/THz-Unified-Optimizer/docs/artifacts/presentation_weekly.html).
-- **Созданы артефакты**:
-  - `docs/artifacts/presentation_weekly.pptx`
-  - `docs/artifacts/presentation_weekly.md`
-  - `docs/artifacts/presentation_weekly.html`
+### 2026-07-21 08:37 | Antigravity IDE
+- **Коррекция физической гипотезы о дифракции на оправе**:
+  - Устранено ложное предположение о дифракции пучка на крае оправы поляризатора. Чистая апертура оправы 4 дюйма (101.6 мм) более чем в 8.5 раз превышает диаметр ТГц-пучка (12 мм), расположенного строго по центру.
+  - Корреляция невязок 80-85% при углах скрещивания $50^\circ-90^\circ$ переинтерпретирована: причина связана с достижением предела динамического диапазона (С/Ш детектора при глубоком затухании) и непараксиальностью пучка.
+  - Обновлены отчеты, скрипты генерации PDF и презентации (`.pptx`, `.html`, `.md`).
+
 
 
 
