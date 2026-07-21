@@ -208,4 +208,16 @@ glob\), безопасного пропуска пустых шаблонов и
   - `docs/images/residuals_comprehensive_maps.png`
   - `docs/images/deff_scaling_law.png`
 
+### 2026-07-21 08:32 | Antigravity IDE
+- **Автоматизация презентаций за неделю**:
+  - Собраны ключевые вехи, результаты подгонки WGP-модели, Ablation Study (AIC/BIC), невязки и экспериментальные данные решетки 40/20 мкм за 14–21 июля 2026 г.
+  - Реализован генератор `.pptx` презентаций `scripts/build_presentation_pptx.py` с использованием `python-pptx` (темная тема, таблицы, внедренные графики).
+  - Сформирована Marp Markdown презентация [`docs/artifacts/presentation_weekly.md`](file:///c:/THz-Unified-Optimizer/docs/artifacts/presentation_weekly.md).
+  - Сформирована интерактивная HTML5 презентация [`docs/artifacts/presentation_weekly.html`](file:///c:/THz-Unified-Optimizer/docs/artifacts/presentation_weekly.html).
+- **Созданы артефакты**:
+  - `docs/artifacts/presentation_weekly.pptx`
+  - `docs/artifacts/presentation_weekly.md`
+  - `docs/artifacts/presentation_weekly.html`
+
+
 
