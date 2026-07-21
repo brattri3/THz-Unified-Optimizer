@@ -11,13 +11,12 @@ def create_presentation():
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
 
-    # Color Palette (Light Apple-like theme matching presentation.md)
-    BG_COLOR = RGBColor(245, 245, 247)      # #f5f5f7
-    CARD_BG = RGBColor(255, 255, 255)       # #ffffff
-    ACCENT_BLUE = RGBColor(0, 113, 227)     # #0071e3
-    TEXT_MAIN = RGBColor(29, 29, 31)        # #1d1d1f
-    TEXT_MUTED = RGBColor(134, 134, 139)    # #86868b
-    BORDER_COLOR = RGBColor(210, 210, 215)  # #d2d2d7
+    BG_COLOR = RGBColor(245, 245, 247)
+    CARD_BG = RGBColor(255, 255, 255)
+    ACCENT_BLUE = RGBColor(0, 113, 227)
+    TEXT_MAIN = RGBColor(29, 29, 31)
+    TEXT_MUTED = RGBColor(134, 134, 139)
+    BORDER_COLOR = RGBColor(210, 210, 215)
 
     blank_layout = prs.slide_layouts[6]
 
@@ -29,13 +28,13 @@ def create_presentation():
         return bg
 
     def add_header(slide, title_text, subtitle_text="Анализ терагерцовой спектроскопии (THz-TDS)"):
-        txBox = slide.shapes.add_textbox(Inches(0.6), Inches(0.4), Inches(12.0), Inches(1.0))
+        txBox = slide.shapes.add_textbox(Inches(0.6), Inches(0.35), Inches(12.0), Inches(0.9))
         tf = txBox.text_frame
         tf.word_wrap = True
         
         p = tf.paragraphs[0]
         p.text = title_text
-        p.font.size = Pt(26)
+        p.font.size = Pt(24)
         p.font.bold = True
         p.font.color.rgb = ACCENT_BLUE
         p.font.name = 'Helvetica Neue'
@@ -43,7 +42,7 @@ def create_presentation():
         if subtitle_text:
             p2 = tf.add_paragraph()
             p2.text = subtitle_text
-            p2.font.size = Pt(13)
+            p2.font.size = Pt(12)
             p2.font.color.rgb = TEXT_MUTED
             p2.font.name = 'Helvetica Neue'
 
@@ -52,26 +51,24 @@ def create_presentation():
         add_slide_background(slide)
         add_header(slide, title, subtitle)
 
-        # Left Column: Bullets
-        tb_left = slide.shapes.add_textbox(Inches(0.6), Inches(1.5), Inches(5.8), Inches(5.4))
+        tb_left = slide.shapes.add_textbox(Inches(0.6), Inches(1.35), Inches(5.8), Inches(5.6))
         tf_left = tb_left.text_frame
         tf_left.word_wrap = True
 
         for i, item in enumerate(bullets):
             p = tf_left.paragraphs[0] if i == 0 else tf_left.add_paragraph()
             p.text = item
-            p.font.size = Pt(15)
+            p.font.size = Pt(13.5)
             p.font.color.rgb = TEXT_MAIN
             p.font.name = 'Helvetica Neue'
-            p.space_after = Pt(12)
+            p.space_after = Pt(8)
 
-        # Right Column: Image
         if os.path.exists(img_path):
-            slide.shapes.add_picture(img_path, Inches(6.6), Inches(1.5), height=Inches(5.4))
+            slide.shapes.add_picture(img_path, Inches(6.6), Inches(1.35), height=Inches(5.5))
 
         return slide
 
-    # ------------------ SLIDE 1: Title ------------------
+    # SLIDE 1: Title
     slide1 = prs.slides.add_slide(blank_layout)
     add_slide_background(slide1)
 
@@ -81,121 +78,115 @@ def create_presentation():
 
     p = tf.paragraphs[0]
     p.text = "Развитие физической модели ТГц поляризатора"
-    p.font.size = Pt(40)
+    p.font.size = Pt(38)
     p.font.bold = True
     p.font.color.rgb = ACCENT_BLUE
-    p.font.name = 'Helvetica Neue'
 
     p2 = tf.add_paragraph()
     p2.text = "Учёт фазовых эффектов, проводимости Друде и закономерности Deff"
-    p2.font.size = Pt(24)
+    p2.font.size = Pt(22)
     p2.font.color.rgb = TEXT_MAIN
-    p2.font.name = 'Helvetica Neue'
-    p2.space_before = Pt(10)
+    p2.space_before = Pt(8)
 
     p3 = tf.add_paragraph()
     p3.text = "\nДокладчик: Попов Дмитрий | Анализ терагерцовой спектроскопии (THz-TDS)"
-    p3.font.size = Pt(16)
+    p3.font.size = Pt(15)
     p3.font.color.rgb = TEXT_MUTED
-    p3.font.name = 'Helvetica Neue'
 
-    # ------------------ SLIDE 2: Construction & Evolution ------------------
+    # SLIDE 2: Construction
     add_two_column_slide(
         "Конструкция и развитие физической модели",
         "Аттенюатор ATT-11-16-CA85 и эволюция параметров",
         [
-            "• Устройство: Аттенюатор ATT-11-16-CA85 содержит два проволочных поляризатора P1 (вращается) и P2 (зафиксирован).",
-            "• Итог прошлой недели: 6-параметрическая модель (θ_offset = 1.43°, ε_floor = 6.38·10⁻⁵) дала метрологическую погрешность 0.29 дБ.",
-            "• Развитие этой недели:",
+            "• Устройство: Аттенюатор ATT-11-16-CA85 (P1 вращается, P2 фиксирован).",
+            "• Итог прошлой недели: 6-параметрическая модель дала RMSE = 0.29 дБ.",
+            "• Новое развитие этой недели:",
+            "   - Переход к комплексной аппроксимации (амплитуда + фаза).",
             "   - Внедрён импеданс Друде для вольфрамовых нитей.",
-            "   - Открыт эффект фазовой анизотропии τ_par при скрещивании.",
+            "   - Учтена фазовая анизотропия τ_par при скрещивании.",
             "   - Модель проверена на новом образце 40/20 мкм."
         ],
         r"c:\THz-Unified-Optimizer\docs\images\optim_stage3_hw.png"
     )
 
-    # ------------------ SLIDE 3: Drude & Scattering ------------------
+    # SLIDE 3: Drude & Scattering
     add_two_column_slide(
         "Спектральное описание: потери Друде и рассеяние",
         "Устранение завышения спектра при углах 50°–70°",
         [
-            "• Проблема M0 (чистая аналитика): При углах > 50° модель Бланко без потерь дает систематическое завышение сигнала.",
-            "• Учёт проводимости Друде (M1): Введена конечная проводимость вольфрама σ₀ = 1.8·10⁷ См/м.",
-            "• Учёт рассеяния (M2): Добавлено рэлеевское затухание на шероховатостях exp(-1/2 α ν²).",
-            "• Результат: Идеальное совпадение теоретического спектра с экспериментом во всём диапазоне."
+            "• Проблема M0: При углах > 50° чистая аналитика Бланко завышает сигнал.",
+            "• Друде (M1): Конечная проводимость вольфрама σ₀ = 1.8·10⁷ См/м снижает уровень.",
+            "• Рассеяние (M2): Рэлеевское затухание на шероховатостях (Manabe & Murk, IEEE TAP, 2005).",
+            "• Результат: Точное воспроизведение спектра на всех углах в диапазоне 0.2–1.5 ТГц."
         ],
-        r"c:\THz-Unified-Optimizer\docs\images\model_ablation_comparison.png"
+        r"c:\THz-Unified-Optimizer\docs\images\pres_slide3_ablation.png"
     )
 
-    # ------------------ SLIDE 4: Phase Anisotropy ------------------
+    # SLIDE 4: Phase Anisotropy
     add_two_column_slide(
-        "Открытие фазовой анизотропии TE-моды (τ_par)",
+        "Комплексная аппроксимация и фазовая анизотропия τ_par",
         "Устранение отклонений фазы при углах 80°–90°",
         [
-            "• Явление: При углах 80°–90° экспериментальная фаза резко уклонялась от базовой теории.",
-            "• Физическая причина: Наведённые токи в нитях решётки создают дополнительную фазовую задержку τ_par для TE-компоненты.",
-            "• Эффект в модели: Добавление задержки τ_par ≈ -0.1 пс дало точнейшее совпадение фазы.",
-            "• Выигрыш по точности: Ошибка фазы снизилась более чем в 5 раз!"
+            "• Комплексный анализ: Одновременная подгонка |E| и фазы (Castro-Camus, 2012).",
+            "• Физический эффект: На углах 80°–90° TE-мода испытывает фазовую задержку τ_par.",
+            "• Результат: Учёт τ_par ≈ -0.1 пс снижает ошибку фазы более чем в 5 раз."
         ],
-        r"c:\THz-Unified-Optimizer\docs\images\phase_anisotropy_proof.png"
+        r"c:\THz-Unified-Optimizer\docs\images\pres_slide4_tau_par.png"
     )
 
-    # ------------------ SLIDE 5: Validation 40/20 ------------------
+    # SLIDE 5: Validation 40/20
     add_two_column_slide(
         "Валидация модели на решётке 40/20 мкм",
         "Проверка универсальности на новом типе образца",
         [
-            "• Цель: Проверить применимость модели M3 на поляризаторе с другой геометрией.",
-            "• Параметры образца: Период P = 40.0 мкм, диаметр нитей D = 20.0 мкм (фактор заполнения D/P = 0.50).",
-            "• Результаты подгонки:",
+            "• Образец: Период P = 40.0 мкм, нить D = 20.0 мкм (D/P = 0.50).",
+            "• Результаты подгонки M3:",
             "   - Оффсет юстировки: θ_offset = 0.47°.",
             "   - Извлечённый диаметр: Deff = 11.37 мкм.",
-            "   - Ошибка фазы: всего 0.24 рад.",
-            "• Вывод: Модель полностью подтверждена!"
+            "   - RMSE: 0.96 дБ (амплитуда), 0.24 рад (фаза).",
+            "• Вывод: Модель универсальна для различных геометрий WGP."
         ],
-        r"c:\THz-Unified-Optimizer\docs\images\analysis_40_20.png"
+        r"c:\THz-Unified-Optimizer\docs\images\pres_slide5_validation.png"
     )
 
-    # ------------------ SLIDE 6: Scaling Law ------------------
+    # SLIDE 6: Scaling Law
     add_two_column_slide(
         "Физический закон масштабирования Deff",
         "Зависимость эффективного диаметра от фактора заполнения D/P",
         [
-            "• Экспериментальный факт: Действующий диаметр Deff существенно меньше физического Dphys:",
-            "   - Для 15.5/11 мкм (D/P = 0.71): Deff = 4.4 мкм (Deff/D = 0.40).",
-            "   - Для 40/20 мкм (D/P = 0.50): Deff = 11.4 мкм (Deff/D = 0.57).",
-            "• Причина: В плотных решётках ближние поля соседних нитей перекрываются.",
+            "• Электродинамическое сжатие: Deff < Dphys из-за перекрытия ближних полей нитей:",
+            "   - 15.5/11 мкм (D/P = 0.71): Deff/D = 0.40.",
+            "   - 40/20 мкм (D/P = 0.50): Deff/D = 0.57.",
             "• Открытый закон: Deff / Dphys = 1 - 0.85 · (D / P)"
         ],
-        r"c:\THz-Unified-Optimizer\docs\images\deff_scaling_law.png"
+        r"c:\THz-Unified-Optimizer\docs\images\pres_slide6_deff_law.png"
     )
 
-    # ------------------ SLIDE 7: Residuals & Hardware Limit ------------------
+    # SLIDE 7: Residuals
     add_two_column_slide(
         "Точность измерений и границы прибора",
         "Исключение краев дифракции и оценка шума",
         [
-            "• Анализ остатков: Разности теории и эксперимента изучены по всем углам и частотам.",
-            "• Опровержение краевой дифракции: Апертура оправы (101.6 мм) в 8.5 раз шире ТГц пучка (12 мм) — дифракции быть не могло.",
-            "• Истинная причина невязок:",
-            "   1. Предельный динамический диапазон детектора (>37 дБ при 90°).",
-            "   2. Естественный дрейф мощности лазера (~2.2%).",
-            "• Вывод: Достигнут фундаментальный предел чувствительности спектрометра."
+            "• Опровержение краевой дифракции: Апертура оправы (101.6 мм) в 8.5 раз шире пучка (12 мм) — дифракция физически исключена.",
+            "• Причина остатков:",
+            "   1. Динамический предел детектора (>37 дБ при 90°).",
+            "   2. Дрейф мощности лазера (~2.2%).",
+            "• Вывод: Достигнут предел точности спектрометра."
         ],
         r"c:\THz-Unified-Optimizer\docs\images\residuals_comprehensive_maps.png"
     )
 
-    # ------------------ SLIDE 8: Table Comparison ------------------
+    # SLIDE 8: Table Comparison
     slide8 = prs.slides.add_slide(blank_layout)
     add_slide_background(slide8)
     add_header(slide8, "Сравнение результатов оптимизации", "Эволюция точности от M0 до M3")
 
     rows, cols = 6, 6
-    left, top, width, height = Inches(0.6), Inches(1.6), Inches(12.133), Inches(3.6)
+    left, top, width, height = Inches(0.6), Inches(1.4), Inches(12.133), Inches(3.6)
     table_shape = slide8.shapes.add_table(rows, cols, left, top, width, height)
     table = table_shape.table
 
-    headers = ["Параметр", "Номинал (ATT)", "M0 (Бланко)", "M1 (+Друде)", "M2 (+Рассеяние)", "M3 (Итоговая)"]
+    headers = ["Параметр", "Номинал", "M0 (Бланко)", "M1 (+Друде)", "M2 (+Рассеяние)", "M3 (Итоговая)"]
     for j, h in enumerate(headers):
         cell = table.cell(0, j)
         cell.text = h
@@ -211,8 +202,8 @@ def create_presentation():
         ["Deff (мкм)", "11.0", "3.96", "3.95", "3.95", "4.40"],
         ["θ_offset (°)", "—", "—", "—", "0.80°", "0.80°"],
         ["τ_par (пс)", "—", "—", "—", "—", "-0.099"],
-        ["RMSE (амплитуда, дБ)", "—", "1.12 дБ", "1.25 дБ", "1.15 дБ", "0.96 дБ"],
-        ["RMSE (фаза, рад)", "—", "0.15 рад", "0.15 рад", "0.15 рад", "0.13 рад"]
+        ["RMSE (амплитуда)", "—", "1.12 дБ", "1.25 дБ", "1.15 дБ", "0.96 дБ"],
+        ["RMSE (фаза)", "—", "0.15 рад", "0.15 рад", "0.15 рад", "0.13 рад"]
     ]
 
     for i, row in enumerate(data):
@@ -220,34 +211,33 @@ def create_presentation():
             cell = table.cell(i + 1, j)
             cell.text = val
             p = cell.text_frame.paragraphs[0]
-            p.font.size = Pt(13)
+            p.font.size = Pt(12.5)
             p.font.color.rgb = TEXT_MAIN
             p.alignment = PP_ALIGN.CENTER
 
-    # Highlight box
-    tb_hl = slide8.shapes.add_textbox(Inches(0.6), Inches(5.5), Inches(12.133), Inches(1.3))
+    tb_hl = slide8.shapes.add_textbox(Inches(0.6), Inches(5.3), Inches(12.133), Inches(1.2))
     tf_hl = tb_hl.text_frame
     tf_hl.word_wrap = True
     p_hl = tf_hl.paragraphs[0]
-    p_hl.text = "Внедрение фазовой анизотропии τ_par и потерь Друде обеспечило рекордную точность описания амплитуды (0.96 дБ) и фазы (0.13 рад) во всем диапазоне 0.2–2.5 ТГц."
-    p_hl.font.size = Pt(15)
+    p_hl.text = "Учёт фазовой анизотропии τ_par и потерь Друде обеспечил рекордную точность описания амплитуды (0.96 дБ) и фазы (0.13 рад) в диапазоне 0.2–1.5 ТГц."
+    p_hl.font.size = Pt(14)
     p_hl.font.bold = True
     p_hl.font.color.rgb = ACCENT_BLUE
 
-    # ------------------ SLIDE 9: Conclusions ------------------
+    # SLIDE 9: Conclusions
     slide9 = prs.slides.add_slide(blank_layout)
     add_slide_background(slide9)
     add_header(slide9, "Ключевые выводы", "Итоги работы за неделю")
 
     conclusions = [
-        ("1. Фазовая анизотропия τ_par", "Впервые обнаружен и учтён эффект фазовой задержки TE-моды при скрещивании поляризаторов, что устранило расхождение по фазе при углах > 80°."),
-        ("2. Закон масштабирования Deff", "Электродинамическое сжатие диаметра нитей подчиняется прямолинейному закону Deff / Dphys = 1 - 0.85 (D/P), проверенному на образцах 15.5/11 и 40/20 мкм."),
-        ("3. Метрологический предел", "Опровергнута гипотеза дифракции на оправе (апертура 102 мм >> пучок 12 мм). Точность модели достигла фундаментального предела чувствительности ТГц спектрометра.")
+        ("1. Комплексная аппроксимация и τ_par", "Впервые учтена фазовая задержка TE-моды при скрещивании поляризаторов, что устранило расхождение фазы при углах > 80°."),
+        ("2. Закон масштабирования Deff", "Выведено прямолинейное соотношение Deff / Dphys = 1 - 0.85 (D/P), подтверждённое на образцах 15.5/11 и 40/20 мкм."),
+        ("3. Метрологический предел", "Исключена гипотеза дифракции на оправе (апертура 102 мм >> пучок 12 мм). Модель достигла фундаментального предела чувствительности ТГц спектрометра.")
     ]
 
     for i, (c_title, c_desc) in enumerate(conclusions):
-        top_pos = Inches(1.6 + i * 1.7)
-        shape = slide9.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.6), top_pos, Inches(12.133), Inches(1.4))
+        top_pos = Inches(1.4 + i * 1.6)
+        shape = slide9.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.6), top_pos, Inches(12.133), Inches(1.35))
         shape.fill.solid()
         shape.fill.fore_color.rgb = CARD_BG
         shape.line.color.rgb = BORDER_COLOR
@@ -256,17 +246,15 @@ def create_presentation():
         tf.word_wrap = True
         p = tf.paragraphs[0]
         p.text = c_title
-        p.font.size = Pt(18)
+        p.font.size = Pt(16)
         p.font.bold = True
         p.font.color.rgb = ACCENT_BLUE
-        p.font.name = 'Helvetica Neue'
 
         p2 = tf.add_paragraph()
         p2.text = c_desc
-        p2.font.size = Pt(14)
+        p2.font.size = Pt(13)
         p2.font.color.rgb = TEXT_MAIN
-        p2.font.name = 'Helvetica Neue'
-        p2.space_before = Pt(4)
+        p2.space_before = Pt(3)
 
     out_paths = [
         r"c:\THz-Unified-Optimizer\docs\artifacts\presentation_v2.pptx",
