@@ -1,0 +1,739 @@
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 3, SEPTEMBER 1996
+
+739
+
+A Reliable Method for Extraction of Material Parameters in Terahertz Time-Domain Spectroscopy
+Lionel Duvillaret, Fre´de´ric Garet, and Jean-Louis Coutaz
+
+Abstract-- This paper introduces a novel method that allows fast and reliable extraction of material parameters in terahertz time-domain spectroscopy. This method could be applied for most of materials and requires neither simplifying assumptions nor samples of different thickness for the extraction. The presented extraction procedure operates either on truncated terahertz signals when temporal windowing is possible, or on full ones otherwise. Some experimental examples covering all practical cases are given. In particular, the extraction procedure treats the tedious case of samples for which internal reflections of the terahertz pulse slightly overlap.
+I. INTRODUCTION
+TERAHERTZ spectroscopy is a powerful technique for material studies over a wide range of frequency which extends from a few tens of gigahertz to a few terahertz. Using ultrashort electromagnetic pulses, terahertz spectroscopy gives access to the complex refractive index of a wide variety of materials, such as dielectrics [1], semiconductors [2], liquids [3], and superconductors [4]. For parameters extraction, the temporal profiles of the terahertz pulses are recorded twice, the first time without the sample to be characterized, and the second time with the sample. The recorded profiles correspond to the temporal dependence of the electric field associated with the terahertz pulses. Then, the ratio of their Fourier transforms gives the complex transmission coefficient of the sample as function of frequency. The final step of the study is concerned with the extraction of the complex index of refraction from the measured transmission coefficient, that is to solve an inverse problem. The resolution in the general case is a little tricky, especially because of mathematical convergence problem. For example, classical methods like the Newton­Raphson one [5], although efficient in many cases, become unstable when multiple reflections of the terahertz pulse in the material are not temporally separated.
+We present, in this paper, a very reliable method of extraction which converges in all practical cases and which is comparable to the Newton­Raphson method in terms of computation speed, this latter method being the fastest when it converges [5]. In Section II, we describe the problem and we indicate the assumptions we have made. The next section presents the extraction method we have developed in the case of optically thick materials. The general case is treated
+Manuscript received September 19, 1996; revised November 19, 1996. The authors are with the Laboratoire d'Hyperfre´quences et de Caracte´risation, Universite´ de Savoie, 73376 Le Bourget Du Lac Cedex, France. Publisher Item Identifier S 1077-260X(96)09586-X.
+
+in Section IV. Some measures and parameters extractions, illustrating the different cases, are given in Section V. We close by discussing the obtained results and the validity of the assumptions that have been made.
+II. DESCRIPTION OF THE PROBLEM AND ASSUMPTIONS We consider a sample of thickness , referred as 2, placed between two media 1 and 3 (see Fig. 1). We make the following assumptions. · The sample is an homogeneous slide with two flat and
+parallel sides. · The sample and the neighboring materials are magneti-
+cally isotropic without surface charges. · The electromagnetic response of the three media is linear. The terahertz beam goes through the sample from medium 1 to medium 3. We suppose that it is a plane wave impinging on the sample at normal incidence. We also assume that its polarization is linear and parallel to the optical axis of the device (in the case of an optical anisotropy of the sample). With the preceding assumptions, the spectral component at angular frequency of the electric field of the terahertz wave transmitted through the sample is written as
+(1)
+
+where
+
+is the electric field of the terahertz wave emitted
+
+by the transmitting antenna,
+
+(reflection coefficient at the ­ interface)
+
+(transmission coefficient from medium to medium )
+
+(propagation coefficient in
+
+medium over a distance )
+
+with
+
+being the complex refractive index of
+
+medium which depends on the angular frequency . Media
+
+1 and 3 can be stratified. All the reflection, transmission and
+
+propagation coefficients in these media are included in the
+
+term : we simply suppose that the echoes of the terahertz
+
+wave created in media 1 and 3 are negligible or occur on a
+
+time scale different from that corresponding to the signal of
+
+1077­260X/96$5.00 © 1996 IEEE
+
+740
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 3, SEPTEMBER 1996
+
+Fig. 1. Optical path of the terahertz beam between the transmitting and receiving antennas before (upper diagram) and after (lower diagram) sample insertion between the media 1 and 3.
+
+interest. The backward and forward reflections in the sample (Fabry­Pe´rot effect) are represented by the summation FP .
+The spectral component of the electric field of the terahertz wave transmitted without the sample is given by
+
+(2)
+
+The complex transmission coefficient
+
+of the sample is
+
+obtained by dividing the signal
+
+recorded with
+
+the sample by
+
+recorded without the sample
+
+multiple reflections into the sample any more and consequently
+
+the term FP is removed from (3a). Nevertheless, there is no
+
+analytical solution to (3a) with FP
+
+1, except if absorption
+
+can be considered as negligible. So, we have to solve (3a)
+
+with FP
+
+1. In terms of computation speed, one of the
+
+most efficient methods to solve such a root finding problem
+
+is to use the Newton­Raphson method. Unfortunately, this
+
+method could diverge easily if we are looking for the roots
+
+of an oscillating function. That is precisely the case of the
+
+real and imaginary parts of , as function of and .
+
+Nevertheless, the Newton­Raphson method is applicable but
+
+only if one starts the calculation with values of and
+
+very close to the final solution.
+
+Our method has no requirement on the starting values.
+
+Instead of searching for the zeros of
+
+, where
+
+and
+
+are respectively the calculated and mea-
+
+sured complex transmission coefficients, we use functions that
+
+are smooth and monotonous. The logarithm of
+
+and the
+
+argument of
+
+are functions that look like planes when
+
+plotted versus and . Then we define the following error
+
+function
+
+(4a) where
+
+and (4b)
+
+This error function is similar to a paraboloid (see Fig. 2), so (3a) its expression can be approximated by the general equation of
+
+with
+
+a paraboloid [6]1
+
+(3b) (5)
+
+In the case of the characterization of thin films made by
+
+a modification of the substrate surface (ionic implantation,
+
+chemical attack, etc.) one can show easily that the refractive
+
+index of the substrate
+
+has to be used instead of
+
+in (3a). In fact, the sample takes the place of a part of
+
+the substrate. It is also the case for the characterization of
+
+hygroscopic materials placed in a cell filled with an inert
+
+substance which refractive index is
+
+. Here again, we
+
+suppose that the temporal echoes from the substrate do not
+
+interfere with the ones from the thin film. From now on,
+
+we will consider this latter case because it is more general
+
+(
+
+represents actually a particular value of
+
+).
+
+where defines a position in the plane
+
+and , , and
+
+are constant parameters. Let be the vector corresponding
+
+to the minimum of the paraboloid
+
+. is a good
+
+estimation of the solution of the equation
+
+we
+
+are looking for. We derive from (5) and from
+
+Using (6), the gradient of the function
+
+(6) can be written as
+
+(7)
+
+III. SOLUTION FOR OPTICALLY THICK SAMPLES
+This is the most common case in practice and also the easiest to solve. We define an "optically thick sample" as a sample for which the echoes of the terahertz pulse, caused by multiple reflections into the sample, are temporally well separated. In other words, the terahertz signal drops to zero between two echoes. So it becomes possible to keep only the first directly transmitted terahertz pulse thanks to a temporal windowing. Thus, we do not have to take into account the
+
+As a result, if we know the tensor and if we can calculate the gradient of , (7) gives us directly . The solution is
+(8)
+1 To find the value of the variables for which the function is minimum, it is quite common to approximate the function by its second order Taylor's series. In two-dimension, the approximated function is a paraboloid. For more details, see [6].
+
+DUVILLARET et al.: METHOD FOR EXTRACTION OF PARAMETERS IN THz TIME-DOMAIN SPECTROSCOPY
+
+741
+
+Fig. 2. Error function  versus real and imaginary parts of the complex refractive index n~2 for !L=c = 3; jTmeas(!)j = 0:05 and arg(Tmeas(!)) = 10 rad.
+where is the tensor of second derivatives of the function with respect to and . But is not perfectly a
+paraboloid, so is only an approximate value of the minimum of the function . However, with successive iterations, using the above method at each step , we will quickly converge to the solution. The following relation sums up this iterative procedure
+(9)
+
+At the extrema of the frequency range, the signal is noisy
+
+because of the dramatic reduction of its amplitude. However,
+
+as
+
+is mainly proportional to the frequency, the
+
+relative noise on
+
+is much smaller for the highest
+
+frequencies than for the lowest ones. Therefore, the extraction
+
+of and over the full frequency range is performed from
+
+the highest frequency down to the lowest one. As and are
+
+continuous functions of the frequency for any material, each
+
+pair of values is calculated using the previous one as starting
+
+point. Thus, the full extraction is very fast: for example, the
+
+determination of and from 50 GHz up to 1.5 THz with
+
+a resolution of 5 GHz takes about 50 ms using a computer
+
+equipped with a Pentium 90 processor.
+
+The direct calculation of
+
+from the tempo-
+
+ral profiles of the recorded terahertz pulses gives a value
+
+varying between
+
+and ;
+
+shows then
+
+some artificial phase jumps. As the complex transmission
+
+coefficient
+
+is a continuous function of the frequency for
+
+any material, the calculated values of
+
+are -
+
+shifted ( being an integer) each time the absolute difference of
+
+the values of
+
+for two consecutive frequencies
+
+exceeds . Despite having made
+
+continuous,
+
+the excess of noise at low frequencies can produce a -
+
+shift of
+
+over the entire frequency range. This
+
+possible phase shift is eliminated using a linear approximation
+
+of
+
+derived in the middle frequency-range for
+
+which the level of noise is very low:
+
+is -
+
+shifted such as this linear approximation tends, as necessary,
+
+toward zero for
+
+0.
+
+with being the solution at the level of the th iteration and
+
+where
+
+is calculated at position .
+
+Because the analytical expression of the error function
+
+is quite simple and of low dimension, the calculation
+
+of the inverse Hessian matrix
+
+can be made directly,
+
+either analytically or numerically, without requiring complex
+
+procedures like the ones involved in variable metric methods
+
+[6]. We consider that the extraction procedure is finished
+
+when and are respectively at least ten times lower
+
+than the corresponding experimental uncertainties. These two
+
+latter uncertainties are determined by calculating the total
+
+differentials of and
+
+(10a)
+
+(10b)
+
+where
+
+and are, respec-
+
+tively, the uncertainties over the modulus and the argument of
+
+the measured transmission coefficient and over the thickness
+
+of the sample.
+
+In order to validate this extraction procedure, we have
+
+tested it on a large number of simulated cases, with real and
+
+imaginary parts of the complex refractive index, of both the
+
+sample and the media 1 and 3, varying, respectively, from 1 to
+
+10 and from 0 to 10. These values cover all practical cases. The
+
+extraction procedure always succeeds with an average number
+
+of iterations varying between 2 and 3.
+
+IV. SOLUTION FOR THIN SAMPLES
+
+When the samples are optically thin, terahertz pulse echoes
+
+get superimposed. If the signal is cut off at a nonzero value,
+
+it gives unexploitable results because the number of echoes
+
+to be taken into account is not an integer. The only solution
+
+consists in recording the signal over the entire time domain
+
+(i.e., until the signal goes down to zero), which at first glance
+
+seems to be restricting but is not in practice. In fact, only the
+
+characterization of slightly absorbing materials with refractive
+
+index very different from the ones of the neighboring materials
+
+raises problems. Indeed, in this case, the successive echoes
+
+of the terahertz signal exhibit an amplitude decreasing very
+
+slowly with time: therefore, one needs to record the whole
+
+signal on a very large temporal scale.
+
+As the extraction procedure in the case of optically thick
+
+materials is reliable and fast, we have chosen to treat thin
+
+samples in a similar way and therefore we consider the Fabry-
+
+Pe´rot effect as a perturbation. We start with approximate values
+
+of and , as described below, to estimate the value of
+
+function
+
+. Dividing the measured complex transmission
+
+coefficient
+
+by this value gives a complex trans-
+
+mission coefficient with strongly reduced echoes. Then, the
+
+extraction procedure presented in Section III applies again to
+
+extract and . Starting with a good estimation of and
+
+and repeating the whole procedure described in this paragraph,
+
+one will converge to the solution after a few iterations. The
+
+principle of this new extraction procedure that takes into
+
+742
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 3, SEPTEMBER 1996
+
+Fig. 3. Description of the extraction procedure in the case of thin samples.
+
+account the Fabry­Pe´rot effect is depicted on Fig. 3. We have
+
+taken the same criterion of convergence than in Section III
+
+(i.e., when and are respectively at least ten times lower
+
+than the corresponding experimental uncertainties).2
+
+Let us now focus on the determination of the starting values
+
+of and . In order to obtain a good estimation of these two
+
+values, we are looking for approximate analytical expressions
+
+of and as function of the measured transmission coef-
+
+ficient
+
+. The propagation in the sample introduces a
+
+dephasing which is mostly due to the difference
+
+of refractive indices between the sample and the medium that
+
+has been substituted by the sample, while it is only slightly
+
+modified by both the Fabry­Pe´rot effect and the absorption.
+
+Therefore, we obtain a first analytical estimation of
+
+(11)
+
+Besides depending on
+
+is mainly dependent on
+
+. Starting from the (3), it can be shown, after
+
+some quite long and tedious calculations, that obeys the
+
+following relation
+
+with
+
+(12a)
+
+(12b)
+
+(12c)
+
+Fig. 4. Contour plots versus n2 and 2 of the calculated moduli of both the rigorous (in black) and the approximate (in gray) complex transmission
+coefficients T (!), for !L=c = 1 and n~1 = n~3 = 1. The represented contours correspond to values of jT (!)j going from 0.1 to 0.9, by step of 0.1.
+
+Using the Cardan method [8], (11a) can be solved easily.
+
+We show on Fig. 4 the contour plot versus and of
+
+the calculated moduli of both the rigorous [see (3)] and the
+
+approximate [from (12)] transmission coefficients. As one can
+
+see, there is a very good agreement between the rigorous and
+
+approximate values of
+
+over the full range of and
+
+plotted here, this agreement becoming excellent when the
+
+difference between the refractive indices of the sample and
+
+the neighboring media is small. Let us notice that this range
+
+covers almost all the parameters of materials one can measure
+
+in practice. A similar agreement is also observed in the case
+
+of
+
+.
+
+We have tested with success this method on a large number
+
+of simulated cases, with varying from 1 to 5 and from
+
+0 to 10 (i.e., the power absorption
+
+varying from
+
+0 to more than 10 cm for all the studied frequency band).
+
+This range of values corresponds to almost all the materials.
+
+Thanks to a precise estimation for the starting values of
+
+and , the presented extraction procedure is not only highly
+
+reliable but also very rapid (taking the Fabry­Pe´rot effect
+
+into account only increases the execution time by a factor
+
+lower than 4). Finally, we would like to point out that this
+
+method, based on a perturbation theory, works even in cases
+
+for which the Fabry­Pe´rot effect modifies quite strongly the
+
+sample transmission coefficient.
+
+To obtain this result, we suppose that the media on both sides of the sample exhibit low absorption, therefore, we have neglected and in (3). We have also considered is small enough to allow us to detect a signal in transmission. Thus, higher order terms in in (3) can be neglected. For materials of very high absorption, that do not meet this requirement, terahertz spectroscopy in reflection is much more suitable [7].
+2 As in Section III, the experimental uncertainties are determined by calculating the total differentials of  and '. However, even if the calculation is simple, the expressions are much more complex than in relations 10 because of the term FP(!) in (3a), and therefore, they are not reported here.
+
+V. MEASURES
+A. The Setup
+As our experimental setup is a common one, we refer the reader to [9] and [10] for a more complete description of the experiment. Terahertz pulses are produced by optical excitation of a LT-GaAs [11], [12] photoconductive switch with a self-mode-locked Ti:Sapphire laser. The collimation of the terahertz wave is achieved with a 20-mm-diameter hyperhemispherical lens fabricated in high-resistivity-silicon. The laser beam used to excite the transmitting antenna is
+
+DUVILLARET et al.: METHOD FOR EXTRACTION OF PARAMETERS IN THz TIME-DOMAIN SPECTROSCOPY
+
+743
+
+chopped at 1 kHz and a lock-in amplifier is used to improve the
+
+signal-to-noise ratio (SNR) of the detected current. The delay-
+
+line control, data acquisition and data processing are driven by
+
+a computer. For each sample, we make several measurements;
+
+taking their average enables us both to improve the accuracy
+
+and to estimate the uncertainties of the measurements.
+
+The obtained signal to noise ratio of the spectra is typically
+
+50 dB at the maximum of the spectrum, i.e., for a frequency
+
+between 300 and 400 GHz. Without considering the effect of
+
+the divergence of the terahertz beam (see Section VI), neither
+
+the uncertainty of the sample thickness, the measurement
+
+accuracies on the refractive index and the absorption (given
+
+by the measurement standard deviations), are respectively
+
+given by [cm ] [mm]
+
+­ and
+
+[mm]
+
+0.002­0.005. These relations are verified in the range 150­750
+
+GHz, for a sample thickness varying from 10 m up to 1 cm.
+
+The accuracy on the absorption is limited by the measurement
+
+dynamic (50 dB), which is itself mainly limited by the noise
+
+of the transmitting antenna in our set up. The uncertainty of
+
+is also mainly due to the noise on the spectra
+
+of the terahertz pulses, this first uncertainty being responsible
+
+of the accuracy on the refractive index.
+
+Although having characterized a large number of materials,
+
+we have chosen to present three typical cases in this paper.
+
+Fig. 5. Measured terahertz pulse for both reference (dashed curve) and 1.07-mm-thick BK 7 sample (solid curve).
+
+B. Thick Samples
+As first example, we are interested in the case of an optically thick material. The sample is a 1.07-mm-thick BK 7 glass slide. The temporal profiles of the terahertz pulse measured with and without the sample are shown in Fig. 5. The terahertz signal transmitted by the sample falls down to zero for times larger to 7 ps after the first pulse. Thanks to the sample thickness, the first echo is rejected far ( 12 ps) from the first pulse. Thus, the extraction could be rigorously done with the data values recorded only up to 10 ps after the first pulse. The refractive index and the power absorption of BK 7 are plotted in Fig. 6. BK 7 presents no dispersion on the entire studied frequency band; its refractive index is almost constant. However, its absorption increases rapidly with the frequency and reaches very high values. This makes usual glasses like BK 7 unsuitable to be used as transmission windows for terahertz spectroscopy.
+
+Fig. 6. Refractive index (solid curve) and power absorption in cm01 (dashed
+curve) of BK 7 extracted from the temporal curves plotted in Fig. 5.
+
+C. Thin Films
+We present here, as an example of thin film characterization, some results for porous silicon. As the index of this material depends strongly on its porosity, it can vary over a wide range of values and therefore, in the present example, it is completely unknown. This fully justifies to use the method developed in this paper. The sample has been made from a p-doped silicon wafer with a 380 m thickness and a 30 cm resistivity. The porous silicon layer obtained by anodic attack in an HF acid solution is 43 m thick and its porosity (percentage of the volume of the void space to the total volume) is 55%. The dashed and solid curves of Fig. 7 have been respectively measured before and after the porous layer fabrication. First, the silicon substrate before processing has been characterized
+
+Fig. 7. Measured terahertz pulse for both reference (dashed curve) and thin
+film of porous silicon (solid curve) with a thickness of 43 m made from a 380 m thick p-type doped silicon wafer (which material parameters are
+plotted in Fig. 8).
+in order to get its material parameters. They are absolutely needed to extract the parameters of the porous layer. As shown on Fig. 8, both the refractive index (3.4) and the absorption (4.7 cm ) of the silicon substrate vary not much.
+Although multiple reflections in the porous layer exist, they are absolutely not detectable on the temporal curve partly because of the small thickness of the porous layer. Nevertheless, if we make two extractions, taking and not taking the Fabry­Pe´rot effect into account, the results are
+
+744
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 3, SEPTEMBER 1996
+
+Fig. 8. Refractive index (thin curves) and power absorption in cm01 (thick 
+ curves) for 30 1cm p-type doped silicon. The solid curves represent the mean
+value obtained by a 10-measure averaging. The mean values of n2 and 2
+plus or minus the measure standard deviation are shown as dashed curves.
+
+Fig. 10. Power absorption in cm01 of a thin film of porous silicon (which
+refractive index is represented in Fig. 9). The right values are plotted as solid curve and have been obtained by taking the Fabry­Pe´rot effect into account. The dashed curve represents the absorption extracted without taking the echoes of the terahertz pulse into account.
+
+Fig. 9. Refractive index for porous silicon with a porosity of 55%. The right values of the refractive index are plotted as solid curve and have been obtained by taking the Fabry­Pe´rot effect into account. The dashed curve represents the refractive index extracted without taking the echoes of the terahertz pulse into account.
+
+Fig. 11. Measured terahertz pulse for both reference (dashed curve) and 8.4
+
+1cm, 225-m-thick p-type doped silicon (solid curve).
+
+completely different. Among other things, the refractive index, obtained without echo contribution, increases with the frequency while the true refractive index is nearly constant (see Fig. 9). We made also some measurements with much thinner porous silicon layers, down to a thickness of 10.2 m. For this latter thickness, the refractive index of the layer is determined with a precision of 0.2­0.3 over the 200­600GHz frequency band, as derived from the measured standard deviation. We also observed a great difference between the two extractions concerning the absorption (see Fig. 10). Indeed, the absorption calculated with the wrong extraction procedure becomes negative (i.e., non physical) for the high frequencies. But, because of the small thickness and absorption of the layer, even the true absorption value is obtained with a poor accuracy (uncertainty 100%): only its order of magnitude has to be considered here. To get a better precision on both refractive index and absorption, one has to use thicker layers following the relations given in Section V-A.
+Even undetectable effects on the temporal curves can radically modify the results. Although it is obvious, the presence of echoes must never be determined by an analysis on temporal curves but only from elementary considerations on the physical
+
+characteristics of the sample (mainly its optical thickness). We can notice that the amplitude of terahertz pulse obtained with the sample in presence of porous layer is lightly larger that the one obtained prior to the fabrication of the porous layer. With a refractive index in between the air and substrate ones, the porous layer serves as an antireflection coating.
+D. Samples of Thickness Halfway Between
+In contrast, the following example corresponds to the typical case for which no straightforward solution exists. Temporal windowing can not be used because of echoes overlap. Moreover, the sample thickness is too large and consequently a simplification of (3) is not possible. Thus, the whole temporal signal must be recorded. Fig. 11 shows a measure obtained with on a n-doped silicon wafer of a 225- m thickness and a 8.4 cm resistivity. On the terahertz signal measured with the sample (solid curve), one distinguishes three echoes of the terahertz pulse, the fourth one being under the noise floor. This rapid decrease of the echoes amplitude is mainly due to weak Fresnel reflection. The refractive index of the sample is plotted in Fig. 12 and is nearly constant over the complete frequency band, which extends from 50 GHz to 1.5 THz. Its value is 3.4 and its standard deviation, calculated from six measures,
+
+DUVILLARET et al.: METHOD FOR EXTRACTION OF PARAMETERS IN THz TIME-DOMAIN SPECTROSCOPY
+
+745
+
+that the Fabry­Pe´rot effect has to be taken into account, even if no temporal signatures of this effect are seen in the recorded signal. The next step to go toward a full extraction procedure will be concerned with a rigorous determination of the uncertainties on both the real and imaginary parts of the refractive index. Mainly, the influence of the divergence of the terahertz beam should be treated.
+
+
+ Fig. 12. Refractive index of 8.4 1cm p-type doped silicon extracted from
+the temporal curves plotted in Fig. 11. The solid curve represent the mean value obtained by a four-measure averaging. The mean values of the refractive index plus or minus the measure standard deviation are shown as dashed
+curves.
+
+ACKNOWLEDGMENT
+The authors wish to acknowledge J. Whitaker from the Center of Ultrafast Optical Science at the University of Michigan for fruitful discussions and advises, and for supplying the photoconductive switches. The authors also thank S. Barret from the Laboratoire de Spectrome´trie Physique of Grenoble for the fabrication of porous silicon.
+REFERENCES
+
+is less than 0.05 between 250 and 1400 GHz. One can notice that the standard deviation is periodically slightly reduced for frequencies corresponding to Fabry­Pe´rot transmission peaks. The absorption (a few cm ), not represented here, has the same rough estimate as the setup sensitivity.
+VI. DISCUSSION
+Initially, we have made a few assumptions. To our knowledge and until now, the first three assumptions (homogeneous plate slide with a linear electromagnetic response and which is magnetically isotropic), concerning the sample and the neighboring media, have been satisfied for all the materials that have been characterized by terahertz time-domain spectroscopy. In contrast, the plane-wave hypothesis is not entirely satisfied. Especially for the lowest frequencies, the divergence of the terahertz beam is too large and the beam can not be considered as a plane wave when it goes through the sample. One of the ways used to partially solve this problem is to focus the terahertz beam with off-axis parabolic mirrors and to place the sample at the waist location [1], but it makes optical adjustments tricky. We have chosen to use collimation lenses of large size in order to limit the divergence of the terahertz beam for lower frequencies. In the case of our experimental setup, Jepsen et al. [13] have shown that the terahertz beam can be represented by a Gaussian beam emitted from a circular aperture equal to the diameter of the collimation lens of the transmitting antenna. Using Gaussian optics we have calculated that the divergence of our terahertz beam is lower than 50 mrad for frequencies higher than 200 GHz. But, for lower frequencies, a great care is necessary to interpret the results.
+VII. CONCLUSION
+We have presented a novel method for the extraction of material parameters in terahertz time-domain spectroscopy. This general method, which applies to all practical cases, is not only highly reliable but also very fast, allowing a real-time extraction. We have demonstrated its validity on three concrete examples. In the case of thin films, we stress
+
+[1] D. Grischkowsky, S. Keiding, M. van Exter, and Ch. Fattinger, "Far-
+
+infrared time-domain spectroscopy with terahertz beams of dielectrics
+
+and semiconductors," J. Opt. Soc. Amer. B, vol. 7, pp. 2006­2015, Oct.
+
+1990.
+
+[2] M. van Exter and D. Grischkowsky, "Optical and electronic properties
+
+of doped silicon from 0.1 to 2 THz," Appl. Phys. Lett., vol. 56, pp.
+
+1694­1696, Apr. 1990.
+
+[3] J. E. Pedersen and S. R. Keiding, "THz time-domain spectroscopy of
+
+nonpolar liquids," IEEE J. Quantum Electron., vol. 28, pp. 2518­2522,
+
+Oct. 1992.
+
+[4] J. F. Whitaker, F. Gao, and Y. Liu, "Terahertz-bandwidth pulses for
+
+coherent time-domain spectroscopy," in SPIE, vol. 2145, 1994, pp.
+
+168­177.
+
+[5] W. H. Press, B. P. Flannery, S. A. Teukolsky, and W. T. Vetterling,
+
+"Root finding and nonlinear sets of equations," in Numerical Recipes in
+
+Pascal. Cambridge, MA: Cambridge Univ. Press, ch. 9, p. 270.
+
+[6]
+
+, "Minimization or maximization of functions," in Numerical
+
+Recipes in Pascal, Cambridge, MA: Cambridge Univ. Press, ch. 10,
+
+p. 309.
+
+[7] W. M. Robertson, G. Arjavalingam, G. V. Kopcsay, and J.-M. Halbout,
+
+"Microwave reflection measurements on doped semiconductors with
+
+picosecond transient radiation," IEEE Microwave Guided Wave Lett.,
+
+3 vol. 1, pp. 371­373, Dec. 1991.
+[8] M. Chossat, "E´ quations du e degre´," in Aide-Me´moire de Mathe´matiqu-
+
+es de L'inge´nieur. Paris, France: Dunod, ch. 1, p. 20.
+
+[9] Ch. Fattinger and D. Grischkowsky, "Terahertz beams," Appl. Phys.
+
+Lett., vol. 54, pp. 490­492, Feb. 1989.
+
+[10] M. van Exter and D. Grischkowsky, "Characterization of an optoelec-
+
+tronic terahertz beam system," IEEE Trans. Microwave Theory Tech.,
+
+vol. 38, pp. 1684­1691, Nov. 1990.
+
+[11] J. F. Whitaker, "Optoelectronic applications of LTMBE III­V materials,"
+
+Materials Science and Engineering, vol. B22, pp. 61­67, 1993.
+
+[12] Z. Liliental-Weber, H. J. Cheng, S. Gupta, J. Whitaker, K. Nichols, and
+
+F. W. Smith, "Structure and carrier lifetime in LT-GaAs," J. Electron.
+
+Mat., vol. 22, pp. 1465­1469, 1993.
+
+[13] P. U. Jepsen and S. R. Keiding, "Radiation patterns from lens-coupled
+
+terahertz antennas," Opt. Lett., vol. 20, pp. 807­809, Apr. 1995.
+
+Lionel Duvillaret was born in France in 1966. He received the Ph.D. degree in physics from the University of Paris XI-Orsay in 1994.
+From 1990 to 1994, he was involved in research on electrooptic sampling in the Institute of Fundamental Electronics (IEF-Orsay). In October 1993, he joined the Laboratory of Microwaves and Characterization (LAHC) at the University of Savoy, Chambe´ry, France, where he is an Assistant Professor in physics. His current research interests include terahertz spectroscopy and electrooptic sampling. Dr. Duvillaret is a member of the Socie´te´ Franc¸aise d'Optique.
+
+746
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 3, SEPTEMBER 1996
+
+Fre´de´ric Garet was born in France on September 11, 1969. He received the Diplo^me d'E´ tudes Approfondies (DEA) in optics, optoelectronics, and microwave from the Institut National Polytechnique of Grenoble (INPG), France, in 1993 and is currently working toward the Ph.D. degree in the field of the generation of ultrashort electrical pulses and terahertz spectroscopy.
+In October 1994, he joined the Laboratory of Microwaves and Characterization (LAHC) at the University of Savoy.
+
+Jean-Louis Coutaz received the Ph.D. degree in instrumental physics from University of Grenoble in 1981 with a dissertation on ion-exchange in glass, and the Docteur d'E´ tat degree from Institut National Polytechnique of Grenoble in 1987 with a dissertation on surface-enhanced second harmonic generation at metal surfaces.
+In 1981­1982, he was a Lecturer at the University of Blida (Algeria). From 1983 to 1993, he was a full-time researcher at CNRS, working on guided-wave nonlinear optics (second-harmonic generation, Raman scattering, electrooptics modulation) at Laboratory of Electromagnetism, Microwaves and Optoelectronics, LEMO-Grenoble. During the year 1988­1989, he was a visiting member at the Institute for Optical Research in Stockholm, Sweden. In 1993, he became a Professor of physics at University of Savoy, where he started researches in ultrafast optoelectronics. Since 1995, he has served as director of the Laboratory of Microwaves and Characterization (LAHC) of the University of Savoy.
+Dr. Coutaz is a member of the Socie´te´ Franc¸aise d'Optique and of the Optical Society of America.
+
+

@@ -1,0 +1,1250 @@
+Withayachumnankul et al.
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1059
+
+Uncertainty in terahertz time-domain spectroscopy measurement
+
+Withawat Withayachumnankul,1,2,* Bernd M. Fischer,1 Hungyen Lin,1 and Derek Abbott1
+1School of Electrical and Electronic Engineering, The University of Adelaide, Adelaide, South Australia 5005, Australia
+2Department of Information Engineering, Faculty of Engineering, King Mongkut's Institute of Technology Ladkrabang, Bangkok 10520, Thailand
+*Corresponding author: withawat@eleceng.adelaide.edu.au
+Received January 14, 2008; revised April 8, 2008; accepted April 11, 2008; posted April 16, 2008 (Doc. ID 91677); published May 28, 2008
+Measurements of optical constants at terahertz--or T-ray--frequencies have been performed extensively using terahertz time-domain spectroscopy (THz-TDS). Spectrometers, together with physical models explaining the interaction between a sample and T-ray radiation, are progressively being developed. Nevertheless, measurement errors in the optical constants, so far, have not been systematically analyzed. This situation calls for a comprehensive analysis of measurement uncertainty in THz-TDS systems. The sources of error existing in a terahertz spectrometer and throughout the parameter estimation process are identified. The analysis herein quantifies the impact of each source on the output optical constants. The resulting analytical model is evaluated against experimental THz-TDS data. © 2008 Optical Society of America
+OCIS codes: 000.2170, 120.4530, 300.6495.
+
+1. INTRODUCTION
+Terahertz time-domain spectroscopy (THz-TDS) is a promising tool in the inspection of materials for their optical properties in the terahertz--or T-ray--frequency range, loosely defined as between 0.1 and 10 THz [1]. The components and techniques have been developed such that the spectrometer can considerably overcome intrinsic problems from thermal background radiation and atmospheric absorption. A THz-TDS waveform transmitted through a material sample is typically rich in information, since its shape is altered by the material's characteristic frequency response. Sample and reference waveforms, once converted by Fourier transform into the frequency domain, can be processed to extract the frequency-dependent optical constants of a material by means of a reliable parameter extraction method [2].
+Nevertheless, although the parameter extraction process is nearly perfect the operation of the hardware is far from ideal. Namely, measurements for signals and associated parameters still contain errors, which affect the quality of the extracted optical constants. Several sources of random and systematic errors exist throughout the measurement process. These sources are, for instance, signal noise, sample misalignment, thickness measurement variation, etc. Thus, for a reliable measurement the evaluation of uncertainty is critical in the optimization of measurement accuracy. The proposed uncertainty model is a combination of the analytical models for significant error sources and is applicable to transmission-mode THz-TDS.
+Some merits of the uncertainty model proposed in this work are that (i) the model reduces the time spent to determine the uncertainty in measurement, previously calculated in the same way as a Monte Carlo simulation; (ii)
+
+the model allows the evaluation and comparison of more than one source of error, rather than the noise in the signal alone; (iii) the model offers a standard in the evaluation of uncertainty in the optical constants obtained from THz-TDS, and thus permits assessment of and comparison among results from different measurements; (iv) an overall uncertainty determined from the model can be used in the discrimination of an intrinsic absorption peak from artifacts, as any peak that has a magnitude, relative to the baseline, lower than the uncertainty level, can be labeled as an artifact; and (v) through the model a methodical optimization of the measurement parameters is possible.
+The work is organized as follows. Section 3 gives the background on THz-TDS measurement and parameter extraction, and identifies an open question regarding the analysis of error in the process. In Section 4 the sources of error in the THz-TDS measurement and parameter extraction process are identified and characterized by analytical models, based on the evaluation of uncertainty. A practical implementation of the developed uncertainty model is given in Section 5.
+2. FRAMEWORK
+The assumptions of a THz-TDS measurement considered here are that (i) a sample under measurement is a homogeneous dielectric slab with parallel and flat surfaces where the scattering of T-rays is negligible; (ii) the incident angle of the T-ray beam is normal to the sample surfaces; (iii) the transverse dimension of the sample is larger than the incident beam waist, so there is no diffraction; (iv) the reference signal is measured under the same conditions as the sample signal, except for the absence of
+
+0740-3224/08/061059-14/$15.00 © 2008 Optical Society of America
+
+1060 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+the sample; (v) a random error is assumed to follow a normal probability distribution, unless stated otherwise; (vi) the resolution of the measuring apparatus is sufficiently high so that a quantization error is negligible, unless stated otherwise; (vii) the measuring instruments are well-calibrated; and (viii) there is no human error in the measurements.
+The evaluation of uncertainty is on the basis of the Guide to the Expression of Uncertainty in Measurement-- GUM, recommended by the International Organization for Standardization (ISO) and its partners [3]. Some aspects of the guideline are tailored, where appropriate. The technical terms, where applicable, follow the definitions provided in International Vocabulary of Basic and General Terms in Metrology--VIM, published by the ISO in the name of its partners [4].
+3. TERAHERTZ TIME-DOMAIN SPECTROSCOPY FOR MEASUREMENT OF OPTICAL CONSTANTS
+The process of utilizing THz-TDS in determining the optical constants of a sample is composed of many steps, as illustrated in Fig. 1. At the heart of the process is the measuring device, a terahertz spectrometer, which has been progressively developed to achieve a higher signalto-noise ratio (SNR) and wider bandwidth. The quantity provided by a THz-TDS measurement is a time-domain signal. Thus, a physical model that can relate the measured signal to the optical properties of a measured sample is required. This model is then used to estimate or extract the optical constants of a sample from a recorded signal. The measurement is not ideal, and therefore incorporates errors, which need characterization to quantify the overall measurement uncertainty. Further details for each part of the measuring process are described below.
+
+Withayachumnankul et al.
+A. Measuring Device--Terahertz Time-Domain Spectroscopy A THz-TDS system comprises an ultrafast optical laser, a T-ray emitter­receiver, an optical delay line, a set of guiding and collimating optics, and a material sample under test. The ultrafast optical pulse is divided into two paths, a probe beam and a pump beam, by a beam splitter. At the emitter the optical pump beam stimulates T-ray pulsed radiation, usually via either charge transport [6] or an optical rectification effect [7] depending on the emitter type. A typical THz system based on photoconductive antennas for emission and detection is shown in Fig. 2. The diverging T-ray beam is collimated and focused onto the sample by guiding and collimating optics. After passing through the sample, the T-ray beam is recollimated and focused onto the receiver by an identical set of guiding and collimating optics. At the receiver, the initially divided probe beam optically gates the T-ray receiver with a short time duration compared to the arriving T-ray pulse duration. Similar to the T-ray generation, the detection or gating can be performed via either charge transport or electrooptic sampling [8]. Synchronization between the optical gating pulse and the T-ray pulse allows the coherent detection of the T-ray signal at each time instant. A complete temporal scan of the T-ray signal is enabled by the discrete micromotion of a mechanical stage controlling the optical delay line. The system delivers a time-resolved T-ray pulse, which is readily convertible to a wideband T-ray spectrum via Fourier transform.
+B. Physical Model and Parameter Extraction A key aim of a THz-TDS measurement is to determine the frequency-dependent optical constants of a sample under test. However, a signal available from a THz-TDS system is in the time domain and has geometric implications, i.e., reflection and refraction, influenced by the sample. This
+
+Physical model wave propagation
+
+Measuring device THz-TDS
+
+Random process
+
+approximations
+
+hypotheses
+
+Measured values electrical signals
+
+random errors
+
+systematic errors
+
+Evaluation parameter extraction
+
+Error model
+
+Estimator optical constants
+
+Uncertainty
+
+Fig. 1. (Color online) Parameter estimation process using a THz-TDS measuring system. The process is mainly composed of a T-ray spectrometer, a physical T-ray propagation model, and a random process. The solid boxes represent well-reported parts of the THz-TDS measurement process, whereas the dotted boxes have not been fully analyzed and are now addressed in this paper. Modified from [5].
+
+Withayachumnankul et al.
+ultrafast laser pulses beam splitter
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1061
+probe beam
+
+pump beam
+
+T-ray emitter
+
+parabolic mirror
+
+mirror
+
+lens
+
+sample
+
+optical delay line
+T-ray receiver
+
+sealed chamber
+Fig. 2. (Color online) THz-TDS system configured in transmission mode. The system consists of an ultrafast optical laser, T-ray emitter­ receiver, an optical delay line, a set of mirrors, and a material sample. The emitter and receiver shown are photoconductive antennas. The optical beam path is indicated by small arrowheads and the T-ray beam path by large arrowheads.
+
+necessitates a physical model to describe the implications and a measurement function to extract the constants from the signal.
+Typically, a T-ray signal that passes through a parallelsurfaced dielectric sample at the normal angle of incidence can be expressed as a function of the frequency, assuming no reflection, by
+
+  4n^ n0
+
+Esam
+
+=
+
+ n^ 
+
++
+
+n02
+
+exp
+
+l - jn^ 
+c
+
+E,
+
+1
+
+where E is the complex emitted wave;  is the transmission factor of free air surrounding the sample; n0 is the refractive index of free air; n^ is the complex refractive
+index of the sample; and l is the propagation length inside the sample, which equals the sample thickness l for
+the normal angle of incidence. The complex refractive index, n^  = n - j, comprises the index of refraction, n, and the extinction coefficient, , which, together, are called the optical constants. In the above equation, 4n^ n0 / n^  + n02 is a consequence of the transmission at the sample­air interfaces, and the exponential term
+represents the complex response of bulk material. In
+addition to the sample response,
+
+ l
+Eref =  exp - jn0 c E,
+
+2
+
+is the complex frequency response of a reference signal, i.e., a signal measured with the same settings but with the absence of the sample.
+The material parameter extraction process requires both Esam and Eref, which are determined from time-domain measurements. The sample response normalized by the reference, or Esam / Eref, yields the complex transfer function of a material in the frequency domain:
+
+   4n^n0
+
+l
+
+H0 = n^  + n02 exp
+
+-  c
+
+exp - jn
+
+l
+- n0 c .
+
+3
+
+Often, the complex refractive index, n^ , which is a component of the transmission at the air­sample interfaces, is approximated to a real index, n, giving
+
+   4nn0
+
+l
+
+H = n + n02 exp
+
+-  c
+
+exp - jn
+
+l
+- n0 c .
+
+4
+
+This simplified transfer function facilitates the parameter extraction process, but also introduces an error due to the approximation. Later, this type of error will be taken into account and a proper treatment will be provided in Subsection 4.D. Taking the argument and logarithm of the simplified transfer function gives, respectively,
+
+l
+
+H = - n - n0 c ,
+
+5a
+
+  lnH = ln
+
+4nn0 n + n02
+
+l -  .
+c
+
+5b
+
+The optical constants can be deduced from Eqs. (5a) and (5b) as
+
+c
+
+n = n0 - l  H,
+
+6a
+
+1062 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+
+    c
+
+4nn0
+
+ = l
+
+ln
+
+n + n02
+
+- lnH
+
+.
+
+6b
+
+The extracted optical constants are an ultimate outcome of a THz-TDS measurement process and from now on Eqs. (6a) and (6b) will be referred to as the measurement functions. Quantities obtained from these measurement functions, to some extent, contain a measurement error from the input quantities, and this error motivates the development of a proper procedure for the evaluation of the uncertainty in the results.
+
+C. Evaluation of Uncertainty in the Terahertz Time-Domain Spectroscopy Measurement Many sources of randomness affecting a THz-TDS signal have been reported so far. These sources include laser intensity fluctuation [9­11], optical and electronic noise [12,13], delay line stage jitter [14], registration noise [15], and so on. Mathematical treatments for these noise sources are available in general. Contributions to the error in the estimated optical constants are not only from the randomness in the signal, but also from imperfections in the physical setup and parameter extraction process. These imperfections relate to, for example, the sample thickness measurement, the sample alignment, and so on.
+An example situation, where the evaluation of the uncertainty is critical, is considered by Fischer et al. [16]. The dynamic range of the experiment can be increased by averaging a series of measured signals in the time domain. Averaging their corresponding spectra does not affect the dynamic range, as discussed by Fischer et al. [16]. By averaging signals in the time domain the standard deviation, therefore, appears in the time domain with the mean corresponding value. Accordingly, it requires a model of uncertainty propagation, which can propagate the standard deviation of a time-domain signal to the standard deviation of the optical constants.
+A few limited models for the propagation of uncertainty in a THz-TDS measurement can be found in the literature, but they are specific cases with loss of generality and thus only indirectly relevant to our discussion. For noise analysis, the model of Duvillaret et al. [13] is used in the calculation of the uncertainty in the optical constants impacted solely by noise in the reference and sample spectra. In double-modulated differential timedomain spectroscopy (DTDS) the evaluation of uncertainty is employed for numerical determination of the optimum thickness difference of a liquid sample [17]. The evaluation focuses on a dual-thickness geometry where the Fresnel transmission coefficient is absent from the transfer function. Confidence intervals are established for the real and imaginary parts of the transfer function, which is influenced by noisy spectra [18]. These confidence intervals assist the process of smoothing the estimated optical constants.
+It would appear that the previous literature addresses development of the uncertainty models of the optical constants in a superficial manner. In those cases the work only considers the influence of signal noise and/or does not extend the model into the time domain. Furthermore, the developed linear models are rarely verified by a nonlinear numerical simulation. Based upon the motivation
+
+Withayachumnankul et al.
+from the requirements discussed earlier, an evaluation of uncertainty for a THz-TDS measurement is established in this work with the aim of an exhaustive list of error sources in the system.
+4. SOURCES OF ERROR IN TERAHERTZ TIME-DOMAIN SPECTROSCOPY MEASUREMENT
+Many sources of error appear in a THz-TDS measurement and parameter extraction process. Significant sources of error are shown in Fig. 3, where they are listed along with the parameter extraction process and accompanied by their class (random or systematic). In addition to noise, the sample signal also contains reflections, which, if not dealt appropriately, cause a systematic error. The error in the amplitude from several measurements manifests itself as a variance (or deviation). It propagates down the parameter extraction process, through to the Fourier transform and deconvolution stages, producing the variance in the magnitude and phase of the estimated transfer function. The parameter extraction process requires knowledge of the sample thickness, sample alignment, and air refractive index, each of which have a degree of uncertainty. This step introduces the variances to the estimation. Furthermore, an approximation to the model transfer function gives rise to a systematic error. At the output all these variances accumulate and contribute to the uncertainty in the extracted optical constants.
+Subsections 4.A­4.F provide an analysis for each source of error in detail, including a connection between these errors and the variance in the optical constants. The combination of all variances to produce the uncertainty in the optical constants is given in Subsection 4.G.
+A. Random and Systematic Errors in T-Ray Amplitude The T-ray amplitude is prone to variation induced by many sources of random and systematic errors. As mentioned earlier, the sources of random error include laser intensity fluctuation, optical and electronic noise, jitter in the delay stage, etc., whereas the sources of systematic error include registration noise, mechanical drift, etc. The variation in the amplitude may embrace the effects from inhomogeneity in a sample or among samples, if the sample is displaced or replaced with nominally identical samples during several measurements. What is considered here is the amplitude variance model, which unites all these errors and assumes a normal probability distribution. This treatment is valid although the systematic error is involved, since the systematic error drifts over time and thus cannot be tackled by the method proposed by [19], which requires a constant systematic error. The amplitude variance is regularly obtained statistically from a number of repeated measurements, and thus is regarded as a type A evaluation of uncertainty.
+Regarding the natural difference between two types of error in the T-ray amplitude, a random error occurs in a relatively short time scale; in contrast to a systematic error that can be observed only when the measurement time span is long enough. In addition, the amplitude drift
+
+Withayachumnankul et al.
+Fabry-Perot reflections systematic
+THz-TDS measurement parameter extraction
+Apprx. transfer function systematic
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1063
+
+Amplitude detection
+
+measured amplitude s²
+
+reference signal
+
+sample signal
+
+Fourier transform
+
+magnitude & phase s²
+
+reference spectrum
+
+sample spectrum
+
+Deconvolution magnitude & phase s²
+
+Electronic & optic noise random and systematic
+Refractive index of air systematic
+
+Thickness measurement random and systematic
+
+Parameter extraction optical constant s²
+
+Sample alignment random or systematic
+
+Fig. 3. (Color online) Sources of error in a THz-TDS measurement. The sources of error in the dashed boxes occur in both the THz-TDS measurement and the parameter extraction process. The errors produced by these sources are classified as either random or systematic. They cause the variances and deviations, which propagate down the process, and eventually contribute to the uncertainty in the extracted optical constants.
+
+due to the systematic error changes in one direction over time. Due to these facts, recording and averaging signals over a long time span increase the amplitude variation. This scenario is demonstrated in Fig. 4, in which the drift is larger for a succeeding measurement. Therefore, mea-
+
+suring a T-ray signal is a compromise between the random and systematic errors, i.e., recording over a short time can avoid the drift, but not random error, while recording over a longer period averages out the random error but accentuating the problem of drift.
+
+amplitude, E(k) (a.u.)
+
+0.6
+0.4 11.8 ps
+0.2
+
+12.7 ps
+
+0
+
+-0.2 5
+
+10
+
+15
+
+20
+
+25
+
+time (ps)
+
+2
+
+amplitude variance, s2E(k) (x10-3 a.u.)
+
+1
+
+60
+
+0 10
+
+11
+
+12
+
+13
+
+time (ps)
+
+14
+
+10 20 30 4m0ea5su0rement 15 0
+
+Fig. 4. (Color online) Amplitude variance of the time-domain signal. The amplitude variance is plotted against the time and the number of measurements. Any two succeeding measurements are separated by approximately 40 s. As the number of measurements increases, the variance increases drastically. The inset shows the arithmetic mean of the 60 measurements. Interestingly, the two peaks in the variance occur at 11.8 and 12.7 ps, whereas the negative and positive peaks in the mean signal are at 11 and 12.4 ps, respectively. The result is most probably dominated by delay-line registration and mechanical drift.
+
+1064 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+
+Given the amplitude variances of the time-domain ref-
+
+erence and sample sE2 samk, respectively,
+
+signals, denoted by the amplitude-related
+
+sE2 refk and variances in
+
+the optical constants read as
+
+    sn2,E =
+
+c2 l
+
+Asam
+
+Aref
+
+Esam4 + Eref4
+
+,
+
+7a
+
+   s2,E =
+
+c2 l
+
+Bsam
+
+Bref
+
+Esam4 + Eref4
+
+   n - n0 2sn2,E
+
++ n + n0
+
+n2 ,
+
+7b
+
+where
+
+ Asam = I2EsamexpjksE2 samk, k
+
+8a
+
+ Aref = I2ErefexpjksE2 refk,
+
+8b
+
+k
+
+ Bsam = R2EsamexpjksE2 samk, 8c k
+
+ Bref = R2ErefexpjksE2 refk. k
+
+8d
+
+Here, k is the temporal index and  is the sampling interval, and thus k is the time. The summation is carried out over the time duration of a recorded T-ray signal. In the equations all the parameters are calculated at their mean value. For additive noise, sE2 refk = sE2 samk. The derivation for Eq. (7) can be found in Appendix A.
+In Eq. (7), the square of the thickness, l2, is a major factor. Increasing the thickness will seemingly decrease the variance in the optical constants. A physical reason behind this is that for a very thin sample the system might not be sensitive enough to detect a small change in the amplitude and phase, which is masked by noise. A thicker sample allows T-rays to interact more with the material, causing a larger change in signal. But this competes with the fact that Esam  exp-l and thus increasing l will lower the amplitude of a sample signal and lift the overall variance. A treatment of the thickness-amplitude tradeoff can be found in [20].
+Equation (7) combines the effects from both the reference and sample signals. For flexibility in some applications the effects from the two can be separated. Thereby, the variances in the optical constants due to the variance in the sample signal are
+
+Withayachumnankul et al.
+
+  sn2,Esam =
+
+c 2 Asam l Esam4 ,
+
+9a
+
+      s2,Esam =
+
+c2 l
+
+Bsam Esam4 +
+
+n - n0 2 sn2,Esam n + n0 n2
+
+.
+
+9b
+
+Likewise, the variances in the optical constants due to the variance in a reference signal are
+
+  sn2,Eref =
+
+c 2 Aref l Eref4 ,
+
+10a
+
+      s2,Eref =
+
+c2 l
+
+Bref Eref4 +
+
+n - n0 2 sn2,Eref n + n0 n2
+
+.
+
+10b
+
+The separation of the effects from the reference and sample allows the evaluation of the uncertainty, where the numbers of measurements for the sample and reference signals are not equal. This separation scheme will be used later in Subsection 4.G, when variances from all sources are combined to yield the overall uncertainty.
+
+B. Random and Systematic Errors in Sample Thickness One parameter that has an influence on the extracted optical constants is the propagation distance of a T-ray beam inside a sample. The propagation distance equals the sample thickness, when the angle of incidence of the beam is normal to the sample surfaces. The variance associated with this thickness is partially due to a random error in thickness measurement, which may be subject to, for example, the mechanical pressure exerted during thickness measurement, the rigidity of a sample, etc. Errors in thickness can also occur due to a change in properties of the sample, for example, a sample of biological tissue can shrink during the experiment due to dehydration or a cryogenically frozen sample can have a different thickness to that measured at room temperature. In addition to the random error, another critical factor contributing to the variance in the thickness is the resolution of a measuring device, deemed systematic error. These two types of error and their impact on the optical constants are evaluated separately in the following discussion.
+1. Random Error in Sample Thickness Generally, a random error occurring in sample thickness measurements has a normal distribution around a mean value. Given the sample thickness variance sl2 caused by this error, by referring to the measurement functions in Eqs. (6a) and (6b), the thickness-related variances of the optical constants are
+
+Withayachumnankul et al.
+
+  sn2,l =
+
+n - n0 l
+
+2
+sl2 ,
+
+11a
+
+     s2,l =
+
+ 2
+
+l
+
+sl2 +
+
+c nl
+
+n - n0 n + n0
+
+2
+sn2 ,l ,
+
+11b
+
+where sl2 is typically determined from the statistical distribution of several observations and thus the evaluation
+is denoted as type A.
+Equations (11a) and (11b) indicate that, with no limit,
+increasing the sample thickness results in a decrease of
+the variance of the optical constants. However, a thicker
+sample also results in a weaker sample signal, which eventually gives rise to sn2,E and s2,E in Eq. (7).
+
+2. Systematic Error in Sample Thickness (Resolution
+
+Limit) The resolution of a common thickness measuring device,
+
+such as a micrometer or caliper, is relatively limited. This
+
+introduces a systematic error to the thickness measure-
+
+ment. As a result, readout values are influenced from the
+
+combination of both random and systematic errors. Ac-
+
+cording to the analysis of the resolution limit in [21], the
+
+variance in the thickness induced by the resolution limit is l2 / 12, where l is the resolution of a measuring device.
+The propagation functions, which link this variance to
+
+the variances in the optical constants, are consistent with
+
+those in Eq. (11). Thus,
+
+  sn2, =
+
+n - n0 l
+
+2 l2 ,
+12
+
+12a
+
+     s2, =
+
+ 2 l2 +
+l 12
+
+c nl
+
+n - n0 n + n0
+
+2
+sn2 , .
+
+12b
+
+Because l is obtained from a published value, the evaluation in the above equation is regarded as type B. Similar to the thickness-related variances, the variances here decrease as the thickness increases unless the noise in the signal is considered.
+
+C. Random or Systematic Error in Sample Alignment When the angle of incidence of T-rays on a sample slab is not normal to the surfaces the transfer function becomes complicated. Specifically, overly tilting the sample will result in a complex propagation geometry, a deviated beam direction, and a lower T-ray energy focused onto a detector. To avoid these complications, the angle of incidence is typically assumed to be normal to the sample's surface, so that a simple transfer function can be adopted.
+However, with manual placement and adjustment of the sample, it is likely that a small misalignment can occur. The small misalignment of a sample causes a longer T-ray propagation path inside the sample, as illustrated in Fig. 5. A change in the propagation distance eventually affects the estimated optical constants of the sample. The alignment error, therefore, needs to be taken into account in the evaluation of uncertainty in optical constants.
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1065
+sample: n-j
+
+air: n0
+
+incident beam path i
+
+t
+
+i
+
+l
+
+l
+
+Fig. 5. (Color online) Tilted sample in a T-ray beam path. This
+exaggerated figure illustrates a small tilt angle from the normal,
+which might occur due to manual misalignment of the sample.
+The T-ray path inside the sample, l, is longer than the sample thickness, l, by the factor of 1 / cos t. The refraction angle, t, is related to the incident angle (and the tilting angle), i, through Snell's law, n sin t = n0 sin i, but for a small tilting angle, t  i.
+
+The type of this error is dependent on the experimental practice. If the sample is moved in between several measurements, the error is random. On the other hand, if the sample is fixed throughout measurements, the error from the sample alignment is systematic. Despite the possible difference in practice, in this work the error in the sample alignment is considered systematic. The worst-case scenario can bound the error arising from either case.
+According to Fig. 5, the propagation distance inside a sample, l, is a function of the sample thickness, l, and the refraction angle, t, or
+
+l
+
+l = cos t .
+
+13
+
+By assuming that the angle of refraction deviates in a
+small interval -f , f and has its arithmetic mean at the origin, the deviation in the propagation distance is thus
+
+  1
+
+fl = l
+
+-1 cos f
+
+.
+
+14
+
+Note that the numerical evaluation of an error propagation, as in the above equation, is allowed by GUM. Given the deviation in the propagation distance, fl, the alignment-related deviations of the optical constants, derived from Eqs. (6a) and (6b), are
+
+n - n0
+
+fn, =
+
+l
+
+fl,
+
+15a
+
+
+
+c n - n0
+
+f, = l fl + nl n + n0fn,.
+
+15b
+
+Substituting fl from Eq. (14) gives
+
+1066 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+
+  1
+
+fn, = n - n0
+
+-1 cos f
+
+,
+
+16a
+
+  1
+
+c n - n0
+
+f, = 
+
+-1 cos f
+
++ nl n + n0fn,.
+
+16b
+
+From the above equations the deviation in the refractive index due to the sample alignment is independent of the sample thickness, whereas the deviation in the extinction coefficient partly reduces for a thicker sample.
+
+D. Systematic Error in Approximated Transfer Function From Subsection 3.B, regarding the parameter extraction process, it can be seen that the determination of optical constants is based upon an approximated transfer function. This approximation certainly gives rise to an error in the estimated optical constants. But, unlike any other error in the measurement process, the systematic error arising from an approximated transfer function is recognized and quantifiable. Furthermore, it can be completely removed from the optical constants if a nonapproximation technique for material parameter extraction, such as that given in [2,22,23], is employed. However, a precise approach involves a complicated iterative calculation and most researchers trade off this complexity with a small error from the approximation. Here, a treatment of the approximation is offered to evaluate the error and to assist the selection of an appropriate approach in determining the optical constants.
+In this section, for lucidity, the exact transfer function in Eq. (3) is referred to as Hexact and its approximation in Eq. (4) is referred to as Happx. The phase difference between the approximated and exact transfer functions is
+
+  fH =  Happx -  Hexact, 4n^ n0 = - arg n^  + n02 .
+
+17
+
+In a similar way, the magnitude difference between the two functions is
+
+flnH = lnHappx - lnHexact,
+
+    4nn0
+
+4n^ n0
+
+= ln n + n02
+
+- ln n^  + n02
+
+,
+
+    n n^  + n0 2
+
+= ln
+
+.
+
+18
+
+n^  n + n0
+
+It is now clear that if   0, which makes n^   n, then fH and flnH become zero.
+Derived from the measurement function in Eq. (6a), the
+effect of the phase difference on the refractive index
+deviation is
+
+Withayachumnankul et al.
+
+c
+
+fn,H = l fH.
+
+19
+
+Likewise, derived from Eq. (6b), the effect of the approxi-
+
+mated transfer function on the deviation of the extinction
+
+coefficient is
+
+  c
+
+1 n - n0
+
+f,H = l flnH + n n + n0 fn,H .
+
+20
+
+Obviously, the thickness, l, of a sample is an important factor in both fn,H and f,H. A thicker sample implies a lower contribution to the deviation of the optical con-
+stants from the transfer function approximation. A physi-
+cal explanation is that a thick sample enhances the inter-
+action between T-rays and the bulk material, as indicated
+by the exponential terms in Eq. (3). This enhanced inter-
+action dominates the transfer function and dominates the effect of the approximation in Happx.
+Here, the values of n and  are estimated on the basis of a simplified transfer function. Substitution of the approximated values of n and  into Eqs. (19) and (20) can determine the approximated deviations, fn,H and f,H. These deviations are not correction factors for the approximated optical constants, but are rather used to
+demonstrate the magnitude of the difference between the
+approximated and the exact values.
+
+E. Systematic Error from Reflections In the measurement of a sample, particularly in the case of parallel and shiny surfaces, the reflections at air­ sample interfaces always occur, resulting in reflected pulses in a recorded signal. These reflections, or so-called Fabry­Pérot effect, can be removed to some extent from the signal by some means prior to the parameter estimation [24]. Otherwise, the transfer function in Eq. (4) must be amended to incorporate the Fabry­Pérot effect as follows:
+
+HFP = FPH,
+
+21
+
+where
+
+     n^ - n0 2
+
+l -1
+
+FP = 1 -
+
+exp - 2jn^ 
+
+.
+
+n^  + n0
+
+c
+
+22
+
+In this case, the effect must be dealt with during the parameter estimation process by an iterative method such as that of [2]. But researchers often prefer using a simple extraction method, in Eqs. (6a) and (6b), where the Fabry­Pérot effect is ignored. The effect then propagates to the extracted optical constants, where it manifests itself as a systematic error. In response to that this section proposes an analytical model that can trace the propagation of a Fabry­Pérot effect, now a systematic error, from the spectrum to the optical constants. Quantification of this error can show how large its contribution is toward the optical constants. In addition, the estimated error from the Fabry­Pérot effect has merit in that it can be used to discriminate real absorption features from oscillatory artifacts. If the peak amplitude, i.e., the absorption spectrum subtracted by its baseline, is lower than the es-
+
+Withayachumnankul et al.
+
+timated Fabry­Pérot oscillation then the peak is not of importance and can be regarded as an artifact.
+Recall that now there are two expressions of the transfer function: one is with the Fabry­Pérot term, HFP, and the other is an approximation, H. The phase difference between the two transfer functions is
+
+fFP =  H -  HFP,
+
+= - argFP.
+
+23
+
+In a similar way the magnitude difference between the two functions is
+
+flnFP = lnH - lnHFP,
+
+= - lnFP.
+
+24
+
+Derived from the measurement function in Eq. (6a), the effect of reflections on the refractive index deviation is
+
+c fn,FP = l fFP.
+
+25
+
+Likewise, derived from Eq. (6b), the effect of reflections on
+
+the deviation of the extinction coefficient is
+
+  c
+
+1 n - n0
+
+f,FP = l flnFP + n n + n0 fn,FP . 26
+
+Again, the sample thickness plays an important role in scaling the deviation caused by the Fabry­Pérot effect. A longer propagation path within a sample results in a lower deviation of the estimated optical constants. An explanation of this is that a longer T-ray path length in a sample leads to a reduction in the amplitude of reflected pulses in an exponential manner. The reduced amplitude of reflections makes the approximation more reasonable.
+In our analysis the values of n and  are estimated without considering the Fabry­Pérot effect. Substitution of the approximated values, n and , into Eqs. (25) and (26) can determine the approximated deviations fn,FP and f,FP, but not the actual deviations. Thus, fn,FP and f,FP are not correction factors for the optical constants.
+
+F. Systematic Error in Physical Constants The refractive index of air is slightly larger than unity, and is dependent on the temperature and pressure. The value at 0.89 THz can be estimated from [25]
+
+86.265748 + Tp
+
+n0,exact = 1 +
+
+T2
+
+· 10-6,
+
+27
+
+where p is the partial pressure of water vapor in millimeters of mercury (mmHg) and T is the temperature in Kelvin. At the temperature of 298.15 K (25°C) the saturated vapor pressure is 23.76 mmHg--this yields an index offset of 1.4 10-4.
+Nevertheless, the value of unity for air is always adopted instead of this exact calculation in the estimation of the optical constants for the sake of simplicity. Thus, this approximation causes a systematic error, where the sign and magnitude of the variation is known a priori. The worst-case analysis is adopted in tracing the propa-
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1067
+
+gation of this error to the output optical constants. From the measurement function in Eq. (6a), the refrac-
+tive index deviation due to the air­index deviation is
+
+fn,n0 = fn0,
+
+28
+
+where fn0 = n0 - n0,exact. And, from Eq. (6b), the deviation in the extinction coefficient is
+
+c n - n0 f,n0 = l nn0 fn0.
+
+29
+
+The relation is straightforward and requires no validation by Monte Carlo simulation.
+
+G. Uncertainty in Optical Constants: A Combination of
+
+Variances As shown in the earlier subsections 4.A­4.F, many
+
+sources of error contribute to the variance of the mea-
+
+sured optical constants. The combined uncertainties for
+
+the refractive index and extinction coefficient are esti-
+
+mated by addition of the variances and deviations derived
+
+so far, or
+
+ u¯n = kP
+
+sn2 ,Esam NEsam
+
++
+
+sn2 ,Eref NEref
+
++
+
+sn2,l Nl
+
++
+
+sn2,
+
++
+
+fn,
+
++
+
+fn,H
+
++
+
+fn,FP
+
++ fn0,
+
+30a
+
+ u¯ = kP
+
+s2,Esam NEsam
+
++
+
+s2,Eref NEref
+
++
+
+s2,l Nl
+
++
+
+s2,
+
++
+
+f,
+
++
+
+f,H
+
++
+
+f,FP
+
++ f,n0,
+
+30b
+
+where the coverage factor kP = 1 is for the standard uncertainty and kP  1 for an expanded uncertainty; NEsam and NEref are the numbers of measurements for the sample and reference signals, respectively; and Nl is the number of measurements for the sample thickness. Because the sources of error are uncorrelated, no covariance appears in the formulas.
+It is advised that when the measurement uncertainty is reported the coverage factor, kP, and all the components used to reckon the uncertainty be listed out, along with their evaluating method, i.e., type A or B evaluation [3]. Typically, but not always, s2n,,Esam, s2n,,Eref, and s2n,,l are type A, or statistical observations, whereas the rest of the components are type B.
+The calculation of uncertainty presented in this section follows a recommendation of GUM in that the uncertainty is directly derivable from the contributing sources of error, and it is directly transferable to other measurands, to which the optical constants are relevant. For example, transferring from the uncertainty in the extinction coefficient to that in the absorption coefficient is via u¯ = 2 / cu¯.
+The uncertainty model enables further investigation for dominant sources of error in the system and also enables optimization of the measurement. A parametric sensitivity analysis can also be performed with these equations. It should, however, be remembered that the uncertainty model is based on a linear approximation.
+
+1068 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+This low-order approximation is valid in the case where the sources of error have their variation limited to a small vicinity. For a general case, the approximation is justified by Monte Carlo simulation (MCS), and the results will be published elsewhere.
+5. PRACTICAL IMPLEMENTATION
+The analytical models for the propagation of variance, developed and validated in the earlier sections, are implemented with a set of T-ray measurements to demonstrate the functionality. The measurements are carried out with a lactose sample by a free-space transmission T-ray spectrometer.
+The THz-TDS system in use employs photoconductive antennas (PCA) at the transmitter and receiver. The pump laser is a mode-locked Ti:sapphire laser with a pulse duration of 15 fs and a repetition rate of 80 MHz. This generates the T-ray pulse with a FWHM of 0.4 ps and its bandwidth spans from 0.1 to 3 THz. The time constant for the lock-in amplifier is set to 30 ms. The surrounding atmosphere is purged with nitrogen to eliminate the effects of water vapor.
+The lactose sample is prepared by mixing 25 mg of -lactose monohydrate with high-density polyethylene (HDPE) powder and pressing the mixture using a hydraulic press into a solid disk with a diameter of 13 mm and a thickness of 1.85 mm. The sample is placed at the focal plane between two off-axis parabolic mirrors. These mirrors have a focal length of 100 mm and the collimated beam incident on the first mirror has a diameter of 35 mm. According to the theory of Gaussian beam optics [26] the depth of focus, i.e., twice the Rayleigh length, is 2 mm for the 3 THz wavelength. Thus, the sample thickness of 1.85 mm is thinner than the depth of focus of the highest-frequency component. In addition, the largest
+
+Withayachumnankul et al.
+waist diameter of the beam is 11 mm for the 0.1 THz component, smaller than sample's diameter, and thus does not lead to edge diffraction.
+The reference and sample signals are measured alternately to assure that the drift in the signal amplitude does not influence the result. The reference and sample signals are both measured ten times. The time between two consecutive measurements is 6 min on average. Figure 6 shows the mean values of the reference and sample signals along with their standard deviations. No reflections are observed in the sample signal.
+Measured by a micrometer with a resolution  = 1 m the lactose pellet has an average thickness of 1.85 mm in the propagation direction and the standard deviation of the thickness from ten measurements is sl = 5 m. Let us suppose as a worst-case that the tilting angle of the lactose sample during the measurements has a rectangular distribution around the origin, bounded by f = ± 2°. Throughout the measurement the ambient temperature is approximately 25°C and the humidity is 60%--this corresponds to the saturated vapor pressure of 23.76 mmHg and the partial pressure of 14.26 mmHg. According to Eq. (27), the refractive index of air is 1.0001.
+Shown in Fig. 7 are the optical constants of the lactose­ HDPE pellet, n and ; their standard deviations, sn and s; their deviations, fn and f; and the combined uncertainties, un and u, plotted on a logarithmic scale. The optical constants are determined from a pair of the averaged reference and sample signals, using the measurement functions in Eqs. (6a) and (6b). The standard deviations, the deviations, and the uncertainties are evaluated by using the proposed analytical models. For comparison, the standard deviations of n and  due to the amplitude variation, or sn,E and s,E, are also evaluated numerically from the ten profiles of their respective values; available from ten pairs of the reference and sample signals. The
+
+amplitude (a.u.)
+
+1 0.5
+0 -0.5 0.01
+
+magnitude (a.u.)
+
+103 102 101
+1
+
+0
+
+1
+
+2
+
+3
+
+4
+
+frequency (THz)
+
+reference sample
+
+std dev.
+
+0
+
+5
+
+10
+
+15
+
+20
+
+25
+
+30
+
+time (ps)
+
+Fig. 6. (Color online) Average signals and standard deviations for reference and lactose. The reference and lactose signals are each averaged over 10 measurements. The signals have a temporal resolution of 0.0167 ps, and a total duration of 34.16 ps. The inset shows the spectra of the reference and sample.
+
+Withayachumnankul et al.
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1069
+
+n  1.46
+100
+
+combined uncertainty, u
+
+n and standard deviation of n  and standard deviation of 
+
+10-2
+sn,l
+sn,E
+10-4
+
+sn,E (numerical)
+fn, fn0 sn,
+
+10-6
+0.5
+
+fn,H
+combined uncertainty, un 1 1.5 2 2.5 3
+
+s,E (numerical) 
+s,E
+f,H
+
+s,l
+
+f,
+
+s,
+
+f,n0 0.5 1 1.5 2 2.5 3
+
+frequency (THz)
+
+frequency (THz)
+
+(a) standard deviation of n or sn
+
+(b) standard deviation of  or s
+
+Fig. 7. (Color online) Uncertainty for the lactose measurement. The combined uncertainties in the optical constants are plotted in comparison to the mean values of the optical constants and the standard deviations introduced by various sources of error. The combined
+
+uncertainty is calculated with the coverage factor kP = 1. Both subfigures share the same vertical scale. In (a) the refractive index of the lactose­HDPE pellet is approximately 1.46, compared to its combined uncertainty of 10-3. The major sources contributing to the combined uncertainty are signal noise and thickness uncertainty. In (b) the extinction coefficient is of the order of 10-3, compared to its combined uncertainty of the order of 10-4. The major source contributing to the combined uncertainty is signal noise. The arrowheads
+indicate the low-frequency resonances of  lactose at 0.53 and 1.37 THz.
+
+analytical and numerical evaluations appear to provide
+comparable values of s,E or sn,E. The slight mismatch is likely caused by the first-order approximation in the
+analytical model. The refractive index appears constant at n  1.46, but
+actually varies slightly with the frequency. The extinction
+coefficient, on the other hand, is strongly dependent on
+the frequency, and varies in between 0.001 and 0.01; two
+absorption resonances at 0.53 and 1.37 THz reproduce
+those reported in [27]. The variation in the T-ray ampli-
+tude gives rise to sn,E and s,E equally. Because the extinction coefficient is lower than the index of refraction by 2
+orders of magnitude or more, the extinction coefficient is
+thus significantly affected by s,E. Interestingly, the standard deviation in n caused by the thickness variance, or
+sn,l, is higher than the standard deviation caused by the amplitude variance sn,E. The deviations from the limited thickness resolution, sn, and s,; from the tilting angle, fn, and fk,; and from the offset in refractive index, fn0 and f,n0, are less than the optical constants' levels by 4 orders of magnitude, and are deemed insignificant. The transfer
+function approximation causes a significant impact in the
+case of the extinction coefficient, since at low frequencies
+the value of f,H is close to the value of s,E. Note that no deviation from the reflections is evaluated here, as the
+reflections are not present in the signal.
+The uncertainties un and u are evaluated with the coverage factor kP of 1. It can be seen that the uncertainties are dominated by the effects from the amplitude varia-
+tion, sn,E or s,E. The values of un and u become larger at higher frequencies, where the magnitude of the sample
+and reference spectra is low. The tendency of the uncer-
+
+tainties with respect to the spectral position is similar to that of the results reported in [28], in which a similar THz-TDS system is used in characterization of some dielectric materials.
+6. CONCLUSION AND POTENTIAL EXTENSIONS
+Previously, the analysis of the sources of error in a THzTDS measurement emphasized the noise in a signal caused by electronic, optical, and mechanical components. Yet, other sources of random and systematic errors, introduced during the signal measurement and throughout the parameter extraction process, were overlooked. It is thus of great importance to have an analysis that can quantify and relate the error from many sources to the final parameters, i.e., the optical constants.
+This work presents the evaluation of uncertainty in a THz-TDS measurement, with a particular focus on a transmission mode measurement. Several sources, which contribute to the measurement error, are identified. The relation between the variance or deviation from each of these sources and that in the optical constants is derived. All the contributing variances and deviations, affecting the optical constants, are combined to give the total uncertainty in the measurement. The derived analytical models are successfully validated with the Monte Carlo method or other numerical means. A test of the models with experimental T-ray data obtained from lactose measurements also provides validation, which enables a further comparative study of error from each part of a
+
+1070 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+
+THz-TDS system. The evaluation of uncertainty in this work, where applicable, follows the guidelines proposed in GUM [3].
+These promising results suggest that the proposed uncertainty model offers a standard for evaluation of uncertainty in transmission THz-TDS measurements. Therefore, measurements from different laboratories can be compared on the same basis. The number of repeated measurements depends on the nature of the error, i.e., if the error does not drift over a given time span, the number of measurements should be maximized; otherwise, if drift is observed a different methodology is required. A benefit of the proposed model is that it enables analytical optimization and sensitivity analysis for some measurement parameters, which often results in reduction of the measurement uncertainty. As an example, the optimization of a sample's thickness is determined based on this analysis and will be published elsewhere [20].
+It should be noted that our assumption of a perfect sample results in the absence of some sources of systematic and random errors, which could contribute to the uncertainty in the optical constants. These sources are, e.g., the parallelism of the sample surfaces and the inhomogeneity and scattering by the sample [29]. Apart from those sample-related imperfections, a number of optical effects are omitted from the widely used transfer function model, or Eq. (3). These effects, particularly arising from a beamfocusing configuration, include frequency-dependent beam shape (beam waist at the focal point, Rayleigh length, beam divergence) [30] and beam defocusing by the sample. Treatment of these effects is appropriate for future work.
+The proposed model is applicable to any THz-TDS system, which produces sample's response in compliance with Eq. (3). An alteration to the model to deal with the reflection mode THz-TDS or other tailored THz-TDS systems is foreseeable. Further accuracy in the evaluation of uncertainty, at an additional computational expense, can be obtained by considering a higher-order analysis [31] or a numerical approach, such as a Monte Carlo method [32], which is accepted as a supplementary to GUM.
+
+APPENDIX A: PROPAGATION OF VARIANCE FROM THE AMPLITUDE
+
+In this Appendix we show a derivation of the variance in the optical constants that propagates from the variance in the T-ray amplitude. From the amplitude in the time domain, the variance is transferred to the variance of the magnitude and phase spectra in the frequency domain via Fourier transform. Then the combination between the variances of sample and reference measurements produces the variance in the transfer function of a sample. The variance eventually appears at the optical constants. For general details about the propagation of variance and covariance, please consult, e.g., [3].
+The discrete Fourier transform of a time-resolved signal, Ek, is [33]
+
+ E = Ekexp- jk,
+
+A1
+
+k
+
+where k is the temporal index and  is the sampling interval. If E = Er + jEi, where Er and Ei are
+
+Withayachumnankul et al.
+
+real, then
+
+ Er = Ekcosk, k
+
+A2a
+
+ Ei = - Eksink. k
+
+A2b
+
+Assuming that the amplitude at each time sample is statistically independent from the amplitude at other time samples, the variances of the real and imaginary parts of the spectrum are, respectively [34],
+
+ sE2 r = cos2ksE2 k, k
+
+A3a
+
+ sE2 i = sin2ksE2 k, k
+
+A3b
+
+where sE2 k is the variance of the time-domain signal Ek. Since the real and imaginary parts of the spectrum
+share the same set of inputs, their covariance is then
+[34,35]
+
+ sErEi = - sinkcosksE2 k k
+
+ 1
+
+=- 2
+
+k
+
+sin2ksE2 k.
+
+A4
+
+The magnitude and phase of the signal, determined from the real and imaginary parts of the complex spectrum, are
+
+ E = Er2 + Ei2,
+
+A5a
+
+E = arctanEi/Er.
+
+A5b
+
+Correspondingly, the variances of the magnitude and phase are
+
+1 s2E = E2 Er2sE2 r + Ei2sE2 i
+
++ 2ErEisErEi,
+
+A6a
+
+1 s2 E = E4 Ei2sE2 r + Er2sE2 i
+
+- 2ErEisErEi.
+
+A6b
+
+Substituting the variances and covariance of the real and imaginary parts from Eqs. (A3) and (A4) simplifies Eqs. (A6a) and (A6b) to, respectively,
+
+ 1
+s2E = E2 k Ercosk - Eisink2sE2 k, A7a
+
+ 1
+s2 E = E4 k Eicosk + Ersink2sE2 k. A7b
+Some mathematical manipulations reduce the above pair of equations to
+
+Withayachumnankul et al.
+ 1
+s2E = E2 k R2EexpjksE2 k, A8a
+
+1
+ s2 E = E4 k I2EexpjksE2 k, A8b
+where R2 and I2 denote the square of the real and imaginary parts, respectively. According to Eq. (A8a) the amplitude variances of the sample and reference spectra are given by, respectively,
+1
+ s2Esam = Esam2 k R2EsamexpjksE2 samk,
+A9a
+
+1
+ s2Eref = Eref2 k R2ErefexpjksE2 refk,
+A9b
+and according to Eq. (A8b) the phase variances of the sample and reference spectra are given by, respectively,
+ 1
+s2 Esam = Esam4 k I2EsamexpjksE2 samk, A10a
+
+ 1
+s2 Eref = Eref4 k I2ErefexpjksE2 refk. A10b
+
+The sample and reference fields are independent from each other, resulting in the absence of a covariance term. The transfer function of a sample is calculated by dividing the sample spectrum by the reference. In terms of the magnitude and phase, this operation is given by
+
+H = Esam/Eref,
+
+A11a
+
+H =  Esam -  Eref. A11b
+
+The variances of Eqs. (A11a) and (A11b) are, respectively,
+
+s2H
+
+=
+
+1 Eref2 s2Esam
+
++
+
+Esam2 Eref4
+
+s2Eref
+
+,
+
+A12a
+
+s2 H = s2 Esam + s2 Eref.
+
+A12b
+
+The magnitude and phase of the signals are presumably treated as independent input parameters and consequently there is no covariance between the magnitude and phase. Substituting Eqs. (A9) and (A10) into Eqs. (A12a) and (A12b) gives
+
+Vol. 25, No. 6 / June 2008 / J. Opt. Soc. Am. B 1071
+
+1
+ s2H = ErefEsam2 k R2EsamexpjksE2 samk
+
+ Esam2
++ Eref6
+
+k
+
+R2ErefexpjksE2 refk,
+
+A13a
+
+1
+ s2 H = Esam4 k I2EsamexpjksE2 samk
+1
+ + Eref4 k I2ErefexpjksE2 refk. A13b
+From the measurement function, the refractive index and the extinction coefficient are evaluated from the magnitude and phase of the transfer function via
+
+c n = n0 - l  H,
+
+A14a
+
+    c
+
+4nn0
+
+ = l
+
+ln n + n02
+
+- lnH
+
+.
+
+A14b
+
+Thus, the variances of the refractive index and the extinction coefficient due to the magnitude and phase variances are
+
+ c 2
+sn2 = l s2 H,
+
+A15a
+
+     s2 =
+
+c
+
+2
+
+lH s2H +
+
+c l
+
+n - n0 n + n0
+
+2 sn2 n2 .
+
+A15b
+
+Equations (A13a) and (A13b) are then combined with
+
+Eqs. (A15a) or (A15b) to produce
+
+    c 2
+
+1
+
+sn2 = l
+
+Esam4 k I2EsamexpjksE2 samk
+
+  1
++ Eref4 k I2ErefexpjksE2 refk ,
+
+A16a
+
+    c 2
+
+1
+
+s2 = l
+
+Esam4 k R2EsamexpjksE2 samk
+
+1
+
+ + Eref4 k R2ErefexpjksE2 refk
+
+n - n0 2 sn2,E
+
++
+   n + n0
+
+n2 .
+
+The models above explicitly express the variances of the optical constants in terms of the variance in the signals' amplitude.
+
+1072 J. Opt. Soc. Am. B / Vol. 25, No. 6 / June 2008
+ACKNOWLEDGMENTS
+Useful discussions with Peter Siegel of Caltech/Jet Propulsion Laboratory (JPL) Pasadena and Samuel Mickan of the University of Adelaide is gratefully acknowledged. Assistance from Andreas Thoman of the University of Freiburg with the experimental data is also appreciated.
+REFERENCES
+1. W. Withayachumnankul, G. M. Png, X. X. Yin, S. Atakaramians, I. Jones, H. Lin, B. S. Y. Ung, J. Balakrishnan, B. W.-H. Ng, B. Ferguson, S. P. Mickan, B. M. Fischer, and D. Abbott, "T-ray sensing and imaging," Proc. IEEE 95, 1528­1558 (2007).
+2. L. Duvillaret, F. Garet, and J.-L. Coutaz, "A reliable method for extraction of material parameters in terahertz time-domain spectroscopy," IEEE J. Sel. Top. Quantum Electron. 2, 739­746 (1996).
+3. ISO, Guide to the Expression of Uncertainty in Measurement (GUM), 1st ed. (International Organization for Standardization, 1993).
+4. ISO, International Vocabulary of Basic and General Terms in Metrology (VIM) (International Organization for Standardization, 2004).
+5. M. Grabe, Measurement Uncertainties in Science and Technology (Springer, 2005).
+6. P. Smith, D. H. Auston, and M. C. Nuss, "Subpicosecond photoconducting dipole antennas," IEEE J. Quantum Electron. 24, 255­260 (1988).
+7. L. Xu, X.-C. Zhang, and D. H. Auston, "Terahertz beam generation by femtosecond optical pulses in electro-optic materials," Appl. Phys. Lett. 61, 1784­1786 (1992).
+8. Q. Wu and X.-C. Zhang, "Free-space electro-optic sampling of terahertz beams," Appl. Phys. Lett. 67, 3523­3525 (1995).
+9. J. Son, J. V. Rudd, and J. F. Whitaker, "Noise characterization of a self-mode-locked Ti:sapphire laser," Opt. Lett. 17, 733­735 (1992).
+10. H. A. Haus and A. Mecozzi, "Noise of mode-locked lasers," IEEE J. Quantum Electron. 29, 983­996 (1993).
+11. A. Poppe, L. Xu, F. Krausz, and C. Spielmann, "Noise characterization of sub-10-fs Ti:sapphire oscillators," IEEE J. Sel. Top. Quantum Electron. 4, 179­184 (1998).
+12. M. van Exter and D. R. Grischkowsky, "Characterization of an optoelectronic terahertz beam system," IEEE Trans. Microwave Theory Tech. 38, 1684­1691 (1990).
+13. L. Duvillaret, F. Garet, and J.-L. Coutaz, "Influence of noise on the characterization of materials by terahertz timedomain spectroscopy," J. Opt. Soc. Am. B 17, 452­460 (2000).
+14. J. Letosa, M. García-Gracia, J. M. Forniés-Marquina, and J. M. Artacho, "Performance limits in TDR technique by Monte Carlo simulation," IEEE Trans. Magn. 32, 958­961 (1996).
+15. N. Cohen, J. W. Handley, R. D. Boyle, S. L. Braunstein, and E. Berry, "Experimental signature of registration noise in pulsed terahertz systems," Fluct. Noise Lett. 6, L77­L84 (2006).
+16. B. M. Fischer, M. Hoffmann, and P. U. Jepsen, "Dynamic range and numerical error propagation in terahertz timedomain spectroscopy, in Optical Terahertz Science and Technology, Technical Digest (CD) (Optical Society of America, 2005), paper TuD1.
+
+Withayachumnankul et al.
+17. S. P. Mickan, R. Shvartsman, J. Munch, X. C. Zhang, and D. Abbott, "Low noise laser-based T-ray spectroscopy of liquids using double-modulated differential time-domain spectroscopy," J. Opt. B: Quantum Semiclassical Opt. 6, S786­S795 (2004).
+18. I. Pupeza, R. Wilk, and M. Koch, "Highly accurate optical material parameter determination with THz time domain spectroscopy," Opt. Express 15, 4335­4350 (2007).
+19. M. Grabe, "Estimation of measurement uncertainties--an alternative to the ISO guide," Metrologia 38, 97­106 (2001).
+20. W. Withayachumnankul, B. M. Fischer, and D. Abbott, "Material thickness optimization for terahertz time-domain spectroscopy," Opt. Express 16, 7382­7396 (2008).
+21. I. H. Lira and W. Wöger, "The evaluation of standard uncertainty in the presence of limited resolution of indicating devices," Meas. Sci. Technol. 8, 441­443 (1997).
+22. L. Duvillaret, F. Garet, and J.-L. Coutaz, "Highly precise determination of optical constants and sample thickness in terahertz time-domain spectroscopy," Appl. Opt. 38, 409­415 (1999).
+23. T. Dorney, R. Baraniuk, and D. Mittleman, "Material parameter estimation with terahertz time-domain spectroscopy," J. Opt. Soc. Am. A 18, 1562­1571 (2001).
+24. W. Withayachumnankul, B. Ferguson, T. Rainsford, S. P. Mickan, and D. Abbott, "Direct Fabry­Pérot effect removal," Fluct. Noise Lett. 6, L227­L239 (2006).
+25. J. E. Chamberlain, F. D. Findlay, and H. A. Gebbie, "Refractive index of air at 0.337-mm wave-length," Nature 206, 886­887 (1965).
+26. B. E. A. Saleh and M. C. Teich, "Beam optics," in Fundamentals of Photonics, Wiley Series in Pure and Applied Optics (Wiley, 1991), pp. 80­107.
+27. B. M. Fischer, M. Hoffmann, H. Helm, G. Modjesch, and P. U. Jepsen, "Chemical recognition in terahertz time-domain spectroscopy and imaging," Semicond. Sci. Technol. 20, S246­S253 (2005).
+28. P. Bolivar, M. Brucherseifer, J. Rivas, R. Gonzalo, I. Ederra, A. Reynolds, M. Holker, and P. de Maagt, "Measurement of the dielectric constant and loss tangent of high dielectric-constant materials at terahertz frequencies," IEEE Trans. Microwave Theory Tech. 51, 1062­1066 (2003).
+29. M. Franz, B. M. Fischer, and M. Walther, "The Christiansen effect in terahertz time-domain spectra of coarse-grained powders," Appl. Phys. Lett. 92, 021107 (2008).
+30. A. Gürtler, C. Winnewisser, H. Helm, and P. U. Jepsen, "Terahertz pulse propagation in the near field and the far field," J. Opt. Soc. Am. A 17, 74­83 (2000).
+31. I. Lira, Evaluating the Measurement Uncertainty: Fundamentals and Practical Guidance, Series in Measurement and Technology (Institute of Physics, 2002).
+32. Joint Committee for Guides in Metrology, Evaluation of Measurement Data--Supplement 1 to the Guide to the Expression of Uncertainty in Measurement--Propagation of Distributions Using a Monte Carlo Method (Joint Committee for Guides in Metrology, 2006).
+33. W. H. Press, S. A. Teukolsky, W. T. Vetterling, and B. P. Flannery, Numerical Recipes in C: The Art of Scientific Computing (Cambridge U. Press, 1992).
+34. J. M. Forniés-Marquina, J. Letosa, M. García-Gracia, and J. M. Artacho, "Error propagation for the transformation of time domain into frequency domain," IEEE Trans. Magn. 33, 1456­1459 (1997).
+35. W. Bich, "Simple formula for the propagation of variances and covariances," Metrologia 33, 181­183 (1996).
+
+

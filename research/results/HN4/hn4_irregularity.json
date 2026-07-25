@@ -1,0 +1,75 @@
+{
+  "geometry": {
+    "P_um": 15.5,
+    "D_over_P": 0.71,
+    "nu_THz": 0.5
+  },
+  "finite_array_negative_result": {
+    "par_finite_N41": 0.9999879401211746,
+    "par_lattice": 0.04553123938239667,
+    "comment": "finite N=41 gives |t_par|~1 (no extinction) vs lattice 0.045; collective TM reflection needs ~inf wires -> use damped lattice sums"
+  },
+  "model": "disorder-damped lattice sums W=exp(-2 k^2 sigma^2) (Manabe coherent mechanism)",
+  "damped_scan": [
+    {
+      "sigma_frac": 0.0,
+      "sigma_um": 0.0,
+      "tpar": 0.0455312404951374,
+      "tperp": 0.9994844611544355,
+      "eta": 0.04555472572584811,
+      "tperp_change_pct": 0.0
+    },
+    {
+      "sigma_frac": 0.02,
+      "sigma_um": 0.31,
+      "tpar": 0.045528151811848154,
+      "tperp": 0.999484481276235,
+      "eta": 0.04555163453234768,
+      "tperp_change_pct": 2.01321784799546e-06
+    },
+    {
+      "sigma_frac": 0.05,
+      "sigma_um": 0.7750000000000001,
+      "tpar": 0.04551207097283506,
+      "tperp": 0.9994845869085751,
+      "eta": 0.045535540586578487,
+      "tperp_change_pct": 1.2581900424129377e-05
+    },
+    {
+      "sigma_frac": 0.1,
+      "sigma_um": 1.5500000000000003,
+      "tpar": 0.04545649131215588,
+      "tperp": 0.9994849640694813,
+      "eta": 0.04547991510255063,
+      "tperp_change_pct": 5.031744518062229e-05
+    },
+    {
+      "sigma_frac": 0.15,
+      "sigma_um": 2.325,
+      "tpar": 0.04537031814779231,
+      "tperp": 0.9994855923327545,
+      "eta": 0.04539366899916989,
+      "tperp_change_pct": 0.00011317617861784708
+    },
+    {
+      "sigma_frac": 0.2,
+      "sigma_um": 3.1000000000000005,
+      "tpar": 0.045263340423558,
+      "tperp": 0.9994864711915226,
+      "eta": 0.04528659639544495,
+      "tperp_change_pct": 0.0002011073873811146
+    },
+    {
+      "sigma_frac": 0.3,
+      "sigma_um": 4.65,
+      "tpar": 0.04504673651060499,
+      "tperp": 0.9994889776601166,
+      "eta": 0.04506976816899271,
+      "tperp_change_pct": 0.0004518835316260296
+    }
+  ],
+  "sigma_for_observed_eta": {
+    "dense_0.012": 0.0,
+    "sparse_0.030": 0.0
+  }
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "dataset": "356att",
+    "gamma_free": false,
+    "aic": -21495.433769374096,
+    "bic": -21447.40954004302,
+    "gamma": 2.0,
+    "loss_factor": 0.3595973410858014,
+    "spectral_slope_dB_per_THz": -0.620015729800689,
+    "durbin_watson": 0.32148481010802477,
+    "rmse_amp_db": 1.156393682671623
+  },
+  {
+    "dataset": "356att",
+    "gamma_free": true,
+    "aic": -22228.12375524567,
+    "bic": -22174.096497248207,
+    "gamma": 0.9098661208186727,
+    "loss_factor": 0.4533958255817816,
+    "spectral_slope_dB_per_THz": -1.548268308968079,
+    "durbin_watson": 0.22371714605846005,
+    "rmse_amp_db": 1.500663917983986,
+    "dAIC_vs_M5": -732.6899858715733
+  },
+  {
+    "dataset": "test_grid_40_20",
+    "gamma_free": false,
+    "aic": -23930.931285555092,
+    "bic": -23882.294341319976,
+    "gamma": 2.0,
+    "loss_factor": 0.16249630905544266,
+    "spectral_slope_dB_per_THz": 0.23184957669804668,
+    "durbin_watson": 1.7579284799843948,
+    "rmse_amp_db": 0.8073425742063628
+  },
+  {
+    "dataset": "test_grid_40_20",
+    "gamma_free": true,
+    "aic": -23929.053859744727,
+    "bic": -23874.33729748022,
+    "gamma": 2.0784167503673303,
+    "loss_factor": 0.1595281966449763,
+    "spectral_slope_dB_per_THz": 0.23479051327489742,
+    "durbin_watson": 1.756705965525454,
+    "rmse_amp_db": 0.8076190463873538,
+    "dAIC_vs_M5": 1.8774258103658212
+  }
+]

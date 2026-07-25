@@ -1,0 +1,728 @@
+2006 J. Opt. Soc. Am. B/Vol. 7, No. 10/October 1990
+
+Grischkowsketyal.
+
+Far-infrared time-domain spectroscopywith terahertz beams of dielectrics and semiconductors
+
+D. Grischkowsky, S0ren Keiding, Martin van Exter,* and Ch. Fattinger t IBM Watson Research Center, RO. Box 218, Yorktown Heights, New York 10598
+
+Received March 13, 1990; accepted May 8, 1990
+Using the method of time-domain spectroscopy, we measure the far-infrared absorption and dispersion from 0.2 to 2 THz of the crystalline dielectrics sapphire and quartz, fused silica, and the semiconductors silicon, gallium arsenide, and germanium. For sapphire and quartz, the measured absorptions are consistent with the earlier work below 0.5 THz. Above 1 THz we measure significantly more absorption for sapphire, while for quartz our values are in reasonable agreement with those of the previous work. Our results on high-purity fused silica are consistent with those on the most transparent fused silica measured to date. For the semiconductors, we show that many of the previous measurements on silicon were dominated by the effects of carriers due to impurities. For high-resistivity, 10-ku cm silicon, we measure a remarkable transparency together with an exceptionally nondispersive index of refraction. For GaAs our measurements extend the precision of the previous work, and we resolve two weak absorption features at 0.4 and 0.7 THz. Our measurements on germanium demonstrate the dominant role of intrinsic carriers; the measured absorption and dispersion are well fitted by the simple Drude theory.
+
+INTRODUCTION
+The powerful technique of time-domain spectroscopy (TDS) has recently been applied to several systems using a variety of sources.''-7 In this technique two electromagnetic pulse shapes are measured: the input pulse and the propagated pulse, which has changed shape owing to its passage through the sample under study. Consequently, through Fourier analyses of the input and propagated pulses, the frequency-dependent absorption and dispersion of the sample can be obtained. The useful frequency range of the method is determined by the initial pulse duration and by the time resolution of the detection process. Therefore, with each reduction in the width of the generated electromagnetic pulse, and/or in the time resolution of detection, there is a corresponding increase in the available frequency range.
+A series of TDS experiments has been reported by Auston and co-workers."2' 4 As their source of ultrashort far-infrared pulses, they generated an electromagnetic shock wave by driving the optical rectification effect in a nonlinear dielectric material with an ultrashort laser pulse.'8"9 By measuring the change in time dependence of the shock wave as a function of propagation distance, they obtained far-infrared spectroscopic measurements of the nonlinear dielectric."2 In addition, measurements of the change in time dependence occurring after a reflection at the surface of the dielectric permitted the measurements of other materials brought into contact with the dielectric surface.'
+In recent papers the generation of subpicosecond electrical pulses on coplanar transmission lines was described.2 0,2 ' Besides their many technical applications, these pulses can be used for time-domain spectroscopy as well.' 9 This development is due to two important features: (1) the useful bandwidth of the pulses extends up to 1 THz and (2) the pulses propagate as a single mode of excitation on the transmission line. The latter feature is
+0740-3224/90/102006-10$02.00
+
+due to the micrometer-sized dimensions of the coplanar line and to the "sliding contact" method of excitation, which matches the TEM mode of the transmission line. Thus, as the ultrashort electrical pulse propagates down the transmission line, its pulse shape will change owing to the frequency-dependent electrical and magnetic properties of the transmission line, e.g., the metal of the line, the dielectric substrate, and radiation processes. Consequently, by means of Fourier analyses of the input and propagated pulses, the absorption and dispersion versus frequency of the line can be obtained.3 This method was used to study superconducting transmission lines, where the band gap of niobium was clearly observed.5 In another study ofpulse propagation on an aluminum coplanar transmission line, the radiative loss due to the emission of an electromagnetic shock wave was observed.7 For more general TDS applications it is possible to bring other materials into contact with the transmission line and thereby intersect the field lines of the propagating pulse. Consequent Fourier analyses of the propagated pulse will thus characterize these materials. An example of this approach is given in Ref. 6: When a powder of erbium iron garnet was applied to a transmission line, strong farinfrared magnetic resonances were observed at low temperatures. Because the electrical pulses propagate as a guided wave along the transmission line, the electric and magnetic fields are strongly localized at the surface. This feature makes TDS with transmission lines especially appropriate for the study of surface excitations and of thin-film substrates and superstrates, because it is possible to obtain long path lengths with small quantities and thicknesses of material.
+Recently several new sources of freely propagating electromagnetic pulses have been demonstrated101222-27th; e
+spectral content of these sources extends from low frequencies up to the terahertz frequency range. One of these sources is based on an optical approach in which a transient Hertzian dipole is tightly coupled to a dielectric
+© 1990 Optical Society ofAmerica
+
+Grischkowsketyal.
+collimating lens; in the initial demonstration, beams of single-cycle 0.5-THz pulses were produced. 2 With the addition of paraboloidal focusing and collimating mirrors, the resulting system has high brightness and extremely high collection efficiency. TDS measurements of water vapor' have been made with this system.
+The combination of the TDS technique and terahertz beams has some powerful advantages compared with traditional cw spectroscopy. First, the detection of the farinfrared radiation is extremely sensitive. Although the energy per terahertz pulse is very low (0.1 fJ), the 100MHz repetition rate and the coherent detection allow us to determine the electric field of the propagated pulse with a signal-to-noise ratio of approximately 10,000for an integration time of 125 msec.28 In terms of average power this sensitivity exceeds that of liquid-helium-cooled bolometers29 by more than 1000 times. Second, because of the gated and coherent detection, the thermal background, whicl. plagues traditional measurements in this frequency range,29 is observationally absent. In a comparison of time-domain spectroscopy with Fourier-transform spectroscopy (FTS)3, 0 it should be clear that the frequency resolutions of these techniques are similar, as they are both based on a scanning delay line. Although FTS is now superior above 2 THz, the limited power of the radiation sources and the problems with the thermal background favor TDS below 2 THz.
+In this paper we describe some applications of the new high-brightness system2528 to the far-infrared timedomain spectroscopy of dielectrics and semiconductors. Our measurements fill an important gap in the available data. Previous measurements with FTS extend down in frequency to -0.6 THz (20 cm-'), where the data are relatively imprecise. Our results, on the other hand, extend from 0.2 THz (6.7 cm-') to 2 THz (67 cm-'), thereby covering this previously neglected frequency range. Our results for crystalline sapphire, for crystalline quartz, and for fused silica qualitatively agree in the region of overlap with previous work, but our precision is higher. With respect to the earlier work in semiconductors, we find qualitative agreement for GaAs and germanium and some strong disagreement for silicon. In the terahertz frequency range the absorption is extremely sensitive to carrier density. From our measurements on highly resistive, float-zone silicon, we conclude that many of the previous measurements in the terahertz frequency range were dominated by impurities. Our measurements for silicon give absorptions of approximately 1/10 that of some of the earlier measurements. As a consequence, we find that intrinsic silicon is an exceptional terahertz optical material, more transparent at terahertz frequencies than crystalline quartz.
+HIGH-BRIGHTNESS TERAHERTZ BEAM SOURCE
+The terahertz radiation source25' 28 is illustrated in Fig. 1(a). The emitting dipolar antenna was located in the middle of a 20-mm-long transmission line consisting of two parallel 5-,um-widealuminum lines separated by 20 ,m. The pattern was fabricated on an intrinsic, highresistivity (greater than 10 M[I cm) gallium arsenide
+
+Vol. 7, No. 10/October 1990/J. Opt. Soc. Am. B 2007
+
+ULTRAFASTDIPOLEANTENNA
+
+/LASER
+
+(a)
+
+EXCITATION
+
+BEAM
+
+THz RADIATIONSOURCE
+
+TRANSMITTER
+
+TERk)HERTZ
+_
+
+RECEIVER
+... iI I
+
+11|11FII1PARABO-_ LIjOIDAL
+
+Ia
+
+i lIl TMI lIRROR
+
+BEAM
+
+SILICONLENS _(b)
+_SOURCECHIP
+
+i
+
+I
+
+DETECTINGCHIP -
+
+LASEREXCITATION BEAM
+
+LASERDETECTION BEAM
+
+Fig. 1. (a) Ultrafast dipolar antenna. (b) Terahertz optics.
+
+wafer. Compared with our previous results using ionimplanted, silicon-on-sapphire wafers, unimplanted GaAs produces a slightly faster transient with a broader spectrum and a signal amplitude that is approximately five times larger. The antenna was driven by photoconductiveshorting the 5-Amantenna gap with 70-fsec pulses coming at a 100-MHz rate in a 6-mWbeam from a colliding-pulse, mode-locked dye laser. The terahertz radiation detector2528 uses the same ultrafast antenna and terminating transmission line geometry as the transmitter, except that 10-pAm-widleines separated by 30 Am were used and the detector was fabricated on an ion-implanted, siliconon-sapphire wafer. During operation the antenna is driven by the incoming terahertz radiation pulse polarized parallel to the antenna. The induced time-dependent voltage across the antenna gap is measured by shorting the gap with the 70-fsec optical pulses in the detection beam and by monitoring the collected charge (current) versus the time delay between the excitation and detection laser pulses.
+The terahertz optics25 28 illustrated in Fig. 1(b) consist of two matched crystalline silicon spherical lenses contacted to the back side of the GaAs emitting and siliconon-sapphire detecting chips located near the foci of two identical paraboloidal mirrors. The combination of the silicon lens and the paraboloidal mirror collimated the emitted radiation to beam diameters that were proportional to the wavelength and that had a frequencyindependent divergence of 25 mrad. The second identical combination on the receiving end focused the terahertz beam on the detector. The total path length from transmitter to receiver was 88 cm, of which 86 cm was located in an airtight enclosure. During our measurements the enclosure was filled with dry nitrogen to eliminate the effects of water vapor on the terahertz beams.2" 3
+The measured transmitted terahertz pulse is displayed in Fig. 2(a), where the minimum-to-maximum separation is seen to be only 0.6 psec. The corresponding amplitude spectrum displayed in Fig. 2(b) extends to beyond 2 THz. Depending on the attenuation due to the sample, we consider the maximum useful frequency range of our measurement system to be 0.2-2 THz.
+
+2008 J. Opt. Soc. Am. B/Vol. 7, No. 10/October 1990
+
+1.0
+
+_
+
+C 0.5
+u0
+L.
+0 _0
+a)
+50
+4- -0.5
+
+-1.0
+
+0
+
+10
+
+20
+
+30
+
+Time Delay [psec]
+
+-
+1.0
+
+CU,),
+*9 0.8
+
+a 0.6
+
+0.4
+-,
+E 0.2
+
+O
+
+0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+Frequency THz]
+
+Fig. 2. (a) Measured electrical pulse of the freely propagating terahertz beam in pure nitrogen. (b) Amplitude spectrum of (a).
+
+Initially some of the measurements presented in the following sections were motivated by our desire to find the best material for the terahertz lenses in contact with the emitting and detecting chips. The available published data are inadequate for this search, and we were forced to perform our own evaluations. With respect to this application, although crystalline quartz is exceptionally transparent for frequencies below 0.5 THz, the absorption becomes significant above 1 THz. In addition, the index mismatch between quartz and the gallium arsenide and sapphire substrates of the emitting and detecting chips leads to a significant reflection at the interface. Also, the emitted radiation cone opens on entering the quartz, so that spherical aberration of the lens becomes a problem. Quartz is birefringent but has only about 1/7 of the birefringence of sapphire. As was previously noted, the strong birefringence of sapphire poses severe technical problems.10 22 526 In addition, the absorption of sapphire at terahertz frequencies is significantly higher than the absorptions of quartz, magnesium oxide, 2"7 and highresistivity silicon2.6 Both magnesium oxide and silicon are optically isotropic, and their indices at terahertz frequencies are relatively close to those of gallium arsenide and sapphire, thereby resulting in a small reflection at the chip substrate-lens interface. The absorption of magnesium oxide is significantly higher than that of crystalline quartz at frequencies up to 2 THz.'7 High-resistivity silicon is surprisingly transparent up to and beyond 2 THz; for frequencies higher than 1 THz, silicon is more trans-
+
+Grischkowsky et al.
+parent than crystalline quartz. This fact, together with its remarkably low dispersion, makes silicon the preferred lens material.16 26 A disadvantage of silicon is that it is opaque at optical frequencies. Consequently, precise alignment with the terahertz antenna is more difficult.
+
+FAR-INFRARED DIELECTRICMATERIALS
+Crystalline Sapphire In this subsection we describe our measurements of the absorption and the dispersion of single-crystal sapphire for the ordinary and extraordinary rays. These measurements are described in some detail, as they illustrate our procedure for obtaining the far-infrared spectra of the other materials to follow. Our primary sample was a 57-
+mm-diameter disk, 9.589 mm thick, polished on both sides, and with the C axis in the plane of the disk. The sample was obtained from Union Carbide. A typical terahertz input pulse incident upon the sample is shown in Fig. 2(a), and the output pulse after propagation through the sample is shown in Fig. 3(a), for which the C axis of the crystal was perpendicular to the polarization. The output pulse of Fig. 3(a) is normalized with respect to the input pulse of Fig. 2(a). The reduction in amplitude is due to the reflective loss at both surfaces and to the absorption suffered during passage through the sapphire. The pulse at 73.4-psec delay is the ordinary pulse; the smaller pulse at 85.1-psecdelay is the extraordinary pulse. The ratio of the peak of the ordinary pulse to that of the
+
+0.6
+en 0.4 C
+D6 0.2
+0 L-
+LJ
+'D 0
+1-0.2 Li
+-0.4
+
+70
+
+80
+
+90
+
+Time Delay [psec]
+
+,, 0.6
+Ua
+C
+E.
+'DD 0.4
+a)
+._-
+a. 0.2 E
+
+0
+
+0
+
+1.0
+
+Frequency [THz]
+
+Fig. 3. (a) Measured electrical pulse of the freely propagating terahertz beam after passage through the 9.589-mm-thick sapphire sample. (b) Amplitude spectrum of (a).
+
+Grischkowsky et al.
+
+extraordinary pulse is approximately 25:1 and gives
+
+the polarization sensitivity of our system. In terms of
+
+the amplitude, the polarization ratio ofthe generated tera-
+
+hertz beam is approximately 5:1. The polarization sen-
+
+sitivity of the detector is the same 5:1 ratio, yielding the
+
+measured 25:1 ratio as the total polarization discrimina-
+
+tion of the system. Using oriented birefringent sapphire
+
+lenses, we previously obtained system polarization ratios
+
+of 100:1, but at the expense of the high-frequency re-
+
+sponse owing to the absorption in sapphires The 11.8-
+
+psec separation between the two pulses is a measure of the
+
+birefringence of sapphire and, neglecting the dispersion-
+
+induced correction to group velocity, directly gives the
+
+difference in the index of refraction between the extra-
+
+ordinary and ordinary rays as ne - n = 0.37 compared
+
+with the literature value of 0.34.31,32 As will be seen
+
+below, when a full frequency analysis is performed, excel-
+
+lent agreement is obtained with the literature value. The
+
+73.4-psec time delay of the ordinary pulse, with respect to
+
+the 7.1-psec time delay of the pulse with no sample in
+
+place, gives the ordinary index of refraction no = 3.07, in agreement with the literature value3. '32 The amplitude
+
+spectrum of Fig. 3(a) is presented in Fig. 3(b). On nor-
+
+malization of this spectrum to account for the two reflec-
+
+tions at the sapphire surfaces, the ratio of the spectrum of
+
+Fig. 3(b) to the spectrum of Fig. 2(b) determines the am-
+
+plitude absorption coefficient versus frequency. Experi-
+
+mentally, for the ordinary ray we obtained better-quality
+
+data with a different sample for which the optic axis was
+
+perpendicular to the plane of the disk. This orientation
+
+eliminated the weak extraordinary pulse. The sample,
+
+which was obtained from Crystal Systems, had a diameter
+
+of 50 mm and a thickness of 6.365 mm. The absorption
+
+data shown in Fig. 4(a) for this sample were obtained by
+
+the procedure described above. In Fig. 4(a) we see a
+
+monotonic increase in absorption with increasing fre-
+
+quency. Owing to excessive attenuation caused by the
+
+sample's being too thick for the weak higher-frequency
+
+components, we consider our data to be accurate only up
+
+to 1.75THz.
+
+The
+
+results
+
+of
+
+some
+
+of
+
+the
+
+previous
+
+work3
+
+133
+-
+
+are indicated on the curve, and we can see a rough agree-
+
+ment (within a factor of 2) with our measurements. The earliest work3 132 clearly gives too little absorption at low
+
+frequencies, where our results are in better agreement
+
+with those of Ref. 33. Lower-frequency measurements
+
+extending up to 0.3 THz (Ref. 34) appear to be slightly
+
+higher than ours in the overlap region of the two measure-
+
+ments. Because the electric fields of the pulses are mea-
+
+sured, the relative phases of the Fourier components are
+
+also obtained. This phase information determines the
+
+relation between index of refraction and frequency as
+
+presented in Fig. 4(b). These measurements show a
+
+quadratic dependence on frequency and compare reasonably well with the earlier results3 13- 3 indicated in the fig-
+
+ure. In Figs. 4(c) and 4(d) we present the results for the
+
+extraordinary ray, obtained by rotating the crystal used
+
+for Fig. 3 by 90°. Our data are considered to be accurate
+
+up to 1.5 THz. Above that frequency, for the 9.589-mm
+
+sample thickness, the absorption of the weak higher-
+
+frequency components is so strong that the attenuated,
+
+transmitted spectral components become obscured by the
+
+detection system noise. In Fig. 4(c) the measured absorp-
+
+Vol. 7, No. 10/October 1990/J. Opt. Soc. Am. B 2009
+4
+E LJ 3
+0C
+L_ so
+<0un1
+03
+
+3.084 3.080 a, 3.076 3.072 3.068 3.064
+
+76 E
+L.C2J 4 -0Uso0n, <2
+L.
+0
+l 3.44
+
+3.43 x
+0)
+V-C0 3.42 3.41
+
+3.40
+
+0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Frequency [THz]
+
+Fig. 4. TDS measurements of crystalline sapphire. The circles are the data of Refs. 31 and 32; the asterisks are the data of Ref. 33. (a) Power absorption coefficient (ordinary ray), (b) index of refraction (ordinary ray), (c) power absorption coefficient (extraordinary ray), (d) index of refraction (extraordinary ray).
+
+2010 J. Opt. Soc. Am. B/Vol. 7, No. 10/October 1990
+tion is seen to be somewhat higher than that for the ordinary ray. The earliest work31 32 again seems to give absorption that is too low,especially below 1THz. Our data (below 1.5 THz) show little scatter and are again between the two previous sets of measurements. In Fig. 4(d), in agreement with the previous work, our index of refraction shows a quadratic dependence on frequency, but the values are slightly lower than the previous results. It should be noted that the dispersion for the extraordinary ray is approximately twice that of the ordinary ray.
+The most serious experimental problem limiting the accuracy of our measurements involves the relatively longterm changes in the laser pulses and the consequent changes in the input terahertz pulses and the measurement sensitivity. During an experiment, we measure the input pulse (with no sample in place) and then measure the pulse transmitted through the sample. This sequence is repeated several times to produce good statistics. The slow variations in the input pulse limit the precision of one set of absorption measurements to ±0.05 cm-' from low frequencies through the peak of the source spectrum to ±0.1 cm-' at the highest frequencies, where the spectral intensity is low. The corresponding index-of-refraction data are good to ±0.0004. These values can be improved by averaging several data sets. Because to first order the phase is independent of these variations, the index-ofrefraction data show less noise.
+Another experimental consideration that requires careful attention is the frequency distribution across the profile of the terahertz beam. As was previously mentioned, the beam consists of a series of overlapping disks with diameters proportional to the wavelength. This feature requires that the sample be centered in the beam and that an aperture of the same diameter as the sample block any terahertz radiation from going around the edges of the sample. The aperture is kept in place for measurement of the input pulse with no sample in the beam.
+Crystalline Quartz The TDS measurements were made on a 50-mm-diameter, 25.006-mm-long cylinder of single-crystal quartz, fabricated with the C axis perpendicular to the cylindrical axis. The sample was obtained from the Valpey Fisher Company. Below 0.5 THz crystalline quartz is exceptionally transparent, and absorption coefficients as low as 0.01cm-' have been measured. Our measured absorption versus frequency and index of refraction versus frequency for the ordinary ray are presented in Figs. 5(a) and 5(b), respectively. In Fig. 5(a) we indicate some of the previous measurement3s13 33 53 6 of absorption. It can be seen that our values are roughly between two of the previous measurements,3 3 35 which disagree significantly with each other. Our results are consistent with the precise singlefrequency (0.245-THz) measurement of Ref. 37, for which a = 0.011 cm-' was obtained. The measured dispersion shown in Fig. 5(b) agrees well with the previous work of Refs. 31 and 35 but displays an offset from the measurements of Ref. 33 together with a different dispersion. Our measurement is quite well fitted by a simple quadratic dependence. The corresponding results for the extraordinary ray are presented in Figs. 5(c) and 5(d) together with the earlier measurements.313 33 5 The measured absorp-
+
+0.8
+E 0.6
+L4j
+*C0 0.4 0o .-0
+LL.0.2
+00
+0-
+2.120
+
+2.116
+
+x
+
+vCD
+C
+
+2.112
+
+2.108
+
+2.104
+
+I 0.4
+E
+.C0_ - 0.2
+L-
+0o .0
+U)
+00
+
+Grischkowsky et al.
+
+2.164
+
+2.160
+'xUa)
+C 2.156
+
+2.152
+
+0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Frequency [THz]
+
+Fig. 5. TDS measurements of crystalline quartz. The circles
+are the data of Refs. 31 and 35; the asterisks are the data of Ref. 33. (a) Power absorption coefficient (ordinary ray), (b) index of refraction (ordinary ray), (c) power absorption coefficient (extraordinary ray), (d) index of refraction (extraordinary ray).
+
+Grischkowsketyal. 10
+
+.2 6
+o "4
+
+(a)
+
+*
+
+0
+
+0~~~~~~~~~
+
+1.960 , , , , , , ,
+
+Vol. 7, No. 10/October 1990/J. Opt. Soc. Am. B 2011
+has a relatively low index of refraction, is available in large homogeneous shapes, is optically isotropic, and is easily machined. Although our measurements shown in Fig. 6(a) are consistent with the low absorptions at low frequencies referred to above,at terahertz frequencies the absorption is much too high to permit practical applications. Our TDS measurements were made on a 50-mmdiameter, 6.449-mm-thick disk of pure fused silica. The material was obtained from Heraeus-Amersil, is designated Suprasil-W,and is specified to have an OH concentration of less than 5 parts in 106(ppm) and total metallic impurities of approximately 1 ppm. From the relative phase of the spectral components, we obtain the dispersion as given in Fig. 6(b).
+
+.952
+1.95660
+
+/
+
+b*
+
+// ~~* _0~~~~~~~~~~~~~~~~~~
+
+1.952
+
+_1.950
+
+I
+
+I
+
+0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Frequency [THz]
+
+Fig. 6. TDS measurements of fused silica. The circles are the data of Refs. 31 and 38; the asterisks are the data of Ref. 39. (a) Power absorption coefficient, (b) index of refraction.
+
+tion for the extraordinary ray is significantly less than that for the ordinary ray. The absorption feature at 0.25 THz appears to be a measurement artifact. At approximately 0.9 THz our absorption is between the two previous measurements. Above 1 THz our absorption monotonically increases to values higher than both of the previous sets of measurements. Our measured index of refraction shows much less scatter than that of the previous work, which is in reasonable agreement with our result. Except for the artifact of the low-frequency dip, our curve is very well fitted by a quadratic dependence. In a related work,5 in which a terahertz beam was directed through a crystalline quartz prism, the dispersion for the ordinary ray was measured to similar accuracy and agrees with these results.
+
+Fused Silica
+The far-infrared properties of fused silica have been measured by FTS methods with different results in the terahertz frequency range. For example, the two previous sets of measurements,' 3 '39 presented in Fig. 6, show strong disagreement at frequencies less than 1 THz. This disagreement may indicate impurity variations in the measured material. More recent work34 measured absorption coefficients of less than 0.1 cm-' at frequencies below 0.3 THz, and a single-frequency measurement3 7 at
+0.245 THz gave the value of 0.08 cm-'. If the absorption at higher frequencies were as low as that, fused silica would be an excellent terahertz optical material, as it
+
+SEMICONDUCTORS
+In this section we present TDS measurements for the crystalline semiconductors silicon, gallium arsenide, and germanium. The fact that these semiconductors are optically isotropic is a technical advantage for our measurements and eliminates concern about the polarization of the incident terahertz beam and about crystal orientation. There is a significant literature on the far-infrared properties of these materials.3 33 34 36-38 40-47 Below 2 THz there are noteworthy discrepancies among the published data, with variations in the measured absorption coefficients of up to 5 times. One reason for this confusing state of affairs is that below 2 THz the results are extremely sensitive to the presence of carriers.46 For relatively low dopings with resistivities greater than 1 fl cm, the absorption below 2 THz is proportional to carrier density and thereby inversely proportional to resistivity. Recent measurements' 6 showed that for 1 cm, N-type silicon the peak absorption is 100 cm-' and that for 10-4 cm, N-type silicon the absorption is 12 cm-'. Extrapolation of these values yields the following absorptions: for 100 fl cm, a = 1 cm-'; for 1 k cm, a = 0.1 cm-'; and for 10 k cm, a = 0.01 cm-'. Consequently, unless high-purity, high-resistivity material is used, what is measured is the properties not of the intrinsic semiconductor but of the carriers due to residual impurities.4 6 This problem is most prevalent in the earlier work on silicon with resistivities of 10 fl cm (Refs. 31 and 38) to 100 fl cm (Ref. 33). The later work measured samples with resistivities of 8 kfl cm (Ref. 34) and 1.5 k cm (Ref. 37). The silicon samples measured by us were of float-zone material with resistivities higher than 10 kl cm. For that material we measured unprecedented transparency together with a remarkably flat dispersion curve. Throughout the range from low frequencies to 2 THz our measured absorption coefficient for silicon was less than 0.05 cm-', and the index of refraction changed
+by less than 0.001.
+In contrast to silicon, GaAs has been typically doped with chromium to produce deep traps and thereby to compensate for relatively impure material in order to obtain high resistivity. This practice has been shown to lead to relatively large variations in the far-infrared absorption for samples with comparable high resistivity. 3 4 Our GaAs samples are of high-purity material with resistivities greater than 10 M cm in the absence of deep-level
+
+2012 J. Opt. Soc. Am. B/Vol. 7, No. 10/October 1990
+
+0.3
+
+r
+
+E 0.2 1
+Lj
+C0 a 0.1
+L-
+(n
+.0 0
+0
+-0.1 3.422
+
+3.420 I
+
+x
+
+0) VD3.418
+
+I
+
+C
+
+3.416
+
+(a)
+
+.
+
+.
+
+.
+
+.
+
+.
+
+I
+
+I
+
+I
+
+I
+
+(b)
+
+x AIA
+
+I
+
+I
+
+I
+
+I
+
+o
+
+0.5
+
+1.0
+
+1.5
+
+Frequency [THz]
+
+Fig. 7. TDS measurements of crystalline high-resistivity (a) Power absorption coefficient, (b) index of refraction.
+
+2.0 silicon.
+
+doping. Our measurements on this material are qualitatively in agreement with the previous work, showing a significant absorption increasing with frequency. In addition, we resolved two weak absorption features at 0.4 and 0.7 THz due to multiphonon processes4. 0
+Compared with Si and GaAs, intrinsic germanium has
+the relatively low resistivity of 47 fl cm at room temperature, which corresponds to the number density 2.4 x 1013cm-3 of electrons and of holes. The presence of these intrinsic carriers dominates the measured absorption and dispersion below 2 THz. We clearly observe the dominant role of the carriers, and the measured absorption and dispersion are well fitted by the simple Drude theory. These results are consistent with earlier work on N- and P-type doped germanium43 but are in contrast to some of the earlier FTS measurements on intrinsic germanium, in which this strong dependence was not observed.3 3
+
+Crystalline Silicon
+The following TDS measurements were made on a 50-mm-
+diameter, 20.046-mm-thick single crystal of highresistivity (greater than 10 k cm), float-zone silicon obtained from Topsil Semiconductor Materials. It is an excellent material for terahertz applications, as can be seen from the absorption spectrum in Fig. 7(a). At low frequencies the absorption almost approaches the transparency of crystalline quartz, while at higher frequencies
+silicon is much more transparent. As previously discussed, this property is limited to high-resistivity silicon; doped silicon is quite lossy at terahertz frequencies.' 6'4 6
+
+Grischkowsketyal.
+
+It is important to point out that our measured values for the absorption of high-resistivity silicon are significantly less than those of most of the previous work.31 36'3844 The
+only results consistent with our measurements are those in Ref. 46. We believe that this discrepancy is explained in part by the fact that some of the earlier work used 10-0
+cm (Ref. 33) and 100-f cm (Ref. 38) resistivity samples and that the carriers dominated the absorption at terahertz frequencies. The lower-frequency measurements of Ref. 34 were made on a high-resistivity, 8-kfl cm silicon sample and gave a strongly frequency-dependent absorption coefficient between 0.2 and 0.4 THz of approximately 0.13 cm-', significantly higher than that observed by us. We do not understand this discrepancy, and for lack of a better explanation we ascribe the disagreement to the higher quality of our silicon. Another work3 7 made a single-point measurement at 0.245 THz on a 1.5-kfl cm silicon sample and again measured an absorption coefficient of 0.13 cm-'. This value is consistent with the dominant fraction of the absorption being due to carriers. From the relative phases of the spectral components, the index of refraction versus frequency for silicon is obtained as presented in Fig. 7(b). Here, the extremely desirable feature of the low dispersion of silicon is clearly evident.
+
+Crystalline Gallium Arsenide The following TDS measurements were made on a 50-mmdiameter, 9.940-mm-thick disk of high-resistivity, 10Mfl cm GaAs obtained from Sumitomo Electric. As shown in Fig. 8(a), in contrast to high-resistivity silicon,
+
+3,
+
+I
+
+I
+£J2
+0C
+cL
+LoU_ ,1 .0 a,
+
+00 3.610
+
+3.605
+
+xa) 3.600
+V0
+3.595
+
+3.590
+
+3.585R 0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Frequency [THz]
+
+Fig. 8. TDS measurements of crystalline high-resistivity gallium arsenide. (a) Power absorption coefficient, (b) index of
+refraction.
+
+Grischkowsketyal.
+
+3
+
+,
+
+,
+
+,
+
+, _,
+
+,
+
+E U
+
+\ \_j 2
+
+(a)
+
+0~
+a
+<1
+
+0-
+0~
+
+4.004
+
+4.000
+a)
+
+3.996 -
+
+(b)
+
+3.992 <R.
+
+0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Frequency [THz]
+
+Fig. 9. TDS measurements of crystalline intrinsic germanium. (a) Power absorption coefficient, (b) index of refraction.
+
+GaAs has significant absorption in the frequency range 0.2-2 THz3.440 -42 45 The measured absorption increases
+monotonically with frequency and shows two relatively weak features at 0.4 and 0.7 THz, which are presumed to be due to multiphonon processes involving longitudinaland transverse-acoustic modes or optical and longitudinal phonons4. 0 The measured absorption disappears on cooling to 100 K, thereby excluding the possibility of absorption by impurity local modes. Preliminary data show that the absorption decreases linearly with decreasing temperature, in agreement with the expected temperature dependence of a two-phonon-difference absorption process.4 5
+The monotonic increase in absorption with frequency is due to the strong resonance at 269 cm-' (see Ref. 42). The lower-frequency measurements of Ref. 34 showed strong sample-to-samplevariation, with an absorption strongly increasing with frequency. The measured index of refraction and dispersion as presented in Fig. 8(b) are in reasonable agreement with those of the previous work4.04 7 Because of the high resistivity of GaAs, the carrier density is extremely low,and no effects due to free carriers were observed.
+
+Crystalline Germanium The following TDS measurements were made on a 50-mm-
+diameter, 10.015-mm-thick disk of high-purity, intrinsic germanium with a resistivity of 42 Q cm. The sample was obtained from Atomergic Chemetals. In Fig. 9(a) we present our measurements of the absorption of this material. As can be seen, there is significant absorption, which increases as the frequency is reduced. This
+
+Vol. 7, No. 10/October 1990/J. Opt. Soc. Am. B 2013
+strongly frequency-dependent component is due to carriers and has been fitted by the simple Drude theory following the approach of the recent terahertz measurements on doped silicon.6 However, because this is intrinsic material there are equal number densities N = 2.4 x 103 cm 3 of electrons and of holes. Therefore the calculated absorption and dispersion are the sum of those due to both the electrons and the holes. Using the literature values of mobilities g = 3900 cm2/V-sec and g = 1900 cm2 /V-sec and average effective masses m* = 0.12mo and m* = 0.21mo for the electrons and the holes, respectively, we calculate the Drude theory damping rate F = e/m4* for the electrons (/27r = 0.598 THz) and the holes (/27r = 0.691THz). Similarly the angular plasma frequencies p are obtained from the relationship op2 = Ne2/8omM*where Op/2,rr= 0.127 THz and cop/27r = 0.095 THz for the electrons and the holes, respectively. With these parameters we evaluate the simple Drude theory result for the absorption and the dispersion as explained in Ref. 16. This theoretical result is shown as the dashed curves in Figs. 9(a) and 9(b). The disagreement between this simple calculation and the measurements is due to the damping rates' being too high. This same feature was noted in the dopedsilicon measurements.'6 When these damping rates are both reduced by 24% to /27r = 0.454 THz and /27r = 0.525 THz for the electrons and the holes, respectively, we obtain the result shown in Figs. 9(a) and 9(b) as the solid curves, which give a good fit to the experiment. This agreement demonstrates the importance of the intrinsic carriers to the measured absorption and dispersion of germanium in the terahertz frequency range. These results are consistent with the far-infrared measurements on Nand P- type doped germanium.4 3 The residual absorption not due to the carriers is the far wing of a strong resonance line at 115 cm-', with an absorption on line center of 12 cm-' and a width of 80 cm-' (see Ref. 33).
+SUMMARY
+The efficacy and importance of the newly developed farinfrared, time-domain spectroscopy method have been demonstrated. The far-infrared spectroscopic studies from 0.2 to 2 THz have provided new high-quality comprehensive data on dielectrics and semiconductors and have even produced a few surprises.
+For the crystalline dielectrics sapphire and quartz, the measured absorptions are consistent with those of the earlier work below 0.5 THz. Above 1 THz we measure significantly more absorption for sapphire, while for quartz the values are in reasonable agreement with the previous work. Our results on high-purity fused silica are consistent with those of the most transparent fused silica measured to date.
+For the semiconductors we have significant disagreement with some of the previous work. Our measurements show exceptional transparency of high-resistivity, 10-kfl cm silicon with an absorption coefficient of less than 0.05 cm-' from low frequencies to beyond 2 THz. In addition, this silicon shows a remarkably constant index of refraction. For most of the previous measurements on silicon, the results below 2 THz were dominated by carriers due to impurities. In the case of gallium arsenide we
+
+2014 J. Opt. Soc. Am. B/Vol. 7, No. 10/October 1990
+are in reasonable agreement with the previous work. Our high-quality data resolve, for the first time to our knowledge, two weak absorption features at 0.4 and 0.7 THz due to multiphonon absorption processes.4 0 The measured properties of room-temperature germanium in our frequency range are dominated by the intrinsic carriers. In contrast to some of the earlier work, we measure strong frequency absorption and dispersion, which are well fitted by the simple Drude model.
+ACKNOWLEDGMENT
+We acknowledge the excellent masks and wafer fabrication by Hoi Chan.
+*Present address, Huygens Laboratorium, Postbus 9504, 2300 RA Leiden, The Netherlands.
+'Present address, Hoffmann-La Roche, Grenzacherstrasse 124, CH-4002 Basel, Switzerland.
+REFERENCES
+1. K. P. Cheung and D. H. Auston, "Excitation of coherent phonon polaritons with femtosecond optical pulses," Phys. Rev. Lett. 55, 2152-2155 (1985).
+2. K. P. Cheung and D. H. Auston, 'A novel technique for measuring far-infrared absorption and dispersion," Infrared Phys. 26, 23-27 (1986).
+3. N. J. Halas, I. N. Duling III, M. B. Ketchen, and D. Grischkowsky, "Measured dispersion and absorption of a 5 micron coplanar transmission line," in Digest of Conference on Lasers and Electro-Optics (Optical Society of America, Washington, D.C., 1986).
+4. M. C. Nuss, D. H. Auston, and F. Capasso, "Direct subpicosecond measurement of carrier mobility of photoexcited electrons in gallium arsenide," Phys. Rev. Lett. 58, 2355-2358 (1987).
+5. W J. Gallagher, C.-C. Chi, I. N. Duling III, D. Grischkowsky, N. J. Halas, M. B. Ketchen, and A. W Kleinsasser, "Subpicosecond optoelectronic study of resistive and superconductive transmission lines," Appl. Phys. Lett. 50, 350-352 (1987).
+6. R. Sprik, I. N. Duling III, C.-C. Chi, and D. Grischkowsky, "Far-infrared spectroscopy with subpicosecond electrical pulses on transmission lines," Appl. Phys. Lett. 51, 548-550 (1987).
+7. D. Grischkowsky, I. N. Duling III, J. C. Chen, and C.-C.Chi, "Electromagnetic shock waves from transmission lines," Phys. Rev. Lett. 59, 1663-1666 (1987).
+8. D. Grischkowsky, C.-C. Chi, I. N. Duling III, W J. Gallagher, M. B. Ketchen, and R. Sprik, "Spectroscopy with ultrashort
+electrical pulses," in Laser Spectroscopy VIII, W Persson and
+S. Svanberg, eds. (Springer-Verlag, New York, 1987). 9. D. Grischkowsky, "Time-domain far-infrared spectroscopy,"
+in Proceedingsof theFourthInternationalConferenceonInfrared Physics, R. Kesselring and F. K. Kneubuhl, eds. (ETH,
+Zurich, 1988). 10. Ch. Fattinger and D. Grischkowsky, "Point source terahertz
+optics," Appl. Phys. Lett. 53, 1480-1482 (1988). 11. Y. Pastol, G. Arjavalingam, J.-M. Halbout, and G. V Kopcsay,
+"Coherent broadband microwave spectroscopy using picosecond optoelectronic antennas," Appl. Phys. Lett. 54, 307-309 (1989). 12. Ch. Fattinger and D. Grischkowsky, "Terahertz beams," Appl. Phys. Lett. 54, 490-492 (1989). 13. M. van Exter, Ch. Fattinger, and D. Grischkowsky, "Terahertz time-domain spectoscopy of water vapor," Opt. Lett. 14, 1128-1130 (1989). 14. Y. Pastol, G. Arjavalingam, G. V Kopcsay, and J.-M. Halbout, "Dielectric properties of uniaxial crystals measured with optoelectronically generated microwave transient radiation," Appl. Phys. Lett. 55, 2277-2279 (1989).
+
+Grischkowsky et al.
+15. S. Keiding and D. Grischkowsky, "Measurements of the phase shift and reshaping of teraHz pulses due to total internal reflection," Opt. Lett. 15, 48-50 (1990).
+16. M. van Exter and D. Grischkowsky, "Optical and electronic properties of doped silicon from 0.1 to 2 THz," Appl. Phys. Lett. 56, 1694-1696 (1990); "Carrier dynamics of electrons and holes in moderately-doped silicon," Phys. Rev. B 41, 12140-12149 (1990).
+17. D. Grischkowsky and S. Keiding, "Terahertz time-domain spectroscopy of high T, substrates," Appl. Phys. Lett. 57,
+1055-1057 (1990). 18. D. H. Auston, "Subpicosecond electro-optic shockwaves,"
+Appl. Phys. Lett. 43, 713-715 (1983). 19. D. H. Auston, K. P. Cheung, J. A. Valdmanis, and D. A. Klein-
+man, "Cherenkov radiation from femtosecond optical pulses in electro-optic media," Phys. Rev. Lett. 53, 1555-1558
+(1984). 20. M. B. Ketchen, D. Grischkowsky, T. C. Chen, C-C. Chi,
+I. N. Duling III, N. J. Halas, J-M Halbout, J. A. Kash, and G. P. Li, "Generation of subpicosecond electrical pulses on coplanar transmission lines," Appl. Phys. Lett. 48, 751-753
+(1986). 21. D. Grischkowsky, M. B. Ketchen, C-C. Chi, I. N. Duling III,
+N. J. Halas, J-M. Halbout, and P. G. May, "Capacitance free generation and detection of subpicosecond electrical pulses on coplanar transmission lines," IEEE J. Quantum Electron. 24, 221-225 (1988). 22. A. P. DeFonzo, M. Jarwala, and C. R. Lutz, "Transient response of planar integrated optoelectronic antennas," Appl. Phys. Lett. 50, 1155-1157 (1987). 23. A. P. DeFonzo and C. R. Lutz, "Optoelectronic transmission and reception of ultrashort electrical pulses," Appl. Phys. Lett. 51, 212-214 (1987). 24. P. R. Smith, D. H. Auston, and M. C. Nuss, "Subpicosecond photoconducting dipole antennas," IEEE J. Quantum Electron. 24, 255-260 (1988). 25. M. van Exter, Ch. Fattinger, and D. Grischkowsky, "High brightness teraHz beams characterized with an ultrafast detector," Appl. Phys. Lett. 55, 337-339 (1989). 26. Ch. Fattinger and D. Grischkowsky, 'A Cherenkov source for freely propagating teraHz beams," IEEE J. Quantum Electron. 25, 2608-2610 (1989). 27. B. B. Hu, X.-C. Zhang, and D. H. Auston, "Free-space radiation from electro-optic crystals," Appl. Phys. Lett. 56,
+506-508 (1990). 28. M. van Exter and D. Grischkowsky, "Characterization of an
+optoelectronic teraHz beam system," IEEE Trans. Microwave Theory Tech. (to be published).
+29. C. Johnson, F. J. Low, and A. W Davidson, "Germanium and germanium-diamond bolometers operated at 4.2 K, 2.0 K, 1.2 K, 0.3 K, and 0.1 K," Opt. Eng. 19, 255-258 (1980).
+30. P. R. Griffiths, Chemical Infrared Fourier Transform Spectroscopy (Wiley, New York, 1975).
+31. D. E. Gray, ed., American Institute of Physics Handbook, 3rd ed (McGraw-Hill, New York, 1982).
+32. E. E. Russell and E. E. Bell, "Optical constants of sapphire in the far infrared," J. Opt. Soc. Am. 57, 543-544 (1967).
+33. E. V. Loewenstein, D. R. Smith, and R. L. Morgan, "Optical constants of far infrared materials. 2: Crystalline solids,"
+Appl. Opt. 12, 398-406 (1973). 34. M. N. Afsar, "Dielectric measurements of millimeter-wave
+materials," IEEE Trans. Microwave Theory Tech. MTT-32, 1598-1609 (1984). 35. E. E. Russell and E. E. Bell, "Measurement of the optical constants of crystal quartz in the far-infrared with the asymmetric Fourier-transform method," J. Opt. Soc. Am. 57, 341-348 (1967).
+36. W F. Passchier, D. D. Honijk, M. Mandel, and M. N. Afsar, 'A new method for the determination of complex refractive index spectra of transparent solids in the far-infrared spectral region: results of pure silicon and crystal quartz,"
+J. Phys. D 10, 509-517 (1977).
+37. J. M. Dutta, C. R. Jones, and H. Dave, "Complex dielectric constants for selected near-millimeter-wave materials at 245 GHz," IEEE Trans. Microwave Theory Tech. MTT-34,
+932-936 (1986).
+
+Grischkowsky et al.
+38. C. M. Randall and R. D. Rawcliffe, "Refractive indices of germanium, silicon, and fused quartz in the far-infrared," Appl. Opt. 6, 1889-1894 (1967).
+39. T. J. Parker, J. E. Ford, and W G. Chambers, "The optical constants of pure fused quartz in the far-infrared," Infrared Phys. 18, 215-219 (1978).
+40. R. H. Stolen, "Far-infrared absorption in high resistivity GaAs," Appl. Phys. Lett. 15, 74-75 (1969).
+41. S. Perkowitz, "Far-infrared free-carrier absorption in N-type gallium arsenide," J. Phys. Chem. Solids 32, 2267-2274 (1971).
+42. C. J. Johnson, G. H. Sherman, and R. Weil, "Far infrared measurement of the dielectric properties of GaAs and CdTe at 300 K and 8 K," Appl. Opt. 8, 1667-1671 (1969).
+
+Vol. 7, No. 10/October 1990/J. Opt. Soc. Am. B 2015
+43. J. R. Birch, C. C. Bradley, and M. F. Kimmitt, 'Absorption and refraction in germanium at 2930K in the range 1250 cm-'," Infrared Phys. 14, 189-197 (1974).
+44. J. R. Birch, "The absolute determination of complex reflectivity," Infrared Phys. 18, 613-620 (1978).
+45. R. H. Stolen, "Temperature dependence of far-infrared absorption in GaAs," Phys. Rev. B 11, 767-770 (1975).
+46. T. Ohba and S. Ikawa, "Far-infrared absorption of silicon crystals," J. Appl. Phys. 64, 4141-4143 (1988).
+47. K. Seeger, "Microwavedielectric constants of silicon, gallium arsenide, and quartz," J. Appl. Phys. 63, 5439-5443 (1988).
+
+

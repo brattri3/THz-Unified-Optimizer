@@ -1,0 +1,452 @@
+Appl. sci. Res.
+
+Section B, Vol. 4
+
+REFLECTION AT ARBITRARY INCIDENCE FROM A PARALLEL WIRE GRID*
+by JAMES R. WAIT
+Radio Physics Laboratory, Defence Research Board, Ottawa, Canada
+Summary
+A solution is outlined for the problem of a plane wave, incident obliquely, with arbitrary polarization, on a planar grid. It is assumed that the wires composing the grid are of homogeneous material and that their diameter is small compared with the separation. The general result when specialized to parallel polarization agrees with published results.
+List of Symbols a ~ radius of the wires, a = conductivity of wires, e1 ~ dielectric constant of wires, #1 = p e r m e a b i l i t y of wires, d ---- s p a c i n g b e t w e e n a d j a c e n t wires, e0 = dielectric c o n s t a n t of f~ee space, /~0 = p e r m e a b i l i t y of free space, eo = a n g u l a r f r e q u e n c y , E p ~- the electric field of the incident wave, A = vector magnitude of electric field of incident wave, I 0 ~ magnitude of the currents on the wires, E s = the electric field of the scattered or reflected wave, E~ = the parallel electric field of the current in a single infinite wire, H(o2) (u) = H a n k e l f u n c t i o n of s e c o n d t y p e of o r d e r zero, 0, ~0; defines direction of i n c i d e n t w a v e (see fig. 1), x, y, z; Cartesian coordinate system for grid, 0, T, z; polar c o o r d i n a t e s y s t e m for single wire, Io(u ) a n d I 1(u) = Modified Bessel F u n c t i o n s of t h e first t y p e , Z i ---- i n t e r n a l i m p e d a n c e of t h e wire, i(z) = complex current in the wires,
+( co 0) a, k, ~, e = a r b i t r a r y real a n d positive constants,
+F - /l ' ~~176= c o r r e c t i o n f a c t o r d e f i n e d i n (22),
+K 0 = normal impedance of the incident, wave, Zg = surface impedance of the wire grid, Xg = surface reactance of the wire grid.
+*) Work carried out under D.R.B. Project No. D48-95~
+
+Appl. sci. Res. B 4
+
+393
+
+--
+
+--
+
+394
+
+JAMES R. WAIT
+
+w I. Introduction. The electrical behaviour of a planar array of
+
+parallel wires has been investigated theoretically on several oc-
+
+casions 1-4). In most cases it has been assumed that the exciting
+
+plane wave is incident normally.
+
+It is the purpose of this note to derive a solution without any
+
+restrictions on polarization, angle of incidence or conductivity of the
+
+wire. To the author's knowledge a solution for the general case has
+
+not appeared in the literature although an analysis for oblique
+
+incidence, with the incident electric vector parallel to the wires,
+
+has been published by MacFarlaneS).
+
+His derivation is
+
+based on quasi-stationary field theory and his result is restricted to
+
+perfectly conducting wires.
+
+w2. Formulation. The grid is illustrated in fig. 1. The wires are of circular cross section with radius a and are composed of material having conductivity a, dielectric constant '1, and permeability/~i. The wires are parallel to the z-axis and are spaced at a distance d between centers. The space around the wire is homogeneous with dielectric constant eo and permeability/*0.
+The electric field of the incident plane wave, with the phase reference at the origin, is taken for a time factor ei~t, to be
+EP(x, y,z) = A exp[ifl(xcosq~ocosO + ysinq~oCOSO-- zsinO)~, (1)
+with fl = (e0#0)89 where A is the vector magnitude of the field. Under the assumption that the radius of the wires is small compared with the wavelength, then only the z component of the electric field will excite currents in the grid. As a further consequence of the thinness of the wires it can be assumed that the current density in each wire is symmetrical about the axial center of the wire. It is also apparent that there will be a difference of phase of the incident field at adjacent wires of magnitude fld sin ~o cos 0 radians together with a phase change of fl sin 0 radians per unit length along each wire. The currents on the wires may then be represented by the expression
+i0eia~ sin~0cos0 e-i~" sin0 (n = 0, 4- 1, 4- 2, 4- 3. . . . ),
+where I o is the current on the reference wire (n = 0) at z = 0. Since the induced currents are confined to the z-direction, the
+secondary field E* can be derived from an electric Hertz vector
+
+REFLECTION FROM A PARALLEL WIRE GRID
+
+395
+
+which has only a z component//~. This field can be expressed as
+
+E ~ = f l H2 ~ l~~. + g r a d ~~//z.' '
+
+(2)
+
+where i. is a unit vector in the z-direction.
+
+--~p
+
+·
+
+A
+u
+
+Z Fig. 1. Planar wire grid with a plane wave at arbitrary incidence.
+
+Since
+
+-- ifl sin 0,
+
+(3)
+
+the components of the secondary fields can be written
+
+E~ = -- ifl sin 0 ~II~/~x,
+
+E~ = -- ifl sin 0 ~H'./~y,
+
+(4)
+
+E'. = f12cos2 0/7.'i
+
+The resultant electric field E is then
+
+E = E ~ + E'
+
+(5)
+
+396
+
+JAMES R. WAIT
+
+The essential problem is to find an expression for I o in terms of the incident field. The procedure is first to express the secondary field in terms of the currents on the wire and then to solve for I 0 by satisfying the boundary conditions at the wire.
+
+w3. Field o/an infinite wire. In this section expressions for the
+fields of a single wire of infinite length carrying a travelling wave of current will be derived. With respect to a cylindrical coordinate system (e, ~, z), the wire is coincident with the z-axis, a n d the current j(z) is given by
+
+j(z) ----Ioe-i~* ~i. 0
+
+(6)
+
+which is in the direction of the negative z-axis. From Ampere's law
+the circumferential magnetic field H'~ must tend to -- j(z)/2~O as
+tends to a. Furthermore, H', must behave as an outgoing cylindrical wave at infinity and must satisfy the equation
+
++ - - - -~+ ~z2 ~2 +#5 H~, = 0.
+
+(7)
+
+The solution which has the required properties is
+
+H~--' i#I~176 0 e_im ~i, OH~m(fie cos 0).
+
+(8)
+
+The z-component of the electric field is then
+
+E~ -- I~176c1~760 H(om(#ie cos O)e-r sino,
+
+(9)
+
+4
+
+which reduces to
+
+Io#oO
+
+E~ -- 4 Htom (#ie)for 0 = 0,
+
+(10)
+
+which is well known 1).
+
+w4. Field o/a parallel wire grid. Employing (9) it can be seen t h a t
+the field of the currents of all the wires in the grid in fig. 1 is expressed by
+
+g~ -
+
+-
+
+~0~Io
+
+cos 2 0
+
++Xoo ei#"dsi. ~0co~0e-r
+
+~in0 .
+
+4
+
+....
+
+(11)
+
+9 H<o~[# c o s 0 V(nd -- y ? + x~].
+
+REFLECTION FROM A PARALLEL WIRE GRID
+
+397
+
+The summation involving Hankel functions is slowly convergent and can be transformed to a more convergent series by employing the following formula 6):
+
++00
+Z e~z~k"nCo21[2~aa/(n -- ~)2 + ~2 =
+
+n~ --00
+
+i
+
++oo
+
+e_2=,v (,,,+k)~_,,~
+
+(12)
+
+= - - e~z~ X e i2nme
+
+=
+
+m=-oo
+
+V-(m + k) 2 -- a 2'
+
+where k, a, 8, e are real and positive. It then follows that
+
+E~ = i#~1761c7~6 4a
+
++oo
+
+exp{
+
+eiayco~0sin~o0e-ia" ~i,0 X 2z-d~-[xlV( m + d c ~ 1-726
+
+( / 2 - - , de~2 2 ) }
+
+X E e i2~'~y/a
+
+(13)
+
+....
+
+V ( m + d c ~ 1 726 127 6 - - ( d2c ~ 2"
+
+When the field is observed at distance greater than a few wavelengths from the screen such that [x I>~ d and d < 2/2, only the first term (m = 0) is significant in the summation. The remaining terms, because of their rapid decline with increasing I x ], are termed evanescent waves. The scattered field is then given by
+
+7olo cos 0 E~ ------ - - - exp (iflq),
+2d cos 9o
+
+E s = - - ~oIo sin 0 exp (iflq),
+
+(14)
+
+2d
+
+where and
+
+~/olosin 0 sin 9o
+
+Ey =
+
+2d cos 9o exp (iflq),
+
+q = -- I x I cos ~oocos 0 + y sin ~oocos0 -- zsin 0
+
+7o = t~oC%/fl = (/Zo/e0)89~ 120~.
+
+w 5. Calculation o/the current I o. The magnitude I 0 of the current
+
+j(z) along the wires can be calculated by imposing the boundary
+
+condition that the tangential fields are continuous at the surface
+
+of the wires, that is,
+
+E~ + E· = -- i(z)Zi
+
+(15)
+
+398
+
+JAMES R. WAIT
+
+where Z~ is the internal impedance of the wires. Since a ~ d, it can be a.ssumed that the field is uniform around the wire, and hence Z~ can be calculated b y known methods and is given b y 7)
+
+Z, -- ~Io(Ta)
+
+(16)
+
+2,nal l(Ta)
+
+where
+
+=
+
++ io,,1)]t, r =
+
+and gl, a, and et are the electrical properties of the wire defined earlier. Io(Ta ) and I1(7a ) are modified Bessel functions of the first type of order zero and unity. For metallic wires the displacement currents are negligible since, even at microwave frequencies, toe1 < a. In addition, the frequency is usually sufficiently high that ] 7a I>~ 1 and hence
+
+Z, ,-~ ( # 1 ~ 1 8 9 ( I + i ]
+
+(17)
+
+--\ 2a / \ 2ha /"
+
+Employing (11) and (15), with the restriction a ~ d, the boundary condition is expressed by
+
+#0eolo cos2 0
+
+-- IoZ~ = A, +
+
+4
+
+(18)
+
+9 [2 ~ cos(nfld sin ~oo cos o)nr 21(nfld cos O) + nCo2)(flacos 0)].
+
+The convergence of this summation is poor, but it can be transformed to a more convergent series b y using the following formula 6):
+
+oo
+
+27r 2] cos (2:,rkn)Hr
+
+= -- = + 2i in --Fa +
+
+n~l
+
+2
+
+(19)
+
+m~l
+
+where k and a are real and In F is Euler's number ( = 0.5773 . . . . ). Furthermore since fla ~ 1,
+
+2 H~o21(fla cos O) ~ 1 -- i - - In
+
+COS 0
+
+(20)
+
+z~
+
+2
+
+REFLECTION FROM A PARALLEL WIRE GRID
+
+399
+
+The equation for the current I o can now be rewritten in the form
+
+I0
+
+-- A,d
+
+(21)
+
+(~?0cos0/2cOSgo)+ (i#cod/2zc)cos20[ln(d/2.ua) + F ] +cos2OZid '
+
+where
+
+(dcos0)
+
+F
+
+4 , ~0 = 89~ [ [ ( m + d cos 0 sin w
+
+cos 0/4)2] - ] (22)
+
++ [(m -- d cos 0 sin 90/4)2 -- (d cos 0/4)2]-89 -- 2m-1].
+When I 0 is substituted into equations (13) and (14), the fields are specified in terms of the incident wave. When 0 = 0 and o = ~, the solution reduces to the result given b y M a c F a r 1 a n e 5), which corresponds to the case of the incident electric vector parallel to perfectly conducting wires. He gives a very adequate set of curves for the function F(d/4, ~00)which, of course, are also suitable to evaluate (22) b y replacing d b y d cos 0. The function F is small compared with unity if d cos 0 ~ 4 and hence can be considered as a correction factor to the quantity ln(d/2~a).
+
+w6. Impedance representation. In applications to microwave
+
+lenses, antenna ground systems, and to various forms of shielding it
+
+is often convenient to express the characteristics of the grid in
+
+terms of a surface impedance. In this representation the intrinsic
+
+impedance of the incident wave in the direction normal to the grid is
+
+expressed by
+
+I-E:7_ ,o O 0
+K~ ----L H~ J cos 90
+
+(23)
+
+A reflection coefficient can now be defined by
+
+I-E:] =
+
+-1
+
+(24)
+
+R ~-- L E[ Ix= o 1 + 2 Z J K o "
+
+where Zg is the equivalent shunt impedance of the grid and is
+
+given by
+
+[ , ( cos0)]
+
+Zg/K o = i(d/4) cos 0 cos ~00 In - - + F
+
+, ~0o +
+
+2z~a
+
+4
+
+(25)
+
++ cos 0 cos % Z~d/~o.
+
+400
+
+REFLECTION FROM A PARALLEL WIRE GRID
+
+A n o t h e r special case of interest is when 90 = 0 and a = oo which corresponds to a result given by J o n e s and C o h n s), based on M a r c u v i t z's 9) variational solution for diffraction b y an a r r a y of slits in a conducting screen.
+For most practical purposes when the spacing is small (d cos 0/2 ~ 1) and the wires are composed of metallic material, the shunt impedance of the grid is purely reactive and for the general case of arbitrary incidence is given by
+
+Zg = i X v
+
+(26)
+
+where
+
+X J K o ~ (d/2) cos 0 cos 90 In (d/2~a)
+
+(27)
+
+with
+
+K 0 = 377 cos 0/cos 90.
+
+(2s)
+
+Acknowledgement.
+
+I would like to thank Dr. Colin
+
+H i n e s for his helpful comments.
+
+Received 8th March, 1954.
+
+REFERENCES
+
+1) I g n a t o w s k y ,
+
+W. v o n , Ann. Phys. 44(1914) 369.
+
+2) G a n s , R., Ann. Phys. 61 (1920) 447.
+
+3) W e s s e l, W., Hockfrequenztechnik und Elektroakustik 54 (1939) 62.
+
+4) G r o v e s , W . E . , J. Appl. Phys. 24(1953) 845.
+
+5) M a c F a r I a n e, G. G., Inst. Elect. Engrs. 93 pt. I I I A, (1945) 1523.
+
+6) W a i t, J. R., Canad. J. Phys. 32 (1954) 571.
+
+7) S c h e 1 k u n o f f, S. A., Electromagnetic Waves, p. 264, D. van Nostrand Co. Inc.,
+
+1943.
+
+8) J o n e s, E. M. T. and S. B. C o h n, Surface Matching of Dielectric Lenses, Con-
+
+vention Record of the I.R.E., Pt. I, Session 37, pp. 45-53, 1954.
+
+9) M a r r u v i t z, N., Waveguide Handbook, p. 285, McGraw Hill Book Co. Inc.,
+
+1943.
+
+

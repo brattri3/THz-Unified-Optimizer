@@ -1,0 +1,4109 @@
+7962
+
+IRE TRANSACTIONS ON MICROWAVE THEORY AND TECHNIQUES
+
+191
+
+A Survey of the Theory of Wire Grids*
+TOVE LARSEN~
+
+Summary--The paper gives a survey of the literature concerning the electromagnetic properties of wire grids. As an introduction to the literature survey, a short description of the properties and applications of wire grids is given. Finally some particular grid configurations are mentioned.
+
+1. INTRODUCTION
+
+HIS SURVEY
+
+is written from an electromagnetic
+
+point of view and all but a few papers concern-
+
+T
+
+ing optical grids have been omitted. The survey
+
+does not claim to be complete. Papers, the contents of
+
+which are known by the author only from summaries in
+
+the Electrical Engineering
+
+Abstract or other abstracts
+
+are marked with an asterisk.
+
+A description
+
+of the properties
+
+and applications
+
+of
+
+grids is given as an introduction
+
+to the literature survey.
+
+This is followed by the survey, which is ordered chrono-
+
+logically and divided into two parts: early papers, and
+
+currently
+
+used papers from a later period. Finally is
+
+given a description
+
+of some particular
+
+grid configura-
+
+tions.
+
+Most attention
+
+is paid to the theoretical
+
+papers deal-
+
+ing with the simple grid with wires of circular cross sec-
+
+tion. The formulas found by the various authors for the
+
+reflection
+
+coefficient
+
+of such a gird are given and com-
+
+pared. For the rest of the papers describing
+
+experi-
+
+mental j nvestigations
+
+and examinations
+
+of grids with
+
+noncircular
+
+wires and special grid configurations
+
+only
+
+brief descriptions
+
+are given, as the results in most of
+
+these cases cannot be stated briefly. The notation used
+
+in the formulas is shown in Fig. 1. The time factor is
+e­ L*t and the Giorgi unit system is used.
+
+II. PROPERTIES AND APPLICATIONS OF GRIDS
+
+The grids which will be discussed in this paper maybe
+
+defined as plane metallic systems which have in one
+
+direction
+
+a periodic structure
+
+with a period called the
+
+grid constant, which may be of the same order of mag-
+
+nitude as the wavelength
+
+of the incident
+
+field. The
+
+material properties of the grid are constant in the direc-
+
+tion of the wires. The influence of such a grid depends
+
+primarily
+
+on the polarization
+
+of the incident wave and
+
+of the ratio between the grid constant and the wave-
+
+length. This dependence
+
+will be mentioned
+
+briefly in
+
+what follows together with the definition
+
+of the quan-
+
+tities commonly
+
+used to describe the properties
+
+of
+
+* Received by the PGMTT, November
+
+script received, February 2, 1962.
+
+~ Laboratory of Electromagnetic
+
+Theory,
+
+Copenhagen, Denmark
+
+9, 1960; revised manuTechnical LTniversity,
+
+-----2
+/ w
+
+AIR
+
+WIRES
+
+DIELECTRIC CONSTANT PEIIMEABILITY CONDUCTIVITY PR13PAGATION CONSTANT INIRINSIC IMPEOANCE
+Fig. l­-Plane grating with
+
+.5.
+
+L, = &rc,
+
+P.
+d.. o
+k-u~ <.= @
+
+P, =)!!.
+:=.~m;
+~f = i~: 1
+
+a plane wave at arbitrary incidence.
+
+grids. Some applications
+
+of grids with
+
+to papers describing
+
+these applications
+
+mentioned.
+
+a few references are also briefly
+
+A. Polarization
+
+The grid usually has the greatest influence when the
+
+electric vector of the incident wave is polarized in the
+
+directic~n of the wires. This is called the Hertz effect; in
+
+certain cases, however,
+
+the grid may effect a wave
+
+polarized perpendicular
+
+to the wires more severely than
+
+a wave polarized parallel to the wires; this is called the
+
+I) ubois eff ect. The type of transmission
+
+that takes place
+
+ior a given grid depends upon the ratio between the
+
+N ire diameter and the wavelength
+
+and upon the material
+
+of which the grid is made.
+
+In radio engineering
+
+the Hertz effect is of most in-
+
+192
+
+IRE TRANSACTIONS ON MICROWAVE THEORY AND TECHNIQUES
+
+May
+
+terest. It was exactly this effect which Hertz [1] utilized
+
+in 1889 in his experiments.
+
+Around the end of the cen-
+
+tury there were several theoretical
+
+investigations
+
+deal-
+
+ing with the electromagnetic
+
+fields near grids (see Sec-
+
+tion III-A).
+
+Formulas
+
+for the reflection
+
+coefficient
+
+of a
+
+grid were derived for both the case where the polariza-
+
+tion of the incident
+
+wave is parallel
+
+and where the
+
+polarization
+
+is transverse
+
+to the wires. It turned out
+
+that usually the reflection
+
+coefficient
+
+was vanishingly
+
+small when the polarization
+
+of the incident wave was
+
+perpendicular
+
+to the wires. In fact, in most of the recent
+
+work on the subject (see Section III-B)
+
+it is assumed
+
+that a wave with a polarization
+
+perpendicular
+
+to the
+
+wires of the grid passes the grid uninfluenced.
+
+In com-
+
+puting the field around a grid one often expresses the
+
+total field as the incident field as it would be if the grid
+
+were not present plus a scattered field radiated from
+
+the grid in both directions
+
+by a current in the wires of
+
+the grid induced by the component of the field parallel to
+
+the wires. The reflected wave in front of the grid is
+
+identical
+
+with the scattered field, whereas the trans-
+
+nlitted wave behind the grid is equal to the sum of the
+
+scattered field and the incident wave (assuming losses in
+
+the grid are negligible).
+
+Since the scattered field can
+
+have a polarization
+
+different from the polarization
+
+of the
+
+primary
+
+field, it is possible to produce an elliptically
+
+polarized field behind the grid. This fact can be exploited
+
+in the construction
+
+of antenna systems for circularly
+
+or
+
+elliptically
+
+polarized
+
+fields; such antennas
+
+have been
+
+examined
+
+for example by Andreasen
+
+[21, who com-
+
+puted the field reflected from two parallel grids being so
+
+arranged that the wires of the first grid formed an angle
+
+with the wires of the second grid, and by Aagesen [3],
+
+who has investigated
+
+the field from a reflector consisting
+
+of a grid placed parallel to a metal sheet.
+
+B. Diffraction Pattern
+
+A qualitative
+
+description
+
+of the diffraction
+
+pattern
+
+around a grid may easily be given for an electro-
+
+magnetic as well as for an optical transmission
+
+grating,
+
+the simple mechanism
+
+being that the periodic elements
+
+of the grid (current-carrj-ing
+
+wires or slits with light)
+
+radiate elementary
+
+cylindrical
+
+waves in all directions.
+
+The phase of these radiated
+
+secondary
+
+waves will in-
+
+crease from one wire or slit to the next with the amount
+
+kod sin d, where k,= 27r)k is the propagation
+
+constant of
+
+the incident wave, d the grid constant and O the angle of
+
+incidence of the primary field (this field is assumed not
+
+to change in the direction
+
+along the wires or slits,
+
+$ = OO). The secondary waves will arrive with the same phase to planes, the normals of which form the angle
+
++. with the positive normal to the grid, where ~. is de-
+
+termined from (see Fig, 2)
+
+d sin 6 ­ d sin +. = d,
+
+? 2 =0, +1,+2...
+
+(1)
+
+By the positive normal to the grid we understand
+
+the
+
+normal pointing from the front to the back side of the
+
+x'
+
+Fig. 2--Diffraction for z >0 only. (x/d= l.3).
+
+pattern around The symmetrical
+
+a grid, side waves are shown waves are present for z <O.
+
+grid (seen from the generator).
+
+The angle #. should be
+
+counted negative when the corresponding
+
+direction is to
+
+the same side of the normal to the grid as the direction
+
+of propagation
+
+of the incident wave, positive when it is
+
+to the opposite side.
+
+The secondary waves propagating
+
+from the grid and
+
+outwards will form a sequence of plane waves propagat-
+
+ing in directions determined
+
+by the angles ~n.
+
+From (1) we find
+
+A
+
+sin#. =sin O+n -->
+
+?'Z= 0, * 1,+2,....
+
+(2)
+
+d
+
+In order to obtain tion we must have
+
+a real solution
+
+for IJ. to this equa-
+
+(3)
+
+The number of real solutions *. is therefore finite. For
+
+those values of n for which the above inequality
+
+is not
+
+satisfied we find infinitely
+
+many solutions to (2). These
+
+solutions, however, are all complex. It may be demon-
+
+strated that these complex values of #n correspond
+
+to
+
+waves propagating
+
+along the grid surface, but being
+
+attenuated
+
+exponentially-
+
+in the direction perpendicular
+
+to the gird. When the wavelength
+
+relative to the grid
+
+constant increases, more and more of the real side waves
+
+will change to attenuated
+
+waves. A very illustrative
+
+description
+
+of the side waves is given by MacFarlane
+
+[4].
+
+There will always beat least two real solutions to (2,),
+
+namely for n = O and lo = O or +0 =7 --0, i.e., there will
+
+always be a transmitted
+
+wave which continues in the
+
+direction of the incident wave and a reflected wave with
+
+a reflection angle equal to the angle of incidence. If it is
+
+desired that only these two zero-order waves shall be
+
+1962
+
+Larsen: Theory of Wire Grids
+
+193
+
+present, we must have
+
+~>1­sind.
+
+(4)
+
+In optics it is exactly the side waves that are of interest
+
+since by using a suitably designed grid we may split a
+
+light-wave
+
+in waves corresponding
+
+to the various
+
+colors, as the angle ~~ becomes different
+
+for different
+
+wavelengths.
+
+This was the purpose of the first practical
+
+grids (or diffraction
+
+gratings),
+
+which were constructed
+
+by Fraunhofer
+
+in 1823 in connection
+
+with his investiga-
+
+tions in the field of spectral analysis.
+
+In radio technology
+
+it is mostly the directly reflected
+
+wave and not the side waves that is of interest, since
+
+the grids are often used as a substitute
+
+for solid metal
+
+plates for reflecting
+
+purposes; for example,
+
+grid con-
+
+structions
+
+have been used as reflector
+
+surfaces in
+
+antenna systems and in ground wire systems for an-
+
+tennas. An experimental
+
+study of grid reflectors for an-
+
+tennas has been made for example by Gresky [5] and
+
+ground wire systems for antennas have been treated for
+
+example by Abbott [6], Monteath
+
+[7] and by Knudsen
+
+and Larsen [8].
+
+However as the lower limit of the wavelengths
+
+used
+
+in radio technology
+
+becomes shorter and approaches
+
+the infrared, the diffraction
+
+pattern of grids becomes of
+
+interest. A spectrometer
+
+for millimeter
+
+waves has for
+
+example been described by Coates [*9], and Klein,
+
+et al. [*1o] describes how it is possible to generate milli-
+
+meter waves by letting
+
+a magnetron
+
+oscillate
+
+with
+
+higher harmonics
+
+and then filtering
+
+the waves with
+
+desired wavelength
+
+by using a diffraction
+
+grid.
+
+C. Grid Im~edance, efficients
+
+Transmission and Reflection Co-
+
+The purpose of most of the electromagnetic
+
+investiga-
+
+tions of grids has been to find the complete field dis-
+
+tribution
+
+around the grid in the case of a plane incident
+
+wave. However, some authors have found it practical to
+
+characterize
+
+the influence of the grid upon the field ex-
+
+clusively by a single quantity,
+
+the grid impedance,
+
+or by
+
+the reflection
+
+and the transmission
+
+coefficients.
+
+These
+
+quantities
+
+are of most value for the directly transmitted
+
+and reflected wave, but they have been defined also in
+
+the case where side waves occur.
+
+The grid impedance has been defined in two different
+
+ways. Wessel [11 ] and Hornej ager [12 ] (see Section
+
+III-B)
+
+defined their grid impedance
+
+Z,,, per unit length
+
+of wire as the ratio between the electric field strength
+
+parallel to the wires and the current of a single wire, and
+
+used this definition
+
+also when side waves occur. Mac-
+
+Far-lane [4] and Wait [13 ] (see Section III-B)
+
+cal-
+
+culated the reflection
+
+coefficient
+
+of the grid and found
+
+that it had the same form as the reflection coefficient for
+
+a transmission
+
+line shunted with an impedance.
+
+Ac-
+
+cordingly,
+
+they defined their grid impedance
+
+20 as the
+
+shunt impedance of the equivalent
+
+transmission
+
+line.
+
+The connection by
+
+between the two impedances
+
+is given
+
+Zu,d = ; + z,,, (5)
+
+where ZO is the alent transmission the forn-
+
+characteristic line, which
+
+impedance
+
+of the equiv-
+
+in the general case has
+
+Cos +
+
+Zo=.(--o-,
+
+(6)
+
+Cos o
+
+where fo is the characteristic
+
+impedance of free space.
+
+The voltage reflection
+
+and transmission
+
+coeficie nts
+
+YV and t, are defined as the ratio between the field
+
+strength of the reflected and the transmitted
+
+wave to
+
+the fielcl strength of the incoming wave (same polariza-
+
+tion).
+
+The power reflection and transmission
+
+coefficients r~
+
+and ffl are defined from these quantities
+
+by:
+
+f~ = 17.1',
+
+(7)
+
+tp= ]t"]z.
+
+(8)
+
+For a lossless grid with no side waves we have
+
+fP == 1-- tp.
+
+(9)
+
+For some applications
+
+it is sufficient to attribute
+
+to
+
+the grid surface an infinitely
+
+large conductivity
+
+in the
+
+directic,n of the wires, and the conductivity
+
+zero in the
+
+transverse
+
+direction.
+
+For example,
+
+this approximate
+
+description
+
+has been used in the investigations
+
+by
+
+Andreasen
+
+[2] and by Aagesen [3] referred to above,
+
+and it is also used to describe a helix in a traveling-wave
+
+tube, the helix being approximated
+
+by a tube with an
+
+infinitely
+
+thin wall having an infinitely
+
+large con-
+
+ductivity
+
+in the direction
+
+of the wires, and the con-
+
+ductivity
+
+zero in the transverse
+
+direction
+
+(see for ex-
+
+ample Chu and Jackson [14]).
+
+However,
+
+in computations
+
+regarding
+
+ground wire
+
+systems the simple description
+
+of the impedance
+
+is in-
+
+sufficient. In such cases the equivalent
+
+shunt impedance
+
+Z, has been used.
+
+The impedance
+
+properties
+
+of the grid for electro-
+
+magnet tic waves may be utilized technically
+
+for example
+
+for matching purposes (clescribed for example by Jones
+
+and Cohn [15 ] for a dielectric lense), for filters (for ex-
+
+ample described by Lewis and Casey [*16]) and for
+
+artificial
+
+dielectrics
+
+(described
+
+for example by Kap-
+
+rielian [17 ]).
+
+III. THE DEVELOPMENT OF THE THEORY Ofi- GRIDS
+
+A. Investigations from an Early Period
+
+As was mentioned in Section II-B Fraunhofer
+
+was the
+
+first physicist to make use of grids. This was done in his
+
+experiments
+
+in spectral analysis around 1823. Since the
+
+purpose of this paper is a description
+
+of investigations
+
+of the electromagnetic
+
+properties of grids, and since the
+
+194
+
+IRE TRANSACTIONS ON MICRO WAVE THEORY AND TECHNIQUES
+
+May
+
+literature
+
+on grids published
+
+from the time of Fraun-
+
+hofer up to the end of the century is difficult to trace, in
+
+what follows only references will be made to papers
+
+published
+
+in 1889 or later, 1889 being the year when
+
+Hertz [1] showed that grids are of interest also for waves
+
+having a- wavelength
+
+essentially
+
+larger than the wave-
+
+length of light.
+
+The first attempt
+
+to a quantitative
+
+explanation
+
+of
+
+Hertz' experiments
+
+was made by J. J. Thomson
+
+[18] in
+
+1893. He considered a plane grid of infinite extent hav-
+
+ing a grid constant smaller than the wavelength
+
+and
+
+with the polarization
+
+of the normally
+
+incident
+
+wave
+
+parallel to the wires of the grid. Thornson found that at
+
+a certain distance from the grid the intensity
+
+of the re-
+
+flected wave is the same as in the case of reflection from
+
+a metallic surface, but that the phase differs with a
+
+quantity
+
+depending
+
+upon the diameter of the wires and
+
+the grid constant.
+
+In 1898 Lamb [19] published
+
+a paper in which he
+
+computed
+
+the reflection
+
+and the transmission
+
+co-
+
+efficient for the grid as well in the case when the polariza-
+
+tion of the incident wave is parallel to the wires as in the
+
+case when the polarization
+
+is perpendicular
+
+to the wires
+
+(perpendicular
+
+incidence).
+
+These computations
+
+were
+
+based on the potential and the stream functions for the
+
+stationary
+
+field around the grid. Lamb investigated
+
+partly a grid consisting of strips, and partly a grid con-
+
+sisting of circular rods, the grid constant d being in both
+
+cases smaller than the wavelength
+
+L In contradiction
+
+to Thomson he found in accordance with later theories
+
+and measurements
+
+that the reflection
+
+coefficient
+
+de-
+
+pends upon the wire diameter as may be seen from the
+
+following expression found by Lamb for the power reflec-
+
+tion coefficient
+
+r~ for a grid consisting
+
+of circular rods
+
+with radius a.
+
+1) Electric vector parallel to the direction of the wires
+
+(lo)
+
+2) Electric vector the wires
+
+perpendicular
+
+to the direction
+
+of
+
+H27r2a2 2 Ad
+
+?'p =
+
+(11)
+
+[2#a2\ 2 "
+
+`` h-)
+
+The last formula shows that when a<<d, the reflection
+
+coefficient will be very small, i.e., a wave polarized per-
+
+pendicular
+
+to the direction of the wires passes the grid
+
+almost
+
+uninfluenced
+
+as shown experimentally
+
+by
+
+Hertz.
+
+In 1906 Schaefer and Laugwitz
+
+[20] tried to verify
+
+J. J. Thomson's
+
+results experimentally
+
+(at this time
+
+they were not acquainted
+
+with Lamb's work). They
+
+measured ancf compared the phase difference occurring,
+
+in the reflection from a metal plate and in the reflection
+
+from a grid, and they found that it did not agree at all
+
+with Thomson's
+
+results. Whereas Thomson had found
+
+a pronounced
+
+dependence of the grid constant, Schaefer
+
+and Laugwitz's
+
+experiments
+
+showed that there was
+
+practically
+
+no dependence.
+
+In 1907 G. H. Thomson
+
+[21] also carried out meas-
+
+urements to check the theories of J. J. Thomson as well
+
+as Lamb's theories. Using a different
+
+method he ob-
+
+tained results which agreed well with Lamb's theory
+
+but not with the theory of J. J. Thomson.
+
+Through,
+
+G. H. Thomson's
+
+paper, Schaefer and Laugwitz
+
+became
+
+aware of Lamb's investigation,
+
+and their paper from
+
+1906 was followed by a second paper [22] in which they
+
+showed that their measurements,
+
+too, were in agreement
+
+with Lamb's theory.
+
+The influence on the transmission
+
+through the grid by
+
+the material of the wires in the grid was investigated
+
+experimentally
+
+by Schaefer and Laugwitz
+
+[23] in 1907.
+
+At this time there were no theoretical
+
+investigations
+
+available with which the measurements
+
+could be com-
+
+pared, since all theories developed up until that time
+
+were based on the assumption
+
+that the wires were per-
+
+fectly conducting.
+
+Another assumption
+
+upon which all
+
+theories known to that time are based is that the radius
+
+of the wires is much smaller than the grid constant and
+
+the wavelength.
+
+However, the smaller the radius is, the
+
+larger is the influence of the finite conductivity
+
+of the
+
+wires. For this reason Schaefer and Laugwitz
+
+made
+
+measurements
+
+on grids with very thin wires of various
+
+metals. They measured
+
+the power transmission
+
+co-
+
+efficient for these grids and found a certain dependence
+
+of the grid material.
+
+At the same time as the above theories for explaining
+
+Hertz's grid experiments
+
+were developed and measure-
+
+ments made, some papers on optical and acoustical
+
+grids were published.
+
+A few of these papers will be
+
+mentioned
+
+here.
+
+In optics there was some interest in the influence of
+
+grids on the polarization
+
+of light. In fact, as early as
+
+1861 Fizeau had made experiments
+
+with polarized light
+
+incident upon a screen with slits, and EIertz's experi-
+
+ments with grids revived the interest in this field. In
+
+1911 du Bois and Rubens [24] gave a review of all inves-
+
+tigations lmade in this field up until this time, and new
+
+investigations were made by themselves. An interest was
+
+manifested
+
+in investigating
+
+whether the light had the
+
+same property as Hertz's radio waves, namely, that the
+
+effect of the grid is larger when the incident wave is po-
+
+larized parallel to the wires than it is when the polariza-
+
+tion is in the transverse direction.
+
+In 1910 Schaefer and
+
+Reiche [25] called the two effects the Hertz effect and
+
+the Dubois effect (with reference to a previous work of
+
+du Bois), respectively,
+
+and they investigated
+
+theoret-
+
+ically when these two effects will occur. In their compu-
+
+tations they assumed that the wire diameter is small as
+
+compared to the wavelength,
+
+and that the grid constant.
+
+1962
+
+Larsen: Theory of Wire Grids
+
+195
+
+is so large as compared to the wavelength
+
+that the com-
+
+putation of the field can be made on the basis of the comp-
+
+utation
+
+of the field for a single cylinder. In a following
+
+paper from 1911 Schaefer and Reiche [26] elaborated
+
+on their theory, still assuming that the grid constant is
+
+much larger than the wavelength
+
+so that the mutual
+
+influence
+
+of the wires can be neglected
+
+in computing
+
+the field.
+
+In acoustics Lord Rayleigh in particular
+
+worked on
+
+problems
+
+regarding
+
+the scattering
+
+of sound waves
+
+around various types of bodies including
+
+grids. His in-
+
+vestigations
+
+form the basis for Lamb's theory of grids
+
+from 1898.
+
+All the viewpoints
+
+mentioned
+
+so far were united in a
+
+very
+
+comprehensive
+
+theoretical
+
+investigation
+
+by
+
+Ignatowsky
+
+[27] from 1914. He was the first to consider
+
+an angle of incidence different from zero (the plane of
+
+incidence
+
+being perpendicular
+
+to the wires) and an
+
+arbitrary
+
+cross section as well as an arbitrary
+
+material
+
+for the wires. Later authors have usually found Igna-
+
+towsky's
+
+investigation
+
+too general and therefore
+
+too
+
+difficult
+
+to interpret
+
+clearly,
+
+for which reason his
+
+formulas
+
+have seldom been used. (However
+
+in a paper
+
+from 1958 Meecham,
+
+et al. [28] have made numerical
+
+computations
+
+based directly on Ignatowsky's
+
+formulas.)
+
+In 1914 Arkadiew
+
+[29] made some experimental
+
+in-
+
+vestigations
+
+of the reflection
+
+from grids consisting
+
+of
+
+only 4 wires. Both ferromagnetic
+
+and nonferromagnetic
+
+materials were used, but as was the case for Schaefer
+
+and Laugwitz in 1907 no theoretical
+
+investigations
+
+were
+
+available
+
+at that time with which to compare the ex-
+
+perimental
+
+results.
+
+This theory was developed in 1920 by Gans [30] and
+
+in an appendix
+
+[31 ] to the first paper in 1921.
+
+He considered
+
+grids with circular wires the radius of
+
+which were much smaller than the grid constant,
+
+and
+
+this again much smaller than the wavelength.
+
+In the
+
+first paper he assumed that p,= 1, but in the second
+
+paper he found that the formulas were valid also for
+
+pr# 1. only considering
+
+the case of perpendicular
+
+in-
+
+cidence he investigated
+
+partly the case where the
+
+polarization
+
+of the incident
+
+wave is transverse
+
+to the
+
+wires, and partly the case where it is parallel to the
+
+wires. In the last mentioned
+
+case he found the following
+
+expression for the voltage reflection coefficient:
+
+­1
+
+`rV =
+
+J
+
+(12)
+
+2d
+
+d
+
+l­i~
+
+ln~a+ro
+
+(
+
+)
+
+where
+
+Here YO(kla) and -T,,'(kla) are the zero order Bessel func-
+
+tion and its first derivative
+
+of argument
+
+(k]a). The
+
+formula
+
+(12) is seen to agree with (10) calculated
+
+by
+
+Lamb, when TO== O, which will be the case for perfectly
+
+conduct ng wires.
+
+Gans made numerical computations
+
+in the case of the
+
+electric vector being parallel to the wires using the same
+
+constanl:s as were used by Schaefer and Laugwitz
+
+in
+
+their exl>erimental
+
+work from 1907. However, it turned
+
+out thai. his results did not agree at all with the meas-
+
+uremeni.s. In 1924 Schaefer [32 ] found a very simple
+
+explanation
+
+of this fact, as he showed by repeating the
+
+experiments
+
+that the discrepancy
+
+was due to a printing
+
+error in the paper from 1907, where the figures for the
+
+reflection
+
+and the transmission
+
+coefficients
+
+were
+
+changecl. After correction of this error the measurements
+
+agreed with the theory.
+
+Arkadiew
+
+[33] in 1924, too, compared
+
+his experi-
+
+mental results for the nonferromagnetic
+
+wires with the
+
+theory of Gans and found a rather good agreement.
+
+In
+
+1926 [34] he extended Gans's theory to include the case
+
+of ferro Imagnetic wires with a complex permeability
+
+and
+
+compared the results with his experiments
+
+from 1914.
+
+He found that the formulas
+
+found by Gans are valid
+
+also when the permeability
+
+of the wire material is com-
+
+plex.
+
+B, Recwzt Investigations
+
+Since the publications
+
+of the investigations
+
+men-
+
+tioned in the last section, the last of these being from
+
+1926, little work seems to have been done in the theory
+
+of grids for several years. In 1939 the problem was dealt
+
+with again, and since the end of the Second fiVorld War
+
+several contributions
+
+have been given to the theory of
+
+grids.
+
+With reference to an experimental
+
+investigation
+
+by
+
+Esau, Ahrens and Kebbel [35], Wessel [11] made in
+
+1939 a calculation
+
+of the transmission
+
+through a grid,
+
+and he investigated
+
+theoretically
+
+as well as numerically
+
+the eq ~ivalent grid impedance ZW (for the definition
+
+of
+
+this inlpedance
+
+see Section II-C). Wessel based his in-
+
+vestigation
+
+on the method mentioned
+
+in Section I I-.%
+
+using the current in the wires of the grid in his com-
+
+putati~ns. He assumed the wires to have infinite cond uc-
+
+tivity and a circular cross section the radius of which is
+
+much smaller than the wavelength.
+
+The direction
+
+of
+
+propagation
+
+of the incident wave was assumed to be per-
+
+pendicular
+
+to the plane of the grid. Wessel considered
+
+cases where the grid constant varies from being twice
+
+the wavelength
+
+to values much smaller than the wave-
+
+length. His numerical computations
+
+showed good agree-
+
+ment with the corresponding
+
+experimental
+
+investiga-
+
+tions.
+
+For the case d <A (no side waves) Wessel found the
+
+follow ing expression
+
+for the power reflection
+
+co-
+
+efficient
+
+(Durchlassigkeit
+
+D defined by Wessel equal
+
+to tp):
+
+1
+
+~P =
+
+>
+
+(14)
+
+( )' 1+$ .
+
+196
+
+IRE TRANSACTIONS ON MICROWAVE THEORY AND TECHNIQUES
+
+A4ay
+
+which for d<<~ (the sum negligible) pression (10) given by Lamb.
+For d >A > d/2 Wessel found for impedance
+
+agrees with the equivalent
+
+This expression is seen to agree with the one found by
+
+Wessel, when O = OO. F may be regarded as a correction
+
+term, which is negligible
+
+when d<<~. Curves of F as a
+
+function of O with d/has a parameter are given by Mac-
+
+Farlane.
+
+MacFarlane
+
+[36] utilized in 1946 like Booker [37] in
+
+> (15) 1947 Babinet's
+
+principle
+
+for further
+
+grid investiga-
+
+tions. MacFarlane's
+
+investigations
+
+were related
+
+to
+
+diaphragms
+
+in transmission
+
+lines and waveguides,
+
+the ex-
+
+whereas Booker made
+
+impedance
+
+concept.
+
+a general
+
+investigation
+
+of the
+
+In 1948 Hornejager
+
+[12] extended Wessel's investiga-
+
+grid
+
+tions to include an angle of incidence different
+
+from
+
+zero (the incident wave being polarized parallel to the
+
+wires), and he considered any value of the ratio between
+
+the grid constant and the wavelength.
+
+He found for the power transmission
+
+quotient of the
+
+direct transmitted
+
+wave
+
+i.e., the first term in the sum has turned from an imagi-
+
+nary value to a real value corresponding
+
+to the first
+
+order side wave turning from an attenuated
+
+wave to a
+
+propagating
+
+wave.
+
+In 1946 MacFarlane
+
+[4], like Lamb [19], used a quasi-
+
+stationary
+
+method of computation,
+
+the computation
+
+of
+
+the transmission
+
+coefficient
+
+and the impedances
+
+in the
+
+time dependent case being based on the stationary
+
+solu-
+
+tion for the field around the grid. However, MacFarlane
+
+made an extension of Lamb's investigation
+
+in that he in-
+
+vestigated
+
+the case where the primary wave, polarized
+
+parallel to the wires, has an arbitrary angle of incidence.
+
+MacFarlane
+
+found in this case the following expression
+
+for the voltage reflection
+
+coefficient
+
+under the assump-
+
+tion that a<<d and that the condition (4) (no side waves)
+
+is fulfilled
+
+­1
+
+~" =
+
+>
+
+(17)
+
+l­i25 Zo
+
+where Z~ and ZO are the impedances II-C given by
+
+defined in Section
+
+t.= ($+2+(32
+E)'+(z)'`
+
+(21)
+
+where R- is the real when the inequality R. is given by
+
+part of the grid impedance
+
+Z.,
+
+(4) is fulfilled
+
+(no side waves).
+
+ro Rm =
+2d COS ~ .
+
+The quantities
+
+R and WL are real and imaginary
+
+of the grid impedance Zu in the general case:
+
+ZW = R ­ LJL
+
+(22) parts
+
+where G and .If are expressions
+
+which take different
+
+forms according
+
+to the relative
+
+value of Atd and @
+
+(depending
+
+on the number of real side waves). In the
+
+case of no side waves [(4) fulfilled]
+
+G and M take the
+
+values
+
+G=O
+
+(24)
+
+zo=~ Cos %
+
+Z~=~o$
+
+ln$a+F~,
+[
+
+where F is given by
+
+d
+
+F=~~
+
+2 ,,=~ {[( `sin'+
+
+`2)2-
+
+( )1 O ,
+(+)'11'2
+
++ [( +':'-'')'-
+
+(+)11''-+}
+
+(18)
+
+(19) In this case the above expression for the transmission
+
+coefficient agrees with the reflection coefficient found by
+
+MacFarlane.
+
+In 1949 &Iiles [38] investigated
+
+a grid of strips with
+
+an arbitrary
+
+value of d/A, but only for perpendicular
+
+in-
+
+cidence. By setting up an integral equation and solving
+
+it by variational
+
+principles
+
+he investigated
+
+acoustic
+
+'20) waves as well as electromagnetic
+
+waves polarized
+
+7962
+
+Larsen: Theory of Wire C;rids
+
+197
+
+parallel to and perpendicularly
+
+to the wires. Originally
+
+only infinitely
+
+thin strips were considered, but later the
+
+investigations
+
+were extended to strips of finite thick-
+
+ness.
+
+In 195 I Shmoys [39] formulated
+
+an integral equa-
+
+tion for computing
+
+the scattering matrix for an infinitely
+
+large grid, consisting of wires having an infinite conduc-
+
+tivity and an arbitrary
+
+cross section for the case where
+
+the plane of incidence
+
+for the incident
+
+wave is per-
+
+pendicular
+
+to the wires, the direction of polarization
+
+of
+
+the incident wave being perpendicular
+
+to or parallel to
+
+the wires. In the last mentioned
+
+case he used a varia-
+
+tional method and found an approximate
+
+expression for
+
+the scattering
+
+matrix for a grid, the wire radius and the
+
+grid constant of which are much smaller than the wave-
+
+Itngth.
+
+In the "lf'aveguide
+
+Handbook"
+
+from 1951 IMarcuvitz
+
+[40] presents formulas and curve sheets for the equiv-
+
+alent, normalized
+
+parameters
+
+for various grid con-
+
+figurations
+
+all of which have been found by an integral
+
+equation
+
+method. In all the cases considered
+
+here the
+
+plane of incidence is perpendicular
+
+to the wires. The
+
+following
+
+cases have been treated: grids of infinitely
+
+thin strips with either the magnetic or the electric field
+
+strength parallel to the wires, g-rids with a circular or a
+
+rectangular
+
+cross section in the case where the magnetic
+
+field strength is parallel to the wires, and grids with
+
+elliptical,
+
+circular,
+
+and rectangular
+
+cross section in
+
+the case where the electric field strength is parallel to
+
+the wires.
+
+In 1951 Grillini
+
+[*41] has published
+
+results of an ex-
+
+perimental
+
+investigation
+
+of grids of strips.
+
+In 1952 a new extension
+
+of Wessel's and EIorne-
+
+j ager's investigations
+
+was made by Lewis and Casey
+
+[42] who considered
+
+the case where the wires have a
+
+finite conductivity.
+
+They linlited their investigation
+
+to
+
+the case d <h,/2, thereby excluding
+
+the possibility
+
+of
+
+side waves, and they gave numerical
+
+results for the re-
+
+flection and the transmission
+
+coefficients
+
+for various
+
+values of the conductivity
+
+of the wires for the case
+
+where the electric field strength is parallel to the wires
+
+but where the direction of propagation
+
+of the incident
+
+wave is arbitrary.
+
+They found that the effect of losses in
+
+the wires is to increase the grid impedance 2,, as if the
+
+single wire internal impedance
+
+per unit length Z, were
+
+added in series. Lewis and Casey used the value of the
+
+internal wire itnpedance
+
+given by Ralno and JVhin-
+
+nery [43]:
+
+Curves of the real and imaginary
+
+part of Z, have been
+
+calculated by Lewis and Casey.
+
+They elaborated
+
+on the formula for Zi and the for-
+
+mulas given by Hornej ager to find explicit expressions for
+
+the nurr erical value and phase angle of the reflection
+
+and transmission
+
+coefficient.
+
+Howe ver, in order to compare the value of the reflec-
+
+tion coe~ficient with the results found by other authors
+
+we write down the complex reflection coefficient found
+
+by Lewis and Casey [formula (15) in their paper]
+
+(28)
+
+where Z,' is the normalized
+
+internal
+
+wire impedance
+
+d COS~
+
+2d Cos o
+
+z%' = --z,
+
+=
+
+Zi,
+
+(29)
+
+60r
+
+.rO
+
+and where
+
+jyp' =
+
+(30)
+
+2'T'[l"$+F1
+
+F being the correction
+
+factor found by MacFarlane.
+
+This expression
+
+for the reflection
+
+coefficient
+
+is seen to
+
+agree with those found by LlacFarlane
+
+and Horne-
+
+jager, ~lhen Z,= O. It is also seen to agree with the re-
+
+sults found by Gans, when 0 = O and h>>d(F= 0) as we
+
+have
+
+ZJ
+
+~o=.~_.
+
+(31)
+
+i-o
+
+Using; an integral equation
+
+method lbltiller
+
+[44] in
+
+1953 investigated
+
+the cliff raction around a strip grid, and
+
+in a following paper [45 ] from the same year he denlon-
+
+strated how his results could be used in investigating
+
+disconti nuities in waveguides.
+
+Extending
+
+Ik'essel's, Hornej iiger's, and Lewis' and
+
+Casey's investigations
+
+to include a completely
+
+arbi-
+
+trary d rectiou of incidence and polarization
+
+and omit-
+
+ting any assumptions
+
+regarding
+
+the material
+
+of the
+
+grid wires Wait [13 ] in 1955 made a very general in-
+
+vestigation
+
+of the diffraction
+
+through a grid with cir-
+
+cular wires. hVait discussed the case where the grid-
+
+constant is nluch smaller than the wavelength
+
+so that no
+
+side waves occur and he derived an expression for the
+
+equivalent
+
+grid impedance
+
+defined on the basis of an
+
+equivalent
+
+translnission
+
+line. Wait found the following
+
+expression for the voltage reflection coefficient.
+
+where kl = v'=, high frequencies sion reduces to
+
+i.e., it is assumed that al>>acl. For and not too small wire radii this expres-
+
+­1
+
+y" =
+
+-->
+
+(32)
+
+1+2:
+
+(27)
+
+where Z" and 21, are the impedances II-C.
+
+defined in Section
+
+198
+
+IRE TRANSACTIONS ON MICROWAVE THEORY AND TECHNIQUES
+
+May
+
+~. = l-o Cos 4 Cos 0
+
+An experimental
+
+investigation
+
+of the transmission
+
+(33)
+
+through inclined wire gratings including
+
+some simplified
+
+theoretical
+
+considerations
+
+was given by Snow [50] in
+
+1956, the main emphasis, however, being on the side
+
+wave pattern.
+
+By using a variational
+
+method Primich
+
+[51] in 1957
+
+`F(w'o)l+'z'34) computed
+
+the field around a grid of strips with a per-
+
+pendicularly
+
+incident primary wave and for arbitrary
+
+where
+`(?")
+
+values of d,h. He compared his results with correspond-
+
+ing measurements
+
+and found a reasonable agreement.
+
+A semi-infinite
+
+grid has been investigated
+
+by FeI'd
+
+[*52] (1958), who found that the difference
+
+between
+
+E {[( lm
+.
+-
+
+d
+?z+--cos~sinfl
+
+2 .=*
+
+A
+
+)2
+
+the field in the case of the infinite
+
+of the semi-infinite
+
+grid is vanishing
+
+first four conductors
+
+of the grid.
+
+grid and in the except around
+
+case the
+
+(+cosm'z As was mentioned
+
+above on the basis of Ignatowsky's
+
+-
+
+theory, N'feesham, et al., [28] in 1958 made numerical
+
+computations
+
+of the transmission
+
+through a grid with
+
+d/h> 1 for a perpendicularly
+
+incident wave as well in
+
+the case where the polarization
+
+is parallel to as where it
+
+is perpendicular
+
+to the wires. The computations
+
+have
+
+-(+cos'+')''3r5+) been made on the basis of rather complicated
+
+series ex-
+
+pressions; for this reason only a limited number of nu-
+
+Wait defines the internal wire impedance
+
+ance with Schelkunoff
+
+[46] as
+
+~ = flIO(­ikla)
+7,
+27raI,( ­ikla) `
+
+in accord(36)
+
+merical results have been obtained. These results have
+
+been compared with Pursley's experimental
+
+results, and
+
+a reasonable agreement was observed.
+
+In a thesis [53] from 1958 and later in a paper [54]
+
+Hansen has used an integral equation method for dealing
+
+where 10 and 11 are modified Bessel functions.
+
+This ex-
+
+pression is equal to (26) used by Lewis and Casey, when
+
+Ul>>aq so that kl = <iwplul.
+
+Whereas Lewis and Casey found that the internal wire
+
+impedance
+
+Z, should be added in series to the grid
+
+impedance Zw, Wait found that dZi should be added in
+
+series to the equivalent
+
+shunt grid impedance
+
+Z~. This
+
+is in accordance with the relation (5).
+
+It is seen that the term F is the same as the F found
+
+by MacFarIane
+
+when cos @ =1. In fact the curves of F
+
+as a function of O with d/h as a parameter calculated by
+
+MacFarlane
+
+may be used also to compute the value of
+
+F found by Wait, when the parameter
+
+is put equal to
+
+d COS ~/h.
+
+In 1955 and 1956 Yampolskii
+
+[*47], [48] published
+
+two papers on grid theory investigating
+
+the reflection
+
+coefficient
+
+from a wire grid when the electric vector is
+
+parallel to the wires and perpendicular
+
+to the wires,
+
+respectively.
+
+In the last mentioned case he found for the
+
+voltage reflection
+
+coefficient
+
+when h>>d>>a
+
+with the problem of the diffraction
+
+of a plane, per-
+
+pendicularly
+
+incident wave through a finite number of
+
+infinitely
+
+long slits in an infinitely
+
+large screen. He
+
+gives numerical
+
+results for the transmission
+
+coefficient
+
+in the case where a plane wave polarized in the direction
+
+perpendicular
+
+to the slits hits a screen with one, two,
+
+four or six slits, and he compares these results with the
+
+results for strip-grids
+
+with infinitely
+
+many slits or strips.
+
+In 1959 Decker [55] published
+
+results of measure-
+
+ments of the transmission
+
+through a grid as a function
+
+of the angle of incidence and the frequency.
+
+The in-
+
+cident wave was polarized parallel to the wires. Decker
+
+compared
+
+his results with computations
+
+made on the
+
+basis of the formulas derived by Wait.
+
+In several papers [56]- [58] (1959) and in a thesis [59]
+
+(1960) Sawmark has treated the problem of diffraction
+
+around a number of strips having the same longi-
+
+tudinal
+
+direction
+
+but being otherwise
+
+arbitrarily
+
+oriented with respect to each other. In these investiga-
+
+tions he uses a new extension of the addition
+
+theorem
+
+for Mathieu functions
+
+[60]. He also considers the case
+
+3ir2a2
+
+rv=--
+
+J
+
+dh
+
+of several parallel slits in a plane screen. Numerical
+
+(37) computations
+
+show that when the electric field strength
+
+is parallel to the slits, the transmission
+
+coefficient
+
+for
+
+this expression
+
+is seen to agree with (11) found by four slits or more does not deviate essentially
+
+from the
+
+Lamb except for the factor 3 where Lamb found a fac- corresponding
+
+coefficient for a grid with infinitely
+
+many
+
+tor 2.
+
+slits (except at resonance h = d). Hansen found that this
+
+In an unpublished
+
+thesis Pursley [*49] in 1956 has is not the case when the electric field strength is trans-
+
+described microwave
+
+and infrared light measurements
+
+verse to the slits.
+
+on grids consisting of wires of aluminum
+
+and brass.
+
+In 1959 Skwirzynski
+
+and Thackray
+
+[61] have made
+
+~ 962
+
+Larsen: Theory of Wire Grids
+
+199
+
+some
+
+calculations
+
+closely
+
+related
+
+to the work by
+
+Ignatowsky.
+
+General but involved
+
+formulas
+
+are given
+
+for an arbitrary
+
+angle of incidence
+
+(incoming
+
+wave
+
+polarized parallel to the wires) and approximate
+
+formu-
+
+las suitable for numerical
+
+computations
+
+are given in
+
+the case of normal incidence
+
+for a grid with circular
+
+wires. These formulas are valid for d <A/4 but no re-
+
+strictions
+
+are placed on d in the lower limit as is the
+
+case for all the expressions for reflection coefficients,
+
+etc.,
+
+evaluated
+
+by the authors mentioned
+
+in this section.
+
+Numerical
+
+calculations
+
+of the transmission
+
+coefficient
+
+for various values of wire radius and distance between
+
+wires are given, the lower value of d being equal to
+
+twice the wire radius. These results were compared with
+
+experimental
+
+results by Goodall
+
+and Jackson
+
+[62]
+
+(1959) and good agreement was obtained.
+
+IV. SOME RECENT INVESTIGATIONS GMDS CONFIGURATIONS
+
+OF SPECIAL
+
+A. Grids with Wires of a Special ibfate~ial
+
+1) Fer~omagnetic Grids: Kozinets
+
+[*63] has in 1946
+
+and EpeIboim
+
+[*64] has in 1947 elaborated
+
+on Arka-
+
+cfiew's investigations
+
+of ferromagnetic
+
+grids.
+
+2) Grid Wiyes of Two Di#e~ent Materials: In 1956
+
+Paramonov
+
+[65] investigated
+
+both theoretically
+
+and
+
+experimentally
+
+the transmission
+
+through
+
+a grid con-
+
+sisting of circular conducting
+
+wires uniformly
+
+coated
+
+with a dielectric
+
+(ice); it turns out that the reflection
+
+decreases considerably
+
+with increasing thickness of the
+
+dielectric
+
+coating. The computed
+
+curves are in good
+
+agreememt with the experimental
+
+data.
+
+3) Grid Wires with Lumped Elements: A new type
+
+of grids was invented
+
+by Trentini
+
+during the Second
+
+World War (published
+
+1953 [66 ]). He inserted usual
+
+network
+
+elements
+
+periodically
+
+along the grid wires
+
+whereby he was able to obtain an arbitrary
+
+impedancz
+
+for an incident electromagnetic
+
+wave. The first grid of
+
+this type was applied as an absorbing coating for metal
+
+walls in the meter wave range. Later such grids have
+
+found application,
+
+for example:
+
+as matching
+
+elements,
+
+in filters, and in electromagnetic
+
+lenses.
+
+In 1954 Franz [67] published a theoretical
+
+investiga-
+
+tion of an idealized model of Trentini's
+
+absorption
+
+grid
+
+where he considered an infinite grid consisting of very
+
+thin wires with a uniformly
+
+distributed
+
+complex im-
+
+pedance placed parallel to a plane sheet with illfiuite
+
+conductivity.
+
+His investigation
+
+also includes the cases
+
+where the conducting
+
+sheet is coated with an absorbing
+
+or dielectric material.
+
+B. Two OY More Parallel G~ids
+
+The experilnental
+
+work by Esau, Ahrens, and Kebbel
+
+[35] which was carried out in connection
+
+with Wessel's
+
+theoretical
+
+investigations
+
+in 1939 also contained
+
+meas-
+
+urements on several parallel grids. Franz [68] first of
+
+all treated this case theoretically
+
+in 1949. Using a simpli-
+
+fied form of Wessel's rn~thod of computation
+
+he investi-
+
+gated an arbitrary
+
+number of infinite grids with the
+
+same grid constant placed parallel to each other with
+
+parallel wires. He found the transmission
+
+coefficient
+
+for various systems of grids as a function of the angle of
+
+incidence, the distance between neighboring
+
+grids, and
+
+their position relative to each other. He found a fair
+
+agreeme It with Esau, Ahrens, and Kebbel's measure-
+
+ments.
+
+Lewis and Casey [*16 ] described in 1951 how two
+
+parallel grids may be used as an interference
+
+filter for
+
+microwaves.
+
+In 1952 Groves [69] investigated
+
+theoretically
+
+as well
+
+as experimentally
+
+the transmission
+
+through two par-
+
+allel gritls the wires of which form an arbitrary
+
+angle
+
+with each other. He found the power transmission
+
+co-
+
+efficient as a function of the distance between the grids,
+
+the Pararneteri?
+
+of the grids, and the angle which the
+
+grid wires form with each other. Groves limited himself
+
+to inve jtigating
+
+grids with a grid constant
+
+much
+
+smaller than the wavelength
+
+and to an arbitrarily
+
+polar-
+
+ized wave with the direction of propagation
+
+being per-
+
+pendicular
+
+to the grids. He based his theoretical
+
+in-
+
+vestigations
+
+on Wessel's work, and he found good agree-
+
+ment between measured and theoretical
+
+values.
+
+The above mentioned investigation
+
+[66 ] from 1953 by
+
+Trentini
+
+also describes measurements
+
+on two and three
+
+parallel grids. In 1955 Trentini
+
+[*7o ] further investi-
+
+gated the transmission
+
+through
+
+two parallel
+
+grids
+
+theoretically
+
+as well as experimentally.
+
+He was par-
+
+ticularly interested in investigating
+
+under what circum-
+
+stances the power transmission
+
+was a maximum.
+
+In 1956 Fel'd [*71] made a theoretical
+
+investigation
+
+of the reflection from and the transmission
+
+through two
+
+grids when the incident wave was polarized parallel to
+
+the wires, whereas the angle of incidence was arbitrary.
+
+In cc)nnection
+
+with work on antenna systems for
+
+circularly
+
+or elliptically
+
+polarized waves Andreasen
+
+[2]
+
+in 1956 investigated
+
+two parallel wire grids, the wires of
+
+which form an arbitrary
+
+angle with respect to each
+
+other.
+
+Several parallel grids or lattices of parallel, cylindrical,
+
+conduct ing rods are of interest for the construction
+
+of
+
+artificial
+
+dielectrics.
+
+Twersky
+
+[72 ]­ [75 ] has in several
+
+papers from 1950­52 considered the problem of scatter-
+
+ing of waves around an arbitrary
+
+number of parallel
+
+cylinders. He investigated
+
+the accuracy of Schaefer and
+
+Reiche's [26] method of computation
+
+from 1911 which
+
+can be used for optical grids where the distance be-
+
+tween i he single wires is so large as compared
+
+to the
+
+wavelength
+
+that the mutual influence can be neglected.
+
+Twersky first extended this method by taking into ac-
+
+count. the mutual influence between neighboring
+
+cylin-
+
+ders, and he later extended the investigation
+
+so that he
+
+found a completely
+
+general expression
+
+for the field
+
+around an arbitrary
+
+number of parallel cylinders
+
+of
+
+arbitra-y
+
+cross section. Sakurai [*76] in 1950 and Ka-
+
+prieliar~ [17] in 1956 have investigated
+
+applications
+
+of
+
+such systems of cylinders for artificial dielectrics.
+
+200
+
+IRE TRANSACTIONS ON MICROWAVE THEORY AND TECHNIQUES
+
+h-lay
+
+C. G~id Pa~allel to the Plane Interface Between Two Media
+
+In 1954 Wait [77] investigated
+
+the reflection from a
+
+grid parallel to a conducting
+
+plane for an arbitrary
+
+angle
+
+of incidence
+
+for the primary
+
+field. In this connection
+
+he also considered
+
+the possibility
+
+of constructing
+
+an
+
+absorption
+
+grid by increasing the resistance of the wires,
+
+a problem which has been investigated
+
+by Franz [67] in
+
+1954. As has been mentioned
+
+above also Aagesen [3]
+
+in 1957 treated the problem of a grid parallel to a con-
+
+ducting surface with a view to obtaining
+
+a polarization
+
+transforming
+
+reflector.
+
+In 1957 Wait [7s ]­ [80 ] treated in three papers the
+
+grid problem which is of greatest interest for the theory
+
+of ground wire systems, namely the computation
+
+of the
+
+field around a grid placed parallel to the interface be-
+
+tween two dielectric media. Wait shows that under cer-
+
+tain circumstances
+
+the two media and the grid may be
+
+considered equivalent
+
+to a composite transmission
+
+line
+
+being shunted with a certain impedance
+
+defined as the
+
+equivalent
+
+grid impedance.
+
+This description
+
+is valid for
+
+1) oblique incidence, when the electric vector is always
+
+parallel
+
+to the wires, 2) normal incidence
+
+for any
+
+polarization,
+
+3) perfectly
+
+reflecting
+
+interface
+
+for any
+
+angle of incidence and polarization,
+
+and 4) oblique in-
+
+cidence, when the magnetic vector is always perpen-
+
+dicular to the wires. Wait's impedance forlnulas for the
+
+grid have been derived for a grid placed in front of the
+
+interface between the two media, but through a simple
+
+interchange
+
+of symbols his formulas can also be used in
+
+the case most often met with in the investigation
+
+of
+
+ground wire systems, a grid buried in the ground and
+
+parallel to the surface of the ground. A numerical
+
+in-
+
+vestigation
+
+of Urait's formulas has been made by Larsen
+
+[81 ] in 1960.
+
+A special configuration
+
+of a grid placed parallel to the
+
+interface between two media is a grid situated inside a
+
+dielectric slab, which for the case of a normally incident
+
+plane wave was investigated
+
+by Yampol'skii
+
+[*82] in
+
+1958.
+
+Sivov [83] has in 1961 made an investigation
+
+of a
+
+grid with different dielectric materials on either side of
+
+the plane of the grid, Both circular and rectangular
+
+cross sections of the wires were treated, the magnetic
+
+field strength being parallel to the wires.
+
+V. CONCLLEION
+
+A review has been given of the literature
+
+pertaining
+
+to the electrical
+
+properties
+
+of wire grids. A great many
+
+papers have been written on this subject most of them
+
+investigating
+
+the case of a plane wave propagating
+
+to-
+
+wards a plane grid consisting
+
+of an infinite number of
+
+equal, equidistant
+
+and parallel wires. Lfost papers deal
+
+with grids with wires of circular cross section, but also a
+
+number of papers describing strip grids have appeared
+
+and a few concerning
+
+grids with wires of arbitrary
+
+cross
+
+section.
+
+Various special grid configurations
+
+have been treated
+
+in the literature
+
+too, for example, ferromagnetic
+
+wire
+
+grids, dielectric
+
+coated wire grids, grids with lumped-
+
+element wires, more parallel grids with parallel wires
+
+and with crossed wires, and grids parallel to conducting
+
+and dielectric interfaces.
+
+Papers with the main emphasis on the scattered side
+
+waves have not been included in this survey.
+
+VI. ACKNOWLEDGMENT
+
+This investigation
+
+was carried out at the Laboratory
+
+of Electromagnetic
+
+Theory at the Technical
+
+University
+
+of Denmark by means of a grant from Den polytekniske
+
+Lcreanstalts ingeni~widenskabelige
+
+fond og G. A. Hage-
+
+manns .Uindefond and by means of support from the
+
+Air Force Cambridge
+
+Research Center of the Air Re-
+
+search and Development
+
+Command,
+
+[Jnited States Air
+
+Force. The author wishes to express her thanks to Prof.
+
+H. L. Knudsen for having suggested this in~,estigation
+
+and to Dr. J. R. Wait for critical comments.
+
+LITERATURE
+
+[1] H. Hertz, " Uber Strahlen elektrischer Kraft, " .4 an. Pkysik, vol.
+
+36, pp. 769-783; 1889.
+,(2--1, N1. G. .+ndreasen. "Reflection from and transmission through
+two parallel wire grids, " A ctu Polytech. Sctind., Elec. Engrg. S&.,
+
+vol. 7, no. 2; 1956.
+
+[3] J. .~agesen, "Polarizatiomtransf Orming
+
+plane reflector for
+
+microwaves, " Acts Po]ytech. Stand., Elec. Eng. Ser., vol. 8,
+
+on. 1­27 ; 1957.
+
+[4] `G. G. N1acFarlane, "Surface impedance of an infinite parallel
+
+wire grid at oblique angles of incidence, " ~. Inst. Elec. Eng~s.,
+pt.3 A, YO1. 93, pp. 1523­1527,; 1946.
+
+[5] G. Gresky, elektrischeu November,
+
+"Die M'irku ngswelse von Reflektoreu bei kurzen
+IVellen, " ~alsrb. drahtl. Tel., ~-ol. 32,. D. D.. 149-162: 1928. `
+
+[6] F. R. Abbott, "Design of optimum buried-conductor
+
+RF ground
+
+system, " PROC. IRE, vol. 40, pp. 846­852; JuIv, 1952.
+
+[7] G. D. Mouteath, "The effect of the ground constants, and of an
+
+earth system, on the performance of a vertical medium wave
+
+aerial, " Proc. IEE, pt. C, vol. 105, pp. 292-306; March, 1958.
+
+[8] H. L. Knudsen and T. Larsen, `(lVirtschaftlich
+
+optimale Di-
+
+mensionierung von Erddrahtsystemen
+
+fur ausgedehnte .\nten-
+
+neusysteme, " FWss. Z. Hochsckule Elektrotcchnik, Ilmenau DDR,
+
+VO1. 6, pp. 41­53 ; 1960.
+
+~9] R. J. Coates, `[.'l grating spectrometer
+
+for millimeter waves, "
+
+Rev. Sci. I?Lstr.. \,ol. 19.. O. .D. 586­.590: Sentember. 1948.
+[*l O]~~tl&e~K1ein, J. H. N. Laubser, A. `H. `Nethercot and C. H. "Magnetron harmonics at millimeter wavelength, " Rev.
+
+Sri. Im)r., VOI:.25, pp. 78­82; February, 195'2.
+
+[11] W. JVessel, "Uber den Durchgang elektrischer IVellen durch
+DrahtZitter, " Hoc~lf?eqt!enzteclL. Efekt. Akust., T-01. 54, pp.62­70;
+
+Augus:, 1939.
+
+--
+
+[12] R. Hornejager, "Uber die Beugung elektromagnetischer
+
+Wellen
+
+an einem Drahgitter, "' Ann. Physik, vol. 4, pp. 25­35; January,
+
+19+8.
+
+[13] J. R. Wait, "Reflection at arbitrary- incidence from a parallel
+
+w-ire grid, " Ap,bl. Sri. Researck, ~,ol. B4, pp. 393-400; 1955.
+
+[14] L. I. Chu and J. D. Jackson, "Field theor~ of tra~,elling-wave
+
+tubes, " PROC. IRE, vol. 36, pp. 853-865; July, 1948.
+
+[15] E. hf. T. Jones and S. B. Cohn, "Surface matching of dielectric
+
+lenses, " J. .4 fipl. Pk.vs., vol. 26, pp. 452-457; April, 19.55.
+
+I*161 E. A. Lewis and T. P. Casev. "Metal m-id interference filter. "
+
+"J. O@. SOc. Aw., T%l. 4.1, p. 360; May, l?951.
+
+[17] Z. A. Kaprielian,
+
+"Electromagnetic
+
+transmission characteristic
+
+of a lattice of infinitely long cylinders, " 1. Appl. Pkys., \-ol, 27.
+
+PP. 1491­1502; December, 1956. [18] J. J. Thomson, "Recent researches on electricity
+
+and magnet-
+
+ism, " Oxford LTniv. Press, England, pp. 425­428; 1893.
+
+[19] H. Lamb, "On the diffraction in transmission of electric waves by
+
+a metallic grating, " Proc. London Matk. Sot., w-01. 29, pp. 523-
+
+5J4; 1898.
+
+[20] C. L. Schaefer and M. Laugwitz, `(Uber die bei Refle~ion elek-
+
+trischer Wellen an Hertzscher Gittern auftreteude verluste, " Ann. Phys~k, vol. 21, pp. 587-594:1906.
+
+Phasen-
+
+[21] G. H. Thomson,
+
+"Uber den Durchgang
+
+Hertzscher
+
+Wellen
+
+durch Gitter, " AnrL. Pkysik, vol. 22, pp. 365-390; 1907.
+
+1962
+
+Larsen: Theory of Wire Grids
+
+201
+
+[22] C. L. Schaefer and LI. Laugwitz,
+
+"Zur Lambscheu Gitter-
+
+theorie, " .4n?~. Ph.vsik, vol. 23, f)p. 399-600; 1907.
+
+[23] C. L. Schaefer and M. Laugwitz, ".lbhiingigkeit
+
+des Yerhaltens
+
+IHertzscher Gitter vom Leitverm@m,"
+
+.4 na. Pkyszk, vol. 23,
+
+pp. 951­956; 1907. [24] H. du Bois and H. Rubens, "I>olal-ization
+
+ungebeLlgter lang-
+
+welliger Warmestrahlen
+
+durch Drahtgit ter, " .4 nn. Physzk, vol.
+
+35, PP. 243­276; 1911.
+
+[25] C. L. Schaefer and F. Reiche, "Ein Beitrag zur `1'heorie der Git-
+
+terin%-ersiol!, " .1?7)~. Pkysik, VO1. 32, pp. .577-588; 1910.
+
+[26] --,
+
+"Zur rheorie der BeugungsK. itt.ers,
+
+" .-inn. f'll~,$ik, vol. 35,
+
+pp. 817­859; 1911.
+
+[27] t~. YOU IgnatowAcy, `[Zur Theoric der Cit ter, " Ann. Phj,sik,
+
+vol. 44, PfJ, 369­436; 1914,
+
+[28] IY. C. Meecharn, S. T. Choh and D. U'. Moonmn, "Calculation
+
+of the reflection of radiation from sam-tooth surfaces and the
+
+reflection and transmission
+
+of radiation b}- parallel cylinder
+
+systems, " Final rept., .4ir Force Office of Scientific Research
+
+Contract No. AF 49(638)-26, Unil-ersity
+
+of Michigan,
+
+.Lnn
+
+Arbor; January, .~958.
+
+[29] N'. .%kadiew, " Uber die Refle~ion elekt ronmgnetischer R'elleu
+
+an Dr&hten, " .~?zn. Physik, vOI. 45, pp. 133-146; 1914.
+
+[30] R. Gans. "Das Yerhalten Hertzscher Gitter. " .-ln}t. Ph .\,,sik. vol.
+
+61, pp. i47-454; 1920.
+
+[31] --, "Bemerlmngen
+
+zu mciuer Arbeit: Das Verhalten Hertz-
+
+scher Gitter, " A ?z~zP. hysik, vol. 66, pp. 427­428; February, 1922.
+
+[32] C. L. Schaefer, "Das Verhalten Hertzscher Gitter (Bemerkungen
+
+zu einer Abhandlung des Herrn R. G~nz), " Ann. Physzk, \-ol.
+
+74, pp. 275-284; May, 1924.
+
+[33] n'. .Arkadiew, "Refle~ion elektromagmetischer
+
+ltrellen an Hert z-
+
+schen Gitteru, " Anti. Physikl vol. 75, pp. 426­434; 1924.
+
+[54] 11'. .k-kadiew.
+
+"Die Reflewou Hertzscher
+
+\I-ellen an ferro-
+
+rnagnetischer Drahtgittern,
+
+" Ann. Plzysik, vol. 81, pp. 649-665;
+
+No\,ember, 1926.
+
+[35J A. Esau, E. Ahrens und IV. Kebbel, " ~ber die Durchlassigkeit
+
+von DrahtKittern
+
+fur elektrischc tVellen, " I<oc}Jfregzlensfcclz,
+
+Elekt. Akust. vol. 53, DD. 113-115: .-lDril. 1939.
+
+[36] G. G. MacFkrlane, `iQ;asi-station&y'
+
+field theory and its appli-
+
+cation to diaphragms and functions in tr~nsrnission lines and
+
+wave guide., " Proc. IEE, pt. 3.A, vol. 93, pp. 703-719; 1946.
+
+[37] H. G. Booker, "The elements of wtt~e propagation using the
+
+impedance concept, " -T. IEE, pt. 3, vol. 94, pp. 171­202; May, 1947. See especially pp. 187-191.
+
+[38] J. W. Miles, "The diffr~ction uf a plane wave through a grating, "
+Quu,t. APP1. Muth.,vol. 7, pp. !5-64; hlfay, 1949.
+
+[39] J. Shmoys, `(Diffraction
+
+of electromagnetic
+
+waves by a plane
+
+wire grating, " 1. Opt. Sot. A nz., vol. 41, pp. 32A­328; May,
+
+1951.
+[40] N. Marcuvitz,
+!\ IcGratv-Hill
+
+"tYaveguide Handbook, " &I. I.T. Rad. Lab. Ser., Book Co., New York, N. Y., no. 10, pp. 280-289;
+
+1951.
+
+[*41] L. Grillini, ".3u e~periment using plane gratings with micro-
+waves, " NROVO Cimenfo, vol. 8, .p.p.952­959: December, 1951.
+(In Italian. )
+
+[42] E. A. Lewis and J. Casey, "Electromagnetic
+
+reflection and
+
+transmission by gratings of resistive wires, " 1. A Ppi. Pkys., vol.
+
+23, pp. 605­608; Jrrne, 1952.
+
+[43] S. Ramo and 1. R. 11'hinnerv. "Fields and wa~-es in modern
+
+~~~," John Iviley and Sons,' Inc., New York, N. Y., p. 2 12;
+
+[44] R. Lfuller, "Eine strcnge Behandlung der Beugung elektromag-
+
+netischer Welleu am Streifengitter, " Z. Nak~~~orsclz., VOL 8a,
+
+pp. 56-60; Jauum-y, 1953.
+
+[45] --
+
+"Refle~iou elektromagrretischer
+
+lt-ellen au inhomogenen
+
+Gren'zfliichen mit eincr,~um E-Vektor senkrechten periodischeu
+
+Strulitur, " Arch. elekt. Ubertruxuzg, vol. 7, pp. 492­5oO; October,
+
+19.53.
+
+[46] S. A. Schelkunoff, "Electromagnetic
+
+lVa~-es, " D. Van Nostrand
+
+Company, Inc., New York, N. Y., p. 264; 1944.
+
+I*471 IT. G. Yamnol'skii. "Oblioue incidence of a dane wave on a wire
+
+" lattice, " R~diofekh?lika, ~ol. 10, no. 9, p~. 39­J8; 1955. (In
+
+Russian. )
+
+[+8] --
+
+"Reflection of a plane wave from ~vire mesh at normal
+
+pola~zation, " Radiotckhnika, <In Rllssian. )
+
+VOL 11, no. 11, p. .p.33-37; 1956.
+
+[*49] lV. K. Pursley, Ph.D. thesis, The University of kIichigan, Ann
+
+Arbor; 1956.
+
+[50] O. J. Snow, "Transmission characteristics of inclined wire grat-
+
+ings. " IRE TRANS. ON ANTIZ?WSAS ~NCI PuorAG.~rloN, vol. .AP-4,
+
+PP. 650-65~; OctOber, 1956.
+
+.[51 .I R. 1. Prirnich, "Some electromagnetic
+
+transmission and reflec-
+
+tio~ properties of a strip grating:" IRE TI{.mrs. ON ANTENNM
+
+AND PROPAGATION, vol. AP-5, pp. 176-182; }lpril, 1957.
+
+[*521 s~rniN.Fn:~~,~~Tle,ldiffraction
+
+of an electromagnetic
+
+wave b>- a
+
+Radiotekk. Elc,ktron,, vol. 3, no. 7, pp. 882­
+
+889; 1958. (In Ru&ian.)
+
+[53] E. B. Hansen, "The Diffraction of a Plane tt'ave Through Two
+
+or ilIo~e Slits lU a Plane Screen, " Licentiate degree, Laboratory
+
+of Electromagnetic
+
+Theory, Technical LTniversity, Denmark;
+
+1958. {In Danish. )
+
+[54] --, "The diffraction of a plane wave through two or more slits
+
+in a plane screen, " .4 ppl. Sri. Rescarclz, vol. B8, pp. 73-83;
+
+1959.
+
+[55] LI. T. Decker, "Transmission
+
+and reflection by a parallel wire
+
+grid, " Y. Res. ~VBS, vol. 63D, pp. 87-90; July-.% ugLlst, 1959.
+
+[56] K. Sarmark~ "Scattering of a plane monochromatic
+
+wave by a
+
+systenl of strips. " .lPP1. Sci. Research, vol. B7, pp. 417-440; 1959.
+
+[57] --, ".lcoustic forces and torques on a system of strips, " .4Pp1.
+
+Sci. Reseuyck, vol. B8, pp. 13-28; 1959.
+
+[58] --
+
+"Transmission
+
+coefficient for a system of parallel slits in
+
+a thi'n, plane screen, " APP1. S(L. Research, vol. B8, pp. 29-34;
+
+1959. [59] --, "On some two dimensional
+
+diffraction
+
+problems,"
+
+Ph.D.
+
+disser !atiou, Dansk Videnskabs Forlag, Copenhagen, Denmark;
+
+1960.
+
+[60] --
+
+`{A note OIL addition theorems for h'fathieu functions,
+
+Z. Lid. Phys., VOI. 10, pp. +26-+28; 1959.
+
+[61] J. K. Skwirzycrski and J. C. Thackray, "Transmission of electro-
+
+magm:tic Itmvcs through wire ~ratiugs (theory )," Marconi Rev.,
+
+101. 22, pp. 77­90; 1959. [62] E. G. .+. Goodall and J. .1. C. Jackson, "Transmission
+
+of elec-
+
+tromz gnetic waves through \vire gratings (e~perimeutal)t
+
+.llurc,~tzi Rev., vol. 22, pp. 91-98; 1959.
+
+['63] O. J Kozinets, " Rcflectiou of electl-ic waves on the wires of a
+
+Hertz screen parallel to the magnetic vector, " in "Problems of
+
+Fert-olmagnetisrn aud ilIagnetodynamics,
+
+" Nioscow, pp. 89­92;
+
+1946. flu Rusiiau. )
+
+[*64] 1. E o~lboim, "On the beha~-iour of a ferromagnetic wire grating
+
+in the centimetre-wave
+
+band, " Y. Pkys. Radium, TO1. 8, pp.
+
+251­256; .~ugust, 1947. (In French. )
+
+[65] 1. K. Paramono\,. "The effect of deuosits on the electrical
+
+properties of \vire mesh surfi~ces, " Radlbekhnika,
+
+vol. 11, no. 9,
+
+PP. 12­20; 1956. (In Russian. ) [66] G. vcrr Trentuu, "Gitter als Schaltelcmeute
+
+elelitrischer It'ellen
+
+im Rtum," Z. Airgew. Pkys., vol. 5, pp. 221-231; June, 1953.
+
+[67] It'. Franz, "Theorie des Trentinischen
+
+Absorptionsgitters,
+
+" Z.
+
+crn~ew. P~Lys,, vol. 6, pp. 449­456: 1954.
+
+[68] --. `('rhe transmission of electric wa~-es through ~vire m-ids."
+
+Z, a~gew. Phys., vol. 1, pp. 416­423; Juue, 19J9.-
+
+"
+
+[69] IV. E. Groves, "Transmission of electromagnetic
+
+waves through
+
+p~irs of parallel wire grids, " 1. .4p@. Pkys., vol. 24, pp. 845-854; July, 1953. [*70] G. ton Trentini, "MaXimunl transmission of electromagnetic
+
+waves by a pair of \vire gratings, ~. Opt. Sot. .4/?2., vol. 45, pp.
+
+83.3-885; October, 1955.
+
+[*71 1 ~': ~{. Fel'cf,,"The incidence of electromagnetic
+
+waves on a pair
+
+of ~nhmte mlds, " Dokl. Akad. Naf{k. SSSR, xol. 107, P. D.. 71­74; 1956 (In Russian. )
+
+[72] t'. Twersky, "On the nowspecular reflection of plane ~raves of
+
+50 U1114", 1. Acoasf. SW A w,, vol. 22, pp. 539-546; September, 1950.
+
+[73] --,
+
+:Multiple
+
+scattering of radiation by an arbitrary con-
+
+figur~tlou of parallel cylinders, " Y. .4cozMt. Sot. .4n~., vol. 24,
+
+PP. 42-46; January, 1952.
+
+[74] --
+
+"Llultiple scattering of radiation by an arbitrary planar
+
+conlikuration
+
+of narallel cvlinders and bv two Darallel cvlin-
+
+ders, ; .1. Apjl. I%ys., VO1.-L?3, pp. 407­41'4; Apr(l, 1952. "
+
+[75] --
+
+"On a multiple scattering theory of the tinite grating and
+
+the `;t'ood anomalies," .T. .4Pjl. Phys., ~,ol, 23, pp.1099-1118;
+
+October, 19.52.
+
+~76] T. %kur~i "Electromagnetic
+
+phenomena on ribbon elements
+
+gratings, " J#' P,hys. Sot, Japan, vol. 5, pp. 203­207; July -.kugust,
+
+1950.
+
+[77] J. R, ~~rait, "Reflection from a ~~-ire grid parallel to a conducting
+
+plane, " Ca}iad. J. Phys,, vol. 32, pp. 571­579; September, 1954.
+
+[78] --,
+
+"The impedance of a wire grid parallel to a di-electric
+
+interface, " IRE TRANS. ON MICROWAVE THEORY AND TECH-
+
+NIQUES, vol. MTT-5, pp. 99­102; April, 1957.
+
+[79] ~-, "On the theory of reflection from a wire gl-id parallel to
+
+an interface bet~~een homoreueous search, vol. B6, pp. 259­275 ;-l 956.
+
+media I." Ao.02.. Sri. Re-
+
+[80] ---, "On the theory of reflection from a wire grid parallel to
+
+an interface between homogeneous media I I," #iP@/. .Sci. Re-
+
+sear~h, VO1. B7, pp. 355-.360; 1958.
+
+[81] T. Larsen, "Nunlerical investigation of the equivalent impedance
+
+of a wire grid parallel to the interface between two media,'>
+
+1. Res. NBS, vol. 66D, pp. 7­14; January-February,
+
+1962.
+
+["82] V. G. Yampol'skii,
+
+"The diffraction of plane waves by a wire
+
+grid situated inside a dielectric slab, " Radiotekk. Efektrw., vol.
+
+3, pp. 1516­1518; December, 1958. (In Russian. )
+
+[83] fi. N. Sivov, "Incidence of a plane electromagnetic
+
+wave on a
+
+flat grating (case of the H-~,ector parallel to the conductors ),"
+
+Radiotekh. Elektron., vol. 6, pp. 58-66; January, 1961. (In
+
+Russian. )
+
+

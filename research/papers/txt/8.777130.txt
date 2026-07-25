@@ -1,0 +1,613 @@
+1050
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 47, NO. 6, JUNE 1999
+
+Efficient Calculation of Lattice Sums for Free-Space Periodic Green's Function
+Kiyotoshi Yasumoto, Senior Member, IEEE, and Kuniaki Yoshitomi, Member, IEEE
+
+Abstract-- An efficient method to calculate the lattice sums is presented for a one-dimensional (1-D) periodic array of line sources. The method is based on the recurrence relations for Hankel functions and the Fourier integral representation of the zeroth-order Hankel function. The lattice sums of arbitrary high order are then expressed by an integral of elementary functions, which is easily computed using a simple scheme of numerical integration. The calculated lattice sums are used to evaluate the free-space periodic Green's function. The numerical results show that the proposed method provides a highly accurate evaluation of the Green's function with far less computation time, even when the observation point is located near the plane of the array.
+Index Terms--Green's function, lattice sums, periodic array.
+I. INTRODUCTION
+THE calculation of the free-space periodic Green's function is a key to the efficient numerical analysis of electromagnetic scattering by periodic structures. The spatial form of the Green's function for a one-dimensional (1-D) periodic array of line sources is expressed as an infinite sum of Hankel functions multiplied by trigonometric angular dependencies. Its spectral form is represented by an infinite sum of plane waves which satisfy Floquet's theorem. It is well known that both of two forms converge very slowly whenever the observation point lies near the plane of the array. Various analytical or numerical techniques [1]­[8] have been devised to overcome the slow convergence in the periodic Green's function in the spatial or spectral domain.
+An alternative to evaluating the periodic Green's function is to use a Neumann series expansion with coefficients given by the lattice sums [9]. This series converges sufficiently rapidly. The lattice sums depend only on the geometrical parameters of the structure and are independent of the location of the observation point. For a given problem of scattering, we need to calculate the lattice sums only once. This decreases remarkably the time of numerical evaluation of the Green's function at any point of the observation. Then the usefulness of the Neumann series expansion is greatly enhanced when combined with an efficient method to calculate the lattice sums. Recently, a hybrid technique [9], based on the recurrence formula and lattice sum identities, has been devised for calculating the lattice sums of arbitrary high order. However, this technique requires much computation time. It should be noted [9] that the overall time to evaluate the Green's function at one
+Manuscript received November 4, 1997; revised November 13, 1998. The authors are with the Department of Computer Science and Communication Engineering, Kyushu University, Fukuoka, 812-81 Japan. Publisher Item Identifier S 0018-926X(99)05814-7.
+
+observation point is dominated by the time needed to compute the lattice sums. The efficient and accurate evaluation of the lattice sums is of significant importance from another point of view. When the electromagnetic scattering by a periodic structure is formulated using the T-matrix method, one needs inevitably to calculate a large number of the lattice sums [10].
+In this paper, we shall present a very efficient numerical method to calculate the lattice sums. The approach is based on the recurrence formula for Hankel functions [11] and the Fourier integral representation of the zeroth-order Hankel function. The lattice sums of arbitrary high order are then represented by an integral form of elementary functions. The integration is easily performed by using a simple trapezoidal formula of numerical integration. The accuracy and efficiency in computation of the proposed method are examined by the numerical tests for certain typical cases. The numerical results show that the method provides a highly accurate evaluation of the Green's function with far less computation time, even when the observation point is located near the plane of the array.
+
+II. FORMULATION
+
+When the time dependence with
+
+is assumed, the
+
+Green's function for a 1-D array of line sources spaced
+
+units apart along the axis is given by
+
+(1)
+
+where
+
+is the zeroth-order Hankel function of the second
+
+kind, is the wavenumber of the medium, is the incidence
+
+angle of a hypothetical plane wave with respect to the
+
+axis, and the location of the reference source is assumed at
+
+the origin. The infinite series in the spatial domain Green's
+
+function (1) converges very slowly. The spectral domain form
+
+of (1) is represented by
+
+(2)
+
+where (3)
+
+(4)
+
+0018­926X/99$10.00 © 1999 IEEE
+
+YASUMOTO AND YOSHITOMI: EFFICIENT CALCULATION OF LATTICE SUMS FOR FREE-SPACE PERIODIC GREEN'S FUNCTION
+
+1051
+
+The infinite series (2) in the spectral domain converges rapidly
+
+for the off plane case
+
+. This occurs because as
+
+increases, the plane wave response changes from propagating
+
+waves to exponentially decaying evanescent waves. For the on
+
+plane case
+
+, however, the series converges very slowly
+
+because it no longer has the exponentially decaying factor.
+
+An alternative to evaluating the free-space periodic Green's
+
+function is to use a Neumann series representation for (1).
+
+Within the domain defined by
+
+and
+
+, Graf's addition theorem for the Hankel functions
+
+is used and (1) is expanded in terms of Bessel functions as
+
+follows [9]:
+
+Substituting (8) into (7) and assuming that
+
+,
+
+,
+
+and
+
+, we obtain the following formula for Hankel
+
+functions:
+
+Using this formula by letting expressed as
+
+(10) , the first sum in (6) is
+
+(11)
+
+with
+
+(5)
+
+with
+
+(12)
+
+(6)
+
+where
+
+, is Bessel function of the th order, and
+
+and
+
+are the polar coordinates
+
+in the ­ plane. The coefficient
+
+in the expansion
+
+is usually referred to as the lattice sum of the th order.
+
+The lattice sums depend only on the geometrical parameters
+
+of the structure and are independent of the location of the
+
+observation point
+
+. For a given problem of scattering, we
+
+need to calculate the lattice sums only once. This decreases
+
+remarkably the time of numerical evaluation of the Green's
+
+function at any point of observation. However, we notice again
+
+that the lattice sums given by two semi-infinite sums of the
+
+Hankel functions are unfortunately slowly convergent. Since
+
+the Neumann series itself converges rapidly, the advantage of
+
+using (5) is greatly enhanced when combined with an efficient
+
+method to calculate the lattice sums. In what follows, we shall
+
+discuss a method to evaluate efficiently two semi-infinite sums
+
+in (6).
+
+Consider the evaluation of the first sum in (6). The second
+
+sum can be treated in the same manner. To do this, we use the
+
+recurrence formula [11] for Hankel functions
+
+(7)
+and the Fourier integral representation of the zeroth-order Hankel function of the second kind
+
+where
+
+. When the limit
+
+is taken,
+
+the function
+
+oscillates very rapidly for
+
+and
+
+decays very fast for
+
+. Then the second term in the
+
+numerator of (12) vanishes after the integration and (11) leads
+
+to
+
+(13) Using the normalization of variables, (13) is rewritten as
+
+(14) where
+(15)
+
+(16)
+
+To avoid the difficulties of integration near the singular
+
+points of
+
+, the integration in (14) is evaluated
+
+along the straight line which makes the angle of rad with
+
+respect to the real axis in the complex plane. After several
+
+manipulations, the integration in (14) can be approximated
+
+with a high enough accuracy as follows:
+
+(8)
+
+where
+
+(9)
+
+.
+
+(17)
+
+1052
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 47, NO. 6, JUNE 1999
+
+where
+
+and
+
+is a positive real number which
+
+is chosen so that the integration converges with a required
+
+accuracy.
+
+The presence of exponential function
+
+in (16),
+
+which decays very rapidly for
+
+, enables us to approx-
+
+imate the infinite integral (14) in terms of the finite integral
+
+(17). The choice of the upper limit in the integration depends
+
+on the value of parameter
+
+and is determined by
+
+the numerical testing.
+
+Following the same procedure, the second sum in (6) can
+
+be expressed as follows:
+
+TABLE I
+S kd;  THE FIRST 50 VALUES OF LATTICE SUMS n( cos i) CALCULATED FOR =d = 0:23 AND i = 5=8 rad. Re[Sn] AND Im[Sn] DENOTE THE REAL
+  S AND IMAGINARY PARTS OF n. THE RESULTS TERMED BY "HYBRID TECHNIQUE"
+HAVE BEEN REPRODUCED FROM [9, TABLE I] (a) S0 S24. (b) S25 S49
+
+(18)
+
+The integrals in (17) and (18) can be accurately and efficiently
+
+calculated using a standard formula of numerical integration
+
+for elementary functions. The advantage of using (17) and (18)
+
+is that both the real and imaginary parts of the lattice sums of
+
+arbitrary high order are simultaneously evaluated by a simple
+
+FORTRAN implementation. Although the hybrid technique
+
+[9] is an accurate approach, it involves much complicated
+
+intermediate formulas using special functions and requires
+
+to evaluate separately the real and imaginary parts of the
+
+(a)
+
+lattice sums. Moreover, the numerical algorithms used in the
+
+calculation are different for the lower order lattice sums and for
+
+the higher order ones. Those features of the hybrid technique
+
+inevitably increases the computation time.
+
+III. NUMERICAL EXAMPLES
+
+To confirm the validity of the proposed method, (17) and
+
+(18) were used to calculate the lattice sums (6). Although a
+
+substantial number of numerical tests could be generated, we
+
+will present here only the results related to certain typical cases
+
+with
+
+rad and
+
+and . These
+
+cases have been investigated by using the hybrid technique
+
+[9] and the numerical results obtained by a MATHEMATICA
+
+program run on a SPARC-10 workstation have been given in
+
+tabular form. For the comparison of computation time, we also
+
+used a SPARC-10 workstation for the calculation.
+
+The integrals in (17) and (18) were evaluated using a
+
+trapezoidal formula, which is the simplest scheme in numerical
+
+integration. The upper limit and a small division in the
+
+integration were chosen so that the values of the lattice sums
+
+are obtained with the accuracy of eight significant figures.
+
+Since the integrands
+
+and
+
+in (17)
+
+and (18) are smooth as functions of , the results of numerical
+
+integration are not so sensitive to the choice of division .
+
+The first 50 values of the lattice sums calculated by the
+
+present method are given in Table I for
+
+and
+
+compared with those of the hybrid technique.
+
+and
+
+denote the real and imaginary parts of the lattice sum of
+
+th order. The results of the hybrid technique are reproduced
+
+from [9, Table I] by changing the signs, since their lattice
+
+(b)
+
+sums are defined using Hankel functions of the first kind. The
+
+results of the imaginary part of odd order and the real part
+
+of even order have not been given in [9]. The present results
+
+were obtained by choosing
+
+and
+
+. We can
+
+see that both results are in close agreement for
+
+and
+
+. However, there appears a slight difference
+
+between them for
+
+.
+
+YASUMOTO AND YOSHITOMI: EFFICIENT CALCULATION OF LATTICE SUMS FOR FREE-SPACE PERIODIC GREEN'S FUNCTION
+
+1053
+
+TABLE II
+S kd;  THE FIRST 30 VALUES OF LATTICE SUMS n( cos i) CALCULATED FOR =d = 0:46 AND i = 5=8 rad. Re[Sn] AND Im[Sn] DENOTE S THE REAL AND IMAGINARY PARTS OF n. THE RESULTS TERMED BY
+"HYBRID TECHNIQUE" HAVE BEEN REPRODUCED FROM [9, TABLE II]
+
+TABLE III
+THE FIRST 30 VALUES OF LATTICE SUMS Sn(kd; cos i) CALCULATED FOR =d = 1:77 AND i = 5=8 rad. Re[Sn] AND Im[Sn] DENOTE S THE REAL AND IMAGINARY PARTS OF n. THE RESULTS TERMED BY
+"HYBRID TECHNIQUE" HAVE BEEN REPRODUCED FROM [9, TABLE II]
+
+The hybrid technique utilizes a set of lattice sum identities
+
+which is a system of linear equations for the lattice sums. The
+
+linear system for
+
+was numerically solved [9]
+
+by incorporating the recurrence relations and nearest-neighbors
+
+estimate for lattice sums to avoid a problem of ill condition for
+
+the system. The linear system becomes larger and the dynamic
+
+range of the matrix elements rapidly increases as the order of
+
+lattice sums concerned increases. In the present method, on
+
+the other hand, each of the lattice sums of arbitrary order is
+
+calculated separately by using (17) and (18). This difference
+
+in the calculation process may cause such a small discrepancy
+
+as mentioned above. Due to the simpler equations involved,
+
+the numerical procedure of the present method is much more
+
+efficient than that of the hybrid technique [9]. The total central
+
+processing unit (CPU) time to calculate the first 50 lattice
+
+sums by the present method was only 40 s, whereas the hybrid
+
+technique requires 1231 s for the same computation.
+
+The first 30 values of lattice sums calculated by the present
+
+method for
+
+and
+
+are shown in Tables II
+
+and III, respectively, and compared with those of the hybrid
+
+technique [9]. The present results in Tables II and III were
+
+obtained by choosing
+
+for
+
+and
+
+,
+
+respectively, in the numerical integration of (17) and (18). It
+
+is seen that both results are in good agreement. Although the
+
+computation time needed for the hybrid technique has not been
+
+described in [9], the total CPU times in computation were 48
+
+and 84 s for the present method in Tables II and III. When
+
+increases, the exponentially decaying factor involved in (16)
+
+TABLE IV
+
+COMPARISON BETWEEN DIFFERENT METHODS TO EVALUATE THE GREEN'S
+
+FUNCTION FOR "DIRECT SUM"
+
+=d
+AND
+
+=O(01:=2n33A)NIDNDIiCA=TE5AS=8TRrAaIdG.HITNFOTRHWEAFRIDRSSTUCMOOLFUMTHNE,
+
+SERIES (2) AND THE CALCULATION USING A THIRD-ORDER ACCELERATION
+x y TECHNIQUE [7], RESPECTIVELY. AND ARE THE LOCATION OF THE OBSERVATION POINT, Re[G(x; y)] AND Im[G(x; y)] GIVE THE REAL AND N IMAGINARY PARTS OF THE GREEN'S FUNCTION, REPRESENTS THE NUMBER
+T OF TERMS IN THE CORRESPONDING SERIES, AND IS THE COMPUTER CPU TIME IN SECONDS. THE RESULTS OF THE DIRECT SUM, O(1=n3),
+
+AND THE HYBRID TECHNIQUE ARE REPRODUCED FROM [9, TABLE III]
+
+decreases and a larger value of is required for the integration
+
+in (17) and (18) to retain the accuracy of the results. This leads
+
+to a longer computation time as increases.
+
+When the lattice sums were calculated, the Green's function
+
+at any observation point
+
+can be evaluated by using
+
+(5). The values of the Green's function evaluated by the
+
+present method for
+
+rad and
+
+are
+
+shown in Table IV and compared with those of other three
+
+different methods. The "direct sum" and "
+
+" in the
+
+first column indicate a straightforward sum of the series (2)
+
+1054
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 47, NO. 6, JUNE 1999
+
+for 100 independent evaluations of Green's function, the total
+
+CPU time in the hybrid technique is dominated by the time
+
+(1231 s) for computing the lattice sums. In contrast, the present
+
+method requires far less computation time for the evaluations
+
+of the Green's function as well as the lattice sums, even when
+
+the observation point is located near the plane
+
+of
+
+the periodic sources. The comparisons in Tables I, IV, and
+
+Fig. 1 demonstrate that the present method is very accurate
+
+and computationally efficient one in the evaluation of the
+
+free-space periodic Green's function.
+
+Fig. 1. Computer CPU time versus the number of independent evaluations of Green's function for four different methods. The values of parameters are the same as those given in Table IV.
+
+and a calculation using a third-order acceleration technique [7].
+
+and
+
+denote the real and imaginary
+
+parts of the Green's function and represents the number of
+
+terms in the corresponding series. The results of the direct sum
+
+"
+
+" and the hybrid technique are reproduced from [9,
+
+Table III] by taking into account the difference in the kind of
+
+Hankel functions used. The hybrid technique and the present
+
+method used the first 50 values of lattice sums given in Table I.
+
+It is seen that the results of the present method show a closer
+
+agreement with the rigorous values of "direct sum" than those
+
+of the hybrid technique. This fact suggests that the present
+
+method based on (17) and (18) provides a more accurate
+
+evaluation of the lattice sums than the hybrid technique [9].
+
+Fig. 1 shows the computer CPU time versus the number of
+
+independent evaluations of Green's function for four different
+
+methods. The values of parameters are the same as those
+
+given in Table IV. When the configuration parameters
+
+and for a periodic structure are specified, the lattice sums
+
+are determined independently of the location of observation
+
+point. The Green's function at any observation point can
+
+be evaluated from (5) using the same set of the lattice
+
+sums. Then the computation time is remarkably reduced,
+
+when the repeated evaluations of the Green's function at
+
+different points are required. This is an advantage of the
+
+hybrid technique and the present method for evaluating the
+
+Green's function. However, the hybrid technique needs much
+
+more time for the computation of the lattice sums, though the
+
+MATHEMATICA program has been used in [9]. It is seen that
+
+IV. CONCLUSION
+The free-space Green's function for a 1-D periodic array of line sources may be expressed by the Neumann series with the lattice sums as the expansion coefficients. However, the lattice sums are given by a semi-infinite sum of Hankel functions which is very slowly converging. In this paper, an efficient method to calculate the lattice sums of arbitrary order with high accuracy has been presented. The method is based on the recurrence relations for Hankel functions and the Fourier integral representation of the zeroth-order Hankel function. Then the real and imaginary parts of the lattice sums can be simultaneously evaluated using a simple trapezoidal formula of numerical integration. This greatly simplifies the computational procedure and, therefore, drastically reduces the computation time. Numerical results have shown that the proposed method provides a computationally efficient way of evaluating the Green's functions when the observation point is located near plane of the array and a highly accurate result is required.
+REFERENCES
+[1] R. Lampe, P. Klock, and P. Mayes, "Integral transforms useful for the accelerated summation of periodic, free-space Green's functions," IEEE Trans. Microwave Theory Tech., vol. MTT-33, pp. 734­736, Aug. 1985.
+[2] K. R. Demarest, E. K. Miller, K. Kalbasi, and L. K. Wu, "A computationally efficient method of evaluating Green's functions for 1-, 2-, and 3-D enclosures," IEEE Trans. Magn., vol. 25, pp. 2878­2880, July 1989.
+[3] R. E. Jorgenson and R. Mittra, "Efficient calculations of the free-space periodic Green's function," IEEE Trans. Antennas Propagat., vol. 38, pp. 633­642, May 1990.
+[4] S. Singh and R. Singh, "Application of transforms to accelerate the summation of periodic free-space Green's functions," IEEE Trans. Microwave Theory Tech., vol. 38, pp. 1746­1748, Nov. 1990.
+[5] S. Singh, W. F. Richards, J. R. Zinecker, and D. R. Wilton, "Accelerating the convergence of series representing the free space periodic Green's function," IEEE Trans. Antennas Propagat., vol. 38, pp. 1958­1962, Dec. 1990.
+[6] S. Singh and R. Singh, "On the use of -algorithm in series acceleration," IEEE Trans. Antennas Propagat., vol. 39, pp. 1514­1517, Oct. 1991.
+[7] N. A. Nicorovici, R. C. McPhedran, and R. Petit, "Efficient calculation of the Green's function for electromagnetic scattering by gratings," Phys. Rev. E, vol. 49, no. 5, pp. 4563­4577, May 1994.
+[8] J. P. Skinner and P. J. Collins, "A one-sided version of the Poisson sum formula for semi-infinite array Green's functions," IEEE Trans. Antennas Propagat., vol. 45, pp. 601­607, Apr. 1997.
+[9] N. A. Nicorovici and R. C. McPhedran, "Lattice sums for off-axis electromagnetic scattering by grating," Phys. Rev. E, vol. 50, no. 4, pp. 3143­3160, Oct. 1994.
+[10] H. Roussel, W. C. Chew, F. Jouvie, and W. Tabbara, "Electromagnetic scattering from dielectric and magnetic gratings of fibers--A T-matrix solution," J. Electromagn. Waves Applicat., vol. 10, no. 1, pp. 109­121, Jan. 1996.
+[11] C. W. Chew, Waves and Fields in Inhomogeneous Media. New York: Van Nostrand Reinhold, 1990.
+
+YASUMOTO AND YOSHITOMI: EFFICIENT CALCULATION OF LATTICE SUMS FOR FREE-SPACE PERIODIC GREEN'S FUNCTION
+
+1055
+
+Kiyotoshi Yasumoto (SM'89) was born in Ohita, Japan, on March 8, 1945. He received the B.E., M.E., and D.E. degrees in communication engineering from Kyushu University, Fukuoka, Japan, in 1967, 1969, and 1977, respectively.
+In 1969, he joined the Faculty of Engineering of Kyushu University, where, since 1988, he has been a Professor of the Department of Computer Science and Communication Engineering. He was a Visiting Professor of the Department of Electrical and Computer Engineering, University of WisconsinMadison in 1989 and a Visiting Fellow of Institute of Solid-State Physics, Burgalian Academy of Science, Bulgaria, in 1990. His research interests are in electromagnetic wave theory, millimeter and optical waveguides, wave phenomena in electron beam plasma systems, and numerical analysis. Dr. Yasumoto is a member of IEICE Japan, the Optical Society of America, and the Electromagnetic Academy at Massachusetts Institute of Technology, Cambridge. He is a Fellow of the Chinese Institute of Electronics (CIE).
+
+Kuniaki Yoshitomi (M'93) was born in Yamaguchi, Japan, on January 22, 1957. He received the B.S. and M.S. degrees in electronics in 1979 and 1981, respectively, and the D.E. degree in communication engineering in 1986, all from Kyushu University, Fukuoka, Japan.
+He joined the Faculty of Engineering, Kyushu University in 1981 and is currently an Associate Professor of the same university. From July 1990 to July 1991 he was a Visiting Associate Professor at the Department of Electrical Engineering, University of Washington, Seattle. His research interests include antennas, scattering and diffraction, and inverse problems. Dr. Yoshitomi received the Shinohara Memorial Young Scientist Award from the Institute of Electronics, Information and Communication Engineers (IEICE) of Japan in 1989. He is a member of the IEICE of Japan.
+
+

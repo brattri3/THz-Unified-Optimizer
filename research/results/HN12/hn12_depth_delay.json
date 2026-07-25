@@ -1,0 +1,26 @@
+[
+  {
+    "dataset": "356att",
+    "angle0": 0.0,
+    "angle90": 90.0,
+    "dt_ps": 0.10416699999999679,
+    "xcorr_lag_ps": -0.41666799999998716,
+    "peak_shift_ps": -0.3125,
+    "echo_delay_ps": 0.6250019999999807,
+    "echo_rel_amp": 0.703580774877131,
+    "pred_single_pass_ps": 0.6666666666666667,
+    "pred_etalon_ps": 1.3333333333333335
+  },
+  {
+    "dataset": "test_grid_40_20",
+    "angle0": 0.0,
+    "angle90": 90.0,
+    "dt_ps": 0.10416699999999679,
+    "xcorr_lag_ps": -0.41666799999998716,
+    "peak_shift_ps": 0.20833299999999966,
+    "echo_delay_ps": 0.31250099999999037,
+    "echo_rel_amp": 0.4107852868598909,
+    "pred_single_pass_ps": 0.6666666666666667,
+    "pred_etalon_ps": 1.3333333333333335
+  }
+]

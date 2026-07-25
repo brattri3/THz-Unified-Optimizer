@@ -1,0 +1,445 @@
+A matter of symmetry: terahertz polarization detection properties of a multi-contact photoconductive antenna evaluated by a response matrix analysis
+
+Gudrun Niehues,1, Stefan Funkner,1 Dmitry S. Bulgarevich,2 Satoshi Tsuzuki,1 Takashi Furuya,1 Koji Yamamoto,1 Mitsuharu Shiwa,2 and
+Masahiko Tani1
+1Research Center for Development of Far-Infrared Region, University of Fukui, Bunkyo 3-9-1, Fukui 910-8507, Japan
+2National Institute for Materials Science, Sengen 1-2-1 , 305-0047 Tsukuba, Japan
+niehues@fir.u-fukui.ac.jp
+
+Abstract: While terahertz time domain spectroscopy (THz-TDS) is a well-established technique, polarization sensitive measurements are challenging due to the need of broadband polarization devices. Here, we characterize our recently introduced multi-contact photoconductive detector antenna with a response matrix analysis. We show that the lead lines attached to electrodes reduce the antenna symmetry and thereby influence the properties of the response matrices. With a wire grid polarizer, we simulate a sample influencing the polarization angle and the intensity of the incident THz pulse. Evaluating the measurements with the response matrix analysis, our results show a well agreement of the adjusted and measured polarization angles and intensities over a frequency range from 0.25 to 0.8 THz.
+© 2015 Optical Society of America
+OCIS codes: (040.2235) Far infrared or terahertz; (300.6495) Spectroscopy, terahertz; (230.5440) Polarization-selective devices; (080.6755) Systems with special symmetry; (120.5410) Polarimetry.
+References and links
+1. M. Kru¨ger, S. Funkner, E. Bru¨ndermann, and M. Havenith, "Uncertainty and ambiguity in terahertz parameter extraction and data analysis," J. Infrared, Millimeter, Terahertz Waves 32, 699­715 (2011).
+2. M. Hangyo, M. Tani, and T. Nagashima, "Terahertz time-domain spectroscopy of solids: a review," J. Infrared, Millimeter, Terahertz Waves 26, 1661­1690 (2005).
+3. I. Wilke, V. Ramanathan, J. LaChance, A. Tamalonis, M. Aldersley, P. C. Joshi, and J. Ferris, "Characterization of the terahertz frequency optical constants of montmorillonite," Appl. Clay Sci. 87, 61­65 (2014).
+4. E. Hendry, J. M. Schins, L. P. Candeias, L. D. A. Siebbeles, and M. Bonn, "Efficiency of exciton and charge carrier photogeneration in a semiconducting polymer," Phys. Rev. Lett. 92, 196601 (2004).
+5. C. Jansen, S. Wietzke, and M. Koch, "Terahertz spectroscopy of polymers," in Terahertz Spectroscopy and Imaging, K.-E. Peiponen, A. Zeitler, and M. Kuwata-Gonokami, eds. (Springer, 2013), pp. 327­353.
+6. Z. Zhao, G. Niehues, S. Funkner, E. Estacio, Q. Han, K. Yamamoto, J. Zhang, W. Shi, Q. Guo, and M. Tani, "Terahertz surface emission from Cu2ZnSnSe4 thin film photovoltaic material excited by femtosecond laser pulses," Appl. Phys. Lett. 105, 231104 (2014).
+7. P. A. George, J. Strait, J. Dawlaty, S. Shivaraman, M. Chandrashekhar, F. Rana, and M. G. Spencer, "Ultrafast optical-pump terahertz-probe spectroscopy of the carrier relaxation and recombination dynamics in epitaxial graphene," Nano Lett. 8, 4248­4251 (2008).
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16184
+
+8. E. P. Parrott and J. A. Zeitler, "Terahertz time-domain and low-frequency Raman spectroscopy of organic materials," Appl. Spectrosc. 69, 1­25 (2015).
+9. J. Dielmann-Gessner, M. Grossman, V. Conti Nibali, B. Born, I. Solomonov, G. B. Fields, M. Havenith, and I. Sagi, "Enzymatic turnover of macromolecules generates long-lasting proteinwater-coupled motions beyond reaction steady state," Proc. Natl. Acad. Sci. U. S. A. 111, 17857­17862 (2014).
+10. K. Yamamoto, K. Tominaga, H. Sasakawa, A. Tamura, H. Murakami, H. Ohtake, and N. Sarukura, "Terahertz time-domain spectroscopy of amino acids and polypeptides," Biophys. J. 89, L22­L24 (2005).
+11. S. Funkner, G. Niehues, D. A. Schmidt, and E. Bru¨ndermann, "Terahertz absorption of chemicals in water: ideal and real solutions and mixtures," J. Infrared, Millimeter, Terahertz Waves 35, 38­52 (2014).
+12. P. U. Jepsen, U. Møller, and H. Merbold, "Investigation of aqueous alcohol and sugar solutions with reflection terahertz time-domain spectroscopy," Opt. Express 15, 14717­14737 (2007).
+13. D. K. George and A. G. Markelz, "Terahertz spectroscopy of liquids and biomolecules," in Terahertz Spectroscopy and Imaging, K.-E. Peiponen, A. Zeitler, and M. Kuwata-Gonokami, eds. (Springer, 2013), pp. 229­ 250.
+14. E. Castro-Camus, "Polarization-resolved terahertz time-domain spectroscopy," J. Infrared, Millimeter, Terahertz Waves 33, 418­430 (2012).
+15. T. Nagashima, M. Tani, and M. Hangyo, "Polarization-sensitive THz-TDS and its application to anisotropy sensing," J. Infrared, Millimeter, Terahertz Waves 34, 740­775 (2013).
+16. K. Wiesauer and C. Jo¨rdens, "Recent advances in birefringence studies at THz frequencies," J. Infrared, Millimeter, Terahertz Waves 34, 663­681 (2013).
+17. T. Arikawa, Q. Zhang, L. Ren, A. Belyanin, and J. Kono, "Review of anisotropic terahertz material response," J. Infrared, Millimeter, Terahertz Waves 34, 724­739 (2013).
+18. J. Xu, J. Galan, G. Ramian, P. Savvidis, A. Scopatz, R. R. Birge, S. J. Allen, and K. Plaxco, "Terahertz circular dichroism spectroscopy of biomolecules," Proc. SPIE 5268, 19­26 (2004).
+19. A. Y. Elezzabi and S. Sederberg, "Optical activity in an artificial chiral media: a terahertz time-domain investigation of Karl F. Lindman's 1920 pioneering experiment," Opt. Express 17, 6600­6612 (2009).
+20. D. J. Aschaffenburg, M. R. C. Williams, D. Talbayev, D. F. Santavicca, D. E. Prober, and C. A. Schmuttenmaer, "Efficient measurement of broadband terahertz optical activity," Appl. Phys. Lett. 100, 241114 (2012).
+21. S. Watanabe, N. Yasumatsu, K. Oguchi, M. Takeda, T. Suzuki, and T. Tachizaki, "A real-time terahertz timedomain polarization analyzer with 80-MHz repetition-rate femtosecond laser pulses," Sensors 13, 3299­3312 (2013).
+22. N. Yasumatsu, A. Kasatani, K. Oguchi, and S. Watanabe, "High-speed terahertz time-domain polarimeter based on an electro-optic modulation technique," Appl. Phys. Express 7, 092401 (2014).
+23. E. Castro-Camus, J. Lloyd-Hughes, M. B. Johnston, M. D. Fraser, H. H. Tan, and C. Jagadish, "Polarizationsensitive terahertz detection by multicontact photoconductive receivers," Appl. Phys. Lett. 86, 254102 (2005).
+24. A. Hussain and S. R. Andrews, "Ultrabroadband polarization analysis of terahertz pulses," Opt. Express 16, 7251­7257 (2008).
+25. H. Makabe, Y. Hirota, M. Tani, and M. Hangyo, "Polarization state measurement of terahertz electromagnetic radiation by three-contact photoconductive antenna," Opt. Express 15, 11650­11657 (2007).
+26. D. S. Bulgarevich, M. Watanabe, M. Shiwa, G. Niehues, S. Nishizawa, and M. Tani, "A polarization-sensitive 4-contact detector for terahertz time-domain spectroscopy," Opt. Express 22, 10332­10340 (2014).
+27. R. C. Jones, "A new calculus for the treatment of optical systems I. description and discussion of the calculus," J. Opt. Soc. Am. 31, 488­493 (1941).
+1. Introduction
+Terahertz time-domain spectroscopy (THz-TDS) enables the measurement of the THz electric field and thus gives simultaneous access to amplitude and phase information from which an independent calculation of the absorption coefficient and the index of refraction can be conducted [1]. THz-TDS has been applied to various fields of research, e.g. solids [2­7], organic materials [8­10], and aqueous solutions [11­13].
+While this shows the wide scope of applications for THz-TDS, the measurement of the electric field might harbor a problem: Assuming that a THz pulse can be described with a timedependent electric field vector perpendicular to the direction of propagation, the electric field is a two-dimensional quantity [14]. However, in conventional THz-TDS experiments the electric field is often reduced to a scalar. In some special cases, this common reduction might allow ambiguous interpretations of the obtained measurements. For example, a sample might rotate the electric field by its optical activity or birefringence, which could be misinterpreted as absorp-
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16185
+
+tion. Therefore, polarization sensitive measurements are essential to obtain an unambiguous characterization of the optical properties of a sample.
+In this context, recent THz-TDS research employing polarization sensitive methods might be characterized in two directions: On the one hand, the investigation of the optical activity and birefringence of anisotropic materials [14­17] and, on the other hand, the optical activity of chiral samples [18­20]. Thereby, the applied methods range from techniques requiring mechanical rotations like discrete rotations of the detection system [19], spinning detectors [21] or spinning polarizers [20] to polarization modulation with an electro-optic modulator [22].
+While these examples show that polarization sensitive THz spectroscopy can investigate new aspects of material research and chemical and biological samples, they also point out, that further development in the field of THz-TDS polarization devices is necessary [15]. Here, the challenge for polarization sensitive THz-TDS is to develop broadband polarization sensitive devices. Standard photoconductive antennas (PCAs) with two opposing contacts (e.g. bowtietype and dipole-type) limit the detection to mainly one polarization component. In this regard, multi-contact PCAs (see for example [23­25]) offer an improvement by measuring different polarization components at the same time.
+Recently, we introduced a new type of multi-contact PCA using a 4-contact scheme for polarization sensitive detection [26]. Thereby, we compared the spectral response to numerical calculations and described the antenna response by fitting the signal dependence on the incoming polarization angle at one particular frequency. Previously, Hussain et al. [24] described a similar 4-contact antenna, however, their analysis was limited to the time domain.
+In this paper, we present an in-depth description of the antenna performance by applying a response matrix analysis method (similar to [25] for a 3-contact PCA). Thereby, we demonstrate that the response matrix analysis can be applied for the characterization of the polarization response of multi-contact PCAs and allows a fast and precise calibration. Then, we demonstrate the detection of the full polarization state of THz pulses with a polarizer by simulating a sample, which changes the polarization angle and intensity. Furthermore, we study the impact of the antenna symmetry on the response matrix. In particular, we analyze the matrix elements and show how parasitic effects, caused by the lead lines to the electrodes, influence the polarization response of the antenna. While such a deviation from an ideal behavior can be identified, it is corrected by the response matrix analysis and does not affect the detection of the polarization state.
+In the following, the paper is divided into three sections: In the methods section, we describe the experimental setup as well as the theory of the response matrix analysis for multi-contact antennas. Thereafter, in the results and discussion section, we focus on two aspects: First, we show theoretically how a reduction of the antenna symmetry decreases constraints on the response matrix elements and how this can be observed experimentally due to the breaking of the symmetry caused by the lead lines to the antenna electrodes. Secondly, with the response matrix analysis, we reproduce the electric field for various polarization angles and intensities after preparing it with a polarizer. Thereby, only two gauge measurements are required to determine the antenna response. Furthermore, we show that the detection of the electric field vector is possible for a broad bandwidth. Finally, we summarized our results in the conclusions section.
+2. Methods
+2.1. Experimental Setup
+A schematic overview of our experimental setup is shown in Fig. 1. The setup is based on a standard THz-TDS scheme: A mode-locked Ti:sapphire laser provides fs optical pulses (800 nm, 80 fs pulse width) at a repetition rate of 82 MHz. A dipole PCA biased with a sine waveform voltage (AC, 40V peak-to-peak) at 20 kHz was used as an emitter and provided linearly polar-
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16186
+
+ized THz radiation. To further improve the quality of the linear polarization from the emitter PCA, a first wire grid polarizer (WGP1) was installed. The polarizer wires were aligned vertical (with respect to the optical table) to transmit horizontal polarization. Then, a second wire grid polarizer (WGP2) was used to modify the intensity and polarization angle of the incident THz radiation. Therefore, measurements at various angles of this polarizer were performed.
+
+Fig. 1. Schematic illustration of the experimental setup (PBS indicates a polarizing beam splitter). The lower left inset shows a sketch of the center of the 4-contact PCA. The photoconductive signals from contacts A and B were analyzed with a lock-in amplifier, while the opposing contacts were grounded.
+
+For detection, we implemented our 4-contact PCA (for details see reference [26]). The inset of Fig. 1 illustrates the center of the 4-contact PCA. The central gap size between opposing bowtie electrodes was 4 m. The probe beam was focused on the center of the 4-contact PCA with a spot size of a few m, covering the area of the photoconductive gap.
+For the read-out, two neighboring electrodes (A and B) were successively connected to a lock-in amplifier. The two opposing electrodes were grounded during all measurements. A lockin amplifier monitored the current modulation in the detector PCA using the emitter antenna bias voltage modulation as a reference. In general, for faster data acquisition, the two signals from A and B can be measured simultaneously, however, we measured them successively using only one lock-in amplifier.
+
+2.2. Response Matrix Analysis
+In the following, we describe the response matrix analysis method. Though we use the 4-contact PCA as an example for our explanations, the deduced statements are valid for any multi-contact PCA with two signal outputs (2-channel PCA).
+In order to carry out the response matrix analysis, we specify a reference system as follows: The z-axis is defined by the direction of propagation of the THz beam, while the x- and y-axes are located in the perpendicular plane. To fix the coordinate system, we set, without loss of generality, the x-axis parallel to the horizontal direction. The polarization angle is defined as the angle between the THz electric field and the x-axis in the x-y-plane.
+Assuming a linear response of the 2-channel PCA to an arbitrary incident electric field, the response can be described by the following equation:
+
+SA ( ) SB ( )
+
+= D()
+
+Ex ( ) Ey ( )
+
+.
+
+(1)
+
+Here, Ex() and Ey() denote the complex spectral amplitudes corresponding to the incident electric fields in x- and y-direction and SA() and SB() denote the complex spectral ampli-
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16187
+
+tudes obtained by Fourier transformation of the measured photoconductive currents in the timedomain (SA() and SA()). In the following statements, all further calculations are done in the frequency domain, therefore, we omitted the dependencies on the frequency . The complex matrix D specifies the response of the PCA to an incident field. D is an intrinsic experimental
+parameter depending fundamentally on the design and the sensitivity of the PCA. A general
+form of the response matrix is given by
+
+D=
+
+d11 d21
+
+d12 d22
+
+.
+
+(2)
+
+To specify Ex and Ey, we need to model the influence of the polarizers onto the electric field emitted by the dipole PCA. In the following, we define the angle of a wire grid polarizer in such
+a way that this angle agrees with the angle of the transmitted THz polarization (i.e. orthogonal to the wire orientation). The effect of a polarizer with an arbitrary angle  can be described by three operations in the Jones formalism [27]: A rotation of the system onto the orthogonal system to the polarizer's direction , followed by transmission of the corresponding component and subsequent back rotation of the coordinate system resulting in
+
+MPol () = MRot (-) MTrans,x MRot () .
+
+(3)
+
+Thereby, MRot () and MTrans,x describe a clockwise rotation by the angle  and a transmission of the x-component given by
+
+MRot () =
+
+cos () - sin ()
+
+sin () cos ()
+
+(4)
+
+and
+
+MTrans,x =
+
+1 0
+
+0 0
+
+.
+
+(5)
+
+Thus, MPol () can be calculated as follows:
+
+MPol () =
+
+cos2 () cos () sin ()
+
+cos () sin () sin2 ()
+
+.
+
+(6)
+
+In our setup, we utilize two wire grid polarizers: The first polarizer (WGP1) is aligned to transmit horizontal polarization, while the second (WGP2) is rotated by an angle  and prepares the electric field at different polarization angles and intensities. Thus, Eq. (1) can be specified:
+
+SA, SB,
+
+= D MPol () MPol (0)
+
+E0,x E0,y
+
+,
+
+(7)
+
+where E0,x and E0,y are the initial electric field components (before preparation with the polarizers). From Eqs. 2, 6 and 7 we conclude
+
+SA, SB,
+
+=
+
+d11 d21
+
+d12 d22
+
+cos2 () cos () sin () cos () sin () sin2 ()
+
+10 00
+
+E0,x E0,y
+
+.
+
+(8)
+
+To determine the response matrix, we gauge our experiment using WGP2 with two measurements ( = +45 and  = -45). In these cases, Eq. (8) simplifies to the following proposi-
+
+tions:
+
+SA,+45 SB,+45
+
+= E0,x 2
+
+d11 + d12 d21 + d22
+
+(9)
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16188
+
+and
+
+SA,-45 SB,-45
+
+= E0,x 2
+
+d11 - d12 d21 - d22
+
+.
+
+(10)
+
+Thus, the two gauge measurements can be related to the detector response matrix as follows:
+
+D= 1 E0,x
+
+SA,+45 + SA,-45 SB,+45 + SB,-45
+
+SA,+45 - SA,-45 SB,+45 - SB,-45
+
+.
+
+(11)
+
+Now, D is known and considering Eq. (1), for a pair of measured SA and SB values, the electric
+
+field is given by:
+
+Ex Ey
+
+= D-1
+
+SA SB
+
+.
+
+(12)
+
+Besides a constant factor 1/E0,x, the electric field can be calculated by:
+
+1 E0,x
+
+Ex Ey
+
+= D-1
+
+SA SB
+
+,
+
+(13)
+
+where D and D are related by D = D×E0,x. Thus, D depends solely on the gauge measurements. To break the two dimensional electric field down into one-dimensional measures, one can
+
+look at the polarization angle and the intensity. Based on Eq. (13), we can calculate the polar-
+
+ization angle:
+
+tan () =
+
+Ey Ex
+
+=
+
+Ey/E0,x Ex/E0,x
+
+.
+
+(14)
+
+Furthermore, the intensity of the electric field is given by the following relation:
+
+I  ExEx + EyEy,
+
+(15)
+
+where Ex and Ey denote the complex conjugates of Ex and Ey. Here, we can calculate the
+
+relative intensity Irel:
+
+Irel
+
+=
+
+ExEx + EyEy E0,xE0,x
+
+.
+
+(16)
+
+To sum up, Eq. (14) and Eq. (16) in combination with Eq. (11) and Eq. (13) enable the calculation of polarization angles and relative intensities.
+
+3. Results and Discussion
+3.1. Detector Response Matrix: Symmetry Effects
+While the above described response matrix analysis is suitable to specify any antenna system with two channels, our antenna possesses symmetry. Therefore, before using the response matrix analysis to deduce polarization states, we analyze the influence of the symmetry. In the first step, for better overview and clarification, we discuss the connection between the detected THz pulses in the time domain and the symmetry of the antenna. Then, in the second step, we examine in the frequency domain the impact of the symmetry onto the matrix elements.
+Considering an antenna consisting of two pairs of bowtie antennas rotated by 90 to each other around the axis of symmetry, the basic layout of this type of antenna (without considering the lead lines) is a D4 symmetry (rotation around the center by multiples of 360/4 together with reflections at 4 axes passing through the center). Figure 2(a) illustrates this situation for two orientations of the electric field (+45 and -45) featuring the same intensities. Here, we assume the same orientation of the antenna as in our experiment, where the symmetry axis passing through electrode A is oriented along the x-axis.
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16189
+
+According to this symmetry, it is obvious that channel A should have the same response to E+45 and E-45. Hence, SA,-45 = SA,+45 is valid. Furthermore, we can conclude from an equivalent symmetry argument that the response of channel A to E+45 should also coincide with the response of channel B to the same electric field, i.e. SA,+45 = SB,+45. Finally, we can state that SB,-45 and SB,+45 would be equal if the E+45 would be rotated by an angle of 180. This is equal to a multiplication of the electric field amplitude by -1. Hence, from the linearity of the response we can deduce that SB,45 = -SB,-45. In total, we can state that SA,+45 = SA,-45 = SB,+45 = -SB,-45.
+Fig. 2. Illustration of the 4-contact PCA together with the electric field vectors at +45 and -45 orientations. a) Ideal case: basic antenna layout with D4 symmetry, b) our antenna: basic antenna layout with C4 symmetry.
+Surprisingly, for our antenna, the measurements reveal a different situation: Fig. 3(a) and 3(b) display the time domain THz pulses measured on both channels at +45 and -45 electric field orientations (according to the adjustment of the angle of WGP2). Figure 3(a) shows that the pulse measured with channel B for WGP2 at +45 matches reasonably with that of channel A for WGP2 at -45 indicating SA,-45 = SB,+45. Furthermore, Fig. 3(b) displays the pulse measured with channel B for WGP2 at -45 and the pulse measured with channel A for WGP2 at +45 multiplied by -1. Here, again, a close similarity in the pulse shapes can be observed (SB,-45 = -SA,+45). However, the measurements displayed in Fig. 3(a) differ significantly from those in Fig. 3(b). Therefore, SA,+45 and SA,-45 are not equal, which is contrary to our previous assumption of a D4 symmetry.
+
+Fig. 3. Plotted are the THz time domain pulses for a) channel A with WGP2 at -45 and channel B with WGP2 at +45 and b) channel B with WGP2 at -45 and pulse of channel A with WGP2 +45 multiplied by -1.
+In our previous paper [26], using finite-difference time-domain simulations, we saw that the electric field at the lead lines influences the response of the PCA and thus the THz pulse shape. Considering this effect, the D4 symmetry of the basic layout of the antenna is broken and reduced to a C4 symmetry (rotation around the center by multiples of 360/4, no reflection axis). As a consequence, the two sides of the contacts, the right side with the lead line (AR and
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16190
+
+BR) and the left side (AL and BL) without the lead line, have to be distinguished. Therefore, SA,+45 and SA,-45 do not necessarily coincide. The same is true for SB,+45 and SB,-45. Thus, we can only state, that SA,-45 = SB,+45 and SB,-45 = -SA,+45, which agrees with our experimental observations shown in Fig. 3.
+Although the previous symmetry considerations were done in the time domain, they are
+also valid in the frequency domain. Hence, in the simple case of Fig. 2(a) with D4 symmetry SA,+45 = SA,-45 = SB,+45 = -SB,-45 can be inserted in Eq. (11) to calculate the response matrix:
+
+DD4 =
+
+k 0
+
+0 k
+
+,
+
+(17)
+
+where k is a constant, complex value (at each frequency).
+Considering our previous observations, the symmetry of the antenna is reduced (from D4 to C4). Thus, only SA,-45 = SB,+45 and SB,-45 = -SA,+45 can be used in Eq. (11) implying that
+
+DC4 =
+
+l m
+
+-m l
+
+,
+
+(18)
+
+where l and m are constant, complex values at each frequency describing the antenna response. As expected, we can state that a reduction of the symmetry reduces the constraints on the response matrix. In consequence, Eq. (17) is a special case of Eq. (18) with l = k and m = 0. Furthermore, we would like to emphasize that the special forms of DD4 and DC4 depend on the choice of the coordinate system. Nevertheless, the number of constraints imposed by the symmetry is independent from this choice.
+At this point, we can compare the response matrix of our real antenna exhibiting C4 symmetry with the ideal form of Eq. (18). Therefore, we employ the two gauge measurements on both channels and calculate the matrix elements according to Eq. (11). Figure 4 shows the real and imaginary parts for all matrix elements di, j. The results displayed in Figs. 4(a) and 4(c) show the same shape over a broad frequency range validating that the diagonal elements of the matrix coincide, while the off-diagonal elements displayed in Figs. 4(b) and 4(d) feature similar shape with opposite signs validating the change of the signs for the off-diagonal elements.
+While the diagonal elements (Figs. 4(a) and 4(c)) vary roughly between 2 and -2 in the frequency range up to 0.8 THz, we observe for the off-diagonal elements (Figs. 4(b) and 4(c)) a decrease in the maxima and minima with increasing frequency. The vanishing off-diagonal elements could be interpreted as a transition to a D4 symmetry. Previously, we analyzed the spectral response of the 4-contact antenna with numerical simulations and showed that the influence of the lead lines is weaker at higher frequencies (see [26]), which confirms the transition to a D4 symmetry.
+Although the observations are in agreement with Eq. (18), there are deviations from the ideal form. While the amplitudes of the real and imaginary parts of the diagonal elements (d2,2 and d1,1 displayed in Figs. 4(a) and 4(c)) differ only slightly, the off-diagonal elements show stronger deviations. For example, at higher frequencies the amplitude of the real and imaginary part of the d2,1 elements decrease faster than that of the d1,2 elements (Figs. 4(b) and 4(d)). There are several possible explanations for the deviations from the ideal matrix form.
+Firstly, statistical errors according to the signal-to-noise ratio (SNR) of the spectra can influence the accuracy of the matrix calculation. The recorded power spectra of the gauge measurements displayed in Fig. 5 show a reasonable SNR between 0.25 THz and 0.8 THz, except a spectral dip at about 0.55 THz. This dip can be caused by a reflection of the THz pulse (see double pulse structure in Fig. 3) leading to fringe pattern in the spectrum. While the noise level increases for lower frequencies, the signal drops at higher frequencies. Both effects reduce the SNR at the edges of the observed spectral range.
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16191
+
+Fig. 4. Shown are the calculated detector response matrix elements di, j depending on the frequency: a) real part of the diagonal elements (l), b) real part of the off-diagonal elements (m and -m), c) imaginary part of the diagonal elements (l), and d) imaginary part of the off-diagonal elements (m and -m).
+
+FFT Power in arb. u.
+
+10 24 10 26 10 28 10 30 10 32
+0.0
+
+A, 45° A, 45° B, 45° B, 45°
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Frequency in THz
+
+Fig. 5. Plotted are the FFT power spectra for channel A and B with WGP2 at angles of +45 and -45.
+
+Furthermore, systematic deviations at higher frequencies might be explained by the following consideration: At lower frequencies small deviations from the ideal antenna geometry are smoothed out due to the low resolution at longer wavelength. Contrary, at higher frequencies the wavelength is shorter and slight mismatches of the antenna construction will be more pronounced.
+Finally, we would like to discuss effects caused by a misalignment of the 4-contact antenna orientation with respect to the reference system defined by the polarizer orientations. While the alignment of polarizers is realized with precise rotational mounts, enabling a high accuracy of the adjusted wire grid angles, the orientation of the mounted antenna might dominate systematic errors. In the case of an antenna with D4 symmetry (as shown in Fig. 2(a)), this kind of misalignment could change the form of DD4 (Eq. (17)) to a form like DC4 (Eq. (18)). This can
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16192
+
+be explained by the following considerations:
+Assuming an antenna with D4 symmetry and a misalignment of the antenna orientation with respect to the original reference system by , Eq. (7) changes to:
+
+S~A, S~B,
+
+= DD4 MRot (-) MPol () MPol (0)
+
+E0,x E0,y
+
+,
+
+(19)
+
+where MRot (-) (see Eq. (4)) describes the rotation of the electric field in the reference system of the detector antenna. Hence, for the misaligned case, the response matrix can be calculated by a multiplication of DD4 with MRot (-) resulting in off-diagonal terms with an absolute value of k · sin (). If we consider that the orientation of the mounted antenna in comparison to the reference system might differ at most by  =10, the absolute values of the off-diagonal terms will be less than 20% of the absolute values of the diagonal terms. However, in Fig. 4 we can see that the values of the off-diagonal terms are not much smaller than the values of the diagonal terms, thus a misalignment of the antenna orientation to the reference system can't explain the off-diagonal matrix elements.
+Lastly, we would like to emphasize that misalignments of the PCA do not influence the calculation of the electric field, because the response matrix analysis does not require a special symmetry or orientation of the antenna.
+
+3.2. Application: Polarization Detection
+After describing and characterizing the antenna, the next step is to demonstrate the polarization detection. With the second polarizer (WGP2) we can control the polarization angle and intensity of the transmitted THz radiation. Thus, by measuring at different polarizer angles the performance of the 4-contact antenna in combination with the response matrix analysis can be evaluated. In the following, we discuss the results of the calculation of those angles and relative intensities.
+Using the gauge measurement, the polarization angles were determined for all angles of WPG2 by applying Eq. (14) at each frequency. Figure 6(a) displays the resulting angles for seven different measurements (blue) together with the adjusted angles of WGP2 (gray). Thereby, we restricted Fig. 6(a) to a frequency range between 0.25 THz and 0.8 THz. At this interval, the gauge measurements provided a reasonable SNR (compare Fig. 5). In general, the calculated angles are in well agreement with adjusted angles. Deviations between 0.54 THz and 0.58 THz from the ideal behavior can be attributed to the previously discussed dip of the power spectra.
+Figure 6(b) compares the averages of the calculated angles over all considered frequencies (excluding the range between 0.54 THz and 0.58 THz) with the adjusted angles of WGP2 for 14 different measurements. The values from our analysis reproduce the angles of WGP2. However, at 90, WGP2 is in a crossed position to WGP1. Hence, at this position, or close to it, the signal is too small for an accurate estimation.
+Up to now, we examined the calculation of the polarization angles with the response matrix. However, for a complete description of the electric field vector we also need to calculate the amplitude of the electric field. Here, we simplify our considerations by omitting lengthy discussions about the sign of the electric field amplitude, and instead we calculate the relative intensity according to Eq. (16). For the gauge measurements the relative intensity is 0.5. In Fig. 7(a) the frequency dependent relative intensities are shown for five different polarization angles. The gray lines show the expected relative intensities for the detected angles according to Malus' law (I = I0 cos2()).
+Additionally, we displayed in Fig. 7(b) the averaged intensities (between 0.25 and 0.8 THz with exception of values between 0.54 THz and 0.58 THz) and their standard deviations as
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16193
+
+Fig. 6. a) Plotted are the measured (blue) and adjusted (gray) angles of WGP2 frequency dependent (0.25 to 0.8 THz). The red lines display the gauge measurements with WGP2 at -45 and -45. b) The deduced angles are averaged over the considered frequency range (0.25 to 0.8 THz with exception of 0.54 THz and 0.58 THz) and plotted against the adjusted polarizer angles. The error bars display the standard deviations. The red squares display the values for the gauge measurements.
+
+Fig. 7. a) Displayed are the determined relative intensities depending on the frequency for five exemplary incident electric fields (for WGP2 angles of 0, -20, 60, 75 and 90). The red line shows the relative intensity assigned to the gauge measurements. b) The averaged relative intensities (averaged between 0.25 and 0.8 THz with exception of values between 0.54 THz and 0.58 THz) depending on the measured polarization angles are displayed. The error bars illustrate the standard deviations. The red squares give the values for the gauge measurements. The gray line shows the dependence of the relative intensity on the polarizer angle according to Malus' law I/I0 = cos2().
+error bars. The gray line indicates the theoretical value according to the Malus' law. While the relative intensities in principle resemble the theory, for high transmission rates the standard deviations are much higher compared to those for angles below 45. This trend is caused by a systematic increase of the noise for higher relative intensities.
+4. Conclusions
+In conclusion, we characterized a 4-contact PCA using the response matrix analysis and demonstrated the polarization angle and intensity detection by introducing systematic changes with a polarizer simulating an optically active sample. In doing so, we compared the adjusted polarizer angles to the measured angles and the measured intensities to the Malus' law. In future, improvements in the accuracy of the detection could be obtained by improved alignment and increased averaging. Nevertheless, we demonstrated that the response matrix analysis is useful in evaluating the polarization response of multi-contact PCAs and that it is a robust method requiring only two gauge measurements to detect angles and intensities of various incident electric fields over a frequency range from 0.25 to 0.8 THz.
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16194
+
+Furthermore, we discussed the influence of the antenna symmetry on the response matrix elements. Thereby, we showed how the antenna symmetry imposes constraints onto the response matrix elements and how those constraints are represented by the experimental data. In particular, we observed that the reduction of the antenna symmetry by the lead lines attached to the electrodes is experimentally reflected by the off-diagonal elements of the response matrix. In addition, we suggest that stronger deviations from the theoretical description at higher frequencies can be explained by misalignment or production inaccuracies of the antenna structure. Reversely, it might be possible to use polarization sensitive THz-TDS in combination with the response matrix analysis as an approach for quality evaluation of symmetrical electrode structures when an optical inspection is not possible.
+Acknowledgments
+This research was supported by the joint research grant from Research Center for Development of Far-Infrared Region, University of Fukui (Grant No. H25FIRDM020A and H26FIRDM020B). G.N. and S.F. gratefully acknowledge the Japan Society for the Promotion of Science (JSPS) and the Alexander von Humboldt Foundation for supporting their work through postdoctoral fellowships.
+
+#236467 - $15.00 USD Received 19 Mar 2015; revised 26 May 2015; accepted 1 Jun 2015; published 10 Jun 2015
+
+(C) 2015 OSA
+
+15 Jun 2015 | Vol. 23, No. 12 | DOI:10.1364/OE.23.016184 | OPTICS EXPRESS 16195
+
+

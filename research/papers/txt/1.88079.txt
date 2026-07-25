@@ -1,0 +1,190 @@
+Picosecond optoelectronic switching and gating in silicon
+D. H. Auston Citation: Appl. Phys. Lett. 26, 101 (1975); doi: 10.1063/1.88079 View online: http://dx.doi.org/10.1063/1.88079 View Table of Contents: http://apl.aip.org/resource/1/APPLAB/v26/i3 Published by the American Institute of Physics.
+Related Articles
+An earth-isolated optically coupled wideband high voltage probe powered by ambient light Rev. Sci. Instrum. 83, 104703 (2012) Reduction in subsidy for solar power as distributed electricity generation in Indian future competitive power market J. Renewable Sustainable Energy 4, 053120 (2012) Optimized working conditions for a thermoelectric generator as a topping cycle for gas turbines J. Appl. Phys. 112, 073515 (2012) Determination of salinity gradient power potential in Québec, Canada J. Renewable Sustainable Energy 4, 053113 (2012) Case study: Simulation and optimization of photovoltaic-wind-battery hybrid energy system in Taleghan-Iran using homer software J. Renewable Sustainable Energy 4, 053111 (2012)
+Additional information on Appl. Phys. Lett.
+Journal Homepage: http://apl.aip.org/ Journal Information: http://apl.aip.org/about/about_the_journal Top downloads: http://apl.aip.org/features/most_downloaded Information for Authors: http://apl.aip.org/authors
+Downloaded 19 Oct 2012 to 171.67.34.205. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+comes less and less important. In Fig. 2(c), the output waveform is almost entirely determined by dispersion.
+
+In Fig. 3, we show another series of data taken with
+the COz R6 line at 10.35 IJ. interacting with the saQ(5, 5, :J: 5) transition of NH3 · Here, the dc bias voltage was 2650 V, corresponding to Al = 500 MHz. From
+Fig. 3(a) to 3(c), the 30-MHz rf amplitude was in-
+creased corresponding to Az= 250, 350, and 400 MHz, respectively. Note that in this case Al - Az is always larger than the 87-MHz Doppler linewidth (FWHM), so
+that absorptive effects are negligible. This also illus-
+trates the different output waveforms obtainable by a
+variation of the parameters Al and Az·
+
+For the experiments with the Q(3, 2, :J: 3) line (Figs.
+
+1 and 2), the intensity of the NzO laser beam was - 20
+
+WIcm2, so that comparison could be made with LDT. Data were also taken at intensity up to 100 WIcmz, and
+
+as expected, due to saturation effects, the agreement
+
+with LDT is not as good. For the case of the Q(5, 5, ± 5)
+
+line (Fig. 3), the 500-MHz dc frequency offset Al is
+
+large, laser
+
+and LDT is valid for higher intensity. intenSity was - 300 WIcmz. The output
+
+The CO2 waveform
+
+remained essentially unchanged in this case when the
+
+intenSity was reduced by 5.
+
+At fixed dc frequency offset and rf voltage, there is an optimal modulation frequency range for temporal compression. This is easily understood from the LDT picture: the different effective Fourier components of the transformed input light are separated by the modulation frequency. At very low modulation frequency, dispersion among the components is small because this separation is small . .At very high modulation frequency, the separation of the components becomes large compared to the linewidth of the transition and one loses the resonantly enhanced dispersion which causes compression. For example, for the values of Al and A2 in Fig. 1, dispersive compression is maximum at A/2rr - 50 MHz.
+
+We have demonstrated temporal compression and amplitude modulation using the dispersive modulator. Given the availability of near-resonant transitions which can be frequency modulated, this technique should be applicable from the uv to the ir spectral region. The frequency modulation need not be sinusoidal. This technique is applicable for nanosecond pulse compression and reshaping, as well as high -frequency amplitude modulation of cw lasers. By putting this modulator inside a laser cavity and modulating at a period equal to the round-trip time, enhanced mode locking appears to be possible. Note that unlike steepening due to selfactions, temporal compression and reshaping here is easily controllable. Furthermore, the input light need not be frequency chirped by some other means, which is very difficult in the ir or uv region. Finally, note that the relatively large modulating voltage needed in this work can be substantially decreased by choosing a molecule, such as NHzD, that has a linear Stark effect.
+The author would like to acknowledge stimulating discussions with D. Grischkowsky, J. A. Armstrong, and J. J. Wynne, and the technical assistance of P. A. Roland.
+lJ.R. Klauder, A.C. Price, S. Darlington, and W.J. Albersheim, Bell Syst. Tech. J. 39, 745 (1960). 2J.A. Giordmaine, M.A. Duguay, and J. W. Hansen, IEEE J. Quantum Electron. QE-4, 252 (1968). See also references cited in Ref. 3. 3D. Grischkowsky, Appl. Phys. Lett. 25, 566 (1974). 4D. Grischkowskyand M. M. T. Loy. Appl. Phys. Lett. (to be published). 5A. Landman, H. Marantz, and V. Early, Appl. Phys. Lett. 15, 357 (1969). For recent works see R. E. Jensen and M. S. Tobin, IEEE J. Quantum Electron. QE-8, 34 (1972), and references cited therein. 6M.M.T. Loy, Phys. Rev. Lett. 32, 814 (1974). 7The notation asQ(3,2, ± 3) with the selection rules ilK= 0 and ilM = 0 represents the transition (v20J,K,M) = (0,3,2, ± 3)(1,3,2, ± 3), from the antisymmetric to the symmetric state.
+
+Picosecond optoelectronic switching and gating in silicon
+D. H. Auston
+Bell Laboratories, Murray Hill, New Jersey 07974 (Received 14 October 1974)
+Quasimetallic photoconductivity produced by the absorption of picosecond optical pulses in silicon transmission line structures has been used to devise electronic switches and gates which can be turned on and ofT in a few picoseconds. Electrical signals as large as 100 V can be switched by a few microjoules of optical energy. The switching speed was measured by correlating the response of two transmission gates in tandem, each having an aperture time of 15 psec.
+
+In the area of high -speed pulse technology, optical techniques are clearly superior to conventional electronic capabilities. Intense ultrashort optical pulses having durations of a few picoseconds or less and peak powers of many gigawatts can be readily generated by mode-lOCking lasers. I Furthermore, their high intensity permits the use of nonlinear interactions to gener-
+
+ate and manipUlate other optical Signals with picosecond precision. By comparison, conventional electronic techniques USing "fast" semiconductor junction devices such as step recovery diodes2 are 1-2 orders of magnitude slower and many orders of magnitude lower in their ability to handle high peak powers. Typical "fast" electrical pulses are 50-100 psec in duration and at
+
+101
+
+Applied Physics Letters, Vol. 26, No.3, 1 February 1975
+
+Copyright © 1975 American Institute of Physics
+
+101
+
+Downloaded 19 Oct 2012 to 171.67.34.205. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+This turned on the switch permitting a Signal to be
+
+transmitted as shown in the first oscilloscope photo-
+
+graph of Fig. 1. For this experiment the input coaxial
+
+MICROSTRIP TRANSMISSION LINE
+
+cable on the left was charged to a dc voltage of + 20 V. To turn the switch off and close the gate, the delayed
+
+optical pulse at 1. 06 Mm was absorbed at the micro-
+
+IN
+
+OUT strip gap. In this case, however, the longer absorption
+
+depth of the infrared pulse produced a high -conductivity
+
+region which penetrated the crystal to the ground plane.
+
+SILICON SUBSTRATE This shorted the transmission line, preventing further transmission by totally reflecting the inCident electrical
+
+wave (see lower photograph of Fig. 1), Unlike conven-
+
+tional semiconductor junction devices this switch does
+
+not depend on recombination or carrier sweep out to
+
+turn off. The optically generated electrons and holes
+
+remain; the volume conductivity of the second pulse has
+
+merely annulled the effect of the surface layer of con-
+
+ductivity produced by the first pulse.
+
+.53 pm on ~
+
+L 1.06 pm "off II
+
+FIG. 1. An " opto" elect.ronic gate illustrating the effects of the
+surface photoconductivity and volume photoconductivity due to the 0.53- and 1. 06-lLm optical pulses on the transmission properties of the silicon microstrip structure. Horizontal scales in the photographs are 3 nsec/div.
+
+most a few watts in peak power. Although sampling gates exist with aperture times as short as 25 psec, linear transmission gates are limited to aperture times of a few nanoseconds.
+This paper describes a simple technique which permits one to use the superior speed capability of optical pulses to manipulate electrical Signals with picosecond time precision. An example of a Simple switch is illustrated in Fig. 1. It consists of a thin slab of high -resistivity (104 ncm) silicon on which a microstrip3 transmission line has been fabricated. The microstrip line consists of a uniform aluminum ground plane on the bottom and a narrow strip for an upper conductor. The upper conductor has a gap of high resistance, preventing the transmission of a Signal across the device.
+Two optical pulses were generated by extracting a single pulse of wavelength 1. 06 /lm from a modelocked Nd: glass laser and then doubling in a KDP crystal to obtain a second pulse at 0.53 Mm. The two pulses were separated in a beamsplitter, delayed, and focused onto the gap in the silicon microstrip structure. The absorption of the O. 53-/lm pulse produced a thin layer of high conductivity near the top surface of the crystal.
+
+To be effective the optical pulses must generate a high denSity of carriers which can produce a conductivity of quasimetallic properties. Recently, it was demonstrated4 that electron-hole plasma densities in excess of 1020 cm- 3 can be generated in semiconductors by the absorption of single picosecond optical pulses. The conductivities associated with these plasmas can exceed 103 (~cmt! which is more than adequate to produce a net resistance of a few ohms or less between the contacts of the switch. For a typical gap geometry having a width and length equal to 0.034 cm, and a substrate height of 0.043 cm (for 20 = 50 n) it is found that a few microjoules in each pulse is adequate to produce effiCient switching. The conductivities are sufficiently large that the dielectric relaxation time j= E/a is much less than 1 psec, and consequently the intrinsic switching speed is primarily limited by the optical pulse durations.
+Clearly, the geometry of the gap and transmission line structure can also affect the over-all speed of response. This aspect can be readily minimized, however, by the use of miniature geometries fabricated by standard photolithographical techniques. The microstrip transmission line is particularly suitable for these devices since it can support a TEM -like electromagnetic mode of low dispersion over bandwidths of a few hundred GHz for substrate thicknesses equal to a fraction of a millimeter. This is essential since electrical transients of a few picoseconds have bandwidths of this magnitude. For transient signals, the blocking effect of the open gap is not perfect due to capacitive coupling. The value of the gap capacitance however is typically lO-H F, and consequently the charging time of the gap is less than 1 psec.
+In the ambient state, the gap resistance was in excess of 105 n, and consequently the initial voltage across the output was negligible. As seen in the upper photograph of Fig. 1, the rise time due to the 0.53 -/lm "on" pulse and the fall time due to the 1. 06-Mm "off' pulse were limited by the oscilloscope response time of 0.3 nsec. The 1. 06-Mm pulse was delayed 2.4 nsec relative to the O. 53-Mm pulse. The peak transmission through the gate was better than 95% and the transmission following the 1.06 -Mm pulse was less than 5%.
+
+102
+
+Appl. Phys. Lett., Vol. 26, No.3. 1 February 1975
+
+D.H. Auston
+
+102
+
+Downloaded 19 Oct 2012 to 171.67.34.205. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+(I) .53"um (0 psI
+
+(3) .53"um ("'Cps)
+
+(2) 1.06"um(15ps)
+
+(4)1.06"um('t+ 15ps)
+
+V~D
+
+t
+
+Ci.
+
+E c
+
+!t
+
+c cco
+
+t
+
+en , ' f
+
+f tt
+
+---------------------!----------
+
+40
+
+60
+
+80
+
+100 120
+
+140
+
+160
+
+'t · Delay (ps)
+
+FIG. 2. Measurement of switching speed by correlating the transmission factors of two gates in tandem, each having an aperture time of 15 psec. Each point is an average of 5 shots. Dashed line is the pedestal level (signal produced with no bias).
+
+Approximately 5x10-6 J of energy were used in each pulse. The slightly rounded feature of the rise was caused by the imperfect response of the cables and connectors. The results are highly reproducible, and the device shows no evidence of optical damage to either the metallization or the silicon after many hundreds of shots.
+If a L 06 - J,J.m pulse is not used to switch off the gate. the signal will continue until the input cable has completely discharged. This produces a well-defined rectangular pulse of duration equal to the round -trip transit time of the charge cable. With short cable lengths, an extremely effective high -voltage pulse generator with durations from picoseconds to nanoseconds can be produced with a single optical pulse. This technique is more flexible and at least 1000 times more efficient than the previously reported5 generation of electrical impulses by optical rectification in pyroelectric crystals.
+To determine the true response time of the device, a second experiment was performed in which two transmission gates were operated in tandem, as shown in Fig. 2, In each case, the delays between the 0.53- and 1. 06-J,J.m pulses were adjusted for a fixed aperture time of 15 psec, This was readily accomplished by passing the L 06- and 0, 53-J,J.m pulses which were orthogonally polarized through 3 cm of calcite oriented
+
+so that the 1. 06-J,J.m pulse was retarded relative to the O. 53-J,J.m pulse. The first gate (on the left in Fig. 2) was used to generate an electrical impulse of 35 V having a duration of approximately 15 psec" This electrical pulse was then propagated down the transmission line to the second gate which was used to measure its shape, The output of the second gate was amplified and displayed on a fast oscilloscope. The measurement was repeated for various delays between the two gates and is shown in Fig. 2. The result should be proportional to the correlation function of the transmission factors of the two gates (autocorrelation function for identical gates). As seen in Fig. 2, the result is Slightly asymmetric, having a rise time of approximately 10 psec and a fall time of approximately 15 psec. The asymmetry is most likely due to a slight velocity dispersion3 in the microstrip structure which distorts the electrical pulse while propagating between the gates (total time delay"" 100 psec for a distance of 1 cm). Otherwise the result appears to be well behaved showing a moderate broadening due to the finite pulse durations of approximately 8 and 5 psec for the 1. 06- and O. 53-J,J.m pulses, respectively. The dashed line in Fig. 2 is the background signal, or "pedestal level", produced in the absence of a bias voltage. The pedestal is due to small photovoltaic signals developed at the metalsemiconductor contacts which were somewhat nonOhmic and rectifying. The difference between the signal level and the pedestal level, however, indicates good blocking of the incident electrical signal before and after the gate aperture.
+In summary, the techniques and devices discussed here provide a capability for generating and measuring electrical signals with a time resolution of a few picoseconds. Furthermore, the intrinsic limitations of the devices are such that further developments should make it possible to extend the time resolution to 1 psec or less, and reduce the optical energy requirements to a few nanojoules.
+The author is grateful for stimulaUng discussions with H. Melchior, G. L. Miller, and A, M. Johnson. The technical assistance of P. LeFur is also appreciated.
+1For a recent comprehensive review, see P. W. Smith, M.A. Duguay, and E. P. Ippen, Progress in Quantum Electronics (Pergamon, New York, 1974), Vol. 3, Part 2. 2See , for example, J.L. Moll, E. Krakauer, andR. Shen, Proc. mE 50, 43 (1962); S. Hamilton and R. Hall, Microwave J. 10, 669 (1967); D. Koehler, IEEE Spectrum 2, 50 (1965). 3For a review of microstrips, see M. V. Schneider, Bell Syst. Tech. J. 48, 1421 (1969). 4D. H. Auston and C. V. Shank, Phys. Rev. Lett. 32, 1120 (1974). 5D. H. Auston and A. M. Glass, Phys. Rev. Lett. 20, 398 (1972).
+
+103
+
+Appl. Phys. Lett., Vol. 26, No.3, 1 February 1975
+
+D.H. Auston
+
+103
+
+Downloaded 19 Oct 2012 to 171.67.34.205. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+

@@ -1,0 +1,277 @@
+Infrared Phys. Vol. 26, No. 6, pp. 351-363, 1986 Printed in Great Britain
+
+0020-0891/86 $3.00 + 0.00 Pergamon Journals Ltd
+
+TRANSMISSION COEFFICIENTS OF FREE-STANDING WIRE GRIDS IN THE FAR INFRARED: A THEORETICAL
+APPROACH FOR EASY COMPUTATION
+A. BLANCO, S. FONTI and A. PIACENTE
+Physics Department, University of Lecce, 73 IOO-Lecce, Italy
+(Received 3 May 1986)
+Abstract-In this paper we present a method for the calculation of the power transmission coefficients of free-standing wire grids in case of normally incident radiation.
+The method, based on the transmission line analogy, although not as general as other theoretical approaches already discussed in the literature, has the great advantage of being suitable for easy and quick numerical computation.
+Comparison with other authors allows us to state that the accuracy of the present method is quite acceptable, provided that the wavelength of incident radiation is at least five times greater than the diameter of the wires.
+INTRODUCTION
+The physical properties of wire grids have been widely investigated by many authors in the last decades. The study of such objects, originally for mere theoretical reasons (i.e. solutions of classical problems of electrodynamics), has had in recent years many important practical applications. At present metallic wire grids are widely used as basic components for several devices such as polarizers, beam splitters, mesh filters and so on.
+In the FIR region of the spectrum wire grids are normally used without substrate, so that in this paper we limit our analysis only to free standing metallic wire grids.
+In order to use efficiently wire grids as optical devices the knowledge of the transmission and reflection coefficients is essential. The development of methods for the calculation of such coefficients has been reported in a review article by Larsen"' up to the early sixties. More recently the problem has been tackled by various authors using different theoretical approaches.(2-6) Their results however, despite an almost general applicability, are not suitable for easy and quick computation.
+In this paper we present another method which, although less general than those mentioned above, has the advantage of yielding a set of final expressions easy to be dealt with (even by means of a personal computer) and suitable for the main practical applications. The method is based on the transmission line analogy widely discussed by Marcuvitz. (`I Such theory however needed to be extended since the final equations given by Marcuvitz are valid only if the periodicity p of the grid is smaller than the wavelength 1 of the incident radiation.
+In the next section we discuss in some detail our extension of Marcuvitz' formulae and give explicit expressions for the power transmission coefficients Kr and K2, defined as the transmittances of the grids for radiation with the electric field respectively perpendicular and parallel to the wires.
+In the final section we compare our numerical results with those obtained by other authors and discuss the limits and validity of the method,
+THEORY
+As usual we will consider a plane wire grid composed of an infinite set of infinitely long metallic wires equally spaced and of circular cross section. We assume also an infinite conducibility of the wires which is a very reasonable assumption in the FIR region of the spectrum. A sketch of the sectional view of such a grid is shown in Fig. 1 where d is the diameter of the wires, p the periodicity of the grid and 8 the angle of incidence. In this paper we limit our attention only to the case of normal incidence i.e. 8 = 0.
+351
+
+358
+
+A. BLANCO et al.
+
+Fig. 1. Sectional view of a plane grid and definition of geometrical parameters.
+
+For sake of simplicity it is convenient to distinguish two different regions for the interaction of radiation with grids, namely the so-called "non diffraction region" (p < %) and the "diffraction region" (p > A).
+Following the transmission line analogy, Marcuvitz,") in the p < A region, has shown that it is possible to analyse the interaction of electromagnetic waves with a plane grid in the free space, regarding the grid as an inductive or capacitive obstacle in a wave guide. The capacitive obstacle corresponds to the case of the electric vector of the incident wave perpendicular to the wires (see Fig. 2a) while the inductive obstacle corresponds to the electric vector parallel to the wires (see Fig. 3a). This approach eventually leads, in the more general case, to represent the grid as two equivalent circuits with concentrated elements (see Figs 2b and 3b).
+Marcuvitz limited his analysis to the case when the impedences are purely imaginary. From the mathematical point of view, however, it is possible to deal with the more general case when such impedences have also a real part different from zero. This simple extension allows to extend the validity of Marcuvitz' approach to the p > I. region.
+From the physical point of view this extension takes into account the dissipation of energy due to the existence of evanescent higher order modes in the propagation of an electromagnetic wave in a wave guide.
+The equivalent circuits of Figs 2b and 3b allow us to calculate the power transmission coefficients K, and K, given by:
+
+K, = T,T:
+
+(1)
+
+K2 = T, T;r
+
+(2)
+
+where T, and T are the amplitudes of the transmitted waves with the electric vector respectively perpendicular and parallel to the wires. In terms of equivalent impedences we have for T,:
+
+2z,wG
+
+TL=(1 + Z,/Zo)G/Z, + -G/-G>'
+
+(3)
+
+(b) Fig. 2. Capacitive obstacle (a) and corresponding equivalent circuit (b).
+
+Transmission coefficients of free-standing wire grids in the FIR
+
+359
+
+(b)
+
+Fig. 3. Inductive obstacle (a) and corresponding equivalent circuit (b).
+
+with:
+zgz: + z,z,jz; + z:z,/z;
+z1lzl =
+22,/z, + zgz; + z,jz, + z,zJz:
+
+and :
+
+z2I-G =
+
+Zalzl 1 + ZJZ,
+
+(5)
+
+where :
+
+&/Z = UP, 4 A),
+
+(6)
+
+and
+
+&I& = ifb(p, 4 2)
+
+(7)
+
+If we assume, following Marcuvitz, a constant current in the wires, the explicit expressions for f,and fbare given by:
+
+(19) where :
+
+A, =
+
+(10)
+
+and
+
+and
+
+(12)
+
+The amplitudes of the transmitted waves with the electric vector parallel to the wires, is given by (see Fig. 3b):
+
+2-G Z 1-G (13)
+T1 = (1 + .W%)G/&l+ WZl>(l +-W-G>'
+
+with:
+
+z,/z, + 2z,z, /z; +zgz; +ZJZ,
+
+23l&l =
+
+1 + ZJZ, + z,/z,
+
+'
+
+(14)
+
+360
+
+A. BLANC0 et al
+
+and :
+
+z4I-G =
+
+z,El + Z&l-G
+1 + z, /Z" + z,/z,
+
+'
+
+(15)
+
+where:
+
+&.I&, = if,@, 4 1.1,
+
+(16)
+
+and
+
+Here again, by:
+
+Z,/Z, = - ifd(p, d, 2). with the same approximation of constant current
+
+(17) in the wires, f, and fd are given
+
+and :
+
+(19)
+
+Sufficient accuracy is usually obtained by considering only ten terms in the summations of equations (IO), (11) and (18).
+It should be noted that, when p < 2, C, is real for every value of m. This corresponds to the case of having purely imaginary impedences (we recall that we assumed an infinite conducibility of the wires). On the other hand, in the region p > A, the quantities f,, fb and f, become complex so that the corresponding impedences have a real part which takes into account the dissipation of energy due to the presence of higher order modes.
+We have of course singularities when p = ml> with m integer positive. However the values of the transmission amplitudes in these singular points can be evaluated by means of the following expressions:
+
+T, =
+
+1
+
+1 + ZO/Z~
+
+and :
+
+T=
+
+1
+
+I + z,/z,'
+
+(21)
+
+where Z,/Z, and Z,/Z, are the same quantities defined in expressions (6) and (17). Similar results, but more approximate and only for K2, have already been obtained by Saksena et ~1.") using as equivalent circuit a pure shunt.
+As already stated, the given expressions have been derived under the initial assumption of
+constant current in the wires. This means that they are accurate only in the small obstacle approximation, i.e. when d <<2 and d <<p. A better definition of such conditions will be given in the next section where numerical comparison with the results of other methods is carried out.
+
+NUMERICAL
+
+COMPARISON
+
+AND DISCUSSION
+
+As already mentioned in the introduction, several authors c2`) have dealt with the interaction of electromagnetic waves with free-standing wire grids using different mathematical approaches. Since an explicit comparison of the results obtained by the various authors has not yet been reported, we show in Figs 4 and 5 such comparison in two different cases when grid parameters and/or wavelength ranges make it possible. As can be seen, in both cases, there is a general agreement (the small discrepancies may well be due to errors in taking the reported points from the graphs of the original papers). Moreover measurements made by Volkov et a/.,@) Beunen et a1.o) and Mok et ~1.`~)show that experimental results are fairly close to the corresponding theoretical predictions.
+
+Transmission coefficients of free-standing wire grids in the FIR
+
+361
+
+I10
+
+---------`\
+
+_-----
+
+d/P-0.1
+
+Fig. 4. Power transmission coefficients K, and K, for a grid with a filling coefficient d/p = 0.1: comparison between the values obtained by Chambers et u/.(~' (solid lines) and those obtained by Suratteau and Petit@)
+(dashed lines).
+Therefore it seems sensible to test the range of validity of our method comparing our results with any of those obtained by the previously mentioned authors.
+This comparison is shown in Figs 6 and 7 where the power transmission coefficients K, and K2 are shown as functions of the ratio p/A for three different values of the filling coefficient d/p. It can be seen that the agreement is quite satisfactory in the whole range for d/p = 0.1 while for
+
+00
+
+1.0
+
+2.0
+
+P/X
+
+Fig. 5. Same as Fig 4 but for a filling coefficient d/p = 0.5: Volkov et a/.@) (solid lines), Suratteau and Petite) (dashed lines).
+
+362
+
+1.0
+t
+
+A. BLANC0 et al.
+d/p-O 1
+
+Fig. 6. Power transmission coefficient K, for grids with different filling coefficients: comparison between the values obtained in the present work (solid lines) and those obtained by Suratteau and Petit@) (dashed
+lines).
+lo-
+
+05-
+
+y"
+05
+
+_; ' OT-
+
+/ // /'
+
+\d/p-O 2
+
+Lk \ \ `\ `\ \ `\
+
+b `--__
+I
+,/
+
+I
+
+L
+II
+
+1
+
+\,
+
+d/p-05
+
+i
+
+I' I `x._
+---__
+
+`\ `-__
+
+Fig. 7. Same as Fig 6 for the power transmission coefficient K,
+
+Transmission coefficients of free-standing wire grids in the FIR
+
+363
+
+d/p= 0.2the agreement is still good but some discrepancies begin to appear at large values of p/A. For larger values of the filling coefficient the overall behaviour becomes quite different but, as can be seen even in the case d/p = 0.5, our results may be acceptable for small values of p/A.
+From the above considerations we may conclude that our method is really accurate for d/A < 0.2 and d/p < 0.1 but the results are still acceptable even if d/p < 0.5 provided that the condition d/A < 0.2 is fulfilled.
+We have also done wide band measurements of K, and K? in experimental conditions (p/n > 2.5) not considered by other authors. The results are in very good agreement with our theoretical predictions and will be reported elsewhere (`O)together with a detailed description of the experimental procedure.
+In conclusion we have shown that the method presented in this paper for the evaluation of the transmission coefficients for free-standing wire grids in the FIR is quite reliable and extremely useful for quick and easy applicability since it does not require a powerful computer and/or elaborate computational procedure.
+The limited range of validity of the method is not a severe constraint since in many practical applications the choice of the grid parameters has to be done within the applicability region of the method. For example when the wire grids are used as polarizers the ratio d/n is always considerably smaller than 0.2 either for high efficiency polarizers (degree of polarization of w 100%) or low efficiency polarizers. The latter devices are particularly useful for the design and construction of tunable FIR compensators of spurious polarization.(")
+At present work is in progress aimed to extend the range of applicability of the present method without losing the computational simplicity.
+
+REFERENCES
+1. T. Larsen, IRE Trans. microw. Theory Tech. MTT-10, 191 (1962). 2. W. G. Chambers, C. L. Mok and T. J. Parker, J. Phys. A: Math. 13, 1433 (1980). 3. J. A. Beunen, A. E. Costley, G. F. Neil, C. L. Mok, T. J. Parker and G. Tan, J. opt. Sot. Am. 71, 184 (1981). 4. J. Y. Suratteau and R. Pent, Int. J. infrared millimerer Waves 5, I189 (1984). 5. J. Y. Suratteau and R. Petit, Int. J. infrared millimeter Waves 6, 831 (1985). 6. A. A. Volkov, B. P. Gorshunov, A. A: Irisov, G. V. Kozlov and S. P: Lebedev, Inr. J. infrared millimeter Waves 3,
+19 (1982).
+I. N. Marcuvitz, in Waveguide Handbook, M.I.T. Radiation Laboratory Series, p. 138. McGraw-Hill, New York (1951).
+8. B. D. Saksena, D. R. Pahwa, M. M. Pradhan and K. Lal, Infrared Phys. 9, 43 (1969). 9. C. L. Mok, W. G. Chambers, T. J. Parker and A. E. Costley, Infrared Phys. 19, 437 (1979). 10. A. Blanco, S. Fonti, A. Piacente and V. De Cosmo, in preparation.
+II. A. Blanco, S. Fonti, A. Piacente and V. De Cosmo, in preparation.
+
+

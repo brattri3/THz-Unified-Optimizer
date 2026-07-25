@@ -1,0 +1,58 @@
+[
+  {
+    "dataset": "356att",
+    "n_angles": 10,
+    "angle_max": 90.0,
+    "U90_over_U0": 0.000146762322882745,
+    "eta_direct": 0.01211455004871188,
+    "deepshadow_SNR": 3.599128451111611
+  },
+  {
+    "dataset": "test_grid_40_20",
+    "n_angles": 11,
+    "angle_max": 90.0,
+    "U90_over_U0": 0.000919456004526909,
+    "eta_direct": 0.030322532950380465,
+    "deepshadow_SNR": 9.78423231281479
+  },
+  {
+    "dataset": "series1",
+    "n_angles": 10,
+    "angle_max": 90.0,
+    "U90_over_U0": 0.00019989452296677963,
+    "eta_direct": 0.014138405955650716,
+    "deepshadow_SNR": 19.822307244840292
+  },
+  {
+    "dataset": "series2",
+    "n_angles": 10,
+    "angle_max": 90.0,
+    "U90_over_U0": 0.00016103194062082665,
+    "eta_direct": 0.012689836114813566,
+    "deepshadow_SNR": 21.506157145177617
+  },
+  {
+    "dataset": "series3",
+    "n_angles": 10,
+    "angle_max": 90.0,
+    "U90_over_U0": 0.00020900009657611775,
+    "eta_direct": 0.01445683563495545,
+    "deepshadow_SNR": 31.865905338302994
+  },
+  {
+    "dataset": "series4",
+    "n_angles": 1,
+    "angle_max": 0.0,
+    "U90_over_U0": 1.0,
+    "eta_direct": 1.0,
+    "deepshadow_SNR": 181844.65659162644
+  },
+  {
+    "dataset": "series5",
+    "n_angles": 1,
+    "angle_max": 0.0,
+    "U90_over_U0": 1.0,
+    "eta_direct": 1.0,
+    "deepshadow_SNR": 115682.07815815983
+  }
+]

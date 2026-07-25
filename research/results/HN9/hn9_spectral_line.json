@@ -1,0 +1,47 @@
+{
+  "dataset": "356att",
+  "fmin_scan": [
+    {
+      "fmin": 0.2,
+      "npts": 1495,
+      "hotspot_THz": 0.2455627633598287,
+      "hotspot_dB": 1.82689407401809,
+      "rmse_db": 1.500663917983986,
+      "durbin_watson": 0.22371714605846005
+    },
+    {
+      "fmin": 0.25,
+      "npts": 1435,
+      "hotspot_THz": 0.260910436069818,
+      "hotspot_dB": 1.5545893702321998,
+      "rmse_db": 1.321925652808242,
+      "durbin_watson": 0.27500373453993665
+    },
+    {
+      "fmin": 0.3,
+      "npts": 1365,
+      "hotspot_THz": 0.30695345419978587,
+      "hotspot_dB": 1.0663607730024434,
+      "rmse_db": 1.1043613861841217,
+      "durbin_watson": 0.3692694376530946
+    },
+    {
+      "fmin": 0.35,
+      "npts": 1305,
+      "hotspot_THz": 0.391365654104727,
+      "hotspot_dB": 0.8629930912559745,
+      "rmse_db": 0.9812828933314227,
+      "durbin_watson": 0.46209779827430475
+    },
+    {
+      "fmin": 0.4,
+      "npts": 1235,
+      "hotspot_THz": 0.4067133268147163,
+      "hotspot_dB": 0.7765773834955564,
+      "rmse_db": 0.9196006961907269,
+      "durbin_watson": 0.5393027625219808
+    }
+  ],
+  "water_lines_near_0.215THz": [],
+  "note": "no strong rotational water line within 50 GHz of 0.215 THz"
+}

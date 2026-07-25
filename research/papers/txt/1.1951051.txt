@@ -1,0 +1,105 @@
+Polarization-sensitive terahertz detection by multicontact photoconductive receivers
+E. Castro-Camus, J. Lloyd-Hughes, M. B. Johnston, M. D. Fraser, H. H. Tan et al. Citation: Appl. Phys. Lett. 86, 254102 (2005); doi: 10.1063/1.1951051 View online: http://dx.doi.org/10.1063/1.1951051 View Table of Contents: http://apl.aip.org/resource/1/APPLAB/v86/i25 Published by the American Institute of Physics.
+Additional information on Appl. Phys. Lett.
+Journal Homepage: http://apl.aip.org/ Journal Information: http://apl.aip.org/about/about_the_journal Top downloads: http://apl.aip.org/features/most_downloaded Information for Authors: http://apl.aip.org/authors
+Downloaded 08 Dec 2012 to 152.14.136.96. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+APPLIED PHYSICS LETTERS 86, 254102 2005
+Polarization-sensitive terahertz detection by multicontact photoconductive receivers
+E. Castro-Camus,a J. Lloyd-Hughes, and M. B. Johnston University of Oxford, Department of Physics, Clarendon Laboratory, Parks Road, Oxford OX1 3PU, United Kingdom
+M. D. Fraser, H. H. Tan, and C. Jagadish Department of Electronic Materials Engineering, Research School of Physical Sciences and Engineering, Institute of Advanced Studies, Australian National University, Canberra ACT 0200, Australia
+Received 10 March 2005; accepted 18 May 2005; published online 16 June 2005
+We have developed a terahertz radiation detector that measures both the amplitude and polarization of the electric field as a function of time. The device is a three-contact photoconductive receiver designed so that two orthogonal electric-field components of an arbitrary polarized electromagnetic wave may be detected simultaneously. The detector was fabricated on Fe+ ion-implanted InP. Polarization-sensitive detection is demonstrated with an extinction ratio better than 100:1. This type of device will have immediate application in studies of birefringent and optically active materials in the far-infrared region of the spectrum. © 2005 American Institute of Physics. DOI: 10.1063/1.1951051
+
+The far-infrared, or terahertz THz, region of the electromagnetic spectrum encompasses the energy range of many collective processes in condensed matter physics and macromolecular chemistry. However, in the past, this spectral region has been relatively unexplored owing to a lack of bright radiation sources and appropriate detectors. The technique of THz time domain spectroscopy TDS,1,2 which has developed rapidly as a result of advances in ultrashort pulsed laser technology, now provides a very sensitive probe across the THz band. TDS is currently an invaluable tool in condensed matter physics3­5 and macromolecular chemistry.6,7
+To date, THz-TDS techniques have relied on linearly polarized emitters and detectors. However, for spectroscopy of birefringent and optically active materials, it is also important to measure the polarization state of radiation before and after it has interacted with the material. Here, we report on a detector that enables such a THz-TDS system to be realized.
+Vibrational circular dichroism VCD spectroscopy is a new technique which has substantial potential in the fields of macromolecular chemistry and structural biology.8 Akin to the established technique of ultraviolet circular dichroism, VCD is used to analyze the structure of chiral molecules. It is predicted that VCD will be more powerful than conventional circular dichroism for stereochemical structure determination.8 However the technique is currently limited by insensitive and narrow band spectrometers.
+Of particular interest to biochemists is the structure and function of proteins and nucleic acids. These chiral biomolecules have vibrational and librational modes in the THz region and the THz optical activity of these modes are starting to be studied experimentally.9,10 THz frequency VCD is already finding application in fields as distinct as biochemical research11 and astrobiology.10 In the future, the ability to perform VCD using a polarization sensitive THz-TDS technique should enhance the bandwidth and sensitivity of mea-
+aElectronic mail: e.castro-camus1@physics.ox.ac.uk
+
+surements, and allow dynamic time-resolved studies to be performed.
+In order to perform polarization sensitive THz-TDS, it is necessary to be able to measure two preferably orthogonal electric field components of a terahertz transient. Theoretically it is possible to do this using a conventional two contact photoconductive receiver. That is, measure one electric field component and then rotate the receiver by 90° and measure the other component. However, in practice this procedure has two major disadvantages: First, during the rotation of the photoconductive receiver, any slight misalignment will significantly shift the relative phase of the electric-field components; second, the data acquisition time is increased as both components are recorded separately. In order to avoid these disadvantages, an integrated receiver capable of measuring both components simultaneously is needed. Such a detector may be realized by fabricating a three-contact photoconductive receiver.
+The three-contact receiver we developed is shown in Fig. 1. When designing the three-contact receiver we considered two main constraints. First, the unit vectors u^ 1 and u^ 2 normal to the gaps formed between the earth contact and the other two contacts 1 and 2 need to be orthogonal. Second, it is necessary that both gaps are within an area smaller than the laser beam waist and the focus spot size of the THz radiation a circle of radius 100 m. This last condition is necessary in order to have uniform laser and THz illumination across both gap regions.
+The performance of photoconductive receiver depends strongly on the material from which the device is fabricated. Material dependent carrier trapping and recombination times play an essential role in photoconductive receiver device performance. Specifically, long carrier lifetimes will permit the reception of large amounts of noise and short carrier lifetimes will reduce the signal level and accuracy. Modified semiconductor materials such as low-temperature-grown or ion-implanted GaAs/ InP are typically used, as carrier trapping times in these materials may be controlled.12,13
+
+0003-6951/2005/8625/254102/3/$22.50
+
+86, 254102-1
+
+© 2005 American Institute of Physics
+
+Downloaded 08 Dec 2012 to 152.14.136.96. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+254102-2 Castro-Camus et al.
+
+Appl. Phys. Lett. 86, 254102 2005
+
+FIG. 1. Color online Diagram of experimental apparatus used for simultaneous detection of horizontal and vertical components of the electric field of a THz transient. A SI-GaAs photoconductive switch was used as emitter, parabolic mirrors were used to collect and focus the THz radiation onto the three-contact photoconductive receiver. One of the contacts was used as common marked GND in figure and the other two were amplified independently to obtain the two orthogonal components. Inset: Photograph of a three-contact photoconductive receiver structure formed by two 16 m gaps in orthogonal directions in order to measure the perpendicular components of the THz electric field. The unit vectors u^ 1 and u^ 2 represent the directions between the earth contact and Contacts 1 and 2, respectively. The photograph was taken using an optical microscope.
+
+In order to fabricate the three-contact PCS device
+
+shown in Fig. 1, we have implanted semi-insulating InP
+
+100 substrates using 2.0 MeV and 0.8 MeV Fe+ ions with
+
+doses of 1.0 1013 cm-2 and 2.5 1012 cm-2 respectively.
+
+These multienergy implants gave an approximately uniform
+
+density of vacancies to a depth of 1 m, resulting in a carrier lifetime of 130 fs.14 The samples were subsequently an-
+
+nealed at 500 °C for 30 min under a PH3 atmosphere. Finally, the electrodes were defined using standard photolithog-
+
+raphy and lift-off techniques. The Cr/ Au contacts were
+
+deposited to a thickness of 20/ 250 nm using a thermal
+
+evaporator.
+
+In order to measure a THz electric field ETHz using a photoconductive receiver, it is necessary to gate the receiver
+
+with an ultrashort laser pulse. The laser pulse generates free
+
+charge carriers in the semiconductor substrate, which are ac-
+
+celerated by ETHz thus generating a current I between two contacts. Assuming a laser pulse of the form sech21.76t / t0 where t0 is the full width at half maximum, the current measured through contact i in the photoconductive receiver described here, is related to ETHz by 15
+
+
+
+Iit 
+
+ETHzt · u^ ie-t-t/
+
+-
+
+1 + tanh1.76t - t/t0dt,
+
+1
+
+where ETHzt is the THz electric field, u^ 1 and u^ 2 are unit vectors in the direction of the two gaps between the contact i = 1, 2 and the earth electrode.  is the lifetime of free carriers.
+The three-contact photoconductive receiver was tested using the setup shown in Fig. 1. A linearly polarized THz transient was generated by exciting a 400 m gap semiinsulating GaAs photoconductive switch emitter biased by a ±150 V square wave at a frequency of 25 kHz. The emitted THz transients were collected in the back reflection geometry and then focused onto the receiver using off-axis parabolic mirrors. A Ti:Sapphire chirped mirror oscillator with a 75 MHz repetition rate provided 10 fs pulses of 4 nJ and 800
+
+FIG. 2. Color online Horizontal solid and vertical dashed components of THz electric field obtained form measured voltage are plotted against time with the emitter at a 0°, b 45°, and c 90°, respectively.
+nm center wavelength, which were used to excite the emitter. A 0.4 nJ fraction split from the original pulse was used to gate the receiver.
+Two separate lock-in amplifiers were used to record the currents I1 and I2 through the two contacts. The lock-in amplifiers and the common electrode of the receiver were connected to a common earth, and the references of both lock-in amplifiers were locked to a signal provided by the 25 kHz signal generator used to drive the THz emitter. In all measurements, the I1t signal from Lock-in 1 and I2t signal from Lock-in 2 were recorded simultaneously at each time step using a multichannel analogue to digital converter.
+The photoconductive switch emitter was mounted on a graduated rotation stage that allowed the gap, and hence the polarization of the emitted THz transient, to be rotated. Both I1t and I2t where measured averaging over 90 scans at three different angles of the emitter 0°, 45°, and 90°. The measurements were taken in an evacuated chamber at a pressure of 25 mbar to avoid water vapor absorption. The THz electric field was calculated by differentiating numerically the two It traces measured by the lock-in amplifiers according to Eq. 1. The horizontal EH and vertical EV electricfield components are plotted against time in Figs. 2a­2c for the emitter at angles 0°, 45°, and 90°, respectively. The results demonstrate that the three-contact photoconductive receiver acts as a polarization sensitive detector. The polarization selectivity of the detector was assessed by measuring the cross polarized extinction ratio. This ratio was found to be 108:1 128:1 for the horizontally vertically oriented emitter. It should be noted that the polarization of the radiation arriving at the detector may not be perfectly linear, as photoconductive emitters do not produce purely dipolar radiation.16 Therefore, the true extinction ratio of the detector may be higher.
+In Fig. 3, a parametric plot of the data shown in Fig. 2 is presented. For an ideal linearly polarized source, the three sets of data should form straight lines at 0°, 45°, and 90° in the EH - EV plane. However, the measured angles of polarization from the horizontal plane are -5.5°, 39°, and 98°, respectively, and the polarization appears to be slightly elliptical especially in the 45° case. These discrepancies arise
+
+Downloaded 08 Dec 2012 to 152.14.136.96. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+254102-3 Castro-Camus et al.
+
+Appl. Phys. Lett. 86, 254102 2005
+
+FIG. 3. Color online Parametric representation of horizontal and vertical components of THz electric field for three emitter orientations: 0° , 45° , and 90° . The THz wave vector points out of the paper plane. In this plot, the angle of polarization for the three waves is easily observed.
+from a number of sources: It has been shown previously that photoconductive switch emitters produce a small quadrupole field leading to a cross polarized electric-field component.16,17 Furthermore, low f-number collection systems such as the f / 1.5 system used in this experiment inevitably lead to linearly polarized radiation becoming slightly elliptical.16
+The signal-to-noise SNR ratio in our experiments was measured to be 175:1 for the three contact receiver. We obtained a similar ratio for a conventional two-contact "bowtie" receiver, which we fabricated on a piece of the same substrate material. This indicates that the SNR performance of this device is limited by the substrate material rather than the receiver design. Therefore, the device sensitivity could be improved greatly by using optimized ion-implanted InP or GaAs substrates. Indeed optimized low-temperature MBEgrown GaAs has been shown to have excellent SNR performance13 which should be replicated in a three-contact device fabricated on that material.
+
+In conclusion, the design of a novel integrated detector capable of measuring both components of an arbitrarily polarized THz transient was presented as well as experimental evidence of its effectiveness. This integrated three-contact detector is expected to be very useful for further studies of time-domain circular dichroism spectroscopy and should have a wide range of applications in basic research and industry.
+The authors would like to thank the EPSRC U.K. and the Royal Society for financial support of this work. One of the authors E.C.C. wishes to thank CONACyT México for a scholarship. The Australian authors would like to acknowledge the financial support of the Australian Research Council.
+1D. H. Auston and K. P. Cheung, J. Opt. Soc. Am. B 2, 606 1985. 2P. R. Smith, D. H. Auston, and M. C. Nuss, IEEE J. Quantum Electron.
+24, 255 1988. 3R. Huber, F. Tauser, A. Brodschelm, M. Bichler, G. Abstreiter, and A. Leitenstorfer, Nature London 414, 286 2001. 4A. Leitenstorfer, R. Huber, F. Tauser, A. Brodschelm, M. Bichler, and G. Abstreiter, Physica B 314, 248 2002. 5R. A. Kaindl, D. Hagele, M. A. Carnahan, R. Lovenich, and D. S. Chemla, Phys. Status Solidi B 238, 451 2003. 6M. Johnston, L. Herz, A. Khan, A. Köhler, A. Davies, and E. Linfield, Chem. Phys. Lett. 377, 256 2003. 7C. A. Schmuttenmaer, Chem. Rev. Washington, D.C. 104, 1759 2004. 8L. A. Nafie, Appl. Spectrosc. 50, 12A 1996. 9J. Xu, J. Galan, G. Ramian, P. Savvidis, A. Scopatz, R. R. Birge, S. J. Allen, and K. Plaxco, Proc. SPIE 5268, 19 2004. 10J. Xu, G. Ramian, J. Galan, P. Savvidis, A. Scopatz, R. Birge, J. Allen, and K. Plaxco, Astrobiology 3, 489 2003. 11W. R. Salzman, J. Chem. Phys. 107, 2175 1997. 12T.-A. Liu, M. Tani, M. Nakajima, M. Hangyo, K. Sakai, S. Nakashima, and C.-L. Pan, Opt. Express 12, 2954 2004. 13Y. C. Shen, P. C. Upadhya, H. E. Beere, E. H. Linfield, A. G. Davies, I. S. Gregory, C. Baker, W. R. Tribe, and M. J. Evans, Appl. Phys. Lett. 85, 164 2004. 14C. Carmody, H. H. Tan, C. Jagadish, A. Gaarder, and S. Marcinkevicius, J. Appl. Phys. 94, 1074 2003. 15S. Kono, M. Tani, and K. Sakai, Appl. Phys. Lett. 79, 898 2001. 16J. V. Rudd, J. L. Johnson, and D. M. Mittleman, J. Opt. Soc. Am. B 18, 1524 2001. 17Y. Cai, I. Brener, J. Lopata, J. Wynn, L. Pfeiffer, and J. Federici, Appl. Phys. Lett. 71, 2076 1997.
+
+Downloaded 08 Dec 2012 to 152.14.136.96. Redistribution subject to AIP license or copyright; see http://apl.aip.org/about/rights_and_permissions
+
+

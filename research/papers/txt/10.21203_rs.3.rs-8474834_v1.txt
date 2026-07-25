@@ -1,0 +1,2629 @@
+In situ calibration of terahertz time-domain polarimetry systems with a leaky wire grid polarizer
+Arash Karimi Stony Brook University https://orcid.org/0000-0002-7899-5699
+Zachery B. Harris Stony Brook University
+M. Hassan Arbab
+Stony Brook University
+Method Article Keywords: Terahertz polarimetry, polarizer, leaky polarizer, calibration Posted Date: January 6th, 2026 DOI: https://doi.org/10.21203/rs.3.rs-8474834/v1 License:   This work is licensed under a Creative Commons Attribution 4.0 International License. Read Full License Additional Declarations: The authors declare no competing interests.
+
+In Situ Calibration of Terahertz Time-Domain Polarimetry Systems with a
+Leaky Wire Grid Polarizer
+Arash Karimi,1 Zachery B. Harris,1 and M. Hassan Arbab1 Department of Biomedical Engineering, Stony Brook University, NY, USA.
+(*Electronic mail: hassan.arbab@stonybrook.edu)
+Polarization-sensitive measurements provide rich information about material properties and enable a wide range of applications. Accurate calibration of polarimetry and ellipsometry systems is especially important in broadband spectral imaging instruments, where the performance of polarizers varies with frequency and manufacturing tolerances can introduce systematic errors. Terahertz time-domain polarimetry (THz-TDP) offers amplitude and phase information across a broad spectral range that encompasses many low-energy resonances of chemicals, yet THz polarimetry remains less developed than its infrared and optical counterparts. In this work, we present a generalized in situ calibration technique for THz-TDP imaging systems that uses a rotating polarizer placed over a reference mirror. The method accounts for the leaky, frequency-dependent response of the wire-grid polarizer and simultaneously extracts the polarizer response and system calibration parameters from the same measurement. We implement the approach on a handheld polarimetric THz scanner and demonstrate that including a leaky polarizer model yields more consistent and accurate calibration parameters across spectrum and the field of view, as compared to a simple model of an ideal polarizer. The method is validated using two wire-grid polarizers with different extinction ratios, illustrating that an accurate in situ calibration can be achieved even when the polarizer response is imperfect and unknown a priori.
+
+I. INTRODUCTION
+Polarization-sensitive techniques, including polarimetry and ellipsometry, are powerful methods for characterizing material properties. By detection of changes in the state of polarization upon reflection, transmission, or scattering, these techniques provide access to subtle properties that are often invisible to purely intensity based optical measurements1­4. Conventional polarimetry and ellipsometry systems have been widely used in the IR to UV parts of the spectrum to study thin films5­7, dielectric materials8, anisotropic media9, biomedical samples10, metamaterials11 and other imaging applications12. In recent years, the extension of polarizationsensitive techniques into the terahertz (THz) frequency range (i.e., between 0.1 and 10 THz) has attracted substantial interest13­16. The sensitivity of THz radiation to structural chirality enables probing dichroism signatures associated with biomolecules17,18, metamaterials19,20, and chiral lattice vibrations21. Measurements of circular birefringence and optical activity facilitate the characterization of anisotropic crystals22,23, polymers24,25, and composite materials26,27. Polarimetric measurement of electromagnetic scattering further extends these capabilities to quantification of surface roughness through statistical optics28 and structural inhomogeneity in biological tissue29,30 and skin appendages31. Additionally, advanced THz Mueller matrix ellipsometers have enabled accurate characterization of various material systems32­34.
+The polarization state of the terahertz light can be readily reconstructed by the field strength of two orthogonal components of the light measured using the terahertz time-domain spectroscopy (THz-TDS) technique, which simultaneously provides both amplitude and phase information35­37. The polarization sensitivity of photoconductive antennas, arising from the dependence of THz detection on the relative orientation between light polarization and the electrode gap, has been combined with external polarizers to separate the orthogonal components of the THz field38­40. The accuracy of these sys-
+
+tems is thus limited by the loss or leaky behavior of the external polarizers or the cross talk between the two THz detection channels. Therefore, although terahertz time-domain polarimetry (THz-TDP) provides rich information about the material properties, accurate measurements rely on careful calibration. Full polarimetric characterization of each optical element may not always be feasible, and a small misalignment can cause significant miscalibration of the system. Therefore, it is often ideal to calibrate a THz-TDP system using a well characterized in situ sample41,42.
+Previously, we introduced the polarimetric version of our THz Portable HAndheld Spectral Reflection (PHASR) Scanner that records the orthogonal polarization components of the reflected THz pulse using two detectors separated by a wire grid polarizer beam splitter43. We also introduced an in situ calibration model that utilizes a rotating polarizer in front of a mirror44. We showed that using this approach both the incident polarization state of the THz light on the sample in the reflection geometry, as well as the Jones matrix of the scanner, can be quantified in both spectral and spatial dimensions. However, to simplify the model, we assumed that the polarizer is ideal, which means that it has no optical loss or polarization leakage. However, commercial THz polarizers can be imperfect and have frequency-dependent transmission spectra in both orthogonal polarizations of the light, which depend on their structure and operating wavelength. Liquid-crystal polarizers (LCPs) and wire grid polarizers (WGPs) are widely used in the THz regime. LCPs offer a high extinction ratio, but their loss increases with frequency45. In contrast, freestanding WGPs exhibit low loss due to the high conductivity of the metallic wires, but their extinction ratio decreases with decreasing operating wavelength46,47. Due to the dependence of the frequency response of a polarizer, the finite extinction ratio and the loss of these optical elements play a crucial role in broadband THz systems47.
+In this work, the imperfect response of a WGP is incorporated into the calibration of the polarimetric THz PHASR
+
+2
+
+Scanner to improve the accuracy and feasibility of the technique over a wide bandwidth. Additionally, an in situ calibration technique based on ADAM gradient descent on a Riemann complex surface is proposed, which extracts the frequency response of the polarizer along with the calibration of the polarimetric system simultaneously. In other words, using this new model, an accurate calibration of a THz polarimetry system can be achieved even when the spectral and spatial performance of the imperfect polarizer is unknown. The importance of having an accurate model of the polarizer is shown by comparing the calibration parameters using a simple ideal model with no loss and no leakage, and a more realistic model of the polarizer that accounts for its leakage. Furthermore, the independence of the calibration parameters from the imperfect frequency response of the polarizer used for calibration is verified by using two WGPs of different extinction ratios.
+
+II. MATERIALS AND METHODS
+
+A. Imperfect Frequency Response of Polarizers
+
+Polarizers are widely used in polarimetry and ellipsometry to separate one linear polarization component of the light from its orthogonal counterpart. An ideal WGP can be described as an optical element that transmits the electric field component perpendicular to the metal wires and completely reflects the parallel polarization to the wires. The simple Jones matrix of an ideal polarizer in the wire basis can be written as
+
+J(
+P
+
+)
+
+=
+
+1 0
+
+0 0
+
+.
+
+(1)
+
+In practice, however, the attenuation and transmission of the polarization parallel to the wires and the loss of the polarization perpendicular to the wires are non-zero and depend on the geometry of the polarizer and the operating frequency. A more realistic version of the Jones matrix in Eq. (1) is therefore,
+
+J(
+P
+
+)
+
+=
+
+
+0
+
+0 ,
+
+
+(2)
+
+where  and  are the complex transmission coefficients of the electric field components perpendicular and parallel to the wires, respectively. The superscripts ( ) and ( ) will be used throughout this paper to refer to the simple and leaky models
+of a polarizer given in Eq. (1) and Eq. (2), respectively. The
+coefficients  and  are functions of the wire period , the wire diameter , and the operating free-space wavelength . The ideal case with  = 1 and /    can be approximated only over a limited frequency band by an appropriate choice of and . For broadband systems, JP is far from ideal as approaches .
+As a practical approximation, an impedance analogy can
+be used to derive analytical expressions for  and  of a free-standing WGP, as described elsewhere47. As an example,
+Fig. 1 shows the frequency response of  and  at various and using the impedance model. Figs. 1(a) and (b) show
+
+ (× rad)
+
+||
+
+parallel a) 1
+
+perpendicular c) 1
+
+0.8
+
+0.8
+
+0.6
+
+0.6
+
+0.4
+
+0.4
+
+0.2
+
+0.2
+
+0 0.2 0.4 0.6 0.8 1.0 1.2 0 0.2 0.4 0.6 0.8 1.0 1.2
+
+b) 1
+
+d) 1
+
+0.8
+
+0.8
+
+0.6
+
+0.6
+
+0.4
+
+0.4
+
+0.2
+
+0.2
+
+0
+
+0
+
+0.2 0.4 0.6 0.8 1.0 1.2 0.2 0.4 0.6 0.8 1.0 1.2
+
+Frequency (THz)
+
+Frequency (THz)
+
+15
+
+17 Wire
+
+19 21 diameter
+
+(23)
+
+25
+
+60 Wi1re20Spacin1g80() 240
+
+FIG. 1. (a) Amplitude and (b) phase frequency response of a WGP
+to the electric field polarization parallel to the wires  (solid lines) and perpendicular to the wires (dashed lines) with constant wire pe-
+riod = 100 and varying wire diameter between 15-25 . (c)
+Amplitude and (d) phase frequency response dependence of  and  to varying between 60-240 with a constant = 20 .
+
+the amplitude and phase frequency response of  (solid lines) and  (dashed lines) of a WGP with = 100 and varying
+between 15-25 . Figs. 1(c) and (d) show the dependence
+of the amplitude and phase of  and  on with a constant = 20 . As can be seen,  is nearly constant and almost
+equal to 1 with a phase shift of 0 due to the high conductivity
+of metal wires. However, the amplitude and phase of  drastically vary with and throughout the spectrum. Therefore,
+Eq. (2) can be modified to
+
+J(
+P
+
+)
+
+=
+
+1 0
+
+0
+
+1
+
+/  = 0
+
+0
+
+,
+
+(3)
+
+where and are the leakage (reciprocal of the extinction ratio) and the phase retardance of the electric field parallel to the orientation of the wires48.
+In this study, two tungsten WGPs with a nominal wire diameter of 20 and a wire period of 100 and 200 , namely G100x20 and G200x20, respectively, are used (Microtech Instrument inc. free-standing wire grid polarizer). The wire period and wire diameter of the two WGPs are measured from 10 random regions using an optical microscope. The G200x20 WGP had a wire diameter of 18.5 ± 1.2 and a wire period of 205 ± 5 , and the G100x20 WGP had a wire diameter of 17.3 ± 0.7 and a wire period of 101.4 ± 2.6 . Examples of microscopic images of these two WGPs are shown in Fig. 2.
+To verify the impedance model, transmission measurements of the two WGPs were performed with a pair of fibercoupled photoconductive antennas (PCAs) operating with a delay stage (TeraSmart, Menlo Systems Inc., Newton, NJ, USA).  can be measured by dividing the transmitted spectrum from the WGP with the wires being parallel to the inci-
+
+3
+
+a)
+
+G100x20
+
+104 
+
+17.3 
+
+b)
+
+G200x20
+
+209 
+
+16.5 
+
+100 
+FIG. 2. Microscopic images of (a) G100x20 and (b) G200x20 WGPs from a random region with measured wire diameter and wire period.
+
+JS is the Jones matrix of the sample. Due to the multiplica-
+
+tive non-uniqueness of EM = J2JSE1, the element in J2
+
+a)
+
+b)
+
+Em
+
+Dy Em
+Dx PBS BS GM -
+
+EM
+
+Dy
+
+E0
+
+Dx PBS BS
+J2
+JS Polarizer 1 Mirror
+
+J1 GM
+- S
+
+dent polarization over the spectrum of a reference pulse. In
+this transmission measurement, because PCAs produce quasilinearly polarized light38, a second G100x20 WGP aligned to
+pass the main polarization of the PCA emitter was included
+in the incident beam path to minimize the effect of cross-talk between the two polarizations49.
+
+B. Polarimetric THz PHASR Scanner
+The polarimetric THz scanner consists of a PCA emitter rotated to a 45 angle, and a pair of PCA detectors oriented to two orthogonal polarizations. The TDS system operates using the Electronically Controlled OPtical Sampling (ECOPS) technique50 (TeraFlash smart, Toptica Photonics AG, Germany). Fig. 3 shows the schematic and 3D rendering of the PHASR Scanner and its internal components. The collimated beam E0 from the emitter is reflected from the beam splitter and is steered across the scanning lens via a motorized gimbal mirror (GM). The collimated beam is then focused on the sample using a custom f- lens51. The s- and p-polarizations of the beam at the reflection from the GM change with the mirror's orientation. With the gimbal geometry used here, both components are affected by rotation of the GM about its azimuthal axis. However, elevation rotation of the GM affects only the p-polarization component of the light. As a result, the polarization of the light passing through the f- lens changes as the beam is steered and, therefore, the polarization incident on the sample varies across the field of view (FOV)44,52. As shown in Fig. 3(b), The incident electric field on the sample can be expressed as E1 = J1E0, where J1 is the Jones matrix of the system from the emitter to the sample. The reflected beam from the sample passes through the same path and is further separated into two orthogonal polarizations by a polarizing beam splitter (PBS) to be recorded by the two detectors, Dx and Dy. The measured electric field EM is given by
+
+M, = J2JSE1 =
+M,
+
+JS 1, ,
+
+(4)
+
+1,
+
+where as defined in Fig. 3b J2 is the Jones matrix of the scanner on the reflection path from the sample to the detectors, and
+
+FIG. 3. (a) Photograpth and (b) schematic of the polarimetric THz PHASR Scanner with a WGP in front of a mirror in the sample place for calibration purposes.
+
+is factorized to reduce the number of unknown parameters of
+
+the system to five. In other words, we can modify J2 and E1
+
+to
+
+J
+2
+
+and
+
+E
+1
+
+using,
+
+J2 = J2 = 1 1 ,
+
+(5a)
+
+23
+
+
+
+E1 =
+
+E1 =
+
+1, 
+
+,
+
+(5b)
+
+1,
+
+Therefore, Eq. (4) can be replaced by
+
+M,
+
+= J2JSE1 = 1
+
+1 JS
+
+ 1, 
+
+.
+
+(6)
+
+M,
+
+23
+
+1,
+
+C. Calibration of the Polarimetric THz PHASR Scanner
+
+We have previously shown that calibration of this system
+is performed by placing a rotating WGP in front of a mirror in the sample position44. The expanded Jones matrix of this sample is53,54
+
+JS ( ) = R(- )JpJMir.JpR( ),
+
+(7a)
+
+R(
+
+)=
+
+cos( ) - sin( )
+
+sin( cos(
+
+) )
+
+,
+
+(7b)
+
+JMir. =
+
+-1 0
+
+0 -1
+
+,
+
+(7c)
+
+where JP is the Jones matrix of the WGP, as explained in
+
+Section II A. The rotation angle of the WGP is chosen to
+
+increase with counterclockwise rotation, starting at = 0 to
+
+have the wires along with the vertical polarization. By sub-
+
+stituting Eq. (7a) into Eq. (6), and further decomposing the
+
+angle-dependent
+
+parameters
+
+from
+
+J
+2
+
+and
+
+E
+1
+
+,
+
+a
+
+matrix
+
+equa-
+
+tion system is obtained, given by,
+
+4
+
+M, M,
+
+=-
+
+cos2 ( 0
+
+)
+
+cos(
+
+) sin( 0
+
+)
+
+sin2 ( 0
+
+)
+
+0 cos2 (
+
+)
+
+cos(
+
+0 ) sin(
+
+)
+
+0 sin2 (
+
+)
+
+
+
+1 2 3 4 5 6
+
+
+
+,
+
+(8)
+
+where vector A is the auxiliary vector that consists of the calibration parameters. Eq. (8) is under determined and requires at least three sets of independent measurements to calculate A. In this experiment, we acquired measurements with between 0 and 170 with a step size of 10. Depending on the choice of the model (simple or leaky) for the WGP, the auxiliary vector can be composed of two different sets of calibration parameters, as given by,
+
+
+
+543216
+
+=
+
+
+
+( 2
+
+( )
+
+1,
+
+( 1,
+
+)+
+
+() 1
+
+( ) 1,
+
+( ) ( )
+
+1 1, ( ) ( )
+
+2 1,
+
+)
+
+( 1,
+
+)
+
++
+
+() 3
+
+( 1,
+
+( ) ( )
+
+3 1,
+
+)  ,
+
+(9a)
+
+and
+
+
+
+1 2 3 4 5 6
+
+
+
+=
+
+(
+
+(
+( 2
+
+( 1,
+
+)
+
++
+
+( ) ( ) 1 1,
+
+( 1,
+
+)
+
++
+
+() 1
+
+( 1,
+
+))(1 -
+
+)
+
+( 1,
+
+)
+
++
+
+() 1
+
+( ) 1,
+
+() 2
+
+( 1,
+
+)
+
++
+
+( ) ( ) 3 1,
+
+)
+
+( 1,
+
+)
+
++
+
+() 3
+
+( 1,
+
+))(1 -
+
+() 2
+
+( 1,
+
+)
+
++
+
+() 3
+
+( ) 1,
+
+) .
+
+(9b)
+
+For simplicity, = 2 2 is used in these equations. Note that Eq. (9a) and Eq. (9b) are the same if = 0. The general analytical solution to both Eq. (9a) and Eq. (9b) can be derived after algebraic manipulations, which is given by,
+
+ 1,
+
+=
+
+1- 1-
+
+2 3,
+
+(10a)
+
+ 1,
+
+= 2( 1 - ( 2(1 +
+
+3)( 3 - 1) , ) + ) (1 - 2)
+
+
+
+1=
+
+2(1 2(
+
++ 1-
+
+)
+
++
+
+ 3)
+
+,
+
+(10b) (10c)
+
+2=
+
+4- 1-
+
+6,
+3
+
+
+
+3=
+
+(
+
+6-
+
+4)(
+
+2(1 +
+
+)+
+
+) ,
+
+2( 1 - 3)( 3 - 1)
+
+(10d) (10e)
+
+where
+
+E(
+1
+
+)
+
+and
+
+J(
+2
+
+)
+
+can be calculated
+
+simply by setting
+
+=
+
+0. The parameter  is a discriminant of a quadratic equation
+
+that arises during the solution of the auxiliary vector to the
+
+calibration parameters, and is defined as
+
+=
+
+2 2
+
+(
+
+1
+
++
+
+)2 -4(
+
+1-
+
+3)( 3 -
+
+1).
+
+(11)
+
+The presence of a complex square root term in
+
+ 1,
+
+,
+
+1, and
+
+3 defines two possible solutions due to the inherent branch
+
+ambiguity of the square root.
+
+In case of a known , Eq. (9b) has 5 unknown parameters
+
+and 6 equations, 5 of which are used in deriving Eqs. (10).
+
+Thus, the unused equation (in this case, 5) can be used to
+
+choose the correct root of the quadratic equation. In other
+
+words, the calculated calibration parameters from Eqs. (10)
+
+can be substituted on the right-hand side of Eq. (9b) to form
+
+two calculated values of 5 for each root. The solution that
+
+minimizes the difference between the calculated 5 (right
+
+side) and the measured 5 (left side) would be the correct an-
+
+swer. Although this allows one to simply assign the value of
+
+in Eqs. (10) to obtain the calibration parameters, it requires
+
+a separate measurement of the calibrating WGP. However, in
+
+many applications, an in situ measurement is preferred due to the ease of workflow and real-time analysis55,56. If is treated
+
+instead as an unknown parameter, Eq. (9b) has 6 equations and
+
+6 unknown values. Therefore, Eq. (10) can be substituted into
+
+the fifth row of Eq. (9b) to form the calculated 5, which is
+
+given as
+
+
+
+^
+5
+
+=
+
+2(
+
+3-
+
+2(1 +
+
+1
+
+)
+
+( 
+
+4
+
+-
+
+6) + (
+
+)2 + (1 + )
+
+2(1 + ) + 2( 3 -
+
+) ( 6 - 1)(1 + )
+
+4) .
+
+(12)
+
+By minimizing the error between
+
+5 and
+
+^
+5
+
+,
+
+can be ex-
+
+tracted from Eq. (12). Therefore, the objective of this problem
+
+is given by
+
+min (A, ),
+C
+
+(13a)
+
+(A, ) =
+
+,
+
+(13b)
+
+(A, ) = ^5 - 5.
+
+(13c)
+
+By identifying = + where ( , )  R2, the 1D com-
+plex minimization problem can be converted into a 2D realvalued Riemann surface57. In addition, although A is a func-
+tion of frequency and space, is only a function of frequency.
+Thus, the space dependence of the cost function can be removed by performing a summation of the values of  in
+
+5
+
+C [dB] C [dB]
+C (dB)
+
+starting point
+
+5
+
+5
+
+0
+
+0
+
+-5 -5
+
+-10
+
+-15
+
+C() C (+1)
+
+-10
+
+0.5 0 {}
+
+-0.5
+
+0.5
+
+0
+
+-0.5
+
+{}
+
+-15
+
+FIG. 4. Cost function minimization on a two-sheet Riemann surface of . The two color maps indicate the odd and even unwrapping factor .
+
+a) 20 10
+
+G200x20 Simple Leaky
+
+b) 20 10
+
+G100x20
+
+0
+
+0
+
+-10
+
+-10
+
+-20
+
+-20
+
+-30
+
+-30
+
+-40 0.2 0.4 0.6 0.8 1 -40 0.2 0.4 0.6 0.8 1
+
+Frequency (THz)
+
+Frequency (THz)
+
+FIG. 5. frequency-dependent cost function calculated from the error between 5 and ^5, with = 0 (blue curve) and the optimized
+value (red curve) using the calibration set with (a) G200x20 and
+(b) G100x20 WGPs. The shaded area represents the range of error within a 10 mm×10 mm area in the FOV.
+
+III. RESULTS
+
+space. This summation in space also suppresses the measure-
+
+ment noise. The Adaptive Moment Estimation (ADAM) op-
+
+timization gradient descent58 was used to minimize the cost
+
+function in Eq. (13a). The utilization of the ADAM optimizer
+
+has several benefits in solving this problem. Firstly, the val-
+
+ues of (A, ) vary by several orders of magnitude along the
+
+frequency axis. By normalizing the gradient, the ADAM op-
+
+timizer removes the bias of (A, ) in frequency. In addition,
+
+the momentum-based gradient is less susceptible to noise and
+
+non-smooth cost functions. The key consideration for solving
+
+Eq. (13a) is tracking the correct Riemann sheet over the iterations of minimization. Since  is the origin of the ambiguity
+
+in , it is best to track the continuous path on the Riemann surface of . The polar form of  is given as
+
+ =
+
+||
+
+ 2
+
++
+
+,
+
+(14)
+
+where  Z is the unwrapping factor and depending on whether it is odd or even,  can have a different sign. This
+
+continuity tracking is based on minimizing the Euclidean dis-
+
+tance of the previous
+
+| -1|
+
+ -1 2
+
++
+
+with the two possible
+
+next points
+
+| |
+
+ 2
+
++
+
+and
+
+| |
+
+ 2
+
++(
+
++1)
+
+. With each
+
+detection of discontinuity, is increased by one. Since 
+
+is a function of , , frequency, and space, this continuity
+
+tracking should be performed along each dimension. At each
+
+iteration with a constant and , each pixel provides a spec-
+
+trum that can easily be unwrapped. The unwrapping operation
+
+in space is more complicated, and a flood-fill algorithm is uti-
+
+lized, which starts unwrapping the pixels from the center of
+
+the FOV, where the SNR is highest59. Lastly, at each iteration with new and , the continuity of  should be ensured by
+
+comparing it with the previous point. Note that the two-sheet
+
+Riemann surface is only created in the ( , ) dimension, and
+
+in the frequency and space create two separate roots. Due
+
+to the inherent phase ambiguity of the problem, two starting
+
+points with different values of (different signs) are chosen
+
+to ensure convergence. Fig. (4) shows an example of the op-
+
+timization on Riemann surface at 0.5 THz. As can be seen, at
+
+least one of the starting points with different starting values of
+
+converges to the global minima of the cost function.
+
+A. Characterization of the Polarizers
+
+Fig. 5 shows the cost functions of the two calibration sets,
+
+measured with G200x20 and G100x20 polarizers. The cost
+
+functions are calculated using both the simple model of the
+
+WGPs, i.e., with = 0 (blue curve), and the extracted value
+
+(red curve). It is evident that the use of the optimization
+
+method significantly reduces the error between
+
+5 and
+
+^
+5
+
+by
+
+about 20 dB for the G200x20 WGP calibration set, and ap-
+
+proximately 10 dB for that of the G100x20 polarizer. The
+
+exact amount of error reduction depends on the SNR of the
+
+measurements, stopping criteria and the step size in ADAM
+
+optimization, as well as the inherent leakage of the polarizer
+
+itself.
+
+Fig. 6 shows and for the two calibration sets using
+
+G100x20 and G200x20. The red curves are the values ex-
+
+tracted from the in situ calibration using the optimization
+
+method. In addition, as discussed in Section. II A, and
+
+of the WGPs can be attained by a simple transmission mea-
+
+surement,
+
+= ,
+
+(15)
+
+
+
+where  and  are the complex spectra of the recorded electric field with the polarization parallel and perpendicular to the wires of the WGP, respectively. and of the two polarizers measured in the transmission setup are shown as blue curves in Fig. 6. In addition, these parameters are calculated from the impedance model using the nominal (green) and measured (black) values of the wire diameter and the wire period . As can be seen, there is excellent agreement between the parameters extracted from various methods within the bandwidth of the system. In particular, as  1 and  0 the denominators in Eq. (10a) and Eq. (10b) approach zero, and the calibration problem becomes ill-conditioned. In other words, in this case the WGP ceases to provide meaningful rotation-angle-dependent contrast for calibration purposes.
+In transmission measurements, the ratio of  for both G200x20 and G100x20 to a reference electric field in the absence of a sample WGP was measured to be nearly 1. The
+
+6
+
+
+
+ (× rad)
+
+In-situ calibration
+
+Transmission measurement
+
+Impedance model with nominal parameters
+
+Impedance model with measured parameters
+
+a)
+
+G100x20
+
+c)
+
+G200x20
+
+1
+
+1
+
+0.5
+
+0.5
+
+0 0.2 0.4 0.6 0.8 1.0 0 0.2 0.4 0.6 0.8 1.0
+
+b)
+
+d)
+
+1
+
+1
+
+0.5
+
+0.5
+
+0
+0.2 0.4 0.6 0.8 1.0 Frequency (THz)
+
+0
+0.2 0.4 0.6 0.8 1.0 Frequency (THz)
+
+FIG. 6. (a) The leakge and (b) phase retardance of the G100x20, and (c) and (d) of the G200x20 WGP extracted from the in situ calibration measurement with gradient descent (red), transmission measurement of the WGPs (blue), the impedance model with nominal wire diameter and wire period (green) and impedance model with measured and (black).
+
+negligible loss of the polarizers is due to the high conductivity of the wires parallel to the polarization of light.
+
+B. Calibration Results
+
+In the following, four scenarios for extracting the calibra-
+
+tion
+
+parameters
+
+E
+1
+
+and
+
+J
+2
+
+are
+
+compared.
+
+For
+
+each
+
+of
+
+the
+
+two
+
+WGPs, G200x20 and G100x20, Eq. (10) is solved using the
+
+simple model where = 0 and using the leaky model where
+
+is calculated from the optimization method described in Sec-
+
+tion II C.
+
+The
+
+two
+
+complex
+
+values
+
+of
+
+the
+
+incident
+
+electric
+
+field
+
+E
+1
+
+Jones vector can also be expressed as four components of the
+
+Stokes vector, defined as
+
+=|
+
+ 1,
+
+|2 + |
+
+ 1,
+
+|2,
+
+(16a)
+
+=|
+
+ 1,
+
+|2 - |
+
+ 1,
+
+|2,
+
+(16b)
+
+= 2(
+
+ 1,
+
+ 1,
+
+),
+
+(16c)
+
+= -2(
+
+ 1,
+
+ 1,
+
+),
+
+(16d)
+
+where , , , and are the total intensity of the electric field, the difference in the intensity of vertical/horizontal, ±45, and
+
+right/left-handed polarizations, respectively. , and are
+
+normalized by the intensity spectrum , as is a common prac-
+
+tice
+
+in
+
+polarimetry
+
+and
+
+ellipsometry.
+
+Note
+
+that
+
+although
+
+E
+1
+
+is
+
+normalized by in Eq. (5b), only has a factor of | |2,
+
+I (dB)
+
+a) 0 -5
+-10 -15 -20 b) -2510.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1
+
+0.5
+
+Q/I
+
+0
+
+-0.5
+
+-1 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1
+c) 1
+
+0.5
+
+U/I
+
+0
+
+-0.5
+
+-10.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 d) 1
+
+0.5
+
+V/I
+
+0
+
+-0.5
+
+-10.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 Frequency (THz)
+
+G200x20, Simple G100x20, Simple
+
+G200x20, Leaky
+
+G100x20, Leaky
+
+FIG. 7. Frequency-dependent normalized Stokes vector (a) , (b) / , (c) / , and (d) / of the incident electric field E1 . The solid
+lines and shaded area represents the mean and standard deviation of the values from a 9-mm vertical line in the center of the FOV. The purple and blue curves are extracted from the simple model of the two WGPs G200x20 and G100x20, respectively, with the assumption of no leakage. The green and red curves are the extracted values with the leaky model of the two WGPs G200x20 and G100x20, respectively.
+
+while the other three Stokes parameters / , / and / ,
+
+are independent of this factorization.
+
+Fig. 7 shows the frequency-dependent Stokes vector ele-
+
+ments
+
+of
+
+the
+
+incident
+
+electric
+
+field
+
+E
+1
+
+for
+
+the
+
+four
+
+calibration
+
+cases. The Stokes vector elements are averaged from a 9-mm
+
+vertical line in the center of the FOV, and the shaded area rep-
+
+resents the standard deviation of this region. In the case of
+
+using the simple model of the WGPs, the Stokes vector com-
+
+ponents of the two calibration sets with G200x20 (purple) and
+
+G100x20 (blue) polarizers have a clear discrepancy. However,
+
+the leaky model gives similar Stokes vector elements regard-
+
+less of the choice of the WGP. In other words, one can antici-
+
+pate that the calibration parameters of a system should not de-
+
+7
+
+I (dB)
+
+Normalized I (dB) y (mm)
+
+Q/I y (mm)
+
+Simple model, G200x20 Simple model, G100x20
+
+Leaky model, G200x20
+
+Leaky model, G100x20
+
+10
+
+5
+
+0 -5
+
+-10 -10 -5 0 5 10
+
+10
+
+5
+
+0 -5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0 5 10 x (mm) (a)
+
+10
+
+5
+
+0 -5
+
+-10 -10 -5 0 5 10
+
+10
+
+5
+
+0 -5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0 5 10 x (mm) (b)
+
+10
+
+5
+
+0 -5
+
+-10 -10 -5 0 5 10
+
+10
+
+5
+
+0 -5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0 5 10 x (mm) (c)
+
+10
+
+5
+
+0 -5
+
+-10 -10 -5 0 5 10
+
+10
+
+5
+
+0 -5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0
+
+5 10
+
+10 5 0
+-5 -10
+-10 -5 0 5 10 x (mm) (d)
+
+0 -5 -10 -15 -20 -25 1.0
+0.8
+0.6
+0.4
+0.2
+0
+-0.2
+-0.4
+-0.6
+-0.8
+-1.0
+
+U/I y (mm)
+
+V/I y (mm)
+
+FIG. 8. Spatial distribution of the normalized Stokes vector of the incident electric field E1 . The false color represents the average of the spectrum between 0.4-0.5 THz. The calibration was performed using the (a) G200x20 and (b) G100x20 WGPs with the assumption of simple
+mode for the polarizers. Calibration by (c) G200x20 and (d) G100x20 WGPs with the leaky model of the polarizers.
+
+pend on the sample used to calibrate it. Using the new model, the system calibration is now independent of the choice of the leaky WGP. Note that in Fig. 7(a), the use of the leaky WGP model reduces the extracted of the incident beam by 2 dB at 0.4 THz, and 3 dB at 0.8 THz. As increases, the WGP sample leaks more cross-polarized signal to the detectors, increasing the total measured power. Thus, with the assumption of an ideal WGP (simple model), the calibrated would be overestimated. This frequency-dependence overestimation is more clearly evident in the blue curve in Fig. 7(a). As the G100x20 WGP closely approximates the ideal model at low frequencies but not at high frequencies, we can see that the blue curve matches the red and green curves at lower frequencies (low ) and converges to the purple curve at higher frequencies (high ).
+Figs. 8(a)-(d) show the spatial distribution of the Stokes vector parameters for cases 1-4, respectively. The false color
+
+of the figures represents the area under the curve of the spec-
+
+trum of each pixel between 0.4-0.5 THz (black dashed lines
+
+in Fig. 7). As can be seen in Fig. 8(a) and Fig. 8(b), the use
+
+of the simple model of the WGPs results in a clear mismatch
+
+between
+
+the
+
+Stokes
+
+vector
+
+maps
+
+of
+
+E
+1
+
+in
+
+the
+
+two
+
+calibration
+
+sets. On the other hand, Fig. 8(c) and Fig. 8(d), which are
+
+associated with the use of the leaky WGP model in the equa-
+
+tions, agree with each other. Note that the intensity is nearly
+
+constant throughout the FOV, and is only reduced in the cor-
+
+ner pixels. / changes due to the movement of the GM, as
+
+discussed in Section II B. / has a small spatial variation and is mostly at its maximum value due to the 45 orienta-
+
+tion of the emitter. Moreover, / is approximately constant
+
+throughout the FOV, and has a different sign in Fig. 8(a) com-
+
+pared to Figs. 8(b)-(d), meaning that neglecting the leakage
+
+resulted in wrong handedness of the incident polarization.
+
+As an alternative to the Stokes vectors, the incident electric
+
+8
+
+ 
+
+ 
+
+Simple
+
+Frequency (THz)
+
+Leaky
+
+a) 1
+
+G200x20
+
+b)
+
+G100x20
+
+0.5
+
+1.0
+
+Normalized 1,y (au)
+
+0 0.8
+-0.5
+
+c) -1
+
+d)
+
+0.6
+
+1
+
+0.5 0.4
+0
+
+-0.5
+
+0.2
+
+-1-1 -0.5 0 0.5 1 -1 -0.5 0 0.5 1
+
+e) 90
+
+Normalized 1, (au)
+
+60
+
+30
+
+0
+
+-30
+
+-60
+
+f) -900.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 40
+
+20
+
+0
+
+-20
+
+-40 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 Frequency (THz)
+
+G200x20, Simple G200x20, Leaky
+
+G100x20, Simple G100x20, Leaky
+
+FIG.
+
+9.
+
+frequency-dependent
+
+polarization
+
+ellipse
+
+of
+
+E
+1
+
+of
+
+the
+
+simple
+
+model calibration of G200x20 (a) and G100x20 (b), and leaky model
+
+calibration of (c) G200x20 and (d) G100x20. frequency-dependent
+
+polarization angle (e) and ellipticity angle (f) of the 4 calibration
+
+cases. The parameters represent the average values from a 9-mm
+
+vertical line in the center of FOV.
+
+field
+
+E
+1
+
+can
+
+be
+
+shown
+
+by
+
+the
+
+polarization
+
+ellipse
+
+representa-
+
+tion. Figs. 9(a)-(d) show the frequency-dependent polariza-
+
+tion
+
+ellipse
+
+of
+
+the
+
+incident
+
+electric
+
+field
+
+E
+1
+
+extracted
+
+from
+
+the
+
+simple WGP model and the leaky WGP model using G200x20
+
+and G100x20 over a 9-mm vertical line in the center of the
+
+FOV. It can be seen that the two calibration sets using the
+
+simple model of the WGPs result in different polarization el-
+
+lipses in Figs. 9(a)-(b). However, the use of the leaky model of
+
+WGPs in Figs. 9(c)-(d) extracted similar incident polarization
+
+ellipses, as expected from the schematic of the system. The
+
+polarization angle of the ellipse , which is the orientation of
+
+the major axis of the polarization ellipse, can be defined as
+
+= 1 tan-1 ( ),
+
+(17)
+
+2
+
+and the ellipticity angle , which is the ratio of the minor axis of the ellipse to its major axis, is given by
+
+= 1 tan-1 (
+
+).
+
+(18)
+
+2
+
+2+ 2
+
+Note that similar to / , / and / , the polarization an-
+
+gle , the ellipticity angles , and the shape of the polariza-
+
+tion ellipse do not depend on the factorization by . The
+
+frequency-dependent polarization and ellipticity angles are
+
+shown in Fig. 9(e) and Fig. 9(f), respectively. It is evident that
+
+there is a frequency-dependent overestimation in the polariza-
+
+tion angles of the simple model of WGPs in Fig. 9(e). How-
+
+ever, of the leaky model of WGPs is relatively constant over
+
+the spectrum. Moreover, the ellipticity angles of the simple
+
+model of WGPs are lower than those of the leaky model in
+
+Fig. 9(f). Similar to , shows a frequency-dependent de-
+
+viation between the simple and leaky models of WGPs. The
+
+frequency-dependent deviation between the simple and leaky
+
+models of the WGPs in and is due to the neglected leak-
+
+age that increases with frequency.
+
+Fig. 10 shows the spatial distribution of the polarization an-
+
+gle , the ellipticity angle , and the polarization ellipses of
+
+the incident electric field (from top to bottom). In all four cal-
+
+ibration sets, the polarization shows a large variation as the
+
+beam is swept from left to right across the FOV. This cor-
+
+responds to the change in polarization due to the azimuthal
+
+rotation of the GM, discussed in Section II B. As can be seen,
+
+the two simple WGP models in Fig. 10(a) and Fig. 10(b), us-
+
+ing the G200x20 and G100x20 WGPs, respectively, result in
+
+a clear discrepancy in the extracted polarization state of the
+
+incident beam. At = 0 in Fig. 10(a), almost linearly increases from 35 on the left side of the image to 68, while in Fig. 10(b) it increases from 24 to 55. However, the incident
+
+polarization of the light on the sample should be independent
+
+of the polarizer used in the calibration process. This incon-
+
+sistency is eliminated using the leaky model of the G200x20
+
+and G100x20 WGPs (Figs. 10(c)-(d)). In both calibration sets
+
+with the leaky model in Figs. 10(c)-(d), vary similarly from 21 on the left to 54 on the right. Note that the slope of and
+
+along the frequency axis across the FOV is similar to that
+
+of Figs. 9(a)-(b).This is expected since the rotation of the GM
+
+is not wavelength dependent. The polarization ellipses of the
+
+incident beam over the entire FOV of the scanner are shown
+
+in the final row of Figs. 10. As expected, using the new leaky
+
+model of the two polarizers results in identical incident polar-
+
+ization states, which is in contrast to the simple model used
+
+for the same two polarizer.
+
+Fig. 11 shows the frequency-dependent amplitude of the el-
+
+ements
+
+of
+
+J
+2
+
+averaged
+
+over
+
+a
+
+9-mm
+
+vertical
+
+line
+
+in
+
+the
+
+center
+
+of the FOV, using the four calibration cases described above.
+
+It
+
+is
+
+evident
+
+that
+
+there
+
+is
+
+a
+
+clear
+
+mismatch
+
+between
+
+the
+
+J
+2
+
+val-
+
+ues extracted from the two calibration sets using the simple
+
+model of the WGPs (purple and blue curves). However, using
+
+Polarization Angle  y (mm)
+
+Ellipticity Angle y (mm)
+
+9
+
+ 
+
+ 
+
+Simple model, G200x20 Simple model, G100x20
+
+Leaky model, G200x20
+
+Leaky model, G100x20 90
+
+10
+
+10
+
+10
+
+10
+
+60
+
+5
+
+5
+
+5
+
+5
+
+30
+
+0
+
+0
+
+0
+
+0
+
+0
+
+-5
+
+-5
+
+-5
+
+-5
+
+-30
+
+-10
+
+-10
+
+-10
+
+-10
+
+-60
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-90
+
+10
+
+10
+
+10
+
+10
+
+40
+
+5
+
+5
+
+5
+
+5
+
+20
+
+0
+
+0
+
+0
+
+0
+
+0
+
+-5
+
+-5
+
+-5
+
+-5
+
+-20
+
+-10
+
+-10
+
+-10
+
+-10
+
+-40
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+0
+
+10
+
+10
+
+10
+
+10
+
+-5
+
+5
+
+5
+
+5
+
+5
+
+-10
+
+0
+
+0
+
+0
+
+0
+
+-15
+
+-5
+
+-5
+
+-5
+
+-5
+
+-10
+
+-10
+
+-10
+
+-10
+
+-20
+
+-10 -5 0 5 10 x (mm)
+
+-10 -5 0 5 10 x (mm)
+
+-10 -5 0 5 10 x (mm)
+
+-10 -5 0 5 10
+
+-25
+
+x (mm)
+
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+I (dB)
+
+y (mm)
+
+FIG.
+
+10.
+
+Spatial
+
+distribution
+
+of
+
+the
+
+polarization
+
+angle,
+
+ellipticity
+
+angle,
+
+and
+
+polarization
+
+ellipse
+
+of
+
+the
+
+incident
+
+electric
+
+field
+
+E
+1
+
+calibrated
+
+using
+
+(a) G200x20 simple model, (b) G100x20 simple model, (c) G200x20 leaky model, and (d) G100x20 leaky model. The false color represents
+
+the average of the spectrum between 0.4-0.5 THz.
+
+the
+
+leaky
+
+model
+
+of
+
+the
+
+WGPs,
+
+the
+
+extracted
+
+J
+2
+
+between
+
+the
+
+two calibration sets match closely with each other (red and
+
+green curves). Note that according to our earlier definitions,
+
+1 and 2 capture the ratio of the cross-talk gain between the
+
+two channels, i.e., and , to the gain of the component
+
+. The cross-talk components are smaller than 3, which
+
+is the ratio of the gain of to the gain of , i.e. / . It
+
+can be seen in Figs. 11(a)-(b) that neglecting the leakage of
+
+the WGPs results in increased 1 and 2. This is expected
+
+because the polarizer partially allows for the leakage of the
+
+cross-polarized component of the beam. Furthermore, the in-
+
+creasing amplitude of 1 and 2, and decreasing amplitude of
+
+3 with frequency are due to the frequency response of the
+
+PBS (defined in Fig. 3), which shows an increasing leakage
+
+of cross-polarized light with increased frequency. Addition-
+
+ally, the BS component (shown in Fig. 3), which contributes to
+
+J
+2
+
+,
+
+is
+
+a
+
+5-mm
+
+thick
+
+high
+
+resistive
+
+floating
+
+point
+
+silicon
+
+wafer
+
+that has a constant refractive index of = 3.416 in the band-
+
+width of the system, and therefore does not contribute to the
+
+frequency-dependent
+
+behavior
+
+of
+
+the
+
+components
+
+of
+
+J 60,61
+2
+
+.
+
+Fig.
+
+12
+
+shows
+
+the
+
+spatial
+
+distribution
+
+of
+
+J
+2
+
+in
+
+the
+
+four
+
+cal-
+
+ibration scenarios. For simplicity, the false-color shows the
+
+amplitude of the complex parameters 1, 2, and 3 averaged
+
+between 0.4-0.5 THz. As it can be seen in Figs. 12(a)-(b), the
+
+extracted
+
+J
+2
+
+of
+
+the
+
+two
+
+calibration
+
+sets
+
+using
+
+the
+
+simple
+
+WGP
+
+model do not agree with each other. In contrast, the similarity
+
+between
+
+the
+
+two
+
+sets
+
+of
+
+J
+2
+
+extracted
+
+using
+
+the
+
+leaky
+
+model,
+
+shown in Figs. 12(c)-(d) indicates that the calibration param-
+
+eters are independent of the leakage of the calibrating WGPs.
+
+Note that 1 and 2 in Figs. 12(b)-(d) are vertically symmetric
+
+due to the azimuthal rotation of the GM, while 3 is relatively
+
+constant in the FOV. However, due to the error of ignoring the
+
+leakage of G200x20, 1 and 2 in Fig. 12(a) do not show the
+
+vertically symmetric behavior.
+
+IV. DISCUSSION
+The presented results demonstrate that incorporating a leaky model of WGPs, which accounts for frequencydependent leakage and phase retardance of the electric field, is essential for accurate calibration of broadband polarimetry and ellipsometry systems. State-of-the-art freestanding WGPs and other types of polarizers have a variety of spectral characteristics and subsequently different frequency behavior. For narrow-band systems, the availability of a low loss and low leakage polarizer might justify the use of the simple model as described in Eq. (1). However, for broadband THz systems62,63, such as PCAs64 and air-plasma based polarimetric instruments65, the frequency response of the polarizer can
+
+10
+
+|S1|
+
+a) 0.7 0.6 0.5 0.4 0.3 0.2 0.1 00.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1
+b) 0.8
+0.6
+0.4
+0.2
+00.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 c) 1.5
+
+|S2|
+
+1.0
+
+|S3|
+
+0.5
+
+00.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 Frequency (THz)
+
+G200x20, Simple G100x20, Simple
+
+G200x20, Leaky
+
+G100x20, Leaky
+
+FIG. 11. Frequency-dependent amplitude of the elements of the Jones matrix of the system in the detection path J2. The parameters are calibrated using the simple model of G200x20 (purple), G100x20 (blue) and the leaky model of G200x20 (green) and G100x20 (red). The solid lines and shaded area indicate the mean and standard deviation of the amplitude spectra along a 9-mm vertical line in the center of the FOV.
+
+play a crucial role in accurate calibration. The differences and similarities between the calibration parameters of the polarimetric THz PHASR Scanner extracted by the simple and leaky WGP models in Section III highlight the advantage of adapting the latter. In addition, by employing two WGPs with different leakage and phase retardance parameters, the consistency of the method was verified.
+Notably, we showed that using this model the extinction ratio of the imperfect polarizer used for the calibration can be simultaneously extracted using the in situ measurements. We showed that the calibration equations with the unknown response of the WGP was solvable using ADAM optimization in complex space. This technique provides the possibility of exploiting an in situ calibration for polarimetry systems and extracting the calibration parameters of the system along with the leakage and phase retardance of the WGP. this is particularly advantageous because advance knowledge of the frequency-dependent Jones matrix of the WGP used in the calibration requires separate characterization of the WGP in a separate setup. This can introduce additional sources of error due to several inaccuracies. First, the degradation of the wires can change the frequency response of a WGP to 
+
+and/or  over time. Second, a separate transmission measurement using a separate setup might not be always available, is time consuming, or can introduce further errors in the WGP response if the transmission setup is not well-characterized. Apart from separate measurements, the use of electromagnetic models is usually complicated and might not adequately explain the leakage and phase retardance of a polarizer over a wide spectrum. Moreover, such models are based on the nominal diameter and period of the wires, which might differ from the actual values, as seen in Fig. 6. The ability to characterize an unknown polarizer along with the calibration of the system is a powerful self-calibration method for polarimetry systems.
+As discussed in Section II C, the presence of the discriminant term introduces two possible solutions for the system of equations. These two solutions are hardly distinguishable in the low SNR portion of the spectrum, since the error in 5 increases with lower SNR. This further limits the useful bandwidth of the system to only 0.15-1.1 THz. Additionally, one key experimental consideration of the proposed calibration technique is the consistency of the phase information between measurements. Small timing jitters and long-term drift of the system due to temperature changes and non-linearity of the motion of piezo motors in the femtosecond laser cavity can limit the phase consistency of the THz-TDS system between measurements43,66.
+One limitation of the current in situ calibration technique is that it assumes the frequency response of the WGPs is homogeneous. Transmission measurements were performed on the entire surface of the WGPs to verify the spatial homogeneity of the extinction ratio. In case of uneven degradation of the wires or damage to some wires of a WGP, the spatial and angular dependence should be carefully considered. In future studies, we will explore such spatial variations of the polarizer as well as incorporate polarimetric measurement capability using the proposed in situ calibration technique in our THz PHSR Scanner for diagnosis of burn injuries67 and the corneal scanner68 to quantify depolarization and birefringence in biological tissue.
+V. CONCLUSION
+In this work, an in situ calibration technique for THz polarimetric imaging systems was introduced based on a rotating polarizer placed in front of a mirror. Due to the broadband nature of THz-TDP systems, the importance of incorporating a leaky model of the calibration polarizer was essential for accurate determination of the calibration parameters of the instrument. By formulating the characteristic Jones matrix of the system using an unknown and imperfect frequency response of the calibration polarizer and solving the resulting equations using optimization in complex Riemann space, both the system calibration and the spectral behavior of the polarizer were extracted simultaneously. This approach enables an in situ calibration configuration that improves accuracy and eliminates the need for separate polarizer characterization. The consistency and robustness of the method were verified using two different wire grid polarizers, highlighting its potential for
+
+11
+
+Amplitude
+
+S1 y (mm)
+
+Amplitude
+
+S2 y (mm)
+
+Simple model, G200x20 Simple model, G100x20
+
+Leaky model, G200x20
+
+Leaky model, G100x20
+
+0.7
+
+10
+
+10
+
+10
+
+10
+
+0.6
+
+5
+
+5
+
+5
+
+5
+
+0.5
+
+0.4
+
+0
+
+0
+
+0
+
+0
+
+0.3
+
+-5
+
+-5
+
+-5
+
+-5
+
+0.2
+
+-10
+
+-10
+
+-10
+
+-10
+
+0.1
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+0
+
+0.8
+
+10
+
+10
+
+10
+
+10
+
+5
+
+5
+
+5
+
+5
+
+0.6
+
+0
+
+0
+
+0
+
+0
+
+0.4
+
+-5
+
+-5
+
+-5
+
+-5
+
+0.2
+
+-10
+
+-10
+
+-10
+
+-10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+-10 -5 0 5 10
+
+0
+
+1.5
+
+10
+
+10
+
+10
+
+10
+
+5
+
+5
+
+5
+
+5
+
+1.0
+
+0
+
+0
+
+0
+
+0
+
+-5
+
+-5
+
+-5
+
+-5
+
+0.5
+
+-10
+
+-10
+
+-10
+
+-10
+
+-10 -5 0 5 10 x (mm)
+
+-10 -5 0 5 10 x (mm)
+
+-10 -5 0 5 10 x (mm)
+
+-10 -5 0 5 10
+
+0
+
+x (mm)
+
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+Amplitude
+
+S3 y (mm)
+
+FIG. 12. Spatial distribution of the Jones matrix of the system on detection path J2. The parameters are calibrated using (a) the simple model of G200x20, (b) G100x20 and (c) the leaky model of G200x20 and (d) G100x20. The false color represents the average of the amplitude
+spectrum between 0.4-0.5 THz, as shown by dashed lines in Fig. 11.
+
+reliable calibration of THz polarimetric measurements.
+ACKNOWLEDGMENTS
+This work was supported in part by the U.S. Army Medical Research Acquisition Activity (USAMRAA) through the Military Burn Research Program (MBRP) under Award No. W81XWH-21-1-0258, the National Institute of General Medical Sciences (GM112693) and Stony Brook University.
+DATA AVAILABILITY STATEMENT
+The data that support the findings of this study are available from the corresponding author upon reasonable request.
+1R. M. Azzam, "Stokes-vector and mueller-matrix polarimetry," Journal of the Optical Society of America A 33, 1396­1408 (2016). 2D. Aspnes, "Spectroscopic ellipsometry--past, present, and future," Thin Solid Films 571, 334­344 (2014). 3M. Losurdo, M. Bergmair, G. Bruno, D. Cattelan, C. Cobet, A. De Martino, K. Fleischer, Z. Dohcevic-Mitrovic, N. Esser, M. Galliet, et al., "Spectroscopic ellipsometry and polarimetry for materials and systems analysis at the nanometer scale: state-of-the-art, potential, and perspectives," Journal of Nanoparticle Research 11, 1521­1554 (2009).
+
+4A. C. Diebold, A. Antonelli, and N. Keller, "Perspective: Optical measurement of feature dimensions and shapes by scatterometry," Apl Materials 6 (2018). 5A. Furchner, C. Kratz, J. Rappich, and K. Hinrichs, "Hyperspectral infrared laser polarimetry for single-shot phase­amplitude imaging of thin films," Optics Letters 44, 4893­4896 (2019). 6Y.-L. Lo, Y.-F. Chung, and H.-H. Lin, "Polarization scanning ellipsometry method for measuring effective ellipsometric parameters of isotropic and anisotropic thin films," Journal of lightwave technology 31, 2361­2369 (2013). 7E. Pasikatan, G. A. Antonelli, N. Keller, M. Kuhn, S. Murakami, S. Kal, M. Rednor, K. Tapily, D. Hetzer, M. Schaefer, et al., "Non-destructive lateral cavity etch measurements of 8-superlattice layer nanowire test structures using optical mueller matrix spectroscopic ellipsometry, x-ray diffraction, and x-ray fluorescence," Journal of Applied Physics 138 (2025). 8S.-G. Lim, S. Kriventsov, T. N. Jackson, J. Haeni, D. G. Schlom, A. Balbashov, R. Uecker, P. Reiche, J. Freeouf, and G. Lucovsky, "Dielectric functions and optical bandgaps of high-k dielectrics for metal-oxidesemiconductor field-effect transistors by far ultraviolet spectroscopic ellipsometry," Journal of applied physics 91, 4500­4505 (2002). 9K. Hinrichs, B. Blevins, A. Furchner, N. S. Yadavalli, S. Minko, R. Horvath, and M. Mangold, "Mid-infrared dual-comb polarimetry of anisotropic samples," Natural Sciences 3, e20220056 (2023). 10M. Yamanari, S. Tsuda, T. Kokubun, Y. Shiga, K. Omodaka, Y. Yokoyama, N. Himori, M. Ryu, S. Kunimatsu-Sanuki, H. Takahashi, et al., "Fiberbased polarization-sensitive oct for birefringence imaging of the anterior eye segment," Biomedical Optics Express 6, 369­389 (2015). 11T. W. Oates, T. Shaykhutdinov, T. Wagner, A. Furchner, and K. Hinrichs, "Mid-infrared gyrotropy in split-ring resonators measured by mueller matrix ellipsometry," Optical Materials Express 4, 2646­2655 (2014).
+
+12
+
+12J. Zuo, J. Bai, S. Choi, A. Basiri, X. Chen, C. Wang, and Y. Yao, "Chip-
+integrated metasurface full-stokes polarimetric imaging sensor," Light: Science & Applications 12, 218 (2023). 13A. Leitenstorfer, A. S. Moskalenko, T. Kampfrath, J. Kono, E. Castro-
+Camus, K. Peng, N. Qureshi, D. Turchinovich, K. Tanaka, A. G. Markelz,
+et al., "The 2023 terahertz science and technology roadmap," Journal of Physics D: Applied Physics 56, 223001 (2023). 14X. Chen and E. Pickwell-MacPherson, "An introduction to terahertz timedomain spectroscopic ellipsometry," APL Photonics 7 (2022). 15T. Nagashima, M. Tani, and M. Hangyo, "Polarization-sensitive thz-tds
+and its application to anisotropy sensing," Journal of Infrared, Millimeter, and Terahertz Waves 34, 740­775 (2013). 16P. Koleják, J. Liu, R. Silber, M. Micica, O. Ballada, C . Barta, R. Lebrun,
+N. Tiercelin, M. Vanwolleghem, and K. Postava, "Terahertz time-domain
+ellipsometry with spintronic emitters: Pauli coefficients as a superior al-
+ternative to jones and mueller matrices," IEEE Transactions on Terahertz
+Science and Technology (2025). 17W. J. Choi, S. H. Lee, B. C. Park, and N. A. Kotov, "Terahertz circular
+dichroism spectroscopy of molecular assemblies and nanostructures," Journal of the American Chemical Society 144, 22789­22804 (2022). 18W. J. Choi, G. Cheng, Z. Huang, S. Zhang, T. B. Norris, and N. A. Ko-
+tov, "Terahertz circular dichroism spectroscopy of biomaterials enabled by kirigami polarization modulators," Nature materials 18, 820­826 (2019). 19W. Choi, W. P. Moestopo, S. Gu, T. Lee, J.-H. Yoo, X. Xia, and M. R. Arm-
+strong, "Helical photonic metamaterials for encrypted chiral holograms,"
+Advanced Science , e07931 (2025). 20U. Kilic, M. Hilfiker, S. Wimer, A. Ruder, E. Schubert, M. Schubert,
+and C. Argyropoulos, "Controlling the broadband enhanced light chirality with l-shaped dielectric metamaterials," Nature communications 15, 3757
+(2024). 21W. J. Choi, K. Yano, M. Cha, F. M. Colombari, J.-Y. Kim, Y. Wang, S. H.
+Lee, K. Sun, J. M. Kruger, A. F. de Moura, et al., "Chiral phonons in microcrystals and nanofibrils of biomolecules," Nature Photonics 16, 366­373
+(2022). 22L. Wang, X.-w. Lin, X. Liang, J.-b. Wu, W. Hu, Z.-g. Zheng, B.-b. Jin, Y.-q.
+Qin, and Y.-q. Lu, "Large birefringence liquid crystal material in terahertz range," Optical Materials Express 2, 1314­1319 (2012). 23K. Song, Z. Tian, W. Zhang, and M. Wang, "Temperature-dependent birefringence of lithium triborate, lbo in the thz regime," Scientific reports 7,
+8122 (2017). 24F. Rutz, T. Hasek, M. Koch, H. Richter, and U. Ewert, "Terahertz birefrin-
+gence of liquid crystal polymers," Applied Physics Letters 89 (2006). 25H. Xiao, J. Huang, X. Bian, M. Wang, X. Liang, M. Li, and G. Jin, "Ter-
+ahertz birefringence and anisotropic absorption characteristic of ordered
+polymer structures for simultaneous orientation measurement in crystalline and amorphous regions," Macromolecules 58, 4520­4535 (2025). 26K. Xu, Z. B. Harris, P. Vahey, and M. H. Arbab, "Thz polarimetric imaging
+of carbon fiber-reinforced composites using the portable handled spectral reflection (phasr) scanner," Sensors (Basel, Switzerland) 24, 7467 (2024). 27A. Karimi, Z. B. Harris, E. Heller, P. Vahey, and M. H. Arbab, "Non-
+destructive measurement of multilayer coating thickness on interwoven cfrp
+using terahertz time-domain polarimetric imaging," IEEE Transactions on
+Terahertz Science and Technology (2025). 28K. Xu, Z. B. Harris, and M. H. Arbab, "Polarimetric imaging of back-
+scattered terahertz speckle fields using a portable scanner," Optics Express 31, 11308­11319 (2023). 29E. Heller, K. Xu, Z. B. Harris, and M. H. Arbab, "Terahertz mie scat-
+tering in tissue: diffuse polarimetric imaging and monte carlo validation in highly attenuating media models," Journal of Biomedical Optics 30,
+066001­066001 (2025). 30C. S. Joseph, R. Patel, V. A. Neel, R. H. Giles, and A. N. Yaroslavsky,
+"Imaging of ex vivo nonmelanoma skin cancers in the optical and terahertz
+spectral regions optical and terahertz skin cancers imaging," Journal of biophotonics 7, 295­303 (2014). 31K. Xu and M. H. Arbab, "Terahertz polarimetric imaging of biological tis-
+sue: Monte carlo modeling of signal contrast mechanisms due to mie scattering," Biomedical Optics Express 15, 2328­2342 (2024). 32P. Kühne, N. Armakavicius, V. Stanishev, C. M. Herzinger, M. Schubert,
+and V. Darakchieva, "Advanced terahertz frequency-domain ellipsometry
+instrumentation for in situ and ex situ applications," IEEE Transactions on
+
+Terahertz Science and Technology 8, 257­270 (2018). 33T. Hofmann, C. Herzinger, A. Boosalis, T. Tiwald, J. A. Woollam, and
+M. Schubert, "Variable-wavelength frequency-domain terahertz ellipsome-
+try," Review of Scientific Instruments 81 (2010). 34V. Rindert, A. Ruder, S. Richter, P. Kühne, M. Bauer, V. Darakchieva, and
+M. Schubert, "Terahertz frequency-domain 4x4 mueller matrix ellipsome-
+ter instrument designed for high-frequency magnetic resonance measure-
+ments," arXiv preprint arXiv:2503.22500 (2025). 35M. Koch, D. M. Mittleman, J. Ornik, and E. Castro-Camus, "Terahertz
+time-domain spectroscopy," Nature Reviews Methods Primers 3, 48 (2023). 36P. U. Jepsen, D. G. Cooke, and M. Koch, "Terahertz spectroscopy and
+imaging­modern techniques and applications," Laser & Photonics Reviews
+5, 124­166 (2011). 37J. Neu and C. A. Schmuttenmaer, "Tutorial: An introduction to tera-
+hertz time domain spectroscopy (thz-tds)," Journal of Applied Physics 124
+(2018). 38E. Castro-Camus, "Polarization-resolved terahertz time-domain spec-
+troscopy," Journal of Infrared, Millimeter, and Terahertz Waves 33, 418­
+430 (2012). 39H. Chen, K. Wang, X. Chen, and G. Fang, "Real-time and calibration-
+free generalized terahertz time-domain spectroscopic ellipsometry," Ap-
+plied Physics Letters 124 (2024). 40E. Castro-Camus, J. Lloyd-Hughes, M. Johnston, M. Fraser, H. Tan, and
+C. Jagadish, "Polarization-sensitive terahertz detection by multicontact
+photoconductive receivers," Applied Physics Letters 86 (2005). 41Z. Mazaheri, C. Koral, and A. Andreone, "Accurate thz ellipsometry using
+calibration in time domain," Scientific Reports 12, 7342 (2022). 42K. Xu, E. Bayati, K. Oguchi, S. Watanabe, D. P. Winebrenner, and M. Has-
+san Arbab, "Terahertz time-domain polarimetry (thz-tdp) based on the spin-
+ning eo sampling technique: determination of precision and calibration,"
+Optics Express 28, 13482­13496 (2020). 43Z. B. Harris and M. H. Arbab, "Terahertz phasr scanner with 2 khz, 100 ps
+time-domain trace acquisition rate and an extended field-of-view based on
+a heliostat design," IEEE transactions on terahertz science and technology
+12, 619­632 (2022). 44Z. B. Harris, K. Xu, and M. H. Arbab, "A handheld polarimetric imaging
+device and calibration technique for accurate mapping of terahertz stokes
+vectors," Scientific Reports 14, 17714 (2024). 45C.-F. Hsieh, Y.-C. Lai, R.-P. Pan, and C.-L. Pan, "Polarizing terahertz
+waves with nematic liquid crystals," Optics letters 33, 1174­1176 (2008). 46I. Yamada, K. Takano, M. Hangyo, M. Saito, and W. Watanabe, "Terahertz
+wire-grid polarizers with micrometer-pitch al gratings," Optics letters 34,
+274­276 (2009). 47K. J. Kaltenecker, E. J. Kelleher, B. Zhou, and P. U. Jepsen, "Attenuation
+of thz beams: a "how to" tutorial," Journal of Infrared, Millimeter, and
+Terahertz Waves 40, 878­904 (2019). 48M. Neshat and N. Armitage, "Terahertz time-domain spectroscopic ellip-
+sometry: instrumentation and calibration," Optics express 20, 29063­29075
+(2012). 49X. Chen, E. P. Parrott, Z. Huang, H.-P. Chan, and E. Pickwell-MacPherson,
+"Robust and accurate terahertz time-domain spectroscopic ellipsometry,"
+Photonics Research 6, 768­775 (2018). 50R. J. Dietz, N. Vieweg, T. Puppe, A. Zach, B. Globisch, T. Göbel,
+P. Leisching, and M. Schell, "All fiber-coupled thz-tds system with khz
+measurement rate based on electronically controlled optical sampling," Op-
+tics letters 39, 6482­6485 (2014). 51Z. B. Harris, S. Katletz, M. E. Khani, A. Virk, and M. H. Arbab, "De-
+sign and characterization of telecentric f- scanning lenses for broadband
+terahertz frequency systems," AIP advances 10 (2020). 52P. U. Jepsen, U. Møller, and H. Merbold, "Investigation of aqueous alcohol
+and sugar solutions with reflection terahertz time-domain spectroscopy,"
+Optics Express 15, 14717­14737 (2007). 53C. M. Morris, R. V. Aguilar, A. V. Stier, and N. P. Armitage, "Polarization
+modulation time-domain terahertz polarimetry," Optics express 20, 12303­
+12317 (2012). 54C. Huang, S. Zhao, H. Chen, and Z. Liao, "Attenuation characterization
+of multiple combinations of imperfect polarizers," Journal of the Optical
+Society of America A 27, 1060­1068 (2010). 55C.-Y. Han, C.-Y. Du, and J.-Y. Jhou, "Rapid full mueller matrix imaging
+polarimetry based on the hybrid phase modulation technique," Optics Com-
+
+13
+
+munications 382, 501­508 (2017). 56X. Ma, J. Wu, Z. Zhao, X. Wei, and Y. Li, "In situ holistic optimization
+method for a collinear reflection mueller matrix imaging polarimeter," Ap-
+plied Optics 64, 3438­3446 (2025). 57S. Bonnabel, "Stochastic gradient descent on riemannian manifolds," IEEE
+Transactions on Automatic Control 58, 2217­2229 (2013). 58D. P. Kingma and J. Lei Ba, "Adam: A method for stochastic optimiza-
+tion," Proceeding of the 3rd International Conference on Learning Repre-
+sentations (ICLR 2015) , 1­15 (2015). 59A. Asundi and Z. Wensen, "Fast phase-unwrapping algorithm based on a
+gray-scale mask and flood fill," Applied optics 37, 5416­5420 (1998). 60J. Dai, J. Zhang, W. Zhang, and D. Grischkowsky, "Terahertz time-domain
+spectroscopy characterization of the far-infrared absorption and index of
+refraction of high-resistivity, float-zone silicon," Journal of the Optical So-
+ciety of America B 21, 1379­1386 (2004). 61M. Naftaly, "Reference materials for thz spectroscopy," in 2023 48th inter-
+national conference on infrared, millimeter, and terahertz waves (IRMMW-
+THz) (IEEE, 2023) pp. 1­2. 62K. Lee, H. Yun, S.-E. Mun, G.-Y. Lee, J. Sung, and B. Lee, "Ultracom-
+pact broadband plasmonic polarimeter," Laser & Photonics Reviews 12,
+1700297 (2018).
+
+63C. Gao, J. Weng, X. Cao, W. Liu, Z. Tan, and B. Lei, "Rapid measurement of broadband activities by a polarization grating based polarimeter," IEEE Transactions on Instrumentation and Measurement (2024).
+64Y. Zhang, X. Zhang, S. Li, J. Gu, Y. Li, Z. Tian, C. Ouyang, M. He, J. Han, and W. Zhang, "A broadband thz-tds system based on dstms emitter and ltg ingaas/inalas photoconductive antenna detector," Scientific Reports 6, 26949 (2016).
+65K. Xu, M. Liu, and M. H. Arbab, "Broadband terahertz time-domain polarimetry based on air plasma filament emissions and spinning electro-optic sampling in gap," Applied Physics Letters 120 (2022).
+66Y. Kim and D.-S. Yee, "High-speed terahertz time-domain spectroscopy based on electronically controlled optical sampling," Optics letters 35, 3715­3717 (2010).
+67M. E. Khani, Z. B. Harris, O. B. Osman, A. J. Singer, and M. Hassan Arbab, "Triage of in vivo burn injuries and prediction of wound healing outcome using neural networks and modeling of the terahertz permittivity based on the double debye dielectric parameters," Biomedical Optics Express 14, 918­931 (2023).
+68A. S. Virk, Z. B. Harris, and M. H. Arbab, "Development of a terahertz time-domain scanner for topographic imaging of spherical targets," Optics letters 46, 1065­1068 (2021).
+
+

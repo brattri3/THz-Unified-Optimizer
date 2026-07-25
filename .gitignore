@@ -4,3 +4,6 @@
 .venv/
 venv/
 
+
+# large uncompressed microscope images (keep local; use git-LFS if needed)
+*.bmp

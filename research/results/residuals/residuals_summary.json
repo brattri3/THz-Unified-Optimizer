@@ -1,0 +1,60 @@
+[
+  {
+    "dataset": "356att",
+    "n_angles": 10,
+    "n_freqs": 169,
+    "angle_range_deg": [
+      0.0,
+      90.0
+    ],
+    "freq_range_THz": [
+      0.20719358158485549,
+      1.4963980892239561
+    ],
+    "amp_all_bias_dB": 1.1413905139522198,
+    "amp_all_rmse_dB": 2.182333244140177,
+    "amp_deepshadow_bias_dB": 3.2575759039121337,
+    "amp_deepshadow_rmse_dB": 3.8875467456174255,
+    "spectral_hotspot": {
+      "freq_THz": 0.2455627633598287,
+      "mean_bias_dB": 2.5456748899779553
+    },
+    "angular_hotspot": {
+      "angle_deg": 90.0,
+      "mean_bias_dB": 4.128653932822161
+    },
+    "durbin_watson_amp": 0.21604174259560174,
+    "shapiro_p_amp": 3.47411882458687e-24,
+    "jb_p_amp": 5.4346781481287834e-253,
+    "phase_rmse_rad": 0.12695092076059716
+  },
+  {
+    "dataset": "test_grid_40_20",
+    "n_angles": 11,
+    "n_freqs": 169,
+    "angle_range_deg": [
+      0.0,
+      90.0
+    ],
+    "freq_range_THz": [
+      0.20719358158485549,
+      1.4963980892239561
+    ],
+    "amp_all_bias_dB": -0.12163370920346302,
+    "amp_all_rmse_dB": 0.8329951779046765,
+    "amp_deepshadow_bias_dB": -0.39853622063815497,
+    "amp_deepshadow_rmse_dB": 1.5526361204235561,
+    "spectral_hotspot": {
+      "freq_THz": 0.22254125429484478,
+      "mean_bias_dB": 0.6598264539256988
+    },
+    "angular_hotspot": {
+      "angle_deg": 90.0,
+      "mean_bias_dB": -0.539771853209237
+    },
+    "durbin_watson_amp": 0.961025373410134,
+    "shapiro_p_amp": 4.5087260826001234e-45,
+    "jb_p_amp": 0.0,
+    "phase_rmse_rad": 0.12316801464790586
+  }
+]

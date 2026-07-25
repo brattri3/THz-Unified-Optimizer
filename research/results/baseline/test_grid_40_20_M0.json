@@ -1,0 +1,70 @@
+{
+  "label": "M0",
+  "dataset": "test_grid_40_20",
+  "success": true,
+  "nfev": 17,
+  "ndata": 3234,
+  "nvarys": 3,
+  "chisqr": 2.9083027650896516,
+  "redchi": 0.0009001246564808578,
+  "aic": -22676.96997092262,
+  "bic": -22658.72554580221,
+  "rmse_amp_lin": 0.01574197032770914,
+  "rmse_amp_db": 0.9735587677614361,
+  "rmse_phase_rad": 0.12452990376118522,
+  "params": {
+    "P_um": {
+      "value": 40.0,
+      "stderr": null,
+      "vary": false
+    },
+    "D_um": {
+      "value": 11.576637492970274,
+      "stderr": 0.02345862279043574,
+      "vary": true
+    },
+    "loss_factor": {
+      "value": 0.0,
+      "stderr": null,
+      "vary": false
+    },
+    "gamma": {
+      "value": 2.0,
+      "stderr": null,
+      "vary": false
+    },
+    "angle_offset": {
+      "value": -0.3199215239940916,
+      "stderr": 0.05352350736665005,
+      "vary": true
+    },
+    "tau_ps": {
+      "value": 0.007557123684925671,
+      "stderr": 0.0004678764411419855,
+      "vary": true
+    },
+    "tau_par_ps": {
+      "value": 0.0,
+      "stderr": null,
+      "vary": false
+    }
+  },
+  "residual_normality": {
+    "amp": {
+      "n": 1617,
+      "shapiro_W": 0.8315713514804606,
+      "shapiro_p": 2.921381062594723e-38,
+      "jb_stat": 19226.43821261843,
+      "jb_p": 0.0,
+      "durbin_watson": 0.5698554484160937
+    },
+    "phase": {
+      "n": 1617,
+      "shapiro_W": 0.5095994032837756,
+      "shapiro_p": 5.218168988514908e-55,
+      "jb_stat": 931956.0480836604,
+      "jb_p": 0.0,
+      "durbin_watson": 1.7721910017092355
+    }
+  }
+}

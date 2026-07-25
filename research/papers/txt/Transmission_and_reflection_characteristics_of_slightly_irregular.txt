@@ -1,0 +1,902 @@
+250
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 53, NO. 1, JANUARY 2005
+
+Transmission and Reflection Characteristics of Slightly Irregular Wire-Grids With Finite Conductivity for Arbitrary Angles of Incidence and Grid Rotation
+Takeshi Manabe, Member, IEEE, and Axel Murk
+
+Abstract--In the first half of this paper, an efficient method to calculate transmission and reflection characteristics of wire-grids consisting of periodic arrays of cylindrical conductors for arbitrary directions of incidence is presented by extending exact theory of wire-grids proposed by Yasumoto et al. In the latter half of this paper, an approximate calculation method for wire-grids with slight random irregularity in their spacings between wires is proposed by treating the irregularity as a small perturbation to the theory for regular grids. A comparison with preliminary measurements for actual wire-grids in millimeter- and submillimeter-wave regions demonstrated that this method is effectively applicable to wire-grids whose irregularity is not too much.
+Index Terms--Electromagnetic reflection, electromagnetic scattering by periodic structures, submillimeter wave devices, submillimeter wave measurements, wire grids.
+I. INTRODUCTION
+F REESTANDING wire-grids composed of an array of parallel conducting wires are widely used as quasi-optical components such as polarizers, beam splitters, or combiners with low loss and high polarization selectivity. In particular, in millimeter- and submillimeter-wave regions, they are indispensable not only as polarizers or beam combiners but also in such applications as quasi-optical filters, interferometers, and isolators [1]. Although there have been many different theoretical studies developed for predicting and analyzing the transmission and reflection characteristics of wire-grids, most of them, to the authors' knowledge, were approximate ones only applicable to the cases where the diameter of the wire is much smaller than the wavelength or the spacing between wires [2], [3].
+It was only rather recently that more exact treatment of wire-grid without such approximations became possible by the Green-function method [4] or the lattice-sum method [5]. In the first half of this paper, a method for calculating transmission and reflection characteristics of wire-grids consisting of a periodic array of cylindrical conductors for arbitrary directions
+
+of incidence and grid rotation is presented by extending a very accurate and efficient calculation method for wire-grids developed as a two-dimensional problem [5] based on the lattice-sum method proposed by Yasumoto et al. [6].
+In most of the theories which include the one presented in the first half of this paper, the wire-grid has been assumed to be a periodic array of parallel cylindrical wires with a constant spacing between them. In actual wire-grids used in millimeter- and submillimeter-wave regions, the grids are never free from irregularity in wire spacing due to the difficulty in producing evenly spaced grids in manufacturing processes as the spacing decreases. It is experimentally known that the irregularity in wire spacing has some effects on the grid performance [1], [7]­[9]. There have been almost no detailed theoretical studies made about the effects of grid imperfection on its performance except the one by Houde et al. [10].
+In the latter half of this paper, a perturbation theory for calculating the characteristics of wire-grid with slight random irregularity in its spacing is proposed. In this theory, the irregularity in wire-grid is modeled as random errors in wire positions from regular positions, and is treated as a perturbation to the exact theory of periodic wire-grid by assuming that the positional errors of wires are zero-mean statistically uncorrelated independent variables from wire to wire. The transmission and reflection characteristics of wire-grid are shown to be affected significantly by the grid irregularity when the incident wave has electric field component parallel to the grid wires (TM-wave incidence), while the grid irregularity has little effect on its characteristics when the electric field of the incident wave was perpendicular to the grid wires (TE-wave incidence).
+In order to validate the applicability of the proposed theory for actual irregular wire-grid, the results of measurements of transmission and reflection coefficients we have made for actual wire-grids with different degrees of irregularity at millimeter and submillimeter wavelengths are compared with those of the theoretical calculations.
+
+Manuscript received August 5, 2003; revised January 4, 2004. The work of A. Murk was supported in part by the Swiss National Science Foundation under Grant 200020-100167
+T. Manabe is with the National Institute of Information and Communications Technology, Koganei, Tokyo 184-8795, Japan (e-mail: manabe@ieee.org).
+A. Murk is with the Institute of Applied Physics, University of Bern, CH-3012 Bern, Switzerland (e-mail: axel.murk@mw.iap.unibe.ch).
+Digital Object Identifier 10.1109/TAP.2004.838786
+
+II. DEFINITION OF THE COORDINATE SYSTEM
+In this paper, we define the coordinate systems as shown in Fig. 1 relating the geometry of the wire-grid and the incident wave as follows.
+· The wire-grid is an array of parallel wires of radius with a period . The plane of wire-grid lies in the - plane.
+
+0018-926X/$20.00 © 2005 IEEE Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+MANABE AND MURK: SLIGHTLY IRREGULAR WIRE-GRIDS WITH FINITE CONDUCTIVITY
+
+251
+
+conductor with a finite conductivity , the complex relative per-
+
+mittivity given by
+
+should be substituted.1
+
+A. Incident Wave
+
+Let us decompose the field of the incident plane wave into
+
+the TM- and TE-wave components whose electric fields are po-
+
+larized in a plane parallel and perpendicular to the direction of
+
+wire, respectively.
+
+For the case of the TM incident plane wave, the incident field
+
+at a point
+
+in the cylindrical coordinate system can be
+
+generated, in a form that facilitates the application of boundary
+
+conditions at the surface of the wire, by the electric Hertz po-
+
+tential [11] given by
+
+(4)
+
+Fig. 1. Coordinate systems defining the configuration of wire-grid and the
+incident wave vector for k .
+
+where
+
+and
+
+dent-wave amplitude vector defined as
+
+is the TM-inci(5)
+
+Each wire supposed to be an infinitely long cylinder is
+
+directed along the -axis.
+
+· The plane of incidence in which the incident wavenumber
+
+vector lies is defined as the - plane
+
+which
+
+is made by rotating the - plane by around the -axis.
+
+We refer to the rotation angle as the grid rotation angle.
+
+· The incident wavenumber vector lying in the -
+
+plane is given by
+
+, where
+
+is the angle of incidence.
+
+If we define the angles and as in Fig. 1 such that the
+
+incident wavenumber vector is expressed in the
+
+co-
+
+ordinate system as
+
+and is the Bessel function of order . Here and subsequently,
+
+denotes a column vector having an infinite number of ele-
+
+ments
+
+and the superscript denotes
+
+the transpose of the indicated vector. In (5), is the incident
+
+field amplitude related with the incident electric field by
+
+(6)
+
+On the other hand, for the case of the TE incident plane wave, the incident field can be generated by the electric Hertz potential given by
+(7)
+
+(1) where is the TE-incident-wave amplitude vector defined as
+
+the relationship between
+
+and
+
+can be written as
+
+(8)
+
+In (8), is the incident field amplitude related with the inci(2) dent electric field by
+(3) (9)
+
+III. -MATRIX OF ISOLATED CYLINDRICAL WIRE WITH FINITE CONDUCTIVITY FOR ARBITRARY ANGLE OF INCIDENCE
+
+where B. Scattered Wave
+
+is the impedance of free space.
+
+Before considering an array of cylinders, let us consider the We express the TM and TE components of the scattered wave
+
+scattering of a plane wave by a single isolated cylindrical wire by the electric Hertz potential and the magnetic Hertz po-
+
+whose axis coincides with the -axis in Fig. 1. We refer to this tential , respectively, by using unknown coefficients
+
+cylinder as the zeroth cylinder in the following discussions.
+
+and with the Hankel function of the first kind
+
+as
+
+In order for the theory to be applicable not only to metallic
+
+wires but also to dielectric cylinders, we assume that the mate-
+
+(10)
+
+rial of wire is a lossy dielectrics characterized by a complex rel- 0 1The time dependence of electromagnetic field is assumed to be exp( j!t)
+ative permittivity . When the material of the wire is a metallic and is omitted throughout this paper.
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+252
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 53, NO. 1, JANUARY 2005
+
+and
+
+where
+
+(11)
+
+(18)
+
+where
+
+,
+
+and
+
+. The subscript "0" de-
+
+notes the quantities with reference to the cylindrical coordinate
+
+system
+
+with the origin centered at the zeroth cylinder.
+
+with
+
+and
+
+. By
+
+using Gegenbauer's addition theorem [13] of the Hankel func-
+
+tions given as
+
+C. Field Inside the Wire
+
+Inside the wire, we express the electric Hertz potential
+
+(19)
+
+and the magnetic Hertz potential using the unknown coef-
+
+ficients and , respectively, as
+
+is expressed as
+
+(12) and
+
+(13)
+
+where
+
+,
+
+,
+
+,
+
+, and
+
+.
+
+D. -Matrix of an Isolated Cylindrical Wire
+If we define the incident amplitude vector tered amplitude vector as
+
+and the scat-
+
+(20)
+
+where is a matrix whose
+
+element is given by
+
+(21)
+
+If we decompose the total field as the sum of the field incident
+
+on the zeroth wire centered at the origin and the field scattered
+
+by this zeroth wire, the - dependence
+
+of the total field
+
+is given by
+
+(22)
+
+(14) where the elements of are the lattice sum defined as2
+
+the -matrix which relates the scattered wave to the incident
+
+(23)
+
+wave can be defined as with
+
+(15)
+
+The elements of the -matrix can be obtained from the
+
+boundary conditions at the surface of the wire as described in
+
+Appendix A.
+
+It should be noted that there exists coupling between the TM
+
+and TE components when
+
+for cylinders with finite
+
+conductivity, as is readily found from (53) in Appendix A.
+
+IV. SCATTERING OF PLANE WAVE BY A REGULAR WIRE-GRID FOR ARBITRARY ANGLE OF INCIDENCE AND GRID ROTATION
+
+Before considering irregular wire-grids, let us consider a reg-
+
+ular wire-grid of a periodic array of equally spaced cylinders
+
+with a spacing of as shown in Fig. 1. In this case, the - de-
+
+pendence
+
+of the scattered field
+
+(16)
+
+(24)
+The first and the second terms of the right-hand side of (22) are regarded as the field incident on the zeroth wire and the field scattered by the zeroth wire, respectively.
+By considering the coupling between the TM and TE components given in (15), the scattered field amplitude can be expressed as
+(25)
+by using the -matrix for isolated single wire. In (25), is the lattice-sum matrix given as follows:
+
+at a point
+
+outside the cylinders is given by using
+
+(26)
+
+Floquet's theorem as
+
+(17)
+
+2This kind of lattice sum is notorious for its slow convergence. For computationally efficient numerical calculation of this lattice sum, we have extended the method proposed by Yasumoto et. al to the cases of arbitrary angles of grid rotation as described in Appendix B.
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+MANABE AND MURK: SLIGHTLY IRREGULAR WIRE-GRIDS WITH FINITE CONDUCTIVITY
+
+253
+
+By solving (25) in terms of , we obtain the scattered amplitude as3
+(27)
+
+A. Reflected and Transmitted Waves
+
+From the scattered amplitude components of the reflected wave
+can be obtained as follows:
+
+obtained above, the TM and the transmitted wave
+
+(28)
+
+Fig. 2. Irregular wire-grid with random displacements of grid positions.
+
+V. PERTURBATION THEORY FOR REFLECTION AND
+
+and
+
+TRANSMISSION CHARACTERISTICS OF WIRE-GRIDS
+
+WITH SLIGHT IRREGULARITY IN WIRE SPACING
+
+(29) where
+(30) and
+(31)
+
+with
+
+(32)
+
+and
+
+(33)
+
+The TE components of the reflected wave and the trans-
+
+mitted wave can be obtained similarly just by replacing
+
+with in (28) and (29).
+
+It should be noted that, if
+
+, only
+
+the modes with
+
+of the transmitted and reflected waves are
+
+propagated, and other modes with
+
+are evanescent. In this
+
+particular case, the power reflection coefficient and the power
+
+transmission coefficient of the grid are given as
+
+So far, we have assumed the wire-grid as a perfectly peri-
+
+odic array of equally spaced parallel cylindrical wires. In actual
+
+wire-grids used in millimeter- and submillimeter-wave regions,
+
+the grids are never free from irregularity in wire spacing due to
+
+the difficulty in producing evenly spaced grids in manufacturing
+
+process as the spacing decreases. In particular, for frequencies
+
+above 100 GHz, the diameters and the spacings of wire-grids are
+
+usually less than several tens of micrometers. In winding such
+
+wire-grids, it is almost impossible to reduce the irregularity in
+
+wire spacing to less than a few percent of the nominal spacing.
+
+In this section, we consider an irregular wire-grid whose wire
+
+spacing is not perfectly uniform with slight random displace-
+
+ment of each wire position from its nominal position keeping
+
+the parallelism with each other. Although there might be other
+
+types of irregularity in wire-grids such as the nonuniformity
+
+in wire diameter or the nonflatness of the grid plane, experi-
+
+ence shows that they are less significant as compared with the
+
+nonuniformity in wire spacing considering the usual fabrication
+
+method of freestanding wire-grids in which wire is wound on
+
+a precisely fabricated solid metallic frame. In this paper, we,
+
+therefore, focus on the effects of irregularity in wire spacing ig-
+
+noring other irregularities.
+
+Let the random irregularity in wire spacing of a wire-grid be
+
+given by a column vector
+
+,
+
+where is a random error in the position of the center of
+
+the th wire from the right position as shown in Fig. 2. The
+
+scattering amplitude of the zeroth wire given by (27) is modified
+
+for this irregular grid and can be expressed as
+
+(34)
+
+(36)
+
+and
+(35)
+for the TM components of reflected and transmitted waves, respectively. The power reflection coefficient and the power transmission coefficient for the TE components of reflected and transmitted waves can be obtained similarly by replacing
+with in (34) and (35).
+
+where
+
+is the lattice-sum matrix for irregular grid given
+
+by replacing in the lattice sum matrix given by (26) through
+
+(24) with
+
+. If we assume the positional errors are small
+
+variables such that
+
+,
+
+can
+
+be approximated to the second order of as
+
+3Recently a similar relationship between a and a has been derived by Ya-
+sumoto and Jia [14] in different formalism. We confirmed that their expression is equivalent to (27).
+
+(37)
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+254
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 53, NO. 1, JANUARY 2005
+
+where the partial derivatives in the right-hand side of (37) can and be obtained as follows after some algebra:
+
+(38)
+
+(48)
+
+where
+
+(49)
+
+(39) and
+
+If we assume that the positional errors of wires are zero-mean statistically
+independent variables from wire to wire, the statistical properties of can be written as
+
+for
+
+(40)
+
+for
+
+(41)
+
+for
+
+(42)
+
+where denotes the ensemble average of . By applying these
+
+properties to (37), we obtain the ensemble average of the scat-
+
+tering amplitude
+
+as
+
+(43)
+
+where
+
+and is the variance of the
+
+random displacements of wires from their nominal positions.
+
+By substituting (39) into (43), we obtain
+
+In (44), the partial derivatives are taken at given by
+where is given by
+
+(44)
+
+, and
+
+is
+
+(45)
+
+(46)
+With the aid of the recurrence formula and the Fourier integral representation of the Hankel functions as in [6], we can calculate the partial derivatives of the elements of the lattice-sum matrix by using
+
+for (50)
+
+for
+
+.
+
+Once the scattered amplitude vector is obtained from (44), the reflection and transmission coefficient of the irregular wire-grid can be obtained from (34), (35), and corresponding equations for the TE components with (44) and (14).
+
+VI. COMPARISON OF NUMERICAL CALCULATIONS WITH MEASUREMENTS
+
+To validate the effectiveness of the proposed theory in esti-
+
+mating the characteristics of practical freestanding wire-grids,
+
+results of numerical calculations are compared with results of measurements made for actual wire-grids with different irregularities.
+The conditions for the numerical calculations and the measurements were as follows.
+
+· Material of wires: tungsten (
+
+m [1]).
+
+· Wire diameter:
+
+m, the nominal spacing between
+
+wires:
+
+m.
+
+· Angle of incidence:
+
+.
+
+· Two different cases of the grid rotation angle were investi-
+
+gated: the plane of incidence was perpendicular (
+
+,
+
+denoted as
+
+), or parallel (
+
+, denoted as
+
+) to the orientation of grid wires.
+
+· Two different cases of incident polarization were inves-
+
+tigated: the incident electric field was perpendicular (de-
+
+noted as ) or parallel (denoted as ) to the plane of incidence. Measurements were made for two wire-grids with different degree of irregularity. We, hereafter, refer to the one with less
+
+irregularity as Grid #1 and to the other as Grid #2. Fig. 3(a1)
+
+and (a2) shows the microscopic images of the grid planes of Grid #1 and Grid #2, respectively. In Fig. 3(b1) and (b2), the displacements of wires from their nominal positions measured from the microscopic images are plotted versus wire number. Their probability distributions of Grid #1 and Grid #2 are shown
+
+in Fig. 3(c1) and (c2). From Fig. 3(c1) and (c2), the standard
+
+deviations
+
+of the displacements of wires from
+
+their nominal positions are estimated to be 23% and 52%, re-
+
+spectively, of the nominal wire spacing (
+
+m).
+
+Fig. 4(a) and (b) shows the transmission and reflection coef-
+
+ficients, respectively, for the case of TE-wave incidence where
+
+(47) the incident electric field is orthogonal to the direction of wires.
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+MANABE AND MURK: SLIGHTLY IRREGULAR WIRE-GRIDS WITH FINITE CONDUCTIVITY
+
+255
+
+Fig. 3. Microscopic images of measured Grid #1 (a1) and Grid #2 (a2), displacements of wires from nominal positions of Grid #1 (b1) and Grid #2 (b2), and their probability distributions of Grid #1 (c1) and Grid #2 (c2).
+
+The solid curves show the characteristics calculated for ideal ments for the case of TM-wave incidence are also shown in
+
+grid without irregularity, and the dashed, dash-dot, and dotted Fig. 5(a) and (b).
+
+curves show the characteristics calculated for irregular grids By comparing Figs. 4 and 5, it is found that the transmission
+
+whose irregularities are assumed to be 20%
+
+, and reflection characteristics of wire-grid are significantly af-
+
+40%
+
+, and 50%
+
+of the nom- fected by the grid irregularity when the incident wave has elec-
+
+inal wire spacing. Calculated results are shown for two dif- tric field component parallel to the grid wires (TM-wave inci-
+
+ferent grid rotation angles
+
+(denoted as
+
+) and dence) as shown in Fig. 5, while the grid irregularity has little
+
+90 (denoted as ) by thin and thick curves, respectively. In effect on its characteristics when the electric field of the incident
+
+these figures,
+
+and
+
+denote the characteristics for the wave was perpendicular to the grid wires (TE-wave incidence)
+
+transmitted or reflected electric field component perpendicular as shown in Fig. 4.
+
+and parallel to the plane of incidence, respectively. Measure- Fig. 6(a) and (b) shows the dependence of the transmission
+
+ment results for Grid #1 and Grid #2 are also shown in these and reflection coefficients on the grid irregularity calculated
+
+figures. The corresponding results of calculations and measure- at 625 GHz. These figures also clearly demonstrate the differ-
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+256
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 53, NO. 1, JANUARY 2005
+
+Fig. 4. Power transmission (a) and reflection (b) coefficients of regular ( = 0) and irregular wire-grids for TE-wave incidence. Wire diameter: 2a = 10 m, wire pitch: h = 25 m, angle of incidence:  = 45 . E and E denote the cases that the incident electric field is perpendicular and parallel to the plane of incidence, respectively. G and G denote the cases that the wire is perpendicular ( = 0 ) and parallel ( = 90 ) to the plane of incidence, respectively.
+
+Fig. 5. (a) Power transmission and (b) reflection coefficients of regular ( = 0) and irregular wire-grids for TM-wave incidence. Same as in Fig. 4.
+
+ence in the dependence of the transmission and reflection char- scattered fields do not appear explicitly in the theoretical for-
+
+acteristics on the grid irregularity between the TE-wave incident mulation in Section V.
+
+cases [
+
+and
+
+] and the TM-wave in- Measurement results for Grid #1 and Grid #2 are also shown
+
+cident cases [
+
+and
+
+]. This can be in Figs. 4(b), 5(a), and 6(b) for comparison. From comparison
+
+explained by the fact that large currents are effectively induced between these measurement and calculation results, it is found
+
+on grid wires in the TM-wave incident case where the incident that the measurement results for Grid #1 whose standard de-
+
+wave has a electric field component parallel to the wires, while viation of wire position irregularity was 23% of the nom-
+
+currents are not effectively induced on grid wires in the TE-wave inal wire spacing agrees well with the theoretically calcu-
+
+incident case where the incident wave does not have electric lated characteristics for
+
+. For the more irregular
+
+field component parallel to the wires.
+
+Grid #2 whose standard deviation of wire position irregularity
+
+It is found that irregularities in wire spacing slightly reduce was 52% of , the general trend of the different dependence of
+
+the total power
+
+in the plane-waves that are transmitted the characteristics on the grid irregularity between the TM- and
+
+and reflected by a grid in the mode with
+
+. The lost power TE-wave incident cases agrees well with the measurement re-
+
+is diffusely scattered out of the regular transmission and re- sults, although the theoretical calculation results are found to
+
+flection modes with
+
+and constitutes nondirectionality overestimate the effects of irregularity as compared with the
+
+scattered incoherent fields due to random nature of irregularity. measurement results. This suggests that the irregularity of 52%
+
+Since we are considering coherently transmitted and reflected of wire spacing might be too large for the perturbation theory of
+
+amplitudes by taking ensemble average in (43), the diffusely irregular grid presented in Section V to be applicable.
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+MANABE AND MURK: SLIGHTLY IRREGULAR WIRE-GRIDS WITH FINITE CONDUCTIVITY
+
+257
+
+Fig. 6. Dependence of (a) power transmission and (b) reflection coefficients at 625 GHz on grid irregularity  . Wire diameter: 2a = 10 m, wire pitch: h = 25 m, frequency: 625 GHz, angle of incidence:  = 45 . E and E denote the cases that the incident electric field is perpendicular and parallel to the plane of incidence, respectively. G and G denote the cases that the wires are perpendicular ( = 0 ) and parallel ( = 90 ) to the plane of
+incidence, respectively.
+
+VII. CONCLUSION
+In the first half of this paper, an accurate and computationally efficient method was presented for calculating the transmission and reflection characteristics of wire-grids of a periodic array of cylinders for arbitrary angles of incidence and grid rotation.
+In the latter half of this paper, a method to calculate the effects of slight irregularity in wire spacing of grid was proposed by treating the irregular displacements of wire positions as a small perturbation to the theory of regular grid derived in the first half of this paper. Measurements made for actual wire-grids in millimeter- and submillimeter wavelengths have demonstrated that this perturbation theory was applicable to slightly irregular wire-grids whose standard deviation of the displacements of wire positions is less than about 30% of the nominal wire spacing.
+Since the proposed calculation method can accurately estimate the detailed characteristics of realistic wire-grids with slight irregularity in wire spacing, it will be of practical use in designing and analyzing the characteristics of such quasioptical devices employing freestanding wire-grids as Martin­Puplett interferometers [15] and other polarizers and interferometers [16]. Although the results of numerical calculations and measurements are only shown for wire-grids consisting of an array of metallic cylindrical wires with finite conductivity in this paper, it is worthwhile noting that the proposed calculation method is applicable not only to arrays of conductive cylinders but also to general cases of arrays of dielectric cylinders by substituting the dielectric permittivity of the material for .
+
+ditions on the surface of the cylinder for each mode as follows [12]:
+(51)
+
+where the elements of the 4 4 matrix
+
+trix
+
+are given as follows:
+
+and the 4 2 ma-
+
+APPENDIX A
+
+A. Boundary Conditions at the Surface of a Cylindrical Wire and its -Matrix
+
+If we define the -matrix relating the th mode of scattered amplitudes with the incident amplitude as
+
+The relations between the incident and scattered amplitudes
+
+(52)
+
+for a single isolated cylinder are derived from the boundary con-
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+258
+
+IEEE TRANSACTIONS ON ANTENNAS AND PROPAGATION, VOL. 53, NO. 1, JANUARY 2005
+
+the -matrix can be obtained by using the boundary condition where
+
+and
+
+. With
+
+given in (51) as
+
+the aid of this formula, the lattice sum in (24) can be efficiently
+
+calculated by numerical integration as described in [5] and [6].
+
+(53) ACKNOWLEDGMENT
+
+where
+(54) (55)
+If we define the incident amplitude vector and the scattered amplitude vector as defined by (14), the -matrix defined by (15) relating these incident and scattered amplitude vectors can be expressed as
+
+The authors would like to thank Prof. K. Yasumoto of Kyushu University for his elucidating comments and discussions on the use of an efficient calculation method that utilizes the lattice sums and -matrix developed by him. They also thank Dr. J. Inatani and the members of JEM/SMILES Mission Team of Japan Aerospace Exploration Agency and the National Institute of Information and Communications Technology for their useful discussions and support.
+
+REFERENCES
+
+(56)
+where the elements of are given by using the elements of the -matrix for the th mode given in (53) as
+(57) (58)
+APPENDIX B
+A. Lattice Sum for Arbitrary Angle of Grid Rotation The sum of the infinite series in the right-hand side of (24)
+is usually referred to as the lattice sum, and is notorious for its desperately slow convergence in problems of periodic Green's functions. Yasumoto et al. have proposed a very efficient numerical method for calculating this lattice sum by using the Fourier integral representation of the Hankel functions [6], and have applied this method to the problem of periodic arrays of cylinders for the case when the plane of incidence is orthogonal to direction of cylinders [5].
+In this paper, we extend their method to the cases when the incident plane wave arriving from arbitrary direction by modifying (18) of [6] by taking account of the angular dependence on as
+(59)
+
+[1] W. G. Chambers, T. J. Parker, and A. E. Costley, "Freestanding fine-wire
+
+grids for use in millimeter and submillimeter-wave spectroscopy," in In-
+
+frared and Millimeter Waves, K. J. Button, Ed. New York: Academic
+
+Press, 1986, vol. 16, pp. 77­106.
+
+[2] T. Larsen, "A survey of the theory of wire grids," IRE Trans. Microwave
+
+Theory Tech., vol. MTT-10, pp. 191­201, 1962.
+
+[3] J. Wait, "Reflection at arbitrary incidence from a parallel wire grid,"
+
+Appl. Sci. Res., vol. B4, pp. 393­400, 1955.
+
+[4] W. G. Chambers, C. L. Mok, and T. J. Parker, "Theory of the scattering of
+
+electromagnetic waves by regular grid of parallel cylindrical wires with
+
+circular cross section," J. Phys. A: Math. Gen., vol. 13, pp. 1433­1441,
+
+1980.
+
+[5] K. Kushta and K. Yasumoto, "Electromagnetic scattering from periodic
+
+arrays of two circular cylinders per unit cell," Progr. Electromagn. Res.,
+
+vol. 29, pp. 69­85, 2000.
+
+[6] K. Yasumoto and K. Yoshitomi, "Efficient calculation of lattice sums for
+
+free-space periodic Green's function," IEEE Trans. Antennas Propag.,
+
+vol. 47, pp. 1050­1055, Jun. 1999.
+
+m [7] J. A. Beunen, A. E. Costley, G. F. Neill, C. L. Mock, T. J. Parker, and G.
+Tait, "Performance of free-standing grids wound from 10- diameter
+
+tungsten wire at submillimeter wavelengths: Computation and measure-
+
+ment," J. Opt. Soc. Amer., vol. 71, no. 2, pp. 184­188, Feb. 1981.
+
+[8] J. B. Shapiro and E. E. Bloemhof, "Fabrication of wire-grid polarizers
+
+and dependence of submillimeter-wave optical performance on pitch
+
+uniformity," Int. J. Infrared Millimeter Waves, vol. 11, no. 8, pp.
+
+973­980, Aug. 1990.
+
+[9] J. Lahtinen and M. Hallikainen, "Fabrication and characterization of
+
+large freestanding polarizer grids for millimeter waves," Int. J. Infrared
+
+Millimeter Waves, vol. 20, no. 1, pp. 3­20, Jan. 1999.
+
+[10] M. Houde, R. L. Akeson, J. E. Carlstrom, J. W. Lamb, D. A. Schleuning,
+
+and D. P. Woody, "Polarizing grids, their assemblies and beams of radi-
+
+ation," Pub. Astron. Soc. Pacific, vol. 113, pp. 622­638, May 2001.
+
+[11] A. Ishimaru, Electromagnetic Wave Propagation, Radiation, and Scat-
+
+tering. Englewoods Cliffs, NJ: Prentice-Hall, 1991, ch. 11.
+
+[12]
+
+, Electromagnetic Wave Propagation, Radiation, and Scat-
+
+tering. Englewoods Cliffs, NJ: Prentice-Hall, ch. 12.
+
+[13] M. Abramowitz and I. A. Stegun, Handbook of Mathematical Func-
+
+tions. New York: Dover, 1970, ch. 9.
+
+[14] K. Yasumoto and H. Jia, "Three-dimensional electromagnetic scat-
+
+tering from multilayered periodic arrays of circular cylinders," in 2002
+
+China-Japan Joint Meeting Microwaves (CJMW2002), Xi'an, China,
+
+Apr. 25­26, 2002.
+
+[15] D. H. Martin, "Polarizing (Martin-Puplett) interferometric spectrome-
+
+ters for the near- and submillimeter spectra," in Infrared and Millimeter
+
+Waves, K. J. Button, Ed. New York: Academic, 1982, vol. 6, pp.
+
+65­148.
+
+[16] T. Manabe, J. Inatani, A. Murk, R. J. Wylde, M. Seta, and D. H. Martin,
+
+"A new configuration of polarization-rotating dual-beam interferometer
+
+for space use," IEEE Trans. Microwave Theory Tech., vol. 51, pp.
+
+1696­1704, Jun. 2003.
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+MANABE AND MURK: SLIGHTLY IRREGULAR WIRE-GRIDS WITH FINITE CONDUCTIVITY
+
+259
+
+Takeshi Manabe (M'88) was born in Osaka, Japan, on September 19, 1952. He received the B.S., M.S., and D.E. degrees in electronics engineering from Kyoto University, Kyoto, Japan, in 1975, 1977, and 1980, respectively.
+In 1980, he joined the Radio Research Laboratory, Ministry of Posts and Telecommunications, Tokyo, Japan. He has been engaged in research on radiowave propagation characteristics of centimeter and millimeter waves in the atmosphere. From 1986 to 1987, he was a Visiting Scientist with the National Telecommunications and Information Administration, Institute for Telecommunication Sciences, Boulder, CO. From 1988 to 1991, he was with the ATR Optical and Radio Communications Research Laboratories, Kyoto, where he was engaged in research on antenna array signal processing and indoor radio propagation. Since 1991, he has been with the Communications Research Laboratory, which has been reorganized into the National Institute of Communications and Information Technology, Japan, in 2004. His current research interests include microwave- and millimeter-wave propagation and remote sensing. He is currently involved in research and development of a submillimeter-wave limb-emission sounder to be aboard the Japanese Experiment Module of the International Space Station for observing stratospheric minor constituents related to ozone depletion. He is a secretary of the Japanese National Committee of URSI Commission F. Dr. Manabe is a member of the Institute of Electronics, Information and Communication Engineers of Japan and the Physical Society of Japan.
+
+Axel Murk was born in Germany in 1968. He received the M.S. degree from the Technical University of Munich, Germany, in 1995 and the Ph.D. degree from the University of Bern, Switzerland, in 1999, both in physics.
+Since then he has been involved in the characterization of submillimeter-wave instrumentation for different space projects, including the qualification tests of the input optics for the submillimeter-wave limbemission sounder (SMILES). In 2003, he was with the National Space Development Agency of Japan as a Guest Researcher for the JEM/SMILES project on leave from University of Bern, Switzerland.
+
+Authorized licensed use limited to: St Petersburg Natl Uni of Info Tech Mech & Optics. Downloaded on June 26,2026 at 11:02:03 UTC from IEEE Xplore. Restrictions apply.
+
+

@@ -1,0 +1,420 @@
+J Infrared Milli Terahz Waves (2012) 33:418­430 DOI 10.1007/s10762-011-9856-8
+Polarization-Resolved Terahertz Time-Domain Spectroscopy
+Enrique Castro-Camus
+Received: 30 June 2011 / Accepted: 3 November 2011 / Published online: 1 December 2011 © Springer Science+Business Media, LLC 2011
+Abstract Measuring the full polarization state of radiation in terahertz timedomain spectroscopy has allowed scientists to study a number of complex dielectric anisotropic properties of materials that could not be easily measured before. Novel polarization sensitive photoconductive detectors have simplified this task and their development has been a significant challenge. In this review I will present some of these devices and will also discuss some of the most recent studies that involve the use of polarization resolved terahertz spectroscopy.
+Keywords Photoconductive · Polarization · Anisotropic · Terahertz · THz · Spectroscopy
+1 Introduction
+During the past thirty years terahertz (THz) time-domain spectroscopy (TDS) has become one of the most important developments in terahertz science and technology, enabling spectroscopists to access the far-infrared portion of the spectrum with unprecedented sensitivity [1­3]. The terahertz frequency range can be defined as the frequencies from 100 GHz ( = 3 mm) to 10 THz ( = 30 m). The early developments of David Auston and co-workers on photoconductive emitters [4, 5] and detectors [6] of terahertz radiation were the first steps that led to the establishment of what is called THz-TDS nowadays [7, 8].
+E. Castro-Camus (B)
+Centro de Investigaciones en Óptica A.C., Loma del Bosque 115, Lomas del Campestre, León, Guanajuato 37150, México e-mail: enrique@cio.mx
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+419
+
+From now on, I will use the term "polarization" in a generalized sense given that the concept of polarization is well defined only for plane monochromatic waves in most optics and electromagnetism textbooks [9]. The data obtained form a THz-TDS setup is the time dependent electric field waveform of the THz pulse. For analysis purposes, it is convenient to Fourier transform these data to obtain a frequency dependent spectrum. Polarization, in this case, is not a single state, but a collection of states, defined for each frequency component present in the broadband pulse. Unlike the monochromatic case where the Jones representation [10] of the wave is a two dimensional constant complex vector the THz pulse requires two dimensional complex vector with components that are a function of the frequency given by
+
+jTHz() =
+
+E [x ]() ei[x ]() E [y ]() ei[y ]()
+
+(1)
+
+where x and y refer to orthogonal components on the plane transverse to the wave's propagation direction, E[k] and [k] (k = x , y ) are the amplitudes and phases of the Fourier transforms respectively. The formalism for broadband polarization and the equations for extracting polarization-dependent properties from terahertz time-domain spectra is presented in [11­13].
+Given that THz technology is a relatively "young" field, there are many aspects of it that are still being explored. A consequence of this is that polarization related optical components such as prisms [14], waveplates [15] and polarization sensitive photoconductive detectors [16­19] have been available only for a few years. Since then, there has been great interest in studying polarization related properties such as birefringence, optical activity and circular dichroism of materials in the THz region [20].
+In this review I will present a brief description of polarization sensitive detection and a summary of recent applications of polarization resolved THzTDS. It will be assumed that the reader is familiar with time-domain spectroscopy, if this is not the case, the reader is encouraged to read [1]. I decided to also include two unpublished results that contribute to the discussion of this article: Firstly a simulation of magnetically induced elliptical THz emission from photoconductive emitters, and secondly transmission measurements of a wire-grid polarizer.
+
+2 Polarization sensitive detection
+In order to perform polarization resolved THz­TDS, it is necessary to be able to measure two (preferably orthogonal) electric field components of a terahertz transient. It is possible to do this using electrooptic detection, measuring one electric field component and either rotating the electrooptic crystal [21] or the polarization of the detection gate beam to measure the other component [22]. Alternatively a conventional (two contact) photoconductive receiver can be used to measure the two transverse components separately
+
+420
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+by rotating the detector between measurements [19]. However in practice these procedures have two major disadvantages: firstly, realignment of optical components is needed during the experiment, the rotation of the photoconductive or electro-optic detector, or any other optical component, could result in slight misalignment that will significantly shift the relative phase of the electric field components; secondly the data acquisition time is increased as both components are recorded separately. In order to avoid these disadvantages an integrated receiver capable of measuring both components simultaneously is needed. Such a detector may be realized by fabricating a multi-contact photoconductive receiver [23].
+Photoconductive detectors capable of measuring both transverse components of the THz electric field simultaneously have been proposed by various groups around the world [16, 17, 19]. Three designs are shown in Fig. 1. Although there are some differences in their operation details and performance they are all based on the idea that measuring simultaneously the magnitude of the THz driven photocurrent in two different directions should be enough to recover the full transverse terahertz waveform.
+The four contact design presented by Hussain et al. [16] has the advantage of using the standard and well tested bow-tie geometry (in two orthogonal directions) as shown in Fig. 1 (left). This geometry has a 4-fold symmetry which intuitively seems to interact equally with both (horizontal and vertical) polarizations. When tested it showed a dynamic range of about 2 decades (electric field amplitude) and so far it has demonstrated capability of measuring bandwidths up to a few tens of terahertz. The best cross polarized extinction ratio reported for this geometry is bout 9:1.
+The design reported by Makabe et al. [17] uses a geometry with 3 triangular (bow-tie-like) contacts at 120 from each other as shown in Fig. 1 (centre). This geometry has the disadvantage of producing currents that are not proportional to orthogonal components of the THz electric field so the data has to be processed after acquisition in order to become meaningful. Yet this detector has proven to have an excellent polarization sensitivity. Measurements of small
+
+Fig. 1 (Color online) Three different polarization sensitive photoconductive detector designs. From left to right designs published by Hussain et al. [16], Makabe et al. [17] and Castro-Camus et al. [19].
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+421
+
+Fig. 2 (Color online)
+
+Three-dimensional
+
+representation of a terahertz
+
+0.5
+
+pulse with non-linear
+
+polarization.
+
+0
+
+EV (arb. units)
+
+-0.5
+
+1
+
+0
+
+-1
+
+-2
+
+Time (ps)
+
+0.5 0 -0.5 EH (arb. units)
+
+changes in polarization have proven that this device has an uncertainty as small as 0.2. This device has been tested to a bandwidth of up to 1.75 THz showing a dynamic range exceeding 2 decades (electric field amplitude).
+The design reported by Castro-Camus et al. [19] uses a geometry with two straight gaps between contacts that are perpendicular to each other as shown in Fig. 1 (right). This geometry was designed so that the current flowing between the ground contact (diagonal on the figure) and the other two should be proportional to mutually orthogonal components of the terahertz electric field. The polarization uncertainty of this device was estimated to be 0.36 by measuring small angle polarization changes. This device showed a dynamic range of about 2 decades (electric field amplitude) and a bandwidth up to 4 THz [24].
+These three detectors allow measuring the time-dependent full transverse THz electric field. A three-dimensional representation of a terahertz pulse with non-linear polarization is shown in Fig. 2. The integrated detectors discussed in this section simplify the acquisition of the full polarization of terahertz pulses by measuring the entire wave simultaneously.
+3 Generation of THz pulses with controlled polarization
+Emission of terahertz single cycles with arbitrary polarization is a challenge that has also been addressed by multiple members of the terahertz community. In this section some reports of methods to generate terahertz pulses with different polarization states will be discussed.
+It has been observed that photoconductive emitters with dipole and bowtie geometries can produce a relatively small (<10%) off-plane electric field component as seen in Fig. 3. This observations have been attributed to quadrupolar components of the transient charge distribution formed [25, 26] given that the angular radiation pattern shown by the perpendicular electric
+
+422
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+x^
+(a) transmitter
+
+(c)
+
+z^
+
+
+
+receiver
+
+wire grid polarizer
+
+(b) L
+
+x^
+
+0.2
+
+y^
+
+Frequency0(T.H6z) 1.0
+
+-20
+
+-10 0 10 20 Angle (degrees)
+
+Fig. 3 Measurement of the radiation pattern of a dipole photoconductive emitter. a Schematic of the experimental arrangement. The receiver is mounted upon a rail that pivots under the transmitter. b Schematic of the emitter antenna. The arrows show the flow of current from one strip line through the dipole to the other strip line. c Measured amplitude of the vertically polarized radiation as a function of frequency and emission angle, showing a minimum at 0 for all frequency components (Image courtesy of D. Mittleman, Reprinted with permission from [25]. Copyright 2000 Optical Society of America).
+
+field component presents a double lobe typical of a quadrupole emission as shown in Fig. 3c. Although a similar study has not been performed on large aperture photoconductive antennae with parallel contacts extinction ratio measurements suggest that this effect is less significant in such devices [24].
+The enhanced surface emission of THz radiation from InAs in the presence of a magnetic field was a topic of great interest in the late 90s, some groups reported the observation of non-linearly polarized terahertz transients generated under such conditions [27, 28]. The elliptical polarization of those pulses was explained by Johnston et al. [29] using a semiclassical Monte Carlo simulation of carrier dynamics. The presence of a magnetic field produced a Lorentz force on the carriers that modified their trajectory during the ultrafast dipole formation near the InAs surface leading to the THz transient emission. The Monte Carlo model mentioned earlier was then modified to simulate the emission of photoconductive antennae under bias voltage [30]. With this simulation it was possible to determine that photoconductive emitters, in the presence of a magnetic field, will produce THz pulses with polarization states that can be tuned by changing the magnetic field as shown in Fig. 4. The emitter simulated was an insulating GaAs (n-type sample with very low donor density of n = 2 × 1015 cm-3). A 4 pJ laser pulse with 1.5 m standard deviation beamwaist was simulated, the centre wavelength of the laser pulse was set to 800 nm (1.55 eV) and its duration to 10 fs. The distance between the contacts of the simulated photoconductive switch was 10 m with an applied voltage of 30 V. One million pairs of pseudo-particles were used to represent extrinsic and intrinsic electrons and holes.
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+423
+
+a)
+1
+0.5
+0
+
+b)
+1
+0.5
+0
+
+c)
+1
+0.5
+0
+
+E (arb. units)
+V
+E (arb. units)
+V
+E (arb. units)
+V
+
+0 10
+E (arb. units)
+H
+
+2 1
+Time (ps)
+
+0 10
+E (arb. units)
+H
+
+2 1
+Time (ps)
+
+0 10
+E (arb. units)
+H
+
+2 1
+Time (ps)
+
+Fig. 4 (Color online) Three-dimensional representation of the electric field simulated for terahertz pulses generated with a photoconductive emitter with a magnetic field applied normal to its surface of a 7.5 T, b 0.0 T and c -7.5 T. The polarization of the pulses changes as a function of the applied magnetic field.
+
+Terahertz pulses with arbitrary polarization (at a given frequency) were produced and reported by Amer et al. [31] They used two synchronized laser pulses with orthogonal polarizations and a controllable delay line for generation of a terahertz transient in periodically-poled lithium niobate. This method can produce polarization states equivalent to those produced with zero-order /4-waveplate [24], with the advantage of being able to modify the operation frequency. Both of these methods have the disadvantage of being chromatic, which means that it is not possible to produce transients with equal polarization for the entire spectrum contained in them.
+Some groups have reported the generation of terahertz transients with achromatic circular polarization. One of those groups achieved this by using the phase delay produced by total internal reflection in a prism [14]. Another one produced the circular polarization by building an achromatic waveplate with multiple layers of quartz [15].
+Recently the generation of THz radiation by two-color mixing in air plasma has become a convenient emission method to perform THz-TDS based on high energy amplified laser systems. It has been reported that the linear polarization of the terahertz pulses produced with this method can be controlled by modifying the relative polarization of the two colors being mixed [32].
+Another interesting experiment is the one reported by Winnerl et al. [33] where they report two different photoconductive emitter geometries that can produce radial or azimuthal Bessel-Gauss modes with spatially dependent polarization.
+Some of the very few polarization-related optical components that are commercially available for operation in the far-infrared are wire-grid linear polarizers [34]. Their characterization is sometimes poor and there is a debate within the community about their effectiveness as polarization filters in this spectral region [35]. Measurements of a commercial polarizer (Bruker F251) are presented here. This polarizer is nominally sold for operation in the
+
+424
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+300 GHz to 10 THz region. A standard THz time-domain spectrometer [24] was used for this measurement. A Ti:sapphire laser produced pulses of 10 fs duration centered at 800 nm with an average power of 300 mW. About 70% of the power was used to generate THz pulses with horizontal polarization in a 400 m gap semi-insulating GaAs photoconductive emitter. Terahertz detection was performed by using a 1 mm thick <110> ZnTe crystal gated by the remaining 30% power from the laser.
+The measurement is shown in Fig. 5. The plot shows the electric field transmitted through the polarizer for angles between 0 (ETHz parallel to the wires forming the polarizer) and 90. The peak electric field (shown in Fig. 5b)) shows that the polarizer presents an electric field extinction ratio of approximately 8:1 (60:1 for power), this measurement is consistent with other measurements performed in the past on similar components [35]. In Fig. 5c the spectra for each of the pulses measured is shown. It is possible to observe that the attenuation of the terahertz electric field is reasonably even across the 0­2 THz spectral window. Similar measurements (not shown) were performed on other free-standing wire grid polarizers nominally fabricated for the mid-infrared region showing very similar results in the 0­2 THz region. From measurements presented here and the ones previously published it is possible to conclude that wire-grid polarizers are helpful to attenuate undesired polarization components at terahertz frequencies, however, their extinction ratio (60:1) is relatively poor compared to commercially available
+
+Pk. ETHz (Arb. units)
+
+ETHz (Arb. units)
+
+1
+a) 90
+0.8
+
+1
+b)
+
+0.6
+
+0.5
+
+0.4
+
+0.2
+0
+0
+-0.2
+-0.4
+-0.6
+
+0 0 100
+
+20 40 60 80 Angle ( )
+c)
+
+10- 2
+
+ETHz (Arb. units)
+
+-0.8
+
+-1
+
+10- 4
+
+-1 0 1 2 3
+
+0123
+
+Time (ps)
+
+Frequency (THz)
+
+Fig. 5 (Color online) Transmitted THz electric field through a F251 wire-grid polarizer. a Shows
+the time-domain data as measured for angles between the wires and the incident THz electric field from 0 to 90 in 10 increments. The inset is a schematic representation of the angle between the
+polarizer and the terahertz pulse electric field. b Shows the peak field of the curves shown in a, the minimum happens when the electric field and the wires forming the polarizer are parallel and the transmitted field is about 13%. c Shows the Fourier transform of the data in a, it can be observed that the effect of the polarizer is relatively even across the 0­2 THz region.
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+425
+
+filters for the near-infrared or visible which present an extinction ratio typically of few thousands to one.
+
+4 Applications
+Polarization resolved THz-TDS has allowed studying the anisotropic terahertz response of materials as well as characterizing novel metamaterials with engineered THz properties. The information contained in the polarization adds up to the phase and amplitude already contained in traditional TDS. In this section a review of some studies that have either benefited from measuring the polarization state of THz waves or suggested the need of such measurements in order to perform certain experiments will be presented.
+4.1 Carbon nanotube polarizer
+Carbon nanotubes (CNTs) are materials that have attracted enormous attention recently. Nowadays it is possible to produce thin films of highly aligned CNTs. L. Ren and co-workers recently performed polarization-dependent terahertz transmission measurements on films of highly aligned single-walled CNTs and demonstrated that they act as excellent linear THz polarizers. There is virtually no attenuation (strong absorption) when the THz polarization is perpendicular (parallel) to the nanotube axis as shown in Fig. 6. From the plot, the reduced linear dichrosim was calculated to be 3, corresponding to a nematic order parameter of 1, which demonstrates nearly perfect alignment as well as intrinsically anisotropic THz response of CNTs in the film [36]. In addition Xu et al. presented an interesting experiment on similar CNT films
+
+Electric Field (arb. units)
+
+1.0
+
+Reference
+
+ = 90º
+
+°  = 45
+
+0.5
+
+°  = 30
+
+
+
+°  = 0
+
+
+
+0.0
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+Time (ps)
+
+Fig. 6 (Color online) THz electric field signals in the time domain, for the reference sapphire substrate (black dashed circled curve) and for the CNT film for different angles (colored solid curves) between the THz polarization direction and the nanotube alignment direction, the CNT film is schematically shown on the right hand side (Image courtesy of L. Ren and J. Kono, Reprinted with permission from [36]. Copyright 2009 American Chemical Society).
+
+426
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+where anisotropic THz transmittance was modulated by optically pumping the CNT film with different optical polarisation angles with respect to the CNT alignment [37].
+
+4.2 Polarization imaging
+
+Terahertz imaging has also produced interest from various applications that range from airport security to quality control. Van Der Valk et al. [38] and Wang et al. [39] demonstrated that information encoded in the polarization can be used to distinguish surfaces at different angles with respect to the propagation direction of the THz radiation used to generate the image of different materials. The use of this technique increases the number of potential applications for terahertz imaging.
+
+4.3 Metamaterials
+
+There are a number of groups around the world that have worked on developing metamaterials with tailored anisotropic response to terahertz electromagnetic waves. Metamaterials that exhibit optical activity [40, 41], circular dichroism [42] and birefringence [43] are some examples.
+In particular Peralta et al. developed an anisotropic metamaterial unit by placing an inner elliptical split ring within a circular ring connected by four spokes [44]. The transmission response of this elliptical split ring resonator (ESRR), shown in the insets of Fig. 7b, was characterized with THz­TDS as a function of the angle between the major axis of the ellipse and the linearly polarized electric field (see insets in Fig. 7). Figure 7a shows the experimentally measured transmission amplitude spectra of the anisotropic ESRR metamaterial at 0, 30, 45, 66 and 90 orientations. When the incident polarization is horizontal (i.e. parallel to the major axis of the ellipse or 0 orientation) there are two minima occurring at 0.79 and 1.94 THz. As the angle increases, these minima gradually decrease while other resonances appear and gradually become prominent. When the incident polarization is vertical (i.e. perpendicular to the major axis of the ellipse or 90 orientation) there are again only two minima, now at 0.59 and 1.39 THz. At the polarization angle of 45 all four resonances at 0.59, 0.79, 1.39 and 1.94 THz are present though with relatively weak response. Figure 7b shows the corresponding phase data with its dispersive line shape characteristic of Lorentzian resonances.
+
+4.4 Circular dichroism of proteins
+
+Proteins play a fundamental role in living organisms. They act as molecular machines performing many functions ranging from water valves through the cellular membranes to photoreceptors. Proteins are large molecules, normally formed of tens of thousands of atoms or more. It is only when these molecules form certain three-dimensional structures that they can perform their biological function. These structures tend to be chiral and therefore exhibit
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+427
+
+Fig. 7 (Color online)
+Normalized transmission
+amplitude (a) and phase
+spectra (b) at various angles for ESRR. 0 (full squares), 30 (empty squares), 45 (crosses), 66 (empty circles) and 90 (full circles). The
+polarization of the THz radiation for 0 and 90 is as
+indicated in the insets (b)
+(Plot courtesy of X. Peralta,
+Reprinted with permission
+from [44]. Copyright 2009
+Optical Society of America).
+
+Transmission (a.u.)
+
+1.0
+0.8
+0.6
+0.4
+0.2
+(a)
+0.0 90 60 30
+
+E
+0o
+H
+
+Phase Change (deg)
+
+0
+
+-30
+
+E
+
+90o
+
+-60
+
+(b)
+
+H
+
+-90
+
+0.0 0.5 1.0 1.5 2.0 2.5
+
+Frequency (THz)
+
+optical activity and circular dichroism. Furthermore, the biological function of proteins is linked to their collective vibrational modes that happen to fall in the terahertz region [45]. Some theoretical studies have suggested that terahertz vibrational circular dichroism spectroscopy could become a very important tool to understand the relationship between structure, function and vibration of these molecules [46, 47].
+4.5 Optical activity in helical structures
+A number of studies have reported the observation of optical activity in materials that are formed by aligned [48, 49] and random [50] helix-shaped media. Such structured materials have been fabricated from isotropic dielectrics or metals and have dimensions smaller but comparable to the wavelengths in the terahertz regime.
+4.6 Magnetic effects
+Magneto-optical Kerr rotation has been reported from InAs surface in the THz spectral region [51]. This experiment represents an important contribution that demonstrates that it is possible to study the anisotropic effect of the magnetic
+
+428
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+(a)
+
+(b)
+
+(c)
+
+0 0.5 1 1.5 2 2.5 3 Frequency (THz)
+
+0.5 1 1.5 2 2.5 3 Frequency (THz)
+
+0.5 1 1.5 2 2.5 3 Frequency (THz)
+
+Fig. 8 THz spectra of pulses transmitted through a n-doped GaAs sample. The nominal doping density for this sample was 1.9 × 1017 cm-3. The two curves of each subplot correspond to the horizontal (solid) and vertical (dashed) components. In a no magnetic field is applied, in b a magnetic field parallel, and in c antiparallel to the THz beam propagation direction is applied (Image courtesy of D. Mittleman, Reprinted with permission from [53]. Copyright 1997 American Physical Society).
+
+field on many THz-opaque media such as superconductors and highly doped semiconductors.
+Recently Valdes-Aguilar et al. reported the observation of an unprecedentedly large rotation of the polarization plane of linearly polarized THz radiation reflected from thin films of Bi2Se3 in magnetic fields. This Kerr rotation can be as large as 65 and is caused almost entirely by the surface states. These results are evidence for the intrinsic response of the topologically protected surface states and provide a benchmark for the large magneto-electric effect predicted for such materials [52].
+Polarization resolved transmission spectroscopy of semiconductors has been used as a non-contact Hall mobility measurement technique by Mittleman et al. [53]. In this experiment, linearly polarized terahertz pulses were transmitted through n-type GaAs with a doping density of 1.9 × 1017 cm-3 when a magnetic field was applied parallel or antiparallel to the propagation direction of the THz radiation. The change in polarization of the pulse (shown in Fig. 8) was used to determine the magneto-conductivity tensor of the sample.
+
+5 Conclusions
+The possibility of resolving polarization in terahertz time-domain spectroscopy has increased the amount of information that can be obtained from THz pulses and consequently the potential applications of this technique. This is why the interest of the THz-TDS community on using information contained in the polarization of terahertz transients has grown dramatically in the last decade with applications that range from solid state physics to biomolecular analysis. The introduction of integrated detectors capable of measuring simultaneously both transverse components of the electric field of a terahertz transient has simplified the implementation of TDS with polarization resolution. Other polarization related components for the terahertz band such as prisms, waveplates and polarizers have also been introduced over the last few years.
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+429
+
+All of these progresses are setting the grounds for generalized use of TDS for measurement of anisotropic properties of materials. In the coming years it is expected that materials with interesting anisotropic properties will be introduced and that polarization-resolved THz­TDS will be an invaluable tool for their characterization.
+
+Acknowledgements The author would like to thank X. Peralta (UTSA), D. Mittleman, L. Ren and J. Kono (Rice) for the figures they kindly supplied. This publication is part of project 131931 funded by Consejo Nacional de Ciencia y Tecnología (México).
+
+References
+1. C.A. Schmuttenmaer, Chem. Rev. 104, 1759 (2004) 2. P.U. Jepsen, D.G. Cooke, M. Koch, Laser Photon. Rev. 5, 124 (2011) 3. J.B. Baxter, G.W. Guglietta, Anal. Chem. 83, 4342 (2011) 4. D.H. Auston, Appl. Phys. Lett. 26, 101 (1975) 5. D.H. Auston, K.P. Cheung, P.R. Smith, Appl. Phys. Lett. 45, 284 (1984) 6. D.H. Auston, P.R. Smith, Appl. Phys. Lett. 43, 631 (1983) 7. D.H. Auston, K.P. Cheung, J. Opt. Soc. Am. B-Opt. Phys. 2, 606 (1985) 8. K.P. Cheung, D.H. Auston, Infrared Phys. 26, 23 (1986) 9. M. Born, E. Wolf, Principles of Optics (Cambridge Univeristy Press, Cambridge, 1999) 10. A. Yariv, P. Yeh, Optical waves in crystals: Propagatin and control of laser radiation (Wiley
+Interscience, New York, 2003) 11. E. Castro-Camus, M.B. Johnston, J. Opt. A-Pure Appl. Opt. 11, 105206 (2009) 12. H. Dong, Y.D. Gong, V. Paulose, M.H. Hong, Opt. Commun. 282, 3671 (2009) 13. J. Shan, J.I. Dadap, T.F. Heinz, Opt. Express 17, 7431 (2009) 14. Y. Hirota, R. Hattori, M. Tani, M. Hangyo, Opt. Express 14, 4486 (2006) 15. J.B. Masson, G. Gallot, Opt. Lett. 31, 265 (2006) 16. A. Hussain, S.R. Andrews, Opt. Express 16, 7251 (2008) 17. H. Makabe, Y. Hirota, M. Tani, M. Hangyo, Opt. Express 15, 11650 (2007) 18. M. Tani, Y. Hirota, C.T. Que, S. Tanaka, R. Hattori, M. Yamaguchi, S. Nishizawa, M. Hangyo,
+Int. J. Infrared Millimeter Waves 27, 531 (2006) 19. E. Castro-Camus, J. Lloyd-Hughes, M.B. Johnston, M.D. Fraser, H.H. Tan, C. Jagadish, Appl.
+Phys. Lett. 86, 254102 (2005) 20. D. Grischkowsky, S. Keiding, M. van Exter, C. Fattinger, J. Opt. Soc. Am. B-Opt. Phys. 7, 2006
+(1990) 21. L.L. Zhang, H. Zhong, C. Deng, C.L. Zhang, Y.J. Zhao, Appl. Phys. Lett. 94, 211106 (2009) 22. N.C.J. van der Valk, W.A.M. van der Marel, P.C.M. Planken, Opt. Lett. 30, 2802 (2005) 23. M. Johnston, E. Castro-Camus, J. Lloyd-Hughes. Polarization sensitive electromagnetic radi-
+ation detector (2006). WO Patent WO/2006/072,762A1 24. E. Castro-Camus, J. Lloyd-Hughes, L. Fu, H.H. Tan, C. Jagadish, M.B. Johnston, Opt. Express
+15, 7047 (2007) 25. J.V. Rudd, J.L. Johnson, D.M. Mittleman, Opt. Lett. 25, 1556 (2000) 26. J. Vanrudd, J.L. Johnson, D.M. Mittleman, J. Opt. Soc. Am. B-Opt. Phys. 18, 1524 (2001) 27. N. Sarukura, H. Ohtake, S. Izumida, Z.L. Liu, J. Appl. Phys. 84, 654 (1998) 28. R. McLaughlin, A. Corchia, M.B. Johnston, Q. Chen, C.M. Ciesla, D.D. Arnone, G.A.C.
+Jones, E.H. Linfield, A.G. Davies, M. Pepper, Appl. Phys. Lett. 76, 2038 (2000) 29. M.B. Johnston, D.M. Whittaker, A. Corchia, A.G. Davies, E.H. Linfield, J. Appl. Phys. 91,
+2104 (2002) 30. E. Castro-Camus, J. Lloyd-Hughes, M.B. Johnston, Phys. Rev. B 71, 195301 (2005) 31. N. Amer, W.C. Hurlbut, B.J. Norton, Y.S. Lee, T.B. Norris, Appl. Phys. Lett. 87, 221111 (2005) 32. Y.Z. Zhang, Y.P. Chen, S.Q. Xu, H. Lian, M.W. Wang, W.W. Liu, S.L. Chin, G.G. Mu, Opt.
+Lett. 34, 2841 (2009) 33. S. Winnerl, B. Zimmermann, F. Peter, H. Schneider, M. Helm, Opt. Express 17, 1571 (2009)
+
+430
+
+J Infrared Milli Terahz Waves (2012) 33:418­430
+
+34. P.A.R. Ade, A.E. Costley, C.T. Cunningham, C.L. Mok, G.F. Neill, T.J. Parker, Infrared Phys. 19, 599 (1979)
+35. I. Yamada, K. Takano, M. Hangyo, M. Saito, W. Watanabe, Opt. Lett. 34, 274 (2009) 36. L. Ren, C.L. Pint, L.G. Booshenri, W.D. Rice, X.F. Wang, D.J. Hilton, K. Takeya, I.
+Kawayama, M. Tonouchi, R.H. Hauge, J. Kono, Nano Lett. 9, 2610 (2009) 37. X.L. Xu, P. Parkinson, K.C. Chuang, M.B. Johnston, R.J. Nicholas, L.M. Herz, Phys. Rev. B
+82, 085441 (2010) 38. N. van der Valk, W. van der Marel, P.C.M. Planken, 30, 2802 (2005) 39. X.K. Wang, Y. Cui, W.F. Sun, J.S. Ye, Y. Zhang, J. Opt. Soc. Am. A-Opt. Image Sci. Vis. 27,
+2387 (2010) 40. N. Kanda, K. Konishi, M. Kuwata-gonokami, Opt. Lett. 34, 3000 (2009) 41. N. Kanda, K. Konishi, M. Kuwata-gonokami, Opt. Express 15, 11117 (2007) 42. R. Singh, E. Plum, C. Menzel, C. Rockstuhl, A.K. Azad, R.A. Cheville, F. Lederer, W. Zhang,
+N.I. Zheludev, Phys. Rev. B 80, 153104 (2009) 43. A.C. Strikwerda, K. Fan, H. Tao, D.V. Pilon, X. Zhang, R.D. Averitt, Opt. Express 17, 136
+(2009) 44. X.G. Peralta, E.I. Smirnova, A.K. Azad, H.T. Chen, A.J. Taylor, I. Brener, J.F. O'Hara, Opt.
+Express 17, 773 (2009) 45. E. Castro-Camus, M.B. Johnston, Chem. Phys. Lett. 455, 289 (2008) 46. J. Xu, G.J. Ramian, J.F. Galan, P.G. Savvidis, A.M. Scopatz, R.R. Birge, J. Allen, K.W. Plaxco,
+Astrobiology 3, 489 (2003) 47. J. Xu, J. Galan, G. Ramian, P. Savvidis, A. Scopatz, R.R. Birge, S.J. Allen, K. Plaxco, P. Soc.
+Photo-Opt. Instrum. Eng. 5268, 19 (2003) 48. K.J. Chau, M.C. Quong, A.Y. Elezzabi, Opt. Express 15, 3557 (2007) 49. F. Miyamaru, M. Hangyo, Appl. Phys. Lett. 89, 211105 (2006) 50. A.Y. Elezzabi, S. Sederberg, Opt. Express 17, 6600 (2009) 51. R. Shimano, Y. Ino, Y.P. Svirko, M. Kuwata-gonokami, Appl. Phys. Lett. 81, 199 (2002) 52. R.V. Aguilar, A. Stier, W. Liu, L. Bilbro, D. George, N. Bansal, J. Cerne, A. Markelz, S. Oh,
+N. Armitage, arXiv:1105.0237v2 (2011) 53. D.M. Mittleman, J. Cunningham, M.C. Nuss, M. Geva, Appl. Phys. Lett. 71, 16 (1997)
+
+

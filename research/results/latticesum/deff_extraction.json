@@ -1,0 +1,320 @@
+{
+  "geometry": {
+    "P_um": 15.5
+  },
+  "rows": [
+    {
+      "D_over_P": 0.3,
+      "nu_THz": 0.25,
+      "P_over_lambda": 0.012916666666666668,
+      "exact_tpar": 0.0021897410784652137,
+      "blanco_tpar_atfit": 0.0021898094244919976,
+      "Deff_over_P": 0.34651123031315734,
+      "Deff_over_Dphys": 1.1550374343771912,
+      "residual": 6.83460267838186e-08,
+      "law_value": 0.745,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.4,
+      "nu_THz": 0.25,
+      "P_over_lambda": 0.012916666666666668,
+      "exact_tpar": 0.0058652730660576965,
+      "blanco_tpar_atfit": 0.005865466454675778,
+      "Deff_over_P": 0.25367830049506906,
+      "Deff_over_Dphys": 0.6341957512376726,
+      "residual": 1.9338861808118613e-07,
+      "law_value": 0.6599999999999999,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.5,
+      "nu_THz": 0.25,
+      "P_over_lambda": 0.012916666666666668,
+      "exact_tpar": 0.01186967349885786,
+      "blanco_tpar_atfit": 0.011868999777435298,
+      "Deff_over_P": 0.5043463735901804,
+      "Deff_over_Dphys": 1.0086927471803608,
+      "residual": 6.737214225619598e-07,
+      "law_value": 0.575,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.6,
+      "nu_THz": 0.25,
+      "P_over_lambda": 0.012916666666666668,
+      "exact_tpar": 0.017096641294129467,
+      "blanco_tpar_atfit": 0.01709704233048305,
+      "Deff_over_P": 0.6184215029358181,
+      "Deff_over_Dphys": 1.0307025048930303,
+      "residual": 4.0103635358390566e-07,
+      "law_value": 0.49,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.7,
+      "nu_THz": 0.25,
+      "P_over_lambda": 0.012916666666666668,
+      "exact_tpar": 0.02189785175941168,
+      "blanco_tpar_atfit": 0.021897665515515436,
+      "Deff_over_P": 0.7474082013858198,
+      "Deff_over_Dphys": 1.0677260019797425,
+      "residual": 1.8624389624272153e-07,
+      "law_value": 0.405,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.8,
+      "nu_THz": 0.25,
+      "P_over_lambda": 0.012916666666666668,
+      "exact_tpar": 0.02648970533535141,
+      "blanco_tpar_atfit": 0.026480822018750357,
+      "Deff_over_P": 0.8999345681627923,
+      "Deff_over_Dphys": 1.1249182102034903,
+      "residual": 8.883316601052127e-06,
+      "law_value": 0.31999999999999995,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.3,
+      "nu_THz": 0.5,
+      "P_over_lambda": 0.025833333333333337,
+      "exact_tpar": 0.0028721240750304686,
+      "blanco_tpar_atfit": 0.0028730578657978944,
+      "Deff_over_P": 0.3366638103028093,
+      "Deff_over_Dphys": 1.1222127010093643,
+      "residual": 9.337907674257691e-07,
+      "law_value": 0.745,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.4,
+      "nu_THz": 0.5,
+      "P_over_lambda": 0.025833333333333337,
+      "exact_tpar": 0.012300211223993733,
+      "blanco_tpar_atfit": 0.012298601851726449,
+      "Deff_over_P": 0.25097570521591267,
+      "Deff_over_Dphys": 0.6274392630397816,
+      "residual": 1.6093722672843452e-06,
+      "law_value": 0.6599999999999999,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.5,
+      "nu_THz": 0.5,
+      "P_over_lambda": 0.025833333333333337,
+      "exact_tpar": 0.02445481931411677,
+      "blanco_tpar_atfit": 0.024454213016229118,
+      "Deff_over_P": 0.5127474355317148,
+      "Deff_over_Dphys": 1.0254948710634295,
+      "residual": 6.062978876522629e-07,
+      "law_value": 0.575,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.6,
+      "nu_THz": 0.5,
+      "P_over_lambda": 0.025833333333333337,
+      "exact_tpar": 0.03496179648626675,
+      "blanco_tpar_atfit": 0.034961496598311284,
+      "Deff_over_P": 0.6327147419923765,
+      "Deff_over_Dphys": 1.0545245699872943,
+      "residual": 2.9988795546831426e-07,
+      "law_value": 0.49,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.7,
+      "nu_THz": 0.5,
+      "P_over_lambda": 0.025833333333333337,
+      "exact_tpar": 0.04459636984779377,
+      "blanco_tpar_atfit": 0.04459633816073678,
+      "Deff_over_P": 0.7757929652191287,
+      "Deff_over_Dphys": 1.1082756645987553,
+      "residual": 3.168705699219121e-08,
+      "law_value": 0.405,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.8,
+      "nu_THz": 0.5,
+      "P_over_lambda": 0.025833333333333337,
+      "exact_tpar": 0.05380391314262187,
+      "blanco_tpar_atfit": 0.050874570747791135,
+      "Deff_over_P": 0.8999538949528145,
+      "Deff_over_Dphys": 1.124942368691018,
+      "residual": 0.002929342394830732,
+      "law_value": 0.31999999999999995,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.3,
+      "nu_THz": 1.0,
+      "P_over_lambda": 0.05166666666666667,
+      "exact_tpar": 0.006050298409735072,
+      "blanco_tpar_atfit": 0.006048750616925448,
+      "Deff_over_P": 0.33811525525329666,
+      "Deff_over_Dphys": 1.1270508508443222,
+      "residual": 1.5477928096245541e-06,
+      "law_value": 0.745,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.4,
+      "nu_THz": 1.0,
+      "P_over_lambda": 0.05166666666666667,
+      "exact_tpar": 0.024318629129625808,
+      "blanco_tpar_atfit": 0.02431346108477415,
+      "Deff_over_P": 0.25194414394655595,
+      "Deff_over_Dphys": 0.6298603598663899,
+      "residual": 5.16804485165695e-06,
+      "law_value": 0.6599999999999999,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.5,
+      "nu_THz": 1.0,
+      "P_over_lambda": 0.05166666666666667,
+      "exact_tpar": 0.04863790260676122,
+      "blanco_tpar_atfit": 0.04863698534260837,
+      "Deff_over_P": 0.5168848135504972,
+      "Deff_over_Dphys": 1.0337696271009944,
+      "residual": 9.172641528484848e-07,
+      "law_value": 0.575,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.6,
+      "nu_THz": 1.0,
+      "P_over_lambda": 0.05166666666666667,
+      "exact_tpar": 0.0696406295619861,
+      "blanco_tpar_atfit": 0.06964000799047745,
+      "Deff_over_P": 0.6541368770740725,
+      "Deff_over_Dphys": 1.0902281284567876,
+      "residual": 6.215715086521634e-07,
+      "law_value": 0.49,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.7,
+      "nu_THz": 1.0,
+      "P_over_lambda": 0.05166666666666667,
+      "exact_tpar": 0.08888238007787432,
+      "blanco_tpar_atfit": 0.08792369339763614,
+      "Deff_over_P": 0.8999386056135473,
+      "Deff_over_Dphys": 1.285626579447925,
+      "residual": 0.0009586866802381716,
+      "law_value": 0.405,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.8,
+      "nu_THz": 1.0,
+      "P_over_lambda": 0.05166666666666667,
+      "exact_tpar": 0.10725888155797138,
+      "blanco_tpar_atfit": 0.08792383534425845,
+      "Deff_over_P": 0.8999435850633728,
+      "Deff_over_Dphys": 1.1249294813292159,
+      "residual": 0.01933504621371293,
+      "law_value": 0.31999999999999995,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.3,
+      "nu_THz": 1.5,
+      "P_over_lambda": 0.0775,
+      "exact_tpar": 0.009233105769144332,
+      "blanco_tpar_atfit": 0.009232989445962552,
+      "Deff_over_P": 0.339245435547474,
+      "Deff_over_Dphys": 1.13081811849158,
+      "residual": 1.1632318177960677e-07,
+      "law_value": 0.745,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.4,
+      "nu_THz": 1.5,
+      "P_over_lambda": 0.0775,
+      "exact_tpar": 0.036393438838510137,
+      "blanco_tpar_atfit": 0.03639378722139983,
+      "Deff_over_P": 0.25253439624134394,
+      "Deff_over_Dphys": 0.6313359906033598,
+      "residual": 3.4838288969635256e-07,
+      "law_value": 0.6599999999999999,
+      "well_conditioned": false
+    },
+    {
+      "D_over_P": 0.5,
+      "nu_THz": 1.5,
+      "P_over_lambda": 0.0775,
+      "exact_tpar": 0.07290157446770014,
+      "blanco_tpar_atfit": 0.07289877280412518,
+      "Deff_over_P": 0.5270389354383229,
+      "Deff_over_Dphys": 1.0540778708766458,
+      "residual": 2.801663574955593e-06,
+      "law_value": 0.575,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.6,
+      "nu_THz": 1.5,
+      "P_over_lambda": 0.0775,
+      "exact_tpar": 0.10438147100278052,
+      "blanco_tpar_atfit": 0.10438071505092718,
+      "Deff_over_P": 0.727643646511865,
+      "Deff_over_Dphys": 1.2127394108531084,
+      "residual": 7.559518533373222e-07,
+      "law_value": 0.49,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.7,
+      "nu_THz": 1.5,
+      "P_over_lambda": 0.0775,
+      "exact_tpar": 0.1331793849988464,
+      "blanco_tpar_atfit": 0.10856074471999133,
+      "Deff_over_P": 0.8413912856034498,
+      "Deff_over_Dphys": 1.2019875508620712,
+      "residual": 0.024618640278855075,
+      "law_value": 0.405,
+      "well_conditioned": true
+    },
+    {
+      "D_over_P": 0.8,
+      "nu_THz": 1.5,
+      "P_over_lambda": 0.0775,
+      "exact_tpar": 0.16065153474309138,
+      "blanco_tpar_atfit": 0.10856074473046666,
+      "Deff_over_P": 0.8413805607538053,
+      "Deff_over_Dphys": 1.0517257009422565,
+      "residual": 0.05209079001262472,
+      "law_value": 0.31999999999999995,
+      "well_conditioned": true
+    }
+  ],
+  "by_dp_wellcond": {
+    "0.5": {
+      "mean_Deff_over_Dphys": 1.0305087790553578,
+      "std": 0.01633411873487092,
+      "law": 0.575
+    },
+    "0.6": {
+      "mean_Deff_over_Dphys": 1.0970486535475552,
+      "std": 0.07007314038270046,
+      "law": 0.49
+    },
+    "0.7": {
+      "mean_Deff_over_Dphys": 1.1659039492221235,
+      "std": 0.08455096541266412,
+      "law": 0.405
+    },
+    "0.8": {
+      "mean_Deff_over_Dphys": 1.106628940291495,
+      "std": 0.031698401170135344,
+      "law": 0.31999999999999995
+    }
+  },
+  "conclusion_metric": {
+    "note": "compare mean exact-matched D_eff/D_phys to empirical law"
+  }
+}

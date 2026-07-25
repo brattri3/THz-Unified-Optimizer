@@ -1,0 +1,195 @@
+J Infrared Milli Terahz Waves DOI 10.1007/s10762-016-0330-5
+Inkjet Printed Wire-Grid Polarizers for the THz Frequency Range
+A. Farid1 · N. J. Laurita1 · B. Tehrani2 · J. G. Hester2 · M. M. Tentzeris2 · N. P. Armitage1
+Received: 19 September 2016 / Accepted: 12 October 2016 © Springer Science+Business Media New York 2016
+Abstract We have investigated the use of inkjet printing technology for the production of THz range wire-grid polarizers using time-domain terahertz spectroscopy (TDTS). Such technology affords an inexpensive and reproducible way of quickly manufacturing THz range metamaterial structures. As a proof-of-concept demonstration, numerous thin silver-nanoparticle ink lines were printed using a Dimatix DMP-2831 printer. We investigated the optimal printing geometry of the polarizers by examining a number of samples with printed wires of varying thickness and spacing. We also investigated the polarization properties of multiply-stacked polarizers.
+Keywords Terahertz · Wire-grid polarizers · Time domain terahertz spectroscopy · Inkjet printing
+1 Introduction
+Recent advancements in materials studies and the field of terahertz spectroscopy have led to the widespread use of optics, emitters, and equipment for the THz frequency range. This has resulted in improvements in device performance and has created a demand for the development of less expensive, but superior equipment [1, 2].
+N. P. Armitage npa@jhu.edu
+1 Department of Physics and Astronomy, The Johns Hopkins University, Baltimore, MD 21218, USA
+2 School of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta, GA 30332-250, USA
+
+J Infrared Milli Terahz Waves
+When probing the properties of a material, polarized electromagnetic radiation allows for the easy isolation of certain information in a transmission or reflection measurement [3]. Polarizers are an important optical component because the accuracy of measurements can depend on the degree to which the electromagnetic waves are polarized.
+Due to the longer wavelength of THz spectroscopy, polarizers for the THz range can be made from a wire grid. The most common commercial wire grid polarizers are made from tungsten wire [4] and they tend to be expensive [5]. If a high degree of polarization is required, it is likely that multiple polarizers will need to be used in precise measurements. Although there have been recent advances in the technology [6­10], there is interest in developing cheaper and more effective polarizers for THz spectroscopies.
+In this paper, we describe a simple and inexpensive printing technique to create polarizers made from lines of silver ink printed on Kapton film. This technique has also been used to print small circuits, electronics [11, 12] and--in a related fashion-- THz range metamaterial structures [13]. Using time domain terahertz spectroscopy (TDTS), we studied the effect of three parameters on the capability of polarizers: the spacing between the silver ink lines (G), the width of the ink lines (W), and the number of passes with the ink-jet printer (L). We also studied the effect that stacking multiple polarizers had on the degree of polarization (DoP).
+
+2 Methods and Materials
+
+Numerous proof-of-concept polarizer prototypes were inkjet printed on polyimide substrate (Dupont Kapton 500 HN, 5 mil). Each sample was 1 cm × 1 cm in size and up to 10 were printed at once. Sun Chemical SunTronic EMD5730 ink was printed with a drop spacing of 20 m, and each pattern layer took approximately 2 to 4 min to print. After printing, the samples were heated on hot plate at 90 C for 30 min to evaporate the solvent. Once dry, samples were sintered at 200 C for 2 h (Fig. 1).
+In TDTS, an infrared femtosecond laser pulse is split into two paths that sequen-
+tially excite a pair of photoconductive antenna called "Auston" switches. The first
+switch generates a mostly vertically-polarized THz pulse, which then travels through
+the sample. The second antenna receives the THz pulse and measures its electric field
+[14].
+Calculating the transmission of the polarizer when the printed lines are aligned
+Tpass and perpendicular Tpolarize to the incoming THz radiation allows for the calculation of the DoP of the polarizer. We define
+
+DoP = Tpass - Tpolarize .
+
+(1)
+
+Tpass + Tpolarize
+
+To perform the measurements, the polarizers were sandwiched between two metal disks each with an 8-mm aperture for their easy alignment. This was placed in a rotation optic stage to allow for manual angle adjustments. When measuring more than one polarizer at a time, multiples of the metal disk and polarizer sandwich were placed in a single rotation optic stage. Conventional wire grid polarizers were placed
+
+J Infrared Milli Terahz Waves
+Fig. 1 An image of the 40 m gap, 40 m width polarizer with four layers (40G/40W/4L). The period of the polarizer is 80 m; however, the gap between the lines is slightly smaller than the expected 40 m due to running of excess silver ink while printing. Implications of this are discussed in the text
+in front of and behind the polarizer in the THz beam path to remove all horizontal components of the incident electric field. The manual alignment of stacked polarizers was performed under an optical microscope.
+The TDTS spectrometer on which the measurements were performed reliably measures over the frequency range of 0.2­2.2 THz [3]; however, the polarizers used in this study limit this range. To determine the effective range of measurement, multiple scans for each polarizer geometry were compared. If there was at least 97 % agreement between the scans at a certain frequency, this frequency was considered within the effective range of measurement and the effective range of polarization. This range was determined to be at least 0.3 to 1 THz for all polarizers.
+3 Results and Discussion Measurements were carried out on eight different polarizers, each with one of eight possible combinations of the parameters measured. The gap (G) between the printed lines was either 40 or 80 m. The width (W) of the lines was also either 40 or 80 m. The number of printed layers (L) was either 2 or 4. By measuring the various combinations of these polarizers, we determined which parameters were optimal for polarization.
+As mentioned previously, especially with the four-layer polarizers, the expected gap size was larger than what was observed. With 80 m width samples, there was significant bleeding between ink lines and this likely reduced the transmission and DoP of these polarizers.
+Figure 2 shows a comparison of the DoP as a function of frequency for a sampling of the polarizers measured in this experiment. These polarizers represent the range
+
+J Infrared Milli Terahz Waves
+Fig. 2 A comparison of the degree of polarization (DoP) of polarizers with different parameters over the effective frequency range. The red line depicts two 40 m gap, 40 m width, four layer (40G/40W/4L) polarizers stacked and shows a very high DoP along most of the frequency range
+of quality of polarization and show the effectiveness of stacking polarizers. The red curve depicts two stacked 40 m gap, 40 m width, four layer (40G/40W/4L). This DoP is nearly identical to 1-(1-DoP )2 using the DoP of the 40G/40W/4L polarizer. This indicates that stacked polarizers behave as a series of independent polarizers.
+Figure 3 depicts the result of holding two parameters constant and varying the third. In Fig. 3a the gap between lines is varied and a large DoP dependence is revealed; with a decrease in the gap, there is an increase in DoP. Figure 3b also shows an inverse relationship between DoP and the width. Figure 3c shows a slight increase in polarization with an increase in the number of layers printed; however, this may be attributed to the increase in number of layers causing slight ink bleeding and larger ink line width. As long as the ink lines are un-broken and opaque to THz radiation
+Fig. 3 Degree of polarization (DoP) at 0.7 THz as a function of the a gap size, b ink line width, and c number of printed layers
+
+J Infrared Milli Terahz Waves
+
+with just two layers, the polarization may not be strongly dependent on the number
+
+of layers.
+
+Effective medium theory can be used to model the dependence of properties of the
+
+polarizers. Here, we use the same approach as detailed in ref. [10]. First, we define
+
+Tpolarize
+
+and Tpass: Tpolarize
+
+
+
+4n (1+n
+
+)2 ,
+
+Tpass
+
+
+
+4n (1+n)2
+
+.
+
+Here,
+
+n
+
+is the effective index
+
+of refraction when the polarizer's conductive ink lines are parallel to the electric field
+
+of the THz radiation, and n is the effective polarizer with perpendicular alignment.
+
+By approximating the ink lines to be long rectangular prisms and the wavelength of
+
+the THz radiation to be much greater than the period (G + W ) of the polarizers, we
+
+can use a low order approximation given by the two following equations,
+
+n = n20(1 - D) + nm2 D
+
+(2)
+
+n =
+
+n02nm2 n2m(1 - D) + n02D
+
+(3)
+
+where D
+
+=
+
+W G+W
+
+,
+
+nm
+
+is the index of refraction of the ink, and n0
+
+is the index of
+
+refraction be shown
+
+of the that n
+
+material that is  nm D and
+
+between the ink lines.
+
+n
+
+
+
+ n0 1-D
+
+,
+
+n0
+
+
+
+1.
+
+Using these equations, We plug back into Eq.
+
+it 1
+
+can and
+
+find that
+
+
+
+
+
+
+
+
+
+DoP  
+
+G(G + W) + n2mW G - nmG W - nm
+
+W (G + W ) 
+
+G(G + W ) + n2mW G + nmG W + nm W (G + W ) + 4nm GW (G + W )
+
+(4)
+
+By fixing W and increasing G, we find that DoP decreases, and by fixing G and increasing W , DoP decreases as well for reasonable values of nm. Additionally, this equation implies that the DoP should decrease more quickly for increasing G than for increasing W . This is consistent with our results.
+Figure 4 depicts the result of investigating the effect on DoP from stacking the best individual polarizer: 40G/40W/4L. Figure 4a shows the result of stacking polarizers on the effective THz frequency range. For each polarizer added, 1-DoP is reduced by nearly one order of magnitude across the entire effective frequency range. This proceeds until the amount of light passed through starts approaching the noise level, which occurred with four stacked polarizers. A frequency cut at 0.7 THz was taken and plotted against the DoP (Fig. 4b). There is a linear relationship between the log of the DoP and the number of stacked polarizers. Assuming this linear relationship holds up, we can predict with reasonable accuracy the DoP for larger numbers of polarizers. Additionally, fitting implies a 86 % decrease in 1-DoP for each additional polarizer. The inaccuracy in the fit for n = 4 could be due to the measurement of four stacked polarizers nearing the noise floor of our measurement technique.
+Since the polarizers were printed on Kapton films, and this material is nearly transparent in the THz frequency range, there is little reduction in transmission due to the polarizers. At 0.7 THz, the highest and lowest measured transmissions were the 40W and 4L polarizers with transmissions of 0.88 ± 0.02 and 0.74 ± 0.17, respectively. The transmission for a single 40G/40W/4L polarizer at 0.7 THz is 0.89 ± 0.01, with
+
+J Infrared Milli Terahz Waves
+Fig. 4 a Plot showing the effect on 1-DoP of stacking 40G/40W/4L polarizers (the DoP increases as the number of polarizers increases). b 1-DoP at 0.7 THz as a function of the number of stacked polarizers. Each additional polarizer reduces the DoP by nearly one order of magnitude
+an average transmission across the effective frequency range of 0.93 ± 0.02. Using this value to calculate the expected transmission for four stacks of the 40G/40W/4L polarizers results in a transmission of 0.75. This is similar to the measured value of 0.792 ± 0.003. Since these polarizers are inexpensive and easy to make with the correct machinery, 10­15 of these polarizers can be stacked to achieve ultra-high extinction ratios. Stacking, for example, 10 of these polarizers may only reduce transmission by 56 % and could have an extinction ratio of over 2 × 108:1 instead of the 2300:1 achieved with 4 polarizers. This far surpasses any individual THz range polarizer and could, with correct alignment, be set up in a single optic much like a wire-grid polarizer. This stack of polarizers would be less fragile, have ultra-high DoP/extinction ratio, and cost much less than current commercial polarizers.
+4 Conclusion
+We have characterized the polarizing capability in the THz frequency range of novel polarizers made from silver-nanoparticle ink printed on Kapton film. We found that a decrease in the gap between ink lines, decrease in the ink line width, and increase in the number of layers results in a higher degree of polarization within the parameter limits of our experiment and method used for printing. We demonstrated that these simple polarizers when stacked are comparable to commercial polarizers. The polarizer topology made of lines of a gap of 40 m and a width of 40 m is highly effective in the 0.3­1 THz frequency range. Further reduction in gap size may also increase the degree of polarization, and further stacking of these polarizers may demonstrate an ultimate capability for polarization.
+The THz instrumentation development was funded by the Gordon and Betty Moore Foundation through Grant GBMF2628 to NPA. The authors would like to thank the National Science Foundation, the Defense Threat Reduction Agency, and
+
+J Infrared Milli Terahz Waves
+the Semiconductor Research Corporation for their support with the printing method used in this work.
+References
+1. M. Tonouchi, Cutting-edge Terahertz Technology, Nature Photonics, 1, 97 (2007). 2. B. Ferguson et al. Materials for Terahertz Science and Technology, Nature Materials, 1, 26 (2002). 3. C. M. Morris et al. Polarization Modulation Time-Domain Terahertz Polarimetry, Optics Express, 20
+no. 11, 12303 (2012). 4. C. L. Mok et al. The Far-Infrared Performance and Application of Free-Standing Grids Wound from
+5 mum Diameter Tungsten Wire, Infrared Phys. 19, 437 (1979). 5. Holographic Wire Grid Polarizers. (n.d.). Retrieved February 13, 2016, from https://www.thorlabs.
+com/newgrouppage9.cfm?objectgroup id=1118. 6. M. Walther et al., Terahertz Metamaterials Fabricated by Inkjet Printing, Appl. Phys. Lett. 95, 251107
+(2009). 7. I. Yamada et al., Terahertz wire-grid polarizers with micrometer-pitch Al gratings, Optics Letters 34,
+274 (2009). 8. T. Dong-Bin et al., Double Wire-Grid Terahertz Polarizer on Low-Loss Polymer Substrates, Chin.
+Phys. Lett. 27, 104210 (2010). 9. L. Ren et al., Broadband Terahertz Polarizers with Ideal Performance Based on Aligned Carbon
+Nanotube Stacks, Nano Lett., 12 no. 2, 787 (2012). 10. K. Takano et al. Wire-grid Polarizer Sheet in the Terahertz Region Fabricated by Nanoimprint
+Technology, Optics Letters, 36 no. 14, 2665 (2011). 11. M. M. Tentzeris et al. RFID Tag and RF Structures on a Paper Substrate Using Inkjet-Printing
+Technology, IEEE Transactions on Microwave Theory and Techniques, 55 no. 12, 2894 (2007). 12. J. G. Hester et al. Additively Manufactured Nanotechnology and Origami-Enabled Flexible
+Microwave Electronics, Proceedings of the IEEE, 103 no. 4, 583 (2015). 13. K. Takano et al., Fabrication of Terahertz Planar Metamaterials Using a Super-Fine Ink-Jet Printer,
+Applied Physics Express, 3 016701 (2010). 14. M. C. Nuss et al. Terahertz Time Domain Spectroscopy (Springer, Verlag Berlin Heidelberg, 1998),
+8-50.
+
+

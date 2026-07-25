@@ -1,0 +1,186 @@
+Wire-grid polarizer sheet in the terahertz region fabricated by nanoimprint technology
+Keisuke Takano1,*, Hiroshi Yokoyama2, Akira Ichii2, Isao Morimoto3, and Masanori Hangyo1 1Institute of Laser Engineering, Osaka University, Osaka 565-0871, Japan 2ASAHI KASEI E-MATERIALS Corp., Shizuoka 416-8501, Japan 3ASAHI KASEI Corp., Shizuoka 416-8501, Japan *Corresponding author: ktakano@ile.osaka-u.ac.jp
+Abstract Wire-grid polarizer sheets in the terahertz region have been fabricated on flexible substrates by nanoimprint technology. They show ideal polarization property in the terahertz frequency region whereas the cost is very low. Since the wire pitch is far smaller than the wavelength, the effective medium theory agrees well with experimental results. The effective medium theory shows possibility of further improvement of polarization properties by selecting appropriate materials for wire grids.
+1
+
+Introduction Owing to the recent development of the terahertz technology, demands for high quality and
+low cost terahertz optical components are increasing. The terahertz waves are not only useful for security and medical applications but also useful for investigating material properties [1-3]. Some material properties such as birefringence, magneto-optical effects, and other anisotropic nature can be measured with the terahertz waves, which is useful in characterizing materials in the terahertz frequency region as well as other frequency regions [4,5]. For thin films and opaque materials, the ellipsometry has been developed in the terahertz frequency region [6-8]. For these measurements, the polarizers are the most important optical components because the accuracy of the measurements crucially depends on the polarization degree of the electromagnetic waves.
+In the terahertz region, planar structured metals such as wire grids have been traditionally used as optical components [9-12]. A wire-grid polarizer is composed of an array of metallic wires, which is the most common polarizer used in the terahertz region [12]. They are usually fabricated by a mechanical method in the free-standing forms. The special fabrication method, however, enhances the cost. Metallic line patterns fabricated on substrates by the photolithography are the alternative polarizers [13]. However, the interference in the relatively thick substrates makes them difficult to be used in the accurate measurements.
+Recently, nanoimprinting lithography (NIL) has been developed for fabricating various planar nano-size patterns [14, 15]. Essentially, the throughput of the NIL is higher than that of the conventional photolithography because molds repeatedly used are directly put into thermoset or UV-cured resin, which makes the regulation easer and cost lower. Further, by using films coated with light curing resins, nano-sized patterns in large areas can be fabricated very quickly and cheaply with high-throughput [16]. In this paper, we propose to use this technique to fabricate
+2
+
+wire-grid polarizers on thin flexible substrates and prove experimentally that they work well as polarizers in the terahertz region where the wavelength is far longer than the period of the wiregrid structure.
+We fabricated a wire-grid structure with aluminum on an 80 m-thick triacetylcellulose (TAC) substrate by nanoimprinting technique (wire-grid sheet, WGS). The thickness, pitch, and filling factor of the aluminum of the wire-grid structure are d1 = 130 nm, p = 140 nm, and D = 0.4, respectively. The schematic and SEM image of the WGS are shown in Fig. 1, which was fabricated by a following nanoimprint lithographic procedure. The one side of the TAC film was coated with a 1 µm-thick light curing resin. Then the nickel mold, which has the negative pattern of the wire-grid shape with the dimension of 180 × 120 mm2, was impressed onto the light curing resin. The pattern of the mold was transferred by ultraviolet exposure from the backside of the transparent TAC film. An aluminum layer was deposited by the oblique evaporation with 30 degrees. By this procedure, the wire-grid patterns are fabricated mass-productively because of the simplicity and quickness of the processes.
+The polarized transmission spectra were measured by the terahertz time-domain spectroscopy (THz-TDS) [17].  and  in Fig. 2 show the transmission spectra for the polarizations perpendicular and parallel to the wire direction, respectively. The transmittance for the perpendicular polarization decreases with increasing frequency owing to the absorption by the TAC substrate. However, the extinction ratio / of the WGS is of the order of 10-5, which is comparable to that obtained for the wire grids on silicon substrates with the Brewster incident angle [13] and better than that of the commercially available free-standing wire-grid polarizers.
+Since the wire pitch p is far smaller than the wavelength  in our case, the effective refractive indices for the polarization perpendicular and parallel to the wires are represented by
+3
+
+ = 02(1 - ) + 2,
+
+(1)
+
+
+
+=
+
+ (1
+
+-
+
+022 )2 +
+
+02
+
+respectively. Here, 0 and  are the refractive indices of the air and metal (Al), respectively
+
+[18]. In the terahertz region, nm is described by the Drude model as follows:
+
+
+
+=
+
+1
+
+-
+
+2 ( +
+
+),
+
+(2)
+
+ = 
+
+Here,  ,  ,  , and  are the relative permittivity, angular frequency of the incident terahertz wave, plasma angular frequency, and damping frequency of the metal, respectively. The parameters of Al used in the calculation are  = 2.24 × 1016 s-1 and  = 1.22 × 1012 s-1 [19].
+The transmittance of the two-layer system with the refractive indices of n1 and n2 is given by
+
+
+
+=
+
+|1
+
++
+
+0112
+
+
+
+01 12 20  (1 1 +2 2 )-0 (1 +2 ) 211 + 01202(11+22) + 1220
+
+2(2
+
+2)
+
+2
+|
+
+(3)
+
+where  = 0 ,  , and  are the wavenumber in each layer, wavenumber in vacuum, refractive index, and thickness of each layer, respectively [20]. The subscript i indicates the vacuum (i = 0) and two media (i = 1 and 2) = 2/( + ) and  = ( - )/( + ) are the Fresnel transmission and reflection coefficients, respectively.
+The transmission spectra  and  can be calculated by substituting  and  for 1 as shown in Fig. 2 (blue and red solid lines). Here, 2 is the refractive index of the TAC film
+
+4
+
+measured by the THz-TDS (e.g. 2 = 1.7 + 0.1 at 1 THz), and the existence of the light curing resin layer is neglected. The agreement between the experiment and calculation is quite good owing to the small / values, which makes the effective medium theory very accurate.
+The conventional free-standing wire-grid polarizers in the terahertz frequency region requires a few micrometer-radius wires [12]. Therefore, tungsten is usually used as the wires because of its high tensile strength. In the nanoimprint process, however, various kinds of metals can be used as wires since wires are held on thin films. The extinction ratios of the wire-grid polarizers for several kinds of metals are calculated by using Eqs. (1-3) and the material parameters in Ref. [19]. The extinction ratios are improved by one order of magnitude by using the metals with high conductivity such as copper and silver in place of tungsten or aluminum.
+The oscillation in the extinction ratios is attributed to the Fabry-Perot interference in the TAC film. The oscillation and the decrease of the transmittance with frequency can be improved by using thinner and less-lossy substrates such as polyethylene films. Figure 4 shows the transmittance calculated with the parameters for silver and 2 = 1.52 + 0.05 and 2 = 10 µm for the substrate. The undesirable effects of the substrates can be considerably mitigated by using the thin and low-loss substrate as shown in Fig. 4. The extinction ratio of the conventional freestanding wire-grid polarizers is limited to the order of 10-3 because of its difficulty in alignment of the few-micron thin wires. In the WGS, the limitation can be overcome by holding metallic wires on thin films. In addition, it is worthy to note that the present WGS works as the polarizer for the visible light. By using appropriate substrates, we can construct ultra-broadband or hybrid optical systems such as ellipsometer, which cover the frequency regions from terahertz waves to visible light.
+5
+
+In summary, the wire-grid polarizer in the terahertz region is fabricated on a flexible substrate by nanoimprint technology. Its terahertz responses agree well with the effective medium theory of the wire-grid media. The wire-grid structures with nanoimprint techniques are one of the ideal polarizers in the terahertz region because of their good extinction ratio, mechanical strength, flexibility of substrates, and large area with low costs.
+Acknowledgements This work has been partly supported by the Grant-in-Aid for Scientific Research on Innovative Areas "Electromagnetic Metamaterials" (No. 22109003) from The Ministry of Education, Culture, Sports, Science, and Technology (MEXT), Japan.
+References 1. D. Mittleman (ed.), Sensing with Terahertz Radiation (Springer, 2002). 2. B. Ferguson, X.­C. Zhang, "Materials for terahertz science and technology," Nat. Mater. 1, 26-33 (2002). 3. K. Sakai (ed.), Terahertz Optoelectronics (Springer, 2005). 4. H. Sumikura, T. Nagashima, H. Kitahara, and M. Hangyo, "Development of a cryogen-free terahertz time-domain magnetooptical measurement system," Jpn. J. Appl. Phys. 46, 1739-1744 (2007). 5. C. Jördens, M. Scheller, M. Wichmann, M. Mikulics, K. Wiesauer, and M. Koch, "Terahertz birefringence for orientation analysis," Appl. Opt. 48, 2037-2044 (2009). 6. T. Nagashima and M. Hangyo, "Measurement of complex optical constants of a highly doped Si wafer using terahertz ellipsometry," Appl. Phys. Lett. 79, 3917-3919 (2001).
+6
+
+7. N. Matsumoto, T. Fujii, K. Kageyama, H. Takagi, T. Nagashima, and M. Hangyo, "Measurement of the soft-mode dispersion in SrTiO3 by terahertz time-domain spectroscopic ellipsometry," Jpn. J. Appl. Phys. 48, 09KC11 (2009). 8. T. Hoffman, C. M. Herzinger, A. Boosalis, T. E. Tiwald, J. A. Woollam, and M. Schubert, "Variable-wavelength frequency-domain terahertz ellipsometry," Rev. Sci. Instrum. 81, 023101 (2010). 9. W. J. Padilla, D. R. Smith, D. N. Basov, "Spectroscopy of metamaterials from infrared to optical frequencies," J. Opt. Soc. Am. B 23, 404-414 (2006). 10. K. Sakai and L. Genzel, "Far infrared metal mesh filters and fabry-perot interferometry," in Reviews of Infrared and Millimeter Waves volume 1 (Plenum 1983) pp. 155-247. 11. K. Takano, T. Kawabata, C.­F. Hsieh, K. Akiyama, F. Miyamaru, Y. Abe, Y. Tokuda, R. ­P. Pan, C. ­L. Pan, and M. Hangyo, "Fabrication of terahertz planar metamaterials using a superfine ink-jet printer," Appl. Phys. Exp. 3, 016701 (2010). 12. C. L. Mok, W. G. Chambers, T. J. Parker, and A. E. Costley, "The far-infrared performance and application of free-standing grids wound from 5 µm diameter tungsten wire," Infrared Phys. 19, 437-442 (1979). 13. I. Yamada, K. Takano, M. Hangyo, M. Saito, and W. Watanabe, "Terahertz wire-grid polarizers with micrometer-pitch Al gratings," Opt. Lett. 34, 274-276 (2009). 14. S. Y. Chou, P. R. Krauss, and P. J. Renstrom, "Nanoimprint lithography", J. Vac. Sci. Technol. B 14, 4129-4133 (1996). 15. L. Zhang, J. H. Teng, H. Tanoto, S. Y. Yew, L. Y. Deng, S. J. Chua, "Terahertz wire-grid polarizer by nanoimpringing lithography on high resistivity silicon substrate", in Proceedings of
+7
+
+The 35th International Conference on Infrared, Millimeter and Terahertz Waves, (IEEE, 2010), paper We-B1.5. 16. L. Chen, J. J. Wang, F. Walters, X. Deng, M. Buonanno, S. Tai, and X. Liu, "Large flexible nanowire grid visible polarizer made by nanoimprint lithography", Appl. Phys. Lett. 90, 063111 (2007). 17. M. Hangyo, M. Tani, and T. Nagashima, "Terahertz time-domain spectroscopy of solids: A review," Int. J. Infrared and Millim. Waves 26, 1661-1690 (2005). 18. C. W. Haggans, L. Li, and R. K. Kostuk, "Effective-medium theory of zeroth-order lamellar gratings in conical mountings," J. Opt. Soc. Am. 10, 2217-2225 (1993). 19. M. A. Ordal, L. L. Long, R. J. Bell, S. E. Bell, R. R. Bell, R. W. Alexander, and C. A. Ward, "Optical Properties of the metals Al, Co, Cu, Au, Fe, Pb, Ni, Pd, Pt, Ag, Ti, and W in the infrared and far infrared," Appl. Opt. 22, 1099-1120 (1983). 20. S. Heavens, Optical properties of thin solid films (Butterworths, 1955).
+8
+
+1 µm d2 = 80 µm d1 = 130 nm
+
+(a) w = 56 nm Al p = 140 nm
+Light curing resin
+TAC film D = w/p = 0.4 (b)
+
+1 m
+Fig. 1. (a) Schematic and (b) SEM image of a WGS fabricated on a TAC film. The inset is a photograph of the flexible WGS.
+
+T
+
+T
+
+T //
+
+T //
+
+Fig. 2. Experimental (blue and red circles) and calculated (blue and red solid lines) transmission spectra for the polarizations perpendicular and parallel to the wires, respectively. Skin depth calculated for the polarization parallel to the wires by the effective medium theory.
+
+9
+
+Extinction ratio
+
+10-3
+-4
+10 10-5
+-6
+10 0.0
+
+W Al Au Cu Ag
+0.5 1.0 1.5 2.0 Frequency (THz)
+
+Fig. 3. Extinction ratios of the WGSs calculated for several kinds of metals.
+
+Extinction ratio
+
+Transmittance
+
+1.0
+
+-3
+10
+
+0.8
+
+T
+
+-4
+10
+
+0.6 10-5
+0.4
+
+0.2
+
+T// ×105
+
+-6
+10
+
+0.0 0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+-7
+7 10
+
+Frequency (THz)
+
+Fig. 4. Transmission and extinction ratio spectra calculated using Eq. (1-3) with  for Ag, 2 =
+
+1.54 + 0.05 and d2 = 10 µm.
+
+10
+
+
