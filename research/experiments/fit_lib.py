@@ -41,10 +41,12 @@ GEOMETRY = {
     #   THz DATA READY in data_pool/specac/ (13 angles 0-100deg incl 84/90/96 near shadow;
     #   drift-aware bg1..bg7). Model-independent leakage floor eta=0.0357, SNR 68x (best).
     "specac":          {"P_um": 24.9, "D_phys_um": 14.0},
-    # Attenuator (356att + series1-5) = TWO IDENTICAL WGPs, passport P=16um, D=11um
-    # (owner 2026-07-27). 356att legacy value above is P=15.5 (Phase1-3 baseline);
-    # passport=16 -> ~3% discrepancy, legacy KEPT to preserve logged numbers.
-    # series1-3 = same attenuator (rotating WGP is P16/D11) -> geometry now KNOWN.
+    # Attenuator (356att + series1-5) = TWO IDENTICAL WGPs, PASSPORT P=16um, D=11um
+    # (owner 2026-07-27). WARNING: passport != REAL wound geometry -- winding error
+    # shifts the true period; MICROGRAPH is ground truth (owner is reconciling them).
+    # So P16/D11 here is a PRIOR, not measured GT; treat like other pre-micrograph values.
+    # 356att legacy value above is P=15.5 (Phase1-3 baseline); passport=16, ~3% gap,
+    # legacy KEPT to preserve logged numbers. series1-3 = same attenuator -> P16/D11 prior.
     # 356 rotates WGP_B (no output film); series1-3 rotate WGP_A (series1 no films,
     # series2/3 with near-ideal TYDEX films). series4/5 = circular-scan ARTIFACTS.
     "series1":         {"P_um": 16.0, "D_phys_um": 11.0},
