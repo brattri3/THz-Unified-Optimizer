@@ -22,7 +22,7 @@ import lmfit
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import fit_lib
+import fit_lib, model_core
 sys.path.insert(0, str(HERE.parents[1]))
 from unified_optimizer import config, model_blanco
 
@@ -35,42 +35,21 @@ M3_D = {"356att": 4.683, "test_grid_40_20": 11.447}
 def compute_grid_hn8(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps,
                      gamma, tau_par_ps, eta0, eta_exp, delta0, tau_leak,
                      N=15, use_drude=True):
-    d_over_p = d/p
-    t_perp_arr, t_par_arr = [], []
-    for f in freqs_thz:
-        lam = model_blanco.C_LIGHT/(f*1e12); pol = p/lam
-        t_perp_arr.append(model_blanco.compute_t_perp(pol, d_over_p, N, freq_thz=f, use_drude=use_drude))
-        t_par_arr.append(model_blanco.compute_t_par(pol, d_over_p, N, freq_thz=f, use_drude=use_drude))
-    t_perp_arr = np.array(t_perp_arr); t_par_arr = np.array(t_par_arr)
-    # HN8 leakage with frequency-dependent phase (group delay tau_leak)
-    eta = eta0*(freqs_thz**eta_exp)
-    delta = delta0 + 2*np.pi*freqs_thz*tau_leak
-    t_par_arr = t_par_arr + eta*np.exp(1j*delta)
+    """HN8 grid (leakage with group delay tau_leak) = model_core.compute_grid.
 
-    adj = np.deg2rad(np.array(angles_deg)-angle_offset)
-    cos_a = np.cos(adj)[:, None]; sin_a = np.sin(adj)[:, None]
-    if config.USE_POWER_LAW:
-        loss_amp = np.exp(-0.5*(loss_factor/4.343)*(freqs_thz**gamma))[None, :]
-    else:
-        loss_amp = np.exp(-0.5*loss_factor*freqs_thz)[None, :]
-    phase_perp = np.exp(-1j*2*np.pi*freqs_thz*tau_ps)[None, :]
-    phase_par = np.exp(-1j*2*np.pi*freqs_thz*(tau_ps+tau_par_ps))[None, :]
-    return (cos_a**2*(t_perp_arr[None, :]*loss_amp*phase_perp)
-            + sin_a**2*(t_par_arr[None, :]*loss_amp*phase_par))
+    Was an inline per-frequency Blanco loop; now a thin alias over the cached
+    core (model_m5 and t20 import this name). Bit-identical to the old copy --
+    asserted by verify_model_core.py.
+    """
+    return model_core.compute_grid(
+        angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps,
+        gamma=gamma, N=N, use_drude=use_drude, tau_par_ps=tau_par_ps,
+        eta0=eta0, eta_exp=eta_exp, delta0=delta0, tau_leak=tau_leak)
 
 
 def residual(params, angles_val, freqs, exp, valid):
-    p = params["P_um"].value*1e-6; d = params["D_um"].value*1e-6
-    if d >= p:
-        return np.ones(int(np.sum(valid))*2)*1e6
-    theo = compute_grid_hn8(angles_val, freqs, p, d, params["loss_factor"].value,
-        params["angle_offset"].value, params["tau_ps"].value, params["gamma"].value,
-        params["tau_par_ps"].value, params["eta0"].value, params["eta_exp"].value,
-        params["delta0"].value, params["tau_leak"].value)
-    em, tm = exp[valid], theo[valid]
-    amp = np.abs(em)-np.abs(tm)
-    ph = np.angle(em)-np.angle(tm); ph = np.arctan2(np.sin(ph), np.cos(ph))
-    return np.concatenate([amp*W_AMP, ph*W_PHASE])
+    return model_core.residual_from_params(params, angles_val, freqs, exp, valid,
+                                           w_amp=W_AMP, w_phase=W_PHASE)
 
 
 def fit(dataset, mode, fix_D=True):

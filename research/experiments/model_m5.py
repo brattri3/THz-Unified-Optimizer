@@ -15,7 +15,7 @@ under-estimated D_eff)? Variants fit on both datasets:
   M5_physD_leak: D pinned = D_phys,  + leakage(eta,tau_leak)
   M5_lowD_leak : D pinned = M3 value + leakage    (= HN2/HN8 fixed-D)
 
-Read-only on originals; grid built in the research copy (t6_hn8.compute_grid_hn8).
+Read-only on originals; grid built in the research copy (model_core.compute_grid).
 """
 import sys, json
 from pathlib import Path
@@ -25,8 +25,7 @@ from scipy import stats
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import fit_lib, t6_hn6
-from t6_hn8 import compute_grid_hn8
+import fit_lib, t6_hn6, model_core
 sys.path.insert(0, str(HERE.parents[1]))
 from unified_optimizer import config, model_blanco
 
@@ -46,17 +45,8 @@ def build_experiment_masked(dataset):
 
 
 def residual(params, angles_val, freqs, exp, valid):
-    p = params["P_um"].value*1e-6; d = params["D_um"].value*1e-6
-    if d >= p:
-        return np.ones(int(np.sum(valid))*2)*1e6
-    theo = compute_grid_hn8(angles_val, freqs, p, d, params["loss_factor"].value,
-        params["angle_offset"].value, params["tau_ps"].value, params["gamma"].value,
-        params["tau_par_ps"].value, params["eta0"].value, params["eta_exp"].value,
-        params["delta0"].value, params["tau_leak"].value)
-    em, tm = exp[valid], theo[valid]
-    amp = np.abs(em)-np.abs(tm)
-    ph = np.angle(em)-np.angle(tm); ph = np.arctan2(np.sin(ph), np.cos(ph))
-    return np.concatenate([amp*W_AMP, ph*W_PHASE])
+    return model_core.residual_from_params(params, angles_val, freqs, exp, valid,
+                                           w_amp=W_AMP, w_phase=W_PHASE)
 
 
 def fit_variant(dataset, D_um, D_vary, leakage):
@@ -79,11 +69,7 @@ def fit_variant(dataset, D_um, D_vary, leakage):
     P.add("tau_leak", value=0.0, min=-5, max=5, vary=leakage)
     res = lmfit.Minimizer(residual, P, fcn_args=(angles_val, freqs, exp, valid)).minimize(method="leastsq")
 
-    theo = compute_grid_hn8(angles_val, freqs, res.params["P_um"].value*1e-6,
-        res.params["D_um"].value*1e-6, res.params["loss_factor"].value,
-        res.params["angle_offset"].value, res.params["tau_ps"].value, res.params["gamma"].value,
-        res.params["tau_par_ps"].value, res.params["eta0"].value, res.params["eta_exp"].value,
-        res.params["delta0"].value, res.params["tau_leak"].value)
+    theo = model_core.grid_from_params(res.params, angles_val, freqs)
     ampdb_grid = np.where(valid,
         20*np.log10(np.maximum(np.abs(exp),1e-12))-20*np.log10(np.maximum(np.abs(theo),1e-12)), np.nan)
     hi = angles_val >= np.percentile(angles_val, 75)

@@ -1,0 +1,69 @@
+{
+  "project": "THz-WGP — Session A: two-WGP forward model + attenuation software",
+  "created": "2026-07-25",
+  "read_first": "research/two_wgp/PLAN.md (full self-contained context)",
+  "protocol": "read this state -> first non-done task -> ONE atomic step (scripts in research/two_wgp/ or research/experiments/, run via .venv from THz-Unified-Optimizer root) -> numbers to research/logs/RESEARCH_LOG.md -> update this file. Guardrails RESEARCH_PLAN.md sec.6.",
+  "run_mode": "bypass_permissions + /loop self-paced (auto-continuation unreliable -> manual re-invoke; state.json resumes)",
+  "current_task": "A3_refit_series",
+  "A1_verdict": {
+    "status": "hypothesis A FALSIFIED analytically + numerically (2026-07-25)",
+    "alignment_theorem": "If WGP2's transmission axis coincides with the detector axis, d^T J_WGP2(phi2) == t_perp2(nu) * d^T IDENTICALLY (J2 diagonal in that basis) -> a REAL WGP2 is mathematically indistinguishable from an IDEAL analyser times the scalar t_perp2(nu), for ANY E_in/theta/geometry. Verified to 4.4e-16 over 9 (psi,delta) combos; non-vacuous (10deg misalignment -> 6.1e-3 deviation).",
+    "numbers": "two-WGP vs one-WGP at identical params: -0.0094 dB at BOTH theta=0 and theta=90 (angle-independent, max|delta|=0.018 dB). Deficit direction: required extinction U(90)/U(0)=6.01e-5 (D_eff=4.683) vs 4.51e-3 (D_phys=11) -> data need the shadow 18.75 dB DEEPER, while misalignment scan (delta,psi<=20deg) only makes it SHALLOWER (up to +8.07 dB); 0/49 combos reach the target.",
+    "owner_q3_answered": "T10: bright throughput at theta=0 is 0.939 (WGP2 transmission axis || d) vs 0.00423 (wires || d), ratio 4.5e-3. Measured |T(0deg)| is O(1) -> 'wires along d' is EXCLUDED by the data; WGP2 sits axis-along-d, i.e. exactly in the theorem's premise.",
+    "consequence": "The D_eff puzzle (0.43-0.64, physical pin dAIC +6000..+9000) is NOT the missing WGP2 and still needs another explanation. The only channel through which WGP2 can matter is MISALIGNMENT phi2 != d — which is the physical 1-parameter version of the phenomenological eps_cross, and is what A2/A3 now test on data."
+  },
+  "context_summary": {
+    "core": "Current 2D fit (unified_optimizer/optimizer_2d.py:68  E_out=cos^2*t_perp+sin^2*t_par) = one real WGP + IDEAL analyzer. Real rig = TWO real WGPs: WGP1 rotated by theta, WGP2 fixed parallel to detector sensitivity plane. WGP2 non-ideality was absorbed into WGP1 geometry.",
+    "hypothesis": "Correct two-WGP Jones-product model may make D_eff(WGP1) -> physical (resolving the D_eff puzzle) and shrink the residual. Test on 356att vs single-WGP M5.",
+    "phase123_baseline": "M5: D_eff/D_phys=0.43-0.64 across 3 samples, physical-D pin CATASTROPHIC (dAIC +6000..+9000), leakage eta~0.012-0.036, tau_leak~0.19ps, plus phenomenological eps_cross. All candidate artifacts of the missing WGP2.",
+    "two_wgp_datasets": "series1-5 and 356att (owner-confirmed). CONFIRM: test_grid_40_20, specac, purewave.",
+    "building_blocks": "model_blanco.transmission_two_polarizers:135 (identical WGPs, power, no freq) + transmission_complex_two_polarizers:151; compute_t_perp:102 / compute_t_par:118 (freq-dependent). Build a NEW research copy research/two_wgp/model_2wgp.py: freq-complex per-element t, own (P,D) per WGP or shared if identical, explicit E_in & detector axis, fixed phi2. Do NOT edit originals."
+  },
+  "tasks": [
+    {
+      "id": "A1_model_2wgp",
+      "status": "done",
+      "desc": "Build two-WGP forward model E_out=d^T J_WGP2(phi2) J_WGP1(theta) E_in (freq-complex, per-element). Validate: energy<=1, ideal limit = Malus cos^2(theta1-theta2), match transmission_complex_two_polarizers for identical WGPs.",
+      "artifact": "research/two_wgp/model_2wgp.py + research/results/two_wgp/a1_validation.json",
+      "result": "10/10 checks pass (energy 0.9988; Malus 6.7e-16; ideal limit == production model exactly 0; bit-match reference 1.1e-16; limits 0deg/90deg; shared==dup 0). PLUS the alignment theorem T8 -> hypothesis A falsified. See A1_verdict."
+    },
+    {
+      "id": "A2_refit_356att",
+      "status": "done",
+      "desc": "REFRAMED after A1 (hypothesis A already falsified analytically; this converts it into a measured statement on real data). On 356att with model_2wgp.compute_grid_2wgp: (a) confirmatory refit, shared (P,D), phi2=det=0 -> EXPECT dAIC~0 and D_eff unchanged vs single-WGP M5 (theorem T8 predicts a t_perp2(nu) factor absorbed by loss/tau); (b) NEW: free phi2 misalignment (delta=phi2-det) as the PHYSICAL 1-parameter replacement of phenomenological eps_cross -> does the data prefer delta!=0, and does it beat eps_cross in AIC? (c) free emitter tilt psi jointly with delta (T9 shows they only enter as a product). Report D_eff/D_phys, dAIC, DS_bias/DS_rmse, DW.",
+      "artifact": "research/two_wgp/fit_2wgp.py + research/results/two_wgp/a2_356att_ladder.json",
+      "result": "CONFIRMED A1 on real data. No-leakage rung (where D_eff/D_phys is defined): W2_shared_noleak vs M3ref_1wgp dAIC=+0.15, D_eff 4.694->4.694 um, D/D_phys 0.427->0.427 (unchanged). Leakage rung: dAIC=-3.18, D 1.923->1.936. Misalignment channel does NOT replace eps_cross: multi-start on the SAME 13-param model gives misalignment basin AIC=-22569.8 (phi2=8.20deg) vs eps_cross basin AIC=-22680.4 (phi2=+1.58+-4.83 INSIGNIFICANT, |eps|=0.0340), gap 110.5 for eps. psi=+0.47+-1.62 (~0) and correl(phi2,psi)=+0.85 -> the sin(delta)*sin(psi) product is ~0, no physical floor. The apparent 16-sigma phi2 was a shallower-basin artifact (HN10 overfitting pattern). NOTE: published D_eff/D_phys=0.426 belongs to the NO-leakage rung; free-D + leakage collapses D to 1.92 (T12 degeneracy)."
+    },
+    {
+      "id": "A3_refit_series",
+      "status": "pending",
+      "desc": "REFRAMED again after A2 (misalignment is dead as a physical channel; the two-WGP model reproduces the one-WGP fit to within fractions of AIC). New target: is eps_cross a RIG/DETECTOR CONSTANT? Fit series with the M5_eps variant and check whether |eps_cross| and its phase are stable (and comparable to 356att's 0.0345 / Specac's model-independent eta=0.0357). Stable => a real setup constant that should be pinned/shared in future fits, which would finally break the D_eff<->eta degeneracy. Wandering => per-dataset residual absorption (HN10 pattern). MANDATORY per A2: multi-start every angular/offset parameter — cold starts overstate significance. *** OWNER METADATA 2026-07-27 (see data_pool/two_wgp_attenuator/README.md): use series1-3 ONLY; series4/5 are ARTIFACTS of the circular-scan algorithm -> EXCLUDE. Configs DIFFER: 356 rotates WGP_B (near detector), series1-3 rotate WGP_A; series1 has NO films (cleanest), series2/3 have input+output TYDEX films (near-ideal, extinction >39-47 dB). Geometry of series1-3 still unknown -> D free.",
+      "artifact": "research/results/two_wgp/"
+    },
+    {
+      "id": "A4_attenuation_calc",
+      "status": "pending",
+      "desc": "SOFTWARE: two-WGP-in-rotators attenuation calculator A(theta1,theta2,nu)=|d^T J_WGP2(theta2) J_WGP1(theta1) E_in|^2; CLI/function + A(theta1,theta2) map & spectrum + validation (Malus ideal limit). Owner-requested tool.",
+      "artifact": "research/two_wgp/attenuation_calc.py"
+    },
+    {
+      "id": "A5_synthesis",
+      "status": "pending",
+      "desc": "Verdict: the two-WGP model did NOT resolve the D_eff puzzle (A1 theorem + A2/A3 numbers). Write the alignment theorem into SYNTHESIS.md as a POSITIVE result: it rules out a whole class of explanations (any WGP2/analyser non-ideality with aligned axis) and re-points the puzzle at WGP1 physics itself. Promote to M6 only if the free-misalignment variant of A2/A3 actually wins.",
+      "artifact": "research/SYNTHESIS.md"
+    }
+  ],
+  "owner_questions_open": [
+    "Are WGP1 and WGP2 identical (same P,D)? which?",
+    "Emitter polarization (E_in) direction vs detector axis? (A1/T9: only the PRODUCT sin(delta)*sin(psi) enters, so this matters only jointly with the phi2 misalignment)",
+    "Which of test_grid_40_20 / specac / purewave are two-WGP? (NOTE after A1: the answer no longer changes any fit — theorem T8 makes a real aligned WGP2 equivalent to an ideal analyser times t_perp2. Still worth knowing for the paper's setup description.)"
+  ],
+  "owner_questions_answered": [
+    "WGP2 'parallel to detector sensitivity plane' — wires along d or perpendicular? -> ANSWERED by A1/T10 without the owner: wires-along-d is excluded (bright throughput would be 0.0042 instead of 0.939); WGP2's TRANSMISSION axis lies along d."
+  ],
+  "blocked": [],
+  "notes": "series1-5 geometry unknown (no micrograph). 356att micrograph blocked (needs own graticule). Perf: cache Blanco per (nu,P,D). Angle/pol conventions: calibrate by extinction minimum (Specac min ~84deg, not 90).",
+  "methodology_notes": [
+    "A2: angular add-on parameters in this problem are MULTIMODAL. Always warm-start nested variants from their submodel's optimum and run at least two starts (misalignment basin vs eps_cross basin); a cold start made phi2 look 16-sigma significant when the deeper basin puts it at 1.6+-4.8 (insignificant)."
+  ]
+}

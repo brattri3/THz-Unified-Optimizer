@@ -26,8 +26,7 @@ import lmfit
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import fit_lib, t6_hn6
-from t6_hn8 import compute_grid_hn8
+import fit_lib, t6_hn6, model_core
 sys.path.insert(0, str(HERE.parents[1]))
 from unified_optimizer import config, model_blanco
 from unified_optimizer.data_manager import DataManager
@@ -111,17 +110,8 @@ def make_resid(G):
     angles, freqs, exp, sig, valid = G["angles"], G["freqs"], G["exp"], G["sig"], G["valid"]
     w = (1.0/sig); w = w/np.mean(w[valid])
     def resid(params):
-        p = params["P_um"].value*1e-6; d = params["D_um"].value*1e-6
-        if d >= p:
-            return np.ones(int(np.sum(valid))*2)*1e6
-        theo = compute_grid_hn8(angles, freqs, p, d, params["loss_factor"].value,
-            params["angle_offset"].value, params["tau_ps"].value, params["gamma"].value,
-            params["tau_par_ps"].value, params["eta0"].value, params["eta_exp"].value,
-            params["delta0"].value, params["tau_leak"].value)
-        em, tm, ww = exp[valid], theo[valid], w[valid]
-        amp = (np.abs(em)-np.abs(tm))*ww
-        ph = np.angle(em)-np.angle(tm); ph = np.arctan2(np.sin(ph), np.cos(ph))*ww
-        return np.concatenate([amp*W_AMP, ph*W_PHASE])
+        return model_core.residual_from_params(params, angles, freqs, exp, valid,
+                                               w=w, w_amp=W_AMP, w_phase=W_PHASE)
     return resid
 
 

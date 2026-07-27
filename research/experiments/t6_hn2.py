@@ -23,7 +23,7 @@ from scipy import stats
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import fit_lib
+import fit_lib, model_core
 sys.path.insert(0, str(HERE.parents[1]))
 from unified_optimizer import config, model_blanco
 
@@ -35,49 +35,22 @@ W_AMP, W_PHASE = fit_lib.W_AMP, fit_lib.W_PHASE
 
 def compute_grid_hn2(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps,
                      gamma, tau_par_ps, eta0, eta_exp, delta0, N=15, use_drude=True):
-    """Faithful copy of compute_theoretical_grid_2d + additive leakage on t_par."""
-    d_over_p = d / p
-    t_perp_arr, t_par_arr = [], []
-    for f in freqs_thz:
-        lam = model_blanco.C_LIGHT / (f*1e12)
-        pol = p/lam
-        t_perp_arr.append(model_blanco.compute_t_perp(pol, d_over_p, N, freq_thz=f, use_drude=use_drude))
-        t_par_arr.append(model_blanco.compute_t_par(pol, d_over_p, N, freq_thz=f, use_drude=use_drude))
-    t_perp_arr = np.array(t_perp_arr); t_par_arr = np.array(t_par_arr)
+    """HN2 grid = model_core.compute_grid with tau_leak=0.
 
-    # HN2 leakage floor added to parallel channel
-    eta = eta0 * (freqs_thz ** eta_exp)
-    t_par_arr = t_par_arr + eta * np.exp(1j*delta0)
-
-    angles_deg = np.array(angles_deg)
-    adj = np.deg2rad(angles_deg - angle_offset)
-    cos_a = np.cos(adj)[:, None]; sin_a = np.sin(adj)[:, None]
-    t_perp = t_perp_arr[None, :]; t_par = t_par_arr[None, :]
-
-    if config.USE_POWER_LAW:
-        lf = loss_factor/4.343
-        loss_amp = np.exp(-0.5*lf*(freqs_thz**gamma))[None, :]
-    else:
-        loss_amp = np.exp(-0.5*loss_factor*freqs_thz)[None, :]
-    phase_perp = np.exp(-1j*2*np.pi*freqs_thz*tau_ps)[None, :]
-    phase_par = np.exp(-1j*2*np.pi*freqs_thz*(tau_ps+tau_par_ps))[None, :]
-
-    E_out = cos_a**2 * (t_perp*loss_amp*phase_perp) + sin_a**2 * (t_par*loss_amp*phase_par)
-    return E_out
+    Was an inline copy of compute_theoretical_grid_2d + additive leakage on
+    t_par; now a thin alias over the cached core (t6_hn6 imports this name).
+    Bit-identical to the old copy -- asserted by verify_model_core.py.
+    """
+    return model_core.compute_grid(
+        angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps,
+        gamma=gamma, N=N, use_drude=use_drude, tau_par_ps=tau_par_ps,
+        eta0=eta0, eta_exp=eta_exp, delta0=delta0, tau_leak=0.0)
 
 
 def residual_hn2(params, angles_val, freqs, exp, valid):
-    p = params["P_um"].value*1e-6; d = params["D_um"].value*1e-6
-    if d >= p:
-        return np.ones(int(np.sum(valid))*2)*1e6
-    theo = compute_grid_hn2(
-        angles_val, freqs, p, d, params["loss_factor"].value, params["angle_offset"].value,
-        params["tau_ps"].value, params["gamma"].value, params["tau_par_ps"].value,
-        params["eta0"].value, params["eta_exp"].value, params["delta0"].value)
-    em, tm = exp[valid], theo[valid]
-    amp = np.abs(em)-np.abs(tm)
-    ph = np.angle(em)-np.angle(tm); ph = np.arctan2(np.sin(ph), np.cos(ph))
-    return np.concatenate([amp*W_AMP, ph*W_PHASE])
+    # params carry no tau_leak -> model_core defaults it to 0 (= HN2)
+    return model_core.residual_from_params(params, angles_val, freqs, exp, valid,
+                                           w_amp=W_AMP, w_phase=W_PHASE)
 
 
 def fit_variant(dataset, leakage, fix_D=None):
@@ -109,11 +82,7 @@ def fit_variant(dataset, leakage, fix_D=None):
     res = mini.minimize(method="leastsq")
 
     # residual decomposition
-    theo = compute_grid_hn2(angles_val, freqs, res.params["P_um"].value*1e-6,
-        res.params["D_um"].value*1e-6, res.params["loss_factor"].value,
-        res.params["angle_offset"].value, res.params["tau_ps"].value,
-        res.params["gamma"].value, res.params["tau_par_ps"].value,
-        res.params["eta0"].value, res.params["eta_exp"].value, res.params["delta0"].value)
+    theo = model_core.grid_from_params(res.params, angles_val, freqs)
     em, tm = exp[valid], theo[valid]
     amp_res = np.abs(em)-np.abs(tm)
     ampdb = 20*np.log10(np.maximum(np.abs(em),1e-12))-20*np.log10(np.maximum(np.abs(tm),1e-12))

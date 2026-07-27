@@ -7,3 +7,6 @@ venv/
 
 # large uncompressed microscope images (keep local; use git-LFS if needed)
 *.bmp
+
+# рабочие сеансы attenuator_app: журнал, метафайлы, графики каждого запуска
+runs/

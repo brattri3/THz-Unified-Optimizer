@@ -13,11 +13,13 @@ from scipy import stats
 
 REPO = Path(__file__).resolve().parents[2]   # THz-Unified-Optimizer
 sys.path.insert(0, str(REPO))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import model_core
 from unified_optimizer import config
 from unified_optimizer.data_manager import DataManager
 from unified_optimizer import model_blanco
-from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
+from unified_optimizer.optimizer_2d import get_transmission_spectra
 from unified_optimizer.utils import find_auto_water_mask
 
 # nominal geometry per dataset (P_um, D_phys_um)
@@ -39,7 +41,15 @@ GEOMETRY = {
     #   THz DATA READY in data_pool/specac/ (13 angles 0-100deg incl 84/90/96 near shadow;
     #   drift-aware bg1..bg7). Model-independent leakage floor eta=0.0357, SNR 68x (best).
     "specac":          {"P_um": 24.9, "D_phys_um": 14.0},
-    # series1..series5: THz data present but geometry UNKNOWN (blocks full M5 fit).
+    # Attenuator (356att + series1-5) = TWO IDENTICAL WGPs, passport P=16um, D=11um
+    # (owner 2026-07-27). 356att legacy value above is P=15.5 (Phase1-3 baseline);
+    # passport=16 -> ~3% discrepancy, legacy KEPT to preserve logged numbers.
+    # series1-3 = same attenuator (rotating WGP is P16/D11) -> geometry now KNOWN.
+    # 356 rotates WGP_B (no output film); series1-3 rotate WGP_A (series1 no films,
+    # series2/3 with near-ideal TYDEX films). series4/5 = circular-scan ARTIFACTS.
+    "series1":         {"P_um": 16.0, "D_phys_um": 11.0},
+    "series2":         {"P_um": 16.0, "D_phys_um": 11.0},
+    "series3":         {"P_um": 16.0, "D_phys_um": 11.0},
 }
 
 W_AMP = 1.0
@@ -75,21 +85,21 @@ def build_experiment(data_dict):
 
 
 def residual(params, angles_val, freqs, exp, valid, use_drude):
+    # Grid now comes from the cached core (model_core.compute_grid) instead of a
+    # fresh per-nfev Blanco sweep; bit-identical -- see verify_model_core.py.
+    # gamma/tau_par_ps fallbacks are spelled out here because this function's
+    # historical default for a missing gamma is 2.0, not model_core's 1.0.
     p = params["P_um"].value * 1e-6
     d = params["D_um"].value * 1e-6
     if d >= p:
         return np.ones(int(np.sum(valid))*2) * 1e6
     gamma = params["gamma"].value if "gamma" in params else 2.0
-    theo = compute_theoretical_grid_2d(
+    theo = model_core.compute_grid(
         angles_val, freqs, p, d,
         params["loss_factor"].value, params["angle_offset"].value,
         params["tau_ps"].value, gamma=gamma, use_drude=use_drude,
         tau_par_ps=params["tau_par_ps"].value if "tau_par_ps" in params else 0.0)
-    em, tm = exp[valid], theo[valid]
-    amp = np.abs(em) - np.abs(tm)
-    ph = np.angle(em) - np.angle(tm)
-    ph = np.arctan2(np.sin(ph), np.cos(ph))
-    return np.concatenate([amp*W_AMP, ph*W_PHASE])
+    return model_core.complex_residual(exp, theo, valid, w_amp=W_AMP, w_phase=W_PHASE)
 
 
 def fit_model(dataset, use_drude=True, use_scattering=True, free_gamma=True,
@@ -118,7 +128,7 @@ def fit_model(dataset, use_drude=True, use_scattering=True, free_gamma=True,
     # residual decomposition (unweighted, physical units)
     p = res.params["P_um"].value*1e-6; d = res.params["D_um"].value*1e-6
     gamma = res.params["gamma"].value
-    theo = compute_theoretical_grid_2d(angles_val, freqs, p, d,
+    theo = model_core.compute_grid(angles_val, freqs, p, d,
               res.params["loss_factor"].value, res.params["angle_offset"].value,
               res.params["tau_ps"].value, gamma=gamma, use_drude=use_drude,
               tau_par_ps=res.params["tau_par_ps"].value if use_tau_par else 0.0)
