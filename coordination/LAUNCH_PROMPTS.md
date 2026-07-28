@@ -13,9 +13,9 @@
 
 ---
 
-## Сессия A — двух-WGP модель + софт затухания
+## Сессия A — прямая модель, идентифицируемость и проверка гипотез + софт затухания
 ```
-/loop Ты — Сессия A (двух-WGP модель + софт затухания) проекта THz-Unified-Optimizer. Сначала прочитай coordination/CHARTER.md, зарегистрируйся в coordination/BOARD.md, веди coordination/sessions/A.md. Затем research/two_wgp/PLAN.md и research/two_wgp/state.json — рабочий контекст. Протокол: первая не-done задача A* -> ОДИН атомарный шаг (research/two_wgp/) -> числа в RESEARCH_LOG.md с тегом [A] -> обнови state + BOARD. Зона: research/two_wgp/. Общий код (fit_lib/model_core) НЕ правь — запрос к B через HANDOFFS. Вне зоны не работай (CHARTER §6). Коммит: [A] ... + Session: A. Гардрейлы §6.
+/loop Ты — Сессия A (прямая модель, структурная идентифицируемость и проверка гипотез + софт затухания) проекта THz-Unified-Optimizer. Сначала прочитай coordination/CHARTER.md и coordination/ORCH_BRIEF.md, зарегистрируйся в coordination/BOARD.md, веди coordination/sessions/A.md (замок снят ORCH — возьми заново). Затем research/two_wgp/PLAN.md и research/two_wgp/state.json — рабочий контекст. Протокол: первая не-done задача A* -> ОДИН атомарный шаг (research/two_wgp/) -> числа в RESEARCH_LOG.md с тегом [A] -> обнови state + BOARD. ПРИМЕЧАНИЕ: A6_angle_symmetry уже начата — скрипты research/two_wgp/a6_angle_symmetry.py и exp_builder.py написаны и закоммичены, но НЕ запущены и результата нет; заверши её (запуск, числа, json в research/results/two_wgp/, вердикт по вырожденности angle_offset↔φ2↔ε_cross), затем A4 (калькулятор — API для C), A3, A5. Зона (запись): research/two_wgp/** + research/hypotheses/** + research/results/two_wgp/**. Ядро (fit_lib/model_core) НЕ правь — запрос к B через HANDOFFS. Вне зоны не работай (CHARTER §6). Коммит: [A] ... + Session: A. Гардрейлы §6.
 ```
 
 ## Сессия B — инфра/рефактор ядра
@@ -74,6 +74,6 @@ claude --dangerously-skip-permissions
 
 Промты зон — те же, что выше, но **без `/loop` в начале**. Пример для A:
 ```
-Ты — Сессия A (двух-WGP модель + софт затухания) проекта THz-Unified-Optimizer, работаешь В CURSOR. Сначала прочитай coordination/CHARTER.md, обнови свою строку в coordination/BOARD.md (пометь «(Cursor)»), веди coordination/sessions/A.md. Затем research/two_wgp/PLAN.md и research/two_wgp/state.json — рабочий контекст. Протокол: первая не-done задача A* -> ОДИН атомарный шаг (research/two_wgp/) -> числа в RESEARCH_LOG.md с тегом [A] -> обнови state + BOARD. Зона: research/two_wgp/. Общий код (fit_lib/model_core) НЕ правь — запрос к B через HANDOFFS. Вне зоны не работай (CHARTER §6). Коммит: [A] ... + Session: A. Гардрейлы §6. --resume недоступен: контекст из файлов, не из истории.
+Ты — Сессия A (прямая модель, структурная идентифицируемость и проверка гипотез + софт затухания) проекта THz-Unified-Optimizer, работаешь В CURSOR. Сначала прочитай coordination/CHARTER.md и coordination/ORCH_BRIEF.md, обнови свою строку в coordination/BOARD.md (пометь «(Cursor)»), веди coordination/sessions/A.md (замок снят ORCH — возьми заново). Затем research/two_wgp/PLAN.md и research/two_wgp/state.json — рабочий контекст. Протокол: первая не-done задача A* -> ОДИН атомарный шаг (research/two_wgp/) -> числа в RESEARCH_LOG.md с тегом [A] -> обнови state + BOARD. ПРИМЕЧАНИЕ: A6_angle_symmetry уже начата (скрипты a6_angle_symmetry.py, exp_builder.py написаны и закоммичены, но НЕ запущены) — заверши её, затем A4/A3/A5. Зона (запись): research/two_wgp/** + research/hypotheses/** + research/results/two_wgp/**. Ядро (fit_lib/model_core) НЕ правь — запрос к B через HANDOFFS. Вне зоны не работай (CHARTER §6). Коммит: [A] ... + Session: A. Гардрейлы §6. --resume недоступен: контекст из файлов, не из истории.
 ```
 Аналогично для B/C/D/ORCH — возьми соответствующий блок выше и убери `/loop `.
