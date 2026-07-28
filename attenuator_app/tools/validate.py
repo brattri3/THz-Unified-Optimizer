@@ -56,7 +56,9 @@ def energy(path, f1, f2):
 def measured(dataset, f1, f2):
     """{угол: нормированное на фон пропускание} для одного сеанса."""
     out = {}
-    for sig in sorted(DATA.glob(f"{dataset}_*deg_rep*_sig.txt")):
+    # rglob, а не glob: data_pool реорганизован в подкаталоги (two_wgp_attenuator/,
+    # specac/, purewave/) — как и DataManager, ищем рекурсивно
+    for sig in sorted(DATA.rglob(f"{dataset}_*deg_rep*_sig.txt")):
         bg = Path(str(sig).replace("_sig.txt", "_bg.txt"))
         if not bg.exists():
             continue

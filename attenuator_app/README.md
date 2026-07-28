@@ -31,7 +31,7 @@ att> solve 20               какой угол даёт 20 дБ
 att> check 20               проверки применимости F0..F8
 att> curve 10               угловая кривая рядом с идеальной cos^4
 att> spec 60                спектр + зоны + поляризация выхода
-att> bg data_pool/356att_0deg_rep1_bg.txt    фон -> динамический диапазон
+att> bg data_pool/two_wgp_attenuator/356att_0deg_rep1_bg.txt   фон -> динамический диапазон
 att> sweep 3,6,10,20,30     развёртка уровней
 att> plan 20                инструкция оператору
 ```
