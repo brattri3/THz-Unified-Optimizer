@@ -1,10 +1,10 @@
 {
-  "project": "THz-WGP — Session A: two-WGP forward model + attenuation software",
+  "project": "THz-WGP — Session A: forward models, structural identifiability & hypothesis testing (+ attenuation software)",
   "created": "2026-07-25",
   "read_first": "research/two_wgp/PLAN.md (full self-contained context)",
   "protocol": "read this state -> first non-done task -> ONE atomic step (scripts in research/two_wgp/ or research/experiments/, run via .venv from THz-Unified-Optimizer root) -> numbers to research/logs/RESEARCH_LOG.md -> update this file. Guardrails RESEARCH_PLAN.md sec.6.",
   "run_mode": "bypass_permissions + /loop self-paced (auto-continuation unreliable -> manual re-invoke; state.json resumes)",
-  "current_task": "A3_refit_series",
+  "current_task": "A6_angle_symmetry",
   "A1_verdict": {
     "status": "hypothesis A FALSIFIED analytically + numerically (2026-07-25)",
     "alignment_theorem": "If WGP2's transmission axis coincides with the detector axis, d^T J_WGP2(phi2) == t_perp2(nu) * d^T IDENTICALLY (J2 diagonal in that basis) -> a REAL WGP2 is mathematically indistinguishable from an IDEAL analyser times the scalar t_perp2(nu), for ANY E_in/theta/geometry. Verified to 4.4e-16 over 9 (psi,delta) combos; non-vacuous (10deg misalignment -> 6.1e-3 deviation).",
@@ -37,7 +37,7 @@
     {
       "id": "A3_refit_series",
       "status": "pending",
-      "desc": "REFRAMED again after A2 (misalignment is dead as a physical channel; the two-WGP model reproduces the one-WGP fit to within fractions of AIC). New target: is eps_cross a RIG/DETECTOR CONSTANT? Fit series with the M5_eps variant and check whether |eps_cross| and its phase are stable (and comparable to 356att's 0.0345 / Specac's model-independent eta=0.0357). Stable => a real setup constant that should be pinned/shared in future fits, which would finally break the D_eff<->eta degeneracy. Wandering => per-dataset residual absorption (HN10 pattern). MANDATORY per A2: multi-start every angular/offset parameter — cold starts overstate significance. *** OWNER METADATA 2026-07-27 (see data_pool/two_wgp_attenuator/README.md): use series1-3 ONLY; series4/5 are ARTIFACTS of the circular-scan algorithm -> EXCLUDE. Configs DIFFER: 356 rotates WGP_B (near detector), series1-3 rotate WGP_A; series1 has NO films (cleanest), series2/3 have input+output TYDEX films (near-ideal, extinction >39-47 dB). Geometry of series1-3 still unknown -> D free.",
+      "desc": "REFRAMED again after A2 (misalignment is dead as a physical channel; the two-WGP model reproduces the one-WGP fit to within fractions of AIC). New target: is eps_cross a RIG/DETECTOR CONSTANT? Fit series with the M5_eps variant and check whether |eps_cross| and its phase are stable (and comparable to 356att's 0.0345 / Specac's model-independent eta=0.0357). Stable => a real setup constant that should be pinned/shared in future fits, which would finally break the D_eff<->eta degeneracy. Wandering => per-dataset residual absorption (HN10 pattern). MANDATORY per A2: multi-start every angular/offset parameter — cold starts overstate significance. *** OWNER METADATA 2026-07-27 (see data_pool/two_wgp_attenuator/README.md): use series1-3 ONLY; series4/5 are ARTIFACTS of the circular-scan algorithm -> EXCLUDE. Configs DIFFER: 356 rotates WGP_B (near detector), series1-3 rotate WGP_A; series1 has NO films (cleanest), series2/3 have input+output TYDEX films (near-ideal, extinction >39-47 dB). Geometry of series1-3 still unknown -> D free. || DATA CAVEATS (from ORCH metadata, fit_lib.py:44-54 — a cold session MUST NOT miss these): series1-3 = the SAME attenuator as 356att, geometry P=16/D=11 is the owner's PASSPORT PRIOR (winding spec), NOT micrograph ground truth -> treat D_phys as a wide prior, never as a pin. series4/5 = circular-scan ARTIFACTS, EXCLUDE. Rotation differs: 356att rotates WGP_B (no output film), series1-3 rotate WGP_A (series1 without films, series2/3 with near-ideal TYDEX films) -> series2/3 are closer to the IDEAL-analyser case, so any eps_cross found there is a cleaner detector-side estimate than 356att's.",
       "artifact": "research/results/two_wgp/"
     },
     {
@@ -51,6 +51,12 @@
       "status": "pending",
       "desc": "Verdict: the two-WGP model did NOT resolve the D_eff puzzle (A1 theorem + A2/A3 numbers). Write the alignment theorem into SYNTHESIS.md as a POSITIVE result: it rules out a whole class of explanations (any WGP2/analyser non-ideality with aligned axis) and re-points the puzzle at WGP1 physics itself. Promote to M6 only if the free-misalignment variant of A2/A3 actually wins.",
       "artifact": "research/SYNTHESIS.md"
+    },
+    {
+      "id": "A6_angle_symmetry",
+      "status": "pending",
+      "desc": "NEW, model-INDEPENDENT and cheap (no fitting): use the FULL angular range that was silently discarded. Compute U(theta)=sum_nu |E(theta,nu)|^2 for 356att over -90..+90 and series1/2 over 0-90+270-350, then test the theta -> -theta symmetry. An angular offset makes U(+theta) != U(-theta) with a definite sign pattern; genuine leakage / reduced D_eff are symmetric. Deliverables: (a) the offset estimated MODEL-FREE from the symmetry point (compare with M5's fitted angle_offset and with Specac's extinction minimum at ~84deg, T16); (b) the residual asymmetry after removing the offset = an upper bound on any genuinely non-reciprocal / eps_cross-like term; (c) verdict on whether the A2 angular degeneracy (angle_offset<->phi2<->eps_cross, correl -0.95, two basins 110 AIC apart) is resolved by the extra data. Then refit with the full range and report whether D_eff and eta move. NOTE: needs a private experiment builder in research/two_wgp/ that does NOT apply config.ANGLES_LIMIT_2D.",
+      "artifact": "research/two_wgp/ + research/results/two_wgp/"
     }
   ],
   "owner_questions_open": [
@@ -65,5 +71,13 @@
   "notes": "series1-5 geometry unknown (no micrograph). 356att micrograph blocked (needs own graticule). Perf: cache Blanco per (nu,P,D). Angle/pol conventions: calibrate by extinction minimum (Specac min ~84deg, not 90).",
   "methodology_notes": [
     "A2: angular add-on parameters in this problem are MULTIMODAL. Always warm-start nested variants from their submodel's optimum and run at least two starts (misalignment basin vs eps_cross basin); a cold start made phi2 look 16-sigma significant when the deeper basin puts it at 1.6+-4.8 (insignificant)."
+  ],
+  "scope_note": "BROADENED 2026-07-28 by owner: A is no longer only 'two-WGP model'. Its actual product is falsification / structural identifiability (see A1_verdict) and it already owns the hypothesis registry research/hypotheses/HYPOTHESES.md per OWNERSHIP.md. New hypothesis scripts go in A's OWN zone (research/two_wgp/, research/hypotheses/) — NOT in research/experiments/, whose editing owner is B.",
+  "angle_coverage_finding": "356att spans -90..+90 deg (19 angles); series1/2 = 0-90 + 270-350; series3 = 0-90 + 310/350. But config.ANGLES_LIMIT_2D=(0,90) means Phases 1-3 AND A2 used only 10 of 19 angles — 356att's negative half was NEVER fitted. angle_offset is ASYMMETRIC in theta while physical leakage/D_eff are SYMMETRIC, so the full range breaks the angle_offset<->phi2<->eps_cross degeneracy that A2 could not resolve. fit_lib.build_experiment reads the production config (read-only) -> A writes its own builder in its own zone; no handoff to B needed.",
+  "recommended_order": [
+    "A6_angle_symmetry (cheap, model-free, unblocks A3's question)",
+    "A4_attenuation_calc (owner-requested deliverable; Session C depends on its API)",
+    "A3_refit_series (eps_cross stability across series1-3)",
+    "A5_synthesis"
   ]
 }
