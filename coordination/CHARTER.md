@@ -34,7 +34,7 @@
 | **B** | инфра/рефактор ядра | `research/experiments/model_core.py`, `verify_*`, рефактор `research/experiments/*.py` | всё research |
 | **C** | приложение-прототип | `attenuator_app/`, `docs/attenuator_app/` | model_blanco, research/two_wgp |
 | **D** | статья | `research/paper/` | SYNTHESIS, RESEARCH_LOG, results |
-| **L** | литература/обзор + метапоиск | `../THz-WGP-Analysis/litrev/`, `research/papers/` | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |
+| **L** | литература/обзор + метапоиск | `research/papers/` (включает свёрнутый `research/papers/litrev/`) | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |
 | **ORCH** | контроль/мерж/координация | `coordination/`, `CLAUDE.md`, main `research/state.json`, ветки/мержи | всё |
 **Правило shared-кода:** общие модули (`fit_lib.py`, `model_core.py`, `model_blanco`) правит ТОЛЬКО
 владелец (B). Другим — read-only; нужна правка → запрос через `ACTIVITY.md` + `HANDOFFS.md`, ждать B.
@@ -55,9 +55,15 @@
 > B параметризует `build_experiment(data, angles_limit=None)`. Детали — в `OWNERSHIP.md` и `ORCH_BRIEF.md`.
 
 > **[2026-07-28, санкция владельца, §8]** Создана зона **L (литература/обзор + метапоиск)** — из
-> сессии-прародителя (bootstrap). Владеет на запись: `../THz-WGP-Analysis/litrev/**` (кросс-репо) +
-> `research/papers/**`. Инструмент: `litrev/metasearch.py`. Питает D (статью) и A (гипотезы)
-> источниками через HANDOFFS. ORCH при запуске — принять зону к сведению в OWNERSHIP/BOARD (уже внесено).
+> сессии-прародителя (bootstrap). Питает D (статью) и A (гипотезы) источниками через HANDOFFS.
+>
+> **[2026-07-28, РЕШЕНИЕ ORCH — санкция владельца]** Зона L **свёрнута из соседнего репо в наш**:
+> `../THz-WGP-Analysis/litrev/**` (был не под git) → `research/papers/litrev/**`. Причина: соседний
+> каталог не был git-репозиторием ⇒ обзор и единственная копия литературы не версионировались.
+> Теперь зона L на запись = `research/papers/**` целиком. PDF первоисточников (`litrev/pdfs/`, ~22МБ,
+> чужой copyright) в git НЕ трекаются (`.gitignore`) — извлечённый текст в `research/papers/txt/`.
+> Инструмент `metasearch.py` теперь в `research/papers/litrev/`. Исходник в `THz-WGP-Analysis/litrev/`
+> оставлен до проверки владельцем, затем удаляется владельцем.
 
 ## 4. Общая зона обмена (координация)
 - `coordination/BOARD.md` — ЖИВОЙ статус всех сессий (обновляй свою строку при старте, смене задачи,

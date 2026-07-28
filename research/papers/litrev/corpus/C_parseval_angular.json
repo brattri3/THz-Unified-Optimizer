@@ -1,0 +1,106 @@
+[
+  {
+    "id": "https://openalex.org/W2795636928",
+    "doi": "https://doi.org/10.1088/2399-6528/aae2ec",
+    "display_name": "Spontaneous and stimulated radiative emission of modulated free-electron quantum wavepackets—semiclassical analysis",
+    "publication_year": 2018,
+    "cited_by_count": 43,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://iopscience.iop.org/article/10.1088/2399-6528/aae2ec/pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W1965143042",
+    "doi": "https://doi.org/10.1155/2010/350891",
+    "display_name": "The Data Big Bang and the Expanding Digital Universe: High‐Dimensional, Complex and Massive Data Sets in an Inflationary Epoch",
+    "publication_year": 2010,
+    "cited_by_count": 26,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://downloads.hindawi.com/journals/aa/2010/350891.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W1905022235",
+    "doi": "https://doi.org/10.1063/1.4934879",
+    "display_name": "Imaging outside the box: Resolution enhancement in X-ray coherent diffraction imaging by extrapolation of diffraction patterns",
+    "publication_year": 2015,
+    "cited_by_count": 17,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "bronze",
+      "oa_url": "https://aip.scitation.org/doi/pdf/10.1063/1.4934879",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W1652248044",
+    "doi": null,
+    "display_name": "Spectral characterization of the Herschel SPIRE photometer",
+    "publication_year": 2005,
+    "cited_by_count": 5,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "http://hdl.handle.net/10133/291",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2734764067",
+    "doi": "https://doi.org/10.15760/etd.3420",
+    "display_name": "Communicating at Terahertz Frequencies",
+    "publication_year": 2017,
+    "cited_by_count": 3,
+    "open_access": {
+      "is_oa": false,
+      "oa_status": "closed",
+      "oa_url": null,
+      "any_repository_has_fulltext": false
+    }
+  },
+  {
+    "id": "https://openalex.org/W4235987809",
+    "doi": "https://doi.org/10.15760/etd.5525",
+    "display_name": "Communicating at Terahertz Frequencies",
+    "publication_year": 2000,
+    "cited_by_count": 2,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://pdxscholar.library.pdx.edu/cgi/viewcontent.cgi?article=4650&context=open_access_etds",
+      "any_repository_has_fulltext": null
+    }
+  },
+  {
+    "id": "https://openalex.org/W821128955",
+    "doi": null,
+    "display_name": "Analysis of OFDM-based intensity modulation techniques for optical wireless communications",
+    "publication_year": 2013,
+    "cited_by_count": 2,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "http://hdl.handle.net/1842/7833",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W7135156627",
+    "doi": null,
+    "display_name": "Exploiting Spatial Modulation for Strong PhaseNoise Mitigation in mmWave Massive MIMO",
+    "publication_year": 2026,
+    "cited_by_count": 0,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "https://arxiv.org/pdf/2603.11030",
+      "any_repository_has_fulltext": true
+    }
+  }
+]

@@ -34,9 +34,9 @@
 ```
 
 ## Сессия L — литература/обзор + метапоиск
-Запуск из корня `THz-Unified-Optimizer` (репо `THz-WGP-Analysis` должен лежать рядом — кросс-репо пути).
+Запуск из корня `THz-Unified-Optimizer`. Зона L свёрнута в этот репо: `research/papers/litrev/`.
 ```
-/loop Ты — Сессия L (литература/обзор + метапоиск) проекта THz-Unified-Optimizer. Прочитай coordination/CHARTER.md, зарегистрируйся в BOARD.md, веди sessions/L.md. Зона (запись): ../THz-WGP-Analysis/litrev/** и research/papers/**. Инструмент: ../THz-WGP-Analysis/litrev/metasearch.py (OpenAlex+Crossref+Unpaywall+arXiv, опц. ключ S2; только легальные OA-PDF). Задачи по recommended_order: L1 держать RETROSPECTIVE_REVIEW.md и ГОСТ-список с кликабельными DOI актуальными; L2 добить ветки графа цитирований (seed CastroCamus 2011, Manabe&Murk 2005); L3 по запросам D выдавать цитируемую опору (через HANDOFFS); L4 мониторить конкурентов (Karimi 2026, PureWave). Числа/находки — в RESEARCH_LOG.md с тегом [L]. Статью D и общий код research/ НЕ правь — только чтение, запросы через HANDOFFS. Коммит: [L] ... + Session: L. Гардрейлы §6.
+/loop Ты — Сессия L (литература/обзор + метапоиск) проекта THz-Unified-Optimizer. Прочитай coordination/CHARTER.md, зарегистрируйся в BOARD.md, веди sessions/L.md. Зона (запись): research/papers/** — включая свёрнутый research/papers/litrev/** (обзоры, corpus, JSON-графы, metasearch.py; PDF в litrev/pdfs/ не трекаются, .gitignore). Инструмент: research/papers/litrev/metasearch.py (OpenAlex+Crossref+Unpaywall+arXiv, опц. ключ S2; только легальные OA-PDF). НЕ пиши в ../THz-WGP-Analysis/litrev/ — это старый снимок до удаления владельцем. Задачи по recommended_order: L1 держать RETROSPECTIVE_REVIEW.md и ГОСТ-список с кликабельными DOI актуальными; L2 добить ветки графа цитирований (seed CastroCamus 2011, Manabe&Murk 2005); L3 по запросам D выдавать цитируемую опору (через HANDOFFS); L4 мониторить конкурентов (Karimi 2026, PureWave). Числа/находки — в RESEARCH_LOG.md с тегом [L]. Статью D и общий код research/ НЕ правь — только чтение, запросы через HANDOFFS. Коммит: [L] ... + Session: L. Гардрейлы §6.
 ```
 Cursor-вариант — тот же промт без `/loop` (см. раздел «Запуск в CURSOR» ниже).
 

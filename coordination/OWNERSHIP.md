@@ -13,7 +13,7 @@
 | Геометрия образцов `research/experiments/geometry.py` (вынести `fit_lib.GEOMETRY` сюда) | **A** | read (ORCH, все) |
 | `attenuator_app/**`, `docs/attenuator_app/**` | C | read |
 | `research/paper/**` | D | read |
-| `../THz-WGP-Analysis/litrev/**` (кросс-репо), `research/papers/**` | **L** | read |
+| `research/papers/**` (включает свёрнутый `research/papers/litrev/**`: обзоры, corpus, JSON-графы, `metasearch.py`; PDF в `litrev/pdfs/` не трекаются — `.gitignore`) | **L** | read |
 | `coordination/**`, `CLAUDE.md`, `research/state.json` (main), `research/RESEARCH_PLAN.md` | ORCH | read; предложения — в ACTIVITY |
 
 ## Общие (shared) файлы и правила доступа

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "https://openalex.org/W4386033360",
+    "doi": "https://doi.org/10.1038/s41563-023-01649-3",
+    "display_name": "Hydrogel muscles powering reconfigurable micro-metastructures with wide-spectrum programmability",
+    "publication_year": 2023,
+    "cited_by_count": 128,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "hybrid",
+      "oa_url": "https://www.nature.com/articles/s41563-023-01649-3.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W4403103066",
+    "doi": "https://doi.org/10.1186/s43074-024-00143-6",
+    "display_name": "Optical polarization manipulations with anisotropic nanostructures",
+    "publication_year": 2024,
+    "cited_by_count": 47,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "diamond",
+      "oa_url": "https://link.springer.com/content/pdf/10.1186/s43074-024-00143-6.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2895184004",
+    "doi": "https://doi.org/10.1038/s41598-018-33432-9",
+    "display_name": "High extinction ratio super pixel for long wavelength infrared polarization imaging detection based on plasmonic microcavity quantum well infrared photodetectors",
+    "publication_year": 2018,
+    "cited_by_count": 42,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://www.nature.com/articles/s41598-018-33432-9.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W4365446997",
+    "doi": "https://doi.org/10.1515/nanoph-2022-0820",
+    "display_name": "Asymmetric transmission in nanophotonics",
+    "publication_year": 2023,
+    "cited_by_count": 41,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://www.degruyter.com/document/doi/10.1515/nanoph-2022-0820/pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2724798829",
+    "doi": "https://doi.org/10.3390/app7070662",
+    "display_name": "Measurement of the Resonant Magneto-Optical Kerr Effect Using a Free Electron Laser",
+    "publication_year": 2017,
+    "cited_by_count": 33,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://www.mdpi.com/2076-3417/7/7/662/pdf?version=1498701982",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W4389681763",
+    "doi": "https://doi.org/10.1007/s12200-023-00095-y",
+    "display_name": "Local measurement of terahertz field-induced second harmonic generation in plasma filaments",
+    "publication_year": 2023,
+    "cited_by_count": 13,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://link.springer.com/content/pdf/10.1007/s12200-023-00095-y.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W4410983729",
+    "doi": "https://doi.org/10.1038/s41467-025-60165-x",
+    "display_name": "Dynamic mechanical modulation of chiroptical structures via linearly assembled plasmonic nanoparticles on birefringent polymer films",
+    "publication_year": 2025,
+    "cited_by_count": 13,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://www.nature.com/articles/s41467-025-60165-x.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W4400663506",
+    "doi": "https://doi.org/10.1016/j.jmr.2024.107742",
+    "display_name": "Characterization of dielectric properties and their impact on MAS-DNP NMR applications",
+    "publication_year": 2024,
+    "cited_by_count": 12,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11822944/pdf/nihms-2051381.pdf",
+      "any_repository_has_fulltext": true
+    }
+  }
+]

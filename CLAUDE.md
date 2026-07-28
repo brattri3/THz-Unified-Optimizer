@@ -145,10 +145,14 @@ State-машина, а не свободный поиск:
 
 ## Кросс-репо связи
 
-- `research/papers/INDEX.md` ссылается на PDF по **относительному пути**
-  `../THz-WGP-Analysis/litrev/pdfs/` — соседний репозиторий должен лежать рядом.
+- **Литобзор свёрнут в этот репо (2026-07-28):** был `../THz-WGP-Analysis/litrev/**`, стал
+  `research/papers/litrev/**` (зона L). `INDEX.md` ссылается на **локальный** `litrev/pdfs/`.
+  PDF первоисточников (~22МБ, чужой copyright) в git НЕ трекаются (`.gitignore`) — извлечённый
+  текст в `research/papers/txt/`. Старый `THz-WGP-Analysis/litrev/` — снимок до удаления владельцем.
 - `THz-WGP-Analysis/code/` — байт-в-байт копия `unified_optimizer/` (9 файлов). Правки сюда
-  туда не распространяются автоматически.
+  туда не распространяются автоматически. `THz-WGP-Analysis` — НЕ git-репозиторий, снимок-экспорт.
+- Сопровождаем и пушим **только этот репозиторий** (`THz-Unified-Optimizer`, origin на GitHub).
+  `THz-Spectroscopy-Python-Manual2` — отдельный проект (свой репо). `tools/` — вендорный MCP.
 - Общая карта рабочего пространства — `../WORKSPACE_MAP.md`.
 
 ## Правила из `.agents/AGENTS.md`

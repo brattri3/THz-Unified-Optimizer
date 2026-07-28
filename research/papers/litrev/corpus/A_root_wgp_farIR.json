@@ -1,0 +1,28 @@
+[
+  {
+    "id": "https://openalex.org/W2006621309",
+    "doi": "https://doi.org/10.1016/0020-0891(87)90067-4",
+    "display_name": "Wide band measurement of power transmission coefficients and polarizing efficiency of free standing wire grids in the far infrared",
+    "publication_year": 1987,
+    "cited_by_count": 3,
+    "open_access": {
+      "is_oa": false,
+      "oa_status": "closed",
+      "oa_url": null,
+      "any_repository_has_fulltext": false
+    }
+  },
+  {
+    "id": "https://openalex.org/W2017466552",
+    "doi": "https://doi.org/10.1117/12.7973857",
+    "display_name": "Large Aperture, Freestanding Wire Grid Polarizers For The Far-Infrared: Fabrication, Characterization, And Testing",
+    "publication_year": 1986,
+    "cited_by_count": 3,
+    "open_access": {
+      "is_oa": false,
+      "oa_status": "closed",
+      "oa_url": null,
+      "any_repository_has_fulltext": false
+    }
+  }
+]

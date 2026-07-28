@@ -8,5 +8,8 @@ venv/
 # large uncompressed microscope images (keep local; use git-LFS if needed)
 *.bmp
 
+# литература: PDF первоисточников (чужой copyright, ~22МБ; извлечённый текст — в research/papers/txt/)
+research/papers/litrev/pdfs/
+
 # рабочие сеансы attenuator_app: журнал, метафайлы, графики каждого запуска
 runs/

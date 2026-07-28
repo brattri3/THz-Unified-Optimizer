@@ -1,0 +1,106 @@
+[
+  {
+    "id": "https://openalex.org/W2973569033",
+    "doi": "https://doi.org/10.1002/adma.201904765",
+    "display_name": "Electronic Skin: Recent Progress and Future Prospects for Skin‐Attachable Devices for Health Monitoring, Robotics, and Prosthetics",
+    "publication_year": 2019,
+    "cited_by_count": 1636,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "bronze",
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/adma.201904765",
+      "any_repository_has_fulltext": false
+    }
+  },
+  {
+    "id": "https://openalex.org/W2034863174",
+    "doi": "https://doi.org/10.1103/revmodphys.82.729",
+    "display_name": "Light passing through subwavelength apertures",
+    "publication_year": 2010,
+    "cited_by_count": 1221,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "bronze",
+      "oa_url": "http://link.aps.org/pdf/10.1103/RevModPhys.82.729",
+      "any_repository_has_fulltext": false
+    }
+  },
+  {
+    "id": "https://openalex.org/W1904504745",
+    "doi": "https://doi.org/10.1109/tsipn.2015.2448520",
+    "display_name": "Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing",
+    "publication_year": 2015,
+    "cited_by_count": 919,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "https://arxiv.org/pdf/1412.8416",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W3200934665",
+    "doi": "https://doi.org/10.1140/epjst/e2019-900087-0",
+    "display_name": "FCC-hh: The Hadron Collider",
+    "publication_year": 2019,
+    "cited_by_count": 642,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "hybrid",
+      "oa_url": "https://link.springer.com/content/pdf/10.1140/epjst/e2019-900087-0.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W3204027683",
+    "doi": "https://doi.org/10.1109/access.2021.3116678",
+    "display_name": "Inductive Wireless Power Transfer Charging for Electric Vehicles–A Review",
+    "publication_year": 2021,
+    "cited_by_count": 474,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/6514899/09552904.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2170955820",
+    "doi": "https://doi.org/10.1109/tadvp.2006.884780",
+    "display_name": "Design and Characterization of Purely Textile Patch Antennas",
+    "publication_year": 2006,
+    "cited_by_count": 453,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "http://hdl.handle.net/1983/1581",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W3031498325",
+    "doi": "https://doi.org/10.1088/1361-6595/abaa05",
+    "display_name": "The physics of streamer discharge phenomena",
+    "publication_year": 2020,
+    "cited_by_count": 394,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "hybrid",
+      "oa_url": "https://iopscience.iop.org/article/10.1088/1361-6595/abaa05/pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2126259185",
+    "doi": "https://doi.org/10.1016/j.physrep.2006.01.001",
+    "display_name": "Non-collinear magnetoelectronics",
+    "publication_year": 2006,
+    "cited_by_count": 369,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "bronze",
+      "oa_url": "https://www.sciencedirect.com/science/article/pii/S0370157306000238",
+      "any_repository_has_fulltext": true
+    }
+  }
+]

@@ -19,9 +19,17 @@
     PureWave Polarizers, эмпирика P/D плотной намотки.
 - **Инструмент:** `THz-WGP-Analysis/litrev/metasearch.py` (OpenAlex + Crossref + Unpaywall + arXiv;
   опц. ключ S2). Только легальное скачивание OA-PDF. MCP semanticscholar — вспомогательно (rate-limit).
-- **Файлы, что трогаю (замок):** `../THz-WGP-Analysis/litrev/**` (обзоры, corpus, JSON-графы,
-  metasearch.py), `research/papers/**` (INDEX.md + заметки); append в `research/logs/RESEARCH_LOG.md`
+- **Файлы, что трогаю (замок):** `research/papers/**` — включая свёрнутый `research/papers/litrev/**`
+  (обзоры `RETROSPECTIVE_REVIEW.md`/`LITERATURE_REVIEW.md`, corpus, JSON-графы, `metasearch.py`;
+  PDF в `litrev/pdfs/` НЕ трекаются — `.gitignore`), `INDEX.md`; append в `research/logs/RESEARCH_LOG.md`
   с тегом `[L]`; своя строка в `BOARD.md`/`ACTIVITY.md`; свой замок здесь.
   Общий код research/ и статью D — ТОЛЬКО чтение; правки туда — через HANDOFFS.
 - **Заявлено до (время):** до конца текущей задачи L1.
 - **Heartbeat:** 2026-07-28
+
+## ⚠ Перемещение зоны (2026-07-28, ORCH, санкция владельца)
+Зона L **свёрнута из соседнего репо в наш**: `../THz-WGP-Analysis/litrev/**` → `research/papers/litrev/**`.
+Причина: `THz-WGP-Analysis` не был git-репозиторием, обзор и единственная копия 20 PDF не
+версионировались. Инструмент `metasearch.py` теперь в `research/papers/litrev/`. При возобновлении L:
+работай в `research/papers/litrev/`, НЕ в старом `../THz-WGP-Analysis/litrev/` (там оставлен
+исходник-снимок до удаления владельцем; писать туда больше не нужно).

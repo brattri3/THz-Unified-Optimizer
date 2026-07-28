@@ -1,0 +1,146 @@
+[
+  {
+    "display_name": "Terahertz High-Gain Offset Reflector Antennas Using SiC and CFRP Material",
+    "publication_year": 2017,
+    "cited_by_count": 41,
+    "doi": "https://doi.org/10.1109/tap.2017.2724582"
+  },
+  {
+    "display_name": "The Fully Polarimetric Imaging Radiometer SPIRA at 91 GHz",
+    "publication_year": 2008,
+    "cited_by_count": 38,
+    "doi": "https://doi.org/10.1109/tgrs.2008.917212"
+  },
+  {
+    "display_name": "Wire-Grid and Sparse MoM Antennas: Past Evolution, Present Implementation, and Future Possibilities",
+    "publication_year": 2023,
+    "cited_by_count": 32,
+    "doi": "https://doi.org/10.3390/sym15020378"
+  },
+  {
+    "display_name": "The POLARBEAR Fourier transform spectrometer calibrator and spectroscopic characterization of the POLARBEAR instrument",
+    "publication_year": 2019,
+    "cited_by_count": 11,
+    "doi": "https://doi.org/10.1063/1.5095160"
+  },
+  {
+    "display_name": "The POLARBEAR Fourier transform spectrometer calibrator and spectroscopic characterization of the POLARBEAR instrument",
+    "publication_year": 2019,
+    "cited_by_count": 11,
+    "doi": null
+  },
+  {
+    "display_name": "Effects of Random Positioning Errors Upon Electromagnetic Characteristics of a Wire Grid",
+    "publication_year": 2011,
+    "cited_by_count": 10,
+    "doi": "https://doi.org/10.1163/156939311794362768"
+  },
+  {
+    "display_name": "Calibration of End-to-End Phase Imbalance of Polarimetric Radiometers",
+    "publication_year": 2006,
+    "cited_by_count": 8,
+    "doi": "https://doi.org/10.1109/tgrs.2006.877759"
+  },
+  {
+    "display_name": "A very simple and accurate way to measure the transmission axis of a linear polarizer",
+    "publication_year": 2019,
+    "cited_by_count": 8,
+    "doi": "https://doi.org/10.1088/1361-6501/ab3688"
+  },
+  {
+    "display_name": "Reflection and transmission properties of a wire grid embedded in a SNG or SZ medium",
+    "publication_year": 2014,
+    "cited_by_count": 8,
+    "doi": "https://doi.org/10.1080/09500340.2014.924594"
+  },
+  {
+    "display_name": "Random errors for a nonlocal Epsilon Negative medium",
+    "publication_year": 2013,
+    "cited_by_count": 5,
+    "doi": "https://doi.org/10.1016/j.optcom.2013.01.024"
+  },
+  {
+    "display_name": "RANDOM ERRORS MODELLING AND THEIR EFFECTS UPON RCS FOR AN ARTIFICIAL OBJECT CONTAINING THIN LONG PEC NEEDLES",
+    "publication_year": 2009,
+    "cited_by_count": 5,
+    "doi": "https://doi.org/10.2528/pierm09042703"
+  },
+  {
+    "display_name": "Reflection characteristics of a parallel wire grid embedded in a general bi-isotropic medium",
+    "publication_year": 2019,
+    "cited_by_count": 5,
+    "doi": "https://doi.org/10.1364/ao.58.005098"
+  },
+  {
+    "display_name": "Surface impedance properties of a wire grid embedded in a chiral medium",
+    "publication_year": 2019,
+    "cited_by_count": 4,
+    "doi": "https://doi.org/10.1017/s1759078719000953"
+  },
+  {
+    "display_name": "Imperfections for an equivalent surface impedance of a uniaxial wire medium",
+    "publication_year": 2014,
+    "cited_by_count": 4,
+    "doi": "https://doi.org/10.1080/09205071.2014.938776"
+  },
+  {
+    "display_name": "Evaluation of Design Considerations for Radome Heating Foils in Automotive Radars",
+    "publication_year": 2024,
+    "cited_by_count": 3,
+    "doi": "https://doi.org/10.1109/tap.2024.3445500"
+  },
+  {
+    "display_name": "Transmission and Reflection Characterization of Polarizing Beam Splitters at Submillimeter Wavelengths",
+    "publication_year": 2019,
+    "cited_by_count": 3,
+    "doi": "https://doi.org/10.1109/tthz.2019.2911033"
+  },
+  {
+    "display_name": "Linearly polarized antenna load for calibration of end-to-end phase difference of polarimetric radiometer receivers",
+    "publication_year": 2005,
+    "cited_by_count": 3,
+    "doi": "https://doi.org/10.1109/igarss.2005.1526776"
+  },
+  {
+    "display_name": "Microwave properties of a double wire array",
+    "publication_year": 2023,
+    "cited_by_count": 2,
+    "doi": "https://doi.org/10.1007/s10825-023-02087-9"
+  },
+  {
+    "display_name": "Analytical Modeling of Microwave Transmission Through Metasurfaces Made of Perforated Metal Plates, Arrays of Metal Patches, and Wire Grids",
+    "publication_year": 2024,
+    "cited_by_count": 1,
+    "doi": "https://doi.org/10.1109/temc.2024.3411167"
+  },
+  {
+    "display_name": "Scattering of a Plane Wave From a Wire Grid Parallel to the Interface Between Two Media",
+    "publication_year": 2022,
+    "cited_by_count": 1,
+    "doi": "https://doi.org/10.1109/tap.2022.3217948"
+  },
+  {
+    "display_name": "Optics for the Submillimeter Wave Instrument on Jupiter Mission JUICE",
+    "publication_year": 2020,
+    "cited_by_count": 0,
+    "doi": "https://doi.org/10.23919/eucap48036.2020.9135593"
+  },
+  {
+    "display_name": "Effects of positional disorder upon the nonlocal effective parameters of a metamaterial composed of coated spheres",
+    "publication_year": 2024,
+    "cited_by_count": 0,
+    "doi": "https://doi.org/10.1016/j.jqsrt.2024.108989"
+  },
+  {
+    "display_name": "Measurements of Martin-Puplett Interferometer Limitations using Blackbody Source",
+    "publication_year": 2013,
+    "cited_by_count": 0,
+    "doi": null
+  },
+  {
+    "display_name": "Development, Calibration and Applications of Polarimetric Microwave Radiometers for Remote Sensing",
+    "publication_year": 2007,
+    "cited_by_count": 0,
+    "doi": null
+  }
+]

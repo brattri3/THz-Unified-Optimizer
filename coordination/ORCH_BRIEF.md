@@ -63,7 +63,7 @@
 | **B** | численное ядро/рефактор | `model_core.py`, `fit_lib.py`, `verify_*`, `refactor_ab_check.py` + ревьюер эквивалентности | ядро доведено; TODO: параметризовать build_experiment, вынести GEOMETRY, машинная проверка форков |
 | **C** | приложение-прототип | `attenuator_app/**`, `docs/attenuator_app/**` | v0.2 валидирован 69/69; C1 done, C2 (сверка калькуляторов) open |
 | **D** | статья | `research/paper/**` | зарезервирована |
-| **L** | литература/обзор + метапоиск | `../THz-WGP-Analysis/litrev/**`, `research/papers/**` | running, L1_review_maintain; питает A и D через HANDOFFS |
+| **L** | литература/обзор + метапоиск | `research/papers/**` (litrev свёрнут в репо ORCH 07-28; PDF не трекаются) | running, L1_review_maintain; питает A и D через HANDOFFS |
 | **ORCH** | координация/мерж/целеполагание | `coordination/**`, `CLAUDE.md`, main `research/state.json` | ЭТА сессия |
 
 Все A/B/C/L работали ДО создания `coordination/` и зарегистрированы постфактум (артефакты уже в main,

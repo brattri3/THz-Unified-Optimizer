@@ -1,0 +1,106 @@
+[
+  {
+    "id": "https://openalex.org/W4322576964",
+    "doi": "https://doi.org/10.1109/comst.2023.3249835",
+    "display_name": "On the Road to 6G: Visions, Requirements, Key Technologies, and Testbeds",
+    "publication_year": 2023,
+    "cited_by_count": 1980,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "https://liu.diva-portal.org/smash/get/diva2:1775943/FULLTEXT01",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2034863174",
+    "doi": "https://doi.org/10.1103/revmodphys.82.729",
+    "display_name": "Light passing through subwavelength apertures",
+    "publication_year": 2010,
+    "cited_by_count": 1221,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "bronze",
+      "oa_url": "http://link.aps.org/pdf/10.1103/RevModPhys.82.729",
+      "any_repository_has_fulltext": false
+    }
+  },
+  {
+    "id": "https://openalex.org/W2944906172",
+    "doi": "https://doi.org/10.1007/s42452-019-0592-3",
+    "display_name": "Metal oxide nanoparticles and their applications in nanotechnology",
+    "publication_year": 2019,
+    "cited_by_count": 1099,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "bronze",
+      "oa_url": "https://link.springer.com/content/pdf/10.1007/s42452-019-0592-3.pdf",
+      "any_repository_has_fulltext": false
+    }
+  },
+  {
+    "id": "https://openalex.org/W1904504745",
+    "doi": "https://doi.org/10.1109/tsipn.2015.2448520",
+    "display_name": "Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing",
+    "publication_year": 2015,
+    "cited_by_count": 919,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "green",
+      "oa_url": "https://arxiv.org/pdf/1412.8416",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W3120167720",
+    "doi": "https://doi.org/10.1109/jmw.2020.3035541",
+    "display_name": "The Role of Millimeter-Wave Technologies in 5G/6G Wireless Communications",
+    "publication_year": 2021,
+    "cited_by_count": 840,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://ieeexplore.ieee.org/ielx7/9171629/9316332/09318751.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2914059200",
+    "doi": "https://doi.org/10.3390/s19040800",
+    "display_name": "The Progress of Glucose Monitoring—A Review of Invasive to Minimally and Non-Invasive Techniques, Devices and Sensors",
+    "publication_year": 2019,
+    "cited_by_count": 771,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://www.mdpi.com/1424-8220/19/4/800/pdf?version=1550639996",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W4390976747",
+    "doi": "https://doi.org/10.1038/s41597-023-02898-2",
+    "display_name": "Refractiveindex.info database of optical constants",
+    "publication_year": 2024,
+    "cited_by_count": 639,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "gold",
+      "oa_url": "https://www.nature.com/articles/s41597-023-02898-2.pdf",
+      "any_repository_has_fulltext": true
+    }
+  },
+  {
+    "id": "https://openalex.org/W2136708729",
+    "doi": "https://doi.org/10.1088/0268-1242/29/8/083001",
+    "display_name": "An introduction to InP-based generic integration technology",
+    "publication_year": 2014,
+    "cited_by_count": 580,
+    "open_access": {
+      "is_oa": true,
+      "oa_status": "hybrid",
+      "oa_url": "https://iopscience.iop.org/article/10.1088/0268-1242/29/8/083001/pdf",
+      "any_repository_has_fulltext": true
+    }
+  }
+]
