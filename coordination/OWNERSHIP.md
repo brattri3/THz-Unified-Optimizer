@@ -7,17 +7,20 @@
 |---|---|---|
 | `research/two_wgp/**` | A | read |
 | `research/results/two_wgp/**` | A | read |
-| `research/experiments/model_core.py`, `verify_model_core.py`, `refactor_ab_check.py` | B | read |
-| `research/experiments/*.py` (общие фит-скрипты t*, model_m5, fit_lib) | **B** (как рефактор-владелец) | read; правки — через хэндофф B |
+| `research/hypotheses/**` | A | read (см. санкцию владельца 2026-07-28, CHARTER §3) |
+| **Численное ядро** (где бы ни лежало): `research/experiments/model_core.py`, `fit_lib.py`, `verify_model_core.py`, `refactor_ab_check.py` | **B** + роль ревьюера численной эквивалентности для правок ядра ЛЮБОЙ сессией | read |
+| **Скрипты-эксперименты/гипотезы** `research/experiments/tN_*.py`, `model_m5.py` (физика поверх ядра) | **A** (ведущий физику) — БЕЗ хэндоффа к B | read; B — ревьюер эквивалентности |
+| Геометрия образцов `research/experiments/geometry.py` (вынести `fit_lib.GEOMETRY` сюда) | **A** | read (ORCH, все) |
 | `attenuator_app/**`, `docs/attenuator_app/**` | C | read |
 | `research/paper/**` | D | read |
+| `../THz-WGP-Analysis/litrev/**` (кросс-репо), `research/papers/**` | **L** | read |
 | `coordination/**`, `CLAUDE.md`, `research/state.json` (main), `research/RESEARCH_PLAN.md` | ORCH | read; предложения — в ACTIVITY |
 
 ## Общие (shared) файлы и правила доступа
 | Файл | Правило |
 |---|---|
 | `research/logs/RESEARCH_LOG.md` | **append-only**, все сессии дописывают с тегом `[<ID>]`; не редактировать чужие записи |
-| `research/hypotheses/HYPOTHESES.md` | пишет A (гипотезы) + ORCH; менять только по своей гипотезе, анонс в ACTIVITY |
+| `research/hypotheses/HYPOTHESES.md` | с 2026-07-28 — ЭКСКЛЮЗИВНАЯ зона A (см. выше) + ORCH; прочим read, правка через HANDOFFS |
 | `data_pool/**` | **read-only** для всех агентов (гардрейл §6); данные добавляет только ВЛАДЕЛЕЦ-человек |
 | `unified_optimizer/**` | **read-only** (продакшн; правка ломает базовую линию — спросить владельца) |
 | `coordination/BOARD.md`, `sessions/<ID>.md`, `ACTIVITY.md` | каждая сессия пишет СВОЮ строку/файл/добавляет запись |
@@ -29,6 +32,17 @@
 - C → `attenuator_app/STATE.md` (создать)
 - D → `research/paper/STATE.md` (создать)
 - Главная линия исследования → `research/state.json` (владелец ORCH / основной анализ).
+
+## Граница B↔A: ПО СЛОЮ, а не по каталогу (решение ORCH, 2026-07-28)
+Инвариант, который защищаем, лежит **по слоям**, а не по каталогам:
+- **B = общее численное ядро** (`model_core`, `fit_lib`, `verify_*`) + ревьюер эквивалентности.
+- **A = скрипты-эксперименты/гипотезы поверх ядра** (`tN_*.py`, `model_m5`), пишет их сам, без хэндоффа.
+- **Инвариант CHARTER:** второй копии Бланко/грида/невязки/билдера не заводить — звать `model_core`;
+  форк только через хэндофф с обоснованием. Проверяется машинно в `verify_model_core.py` (B добавляет
+  поиск прямых вызовов `compute_t_perp`/`compute_theoretical_grid_2d` вне ядра).
+- **`GEOMETRY` вынести** из `fit_lib.py` в `research/experiments/geometry.py` (данные образцов, зона A).
+- B параметризует `build_experiment(data, angles_limit=None)` (дефолт = `config.ANGLES_LIMIT_2D`),
+  A зовёт с `angles_limit=(-90,90)` — вместо шестой копии фильтра углов; повод схлопнуть 5 существующих.
 
 ## Конфликтные горячие точки (беречь особо)
 - `fit_lib.py`, `model_core.py` — правит только B. A/C/D читают.

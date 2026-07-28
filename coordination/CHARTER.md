@@ -30,13 +30,34 @@
 См. полную карту в `coordination/OWNERSHIP.md`. Кратко:
 | Сессия | Специализация | Владеет (пишет) | Читает |
 |---|---|---|---|
-| **A** | двух-WGP модель + софт затухания | `research/two_wgp/`, `research/results/two_wgp/` | model_blanco, fit_lib, model_core |
+| **A** | прямая модель, идентифицируемость и проверка гипотез + софт затухания | `research/two_wgp/`, `research/results/two_wgp/`, `research/hypotheses/` | model_blanco, fit_lib, model_core, research/experiments |
 | **B** | инфра/рефактор ядра | `research/experiments/model_core.py`, `verify_*`, рефактор `research/experiments/*.py` | всё research |
 | **C** | приложение-прототип | `attenuator_app/`, `docs/attenuator_app/` | model_blanco, research/two_wgp |
 | **D** | статья | `research/paper/` | SYNTHESIS, RESEARCH_LOG, results |
+| **L** | литература/обзор + метапоиск | `../THz-WGP-Analysis/litrev/`, `research/papers/` | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |
 | **ORCH** | контроль/мерж/координация | `coordination/`, `CLAUDE.md`, main `research/state.json`, ветки/мержи | всё |
 **Правило shared-кода:** общие модули (`fit_lib.py`, `model_core.py`, `model_blanco`) правит ТОЛЬКО
 владелец (B). Другим — read-only; нужна правка → запрос через `ACTIVITY.md` + `HANDOFFS.md`, ждать B.
+
+> **[2026-07-28, санкция владельца, §8 «при отсутствии ORCH — владелец решает»]** Зона A расширена:
+> подпись «прямая модель, идентифицируемость и проверка гипотез + софт затухания»; зона на запись =
+> `research/two_wgp/**` + `research/hypotheses/**` + `research/results/two_wgp/**`. Новые
+> скрипты-гипотезы A пишет в СВОЕЙ зоне (не в `research/experiments/`, где владелец-правщик — B).
+> `research/experiments/**` для A остаётся read-only; правка там — через `HANDOFFS.md` к B.
+> Основание: запись `[A] [proposal]` от 2026-07-28 в `ACTIVITY.md`.
+>
+> **[2026-07-28, РЕШЕНИЕ ORCH — консолидация спора A↔B]** Принята граница **по слою, а не по каталогу**
+> (предложение B). Итог: **B** владеет численным ядром (`model_core`, `fit_lib`, `verify_*`) + роль
+> ревьюера эквивалентности; **A** владеет скриптами-экспериментами/гипотезами `research/experiments/tN_*.py`
+> + `research/two_wgp/` + `research/hypotheses/` и пишет новые гипотезы БЕЗ хэндоффа к B. `GEOMETRY`
+> выносится из `fit_lib.py` в `research/experiments/geometry.py` (зона A). Инвариант «второй копии
+> Бланко/грида/невязки/билдера не заводить» — машинная проверка в `verify_model_core.py` (задача B).
+> B параметризует `build_experiment(data, angles_limit=None)`. Детали — в `OWNERSHIP.md` и `ORCH_BRIEF.md`.
+
+> **[2026-07-28, санкция владельца, §8]** Создана зона **L (литература/обзор + метапоиск)** — из
+> сессии-прародителя (bootstrap). Владеет на запись: `../THz-WGP-Analysis/litrev/**` (кросс-репо) +
+> `research/papers/**`. Инструмент: `litrev/metasearch.py`. Питает D (статью) и A (гипотезы)
+> источниками через HANDOFFS. ORCH при запуске — принять зону к сведению в OWNERSHIP/BOARD (уже внесено).
 
 ## 4. Общая зона обмена (координация)
 - `coordination/BOARD.md` — ЖИВОЙ статус всех сессий (обновляй свою строку при старте, смене задачи,
