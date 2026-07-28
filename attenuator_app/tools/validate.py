@@ -38,8 +38,8 @@ from attenuator_app.core.limits import uncertainty
 from attenuator_app.core.passport import Passport
 
 DATA = REPO / "data_pool"
-ROTATES = {"356att": "второй (анализатор)", "series1": "первый", "series2": "первый",
-           "series3": "первый", "series4": "первый", "series5": "первый"}
+ROTATES = {"356att": "second (analyzer)", "series1": "first", "series2": "first",
+           "series3": "first", "series4": "first", "series5": "first"}
 
 
 def energy(path, f1, f2):
@@ -83,24 +83,24 @@ def run(passport_path, band, datasets, verbose=True):
     att.set_zero(0.0)
     att.set_weight("flat", f1=f1, f2=f2)
 
-    print(f"=== валидация {p.serial} ===")
-    print(f"полоса {f1}-{f2} ТГц, схема {att.setup.scheme}, детектор {att.setup.detector}, "
-          f"шкала {p.scale.division_deg:g} град")
-    print(f"относительный режим, SET ZERO на 0 град\n")
+    print(f"=== validation {p.serial} ===")
+    print(f"band {f1}-{f2} THz, scheme {att.setup.scheme}, detector {att.setup.detector}, "
+          f"scale {p.scale.division_deg:g} deg")
+    print(f"relative mode, SET ZERO at 0 deg\n")
 
     rows, tot_in, tot_n = [], 0, 0
     for ds in datasets:
         meas = measured(ds, f1, f2)
         if 0.0 not in meas or len(meas) < 3:
-            print(f"  {ds}: пропущен (нет опорной точки 0 град или мало углов)")
+            print(f"  {ds}: skipped (no 0 deg reference point or too few angles)")
             continue
         ref = meas[0.0]
         angles = sorted(meas)
         n_in = 0
         if verbose:
-            print(f"  --- {ds}  (вращался {ROTATES.get(ds, '?')}, {len(angles)} углов) ---")
-            print(f"  {'theta':>7} {'изм,дБ':>9} {'модель,дБ':>10} {'95% интервал':>19} "
-                  f"{'откл':>7}  ")
+            print(f"  --- {ds}  ({ROTATES.get(ds, '?')} polarizer rotated, {len(angles)} angles) ---")
+            print(f"  {'theta':>7} {'meas,dB':>9} {'model,dB':>10} {'95% interval':>19} "
+                  f"{'dev':>7}  ")
         for a in angles:
             a_meas = -10.0 * np.log10(max(meas[a] / ref, 1e-30))
             pred = att.attenuation(a, relative=True, integral=True)
@@ -113,65 +113,65 @@ def run(passport_path, band, datasets, verbose=True):
             if verbose:
                 print(f"  {a:7.1f} {a_meas:9.2f} {pred['att_db']:10.2f} "
                       f"[{u.lo_db:7.2f},{u.hi_db:7.2f}] {a_meas-pred['att_db']:+7.2f}"
-                      f"  {'' if inside else '<-- ВНЕ ИНТЕРВАЛА'}")
+                      f"  {'' if inside else '<-- OUTSIDE INTERVAL'}")
         tot_in += n_in
         cov = 100.0 * n_in / len(angles)
-        print(f"  {ds}: покрытие {n_in}/{len(angles)} = {cov:.0f} %\n")
+        print(f"  {ds}: coverage {n_in}/{len(angles)} = {cov:.0f} %\n")
 
     if not tot_n:
-        print("нет данных для валидации")
+        print("no data for validation")
         return 1
 
     cov = 100.0 * tot_in / tot_n
     dev = np.array([r[2] - r[3] for r in rows])
     print("=" * 62)
-    print(f"ИТОГО покрытие 95 % интервала: {tot_in}/{tot_n} = {cov:.1f} %")
-    print(f"смещение (изм - модель): среднее {dev.mean():+.2f} дБ, RMSE {np.sqrt((dev**2).mean()):.2f} дБ")
+    print(f"TOTAL 95 % interval coverage: {tot_in}/{tot_n} = {cov:.1f} %")
+    print(f"bias (meas - model): mean {dev.mean():+.2f} dB, RMSE {np.sqrt((dev**2).mean()):.2f} dB")
 
     # разбивка по тому, какой поляризатор вращался — проверка закона Малюса на железе
     groups = {}
-    for grp, name in (("356att", "второй (анализатор)"), ("series", "первый")):
+    for grp, name in (("356att", "second (analyzer)"), ("series", "first")):
         sel = [r for r in rows if r[0].startswith(grp)]
         if not sel:
             continue
         d = np.array([r[2] - r[3] for r in sel])
         n_in_g = sum(r[6] for r in sel)
         groups[grp] = d
-        print(f"  вращался {name:<20}: {n_in_g}/{len(sel)} = {100*n_in_g/len(sel):3.0f} %, "
-              f"смещение {d.mean():+.2f} дБ, RMSE {np.sqrt((d**2).mean()):.2f} дБ")
+        print(f"  {name:<20} rotated: {n_in_g}/{len(sel)} = {100*n_in_g/len(sel):3.0f} %, "
+              f"bias {d.mean():+.2f} dB, RMSE {np.sqrt((d**2).mean()):.2f} dB")
     if len(groups) == 2:
         a, b = groups["356att"], groups["series"]
-        print(f"  -> разница смещений между группами {a.mean()-b.mean():+.2f} дБ "
-              f"(закон Малюса: затухание не должно зависеть от того, "
-              f"какой поляризатор вращать)")
+        print(f"  -> bias difference between groups {a.mean()-b.mean():+.2f} dB "
+              f"(Malus law: attenuation must not depend on "
+              f"which polarizer is rotated)")
 
     # насколько интервал консервативен: во сколько раз он шире фактического разброса
     half = np.array([(r[5] - r[4]) / 2 for r in rows])
     need = 1.959963985 * float(np.sqrt((dev ** 2).mean()))
-    print(f"  ширина интервала: полу-ширина в среднем {half.mean():.2f} дБ; "
-          f"по фактическому разбросу хватило бы {need:.2f} дБ "
-          f"-> запас x{half.mean()/max(need,1e-9):.2f}")
+    print(f"  interval width: mean half-width {half.mean():.2f} dB; "
+          f"actual scatter would need {need:.2f} dB "
+          f"-> margin x{half.mean()/max(need,1e-9):.2f}")
 
     # где именно промахи
     bad = [r for r in rows if not r[6]]
     if bad:
-        print(f"\n  вне интервала {len(bad)} точек, углы: "
+        print(f"\n  {len(bad)} points outside the interval, angles: "
               + ", ".join(f"{r[1]:.0f}" for r in sorted(bad, key=lambda x: abs(x[1]))[:14]))
         big = max(bad, key=lambda r: abs(r[2] - r[3]))
-        print(f"  худшая: {big[0]} {big[1]:.0f} град, изм {big[2]:.2f} vs модель {big[3]:.2f} дБ")
-    print(f"\n  ВЕРДИКТ: {'заявленные 95 % подтверждаются' if cov >= 95 else 'покрытие НИЖЕ заявленных 95 % — интервал занижен'}")
+        print(f"  worst: {big[0]} {big[1]:.0f} deg, meas {big[2]:.2f} vs model {big[3]:.2f} dB")
+    print(f"\n  VERDICT: {'declared 95 % confirmed' if cov >= 95 else 'coverage BELOW declared 95 % - interval underestimated'}")
 
     from attenuator_app.core import plots
     if plots.available():
         out = HERE.parent / "passports" / "validation.png"
         try:
             plots.validation(out, rows, footer=(
-                f"{p.serial} · схема {att.setup.scheme} · детектор {att.setup.detector} · "
-                f"полоса {f1}–{f2} ТГц · относительный режим, SET ZERO на 0° · "
-                f"покрытие {tot_in}/{tot_n} = {cov:.1f} %"))
-            print(f"  график: {out}")
+                f"{p.serial} · scheme {att.setup.scheme} · detector {att.setup.detector} · "
+                f"band {f1}-{f2} THz · relative mode, SET ZERO at 0 deg · "
+                f"coverage {tot_in}/{tot_n} = {cov:.1f} %"))
+            print(f"  figure: {out}")
         except Exception as e:
-            print(f"  [график не построен: {type(e).__name__}: {e}]")
+            print(f"  [figure not rendered: {type(e).__name__}: {e}]")
     return rows
 
 

@@ -200,15 +200,15 @@ class Passport:
         """Проверка инвариантов. Возвращает список предупреждений, кидает на грубых ошибках."""
         warn = []
         if not (0 < self.band_thz[0] < self.band_thz[1]):
-            raise ValueError(f"некорректная полоса калибровки {self.band_thz}")
+            raise ValueError(f"invalid calibration band {self.band_thz}")
         if not (0 < self.D_eff_um.value < self.P_um.value):
-            raise ValueError("должно быть 0 < D_eff < P")
+            raise ValueError("0 < D_eff < P is required")
         if self.D_eff_um.sigma == 0 and self.D_eff_um.source != "fixed":
-            warn.append("D_eff без неопределённости — оценки погрешности будут занижены")
+            warn.append("D_eff without uncertainty - error estimates will be understated")
         if self.gamma.sigma == 0 and self.gamma_range[0] == self.gamma_range[1]:
-            warn.append("gamma без диапазона — огибающая экстраполяции не строится")
+            warn.append("gamma without a range - extrapolation envelope cannot be built")
         if self.scale.division_deg <= 0:
-            raise ValueError("цена деления шкалы должна быть > 0")
+            raise ValueError("scale division must be > 0")
         return warn
 
 

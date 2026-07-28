@@ -37,7 +37,7 @@ def gaussian(freqs_thz, nu0, dnu):
 
 def preset(freqs_thz, name):
     if name not in PRESETS:
-        raise ValueError(f"неизвестный пресет {name!r}, доступны {list(PRESETS)}")
+        raise ValueError(f"unknown preset {name!r}, available {list(PRESETS)}")
     nu0, dnu, fmax = PRESETS[name]
     w = gaussian(freqs_thz, nu0, dnu)
     w[np.asarray(freqs_thz) > fmax] = 0.0
@@ -80,4 +80,4 @@ def build(freqs_thz, kind="preset", **kw):
         return preset(freqs_thz, kw.get("name", "pca"))
     if kind == "bg_file":
         return from_tds_file(freqs_thz, kw["path"])
-    raise ValueError(f"неизвестный тип веса {kind!r}")
+    raise ValueError(f"unknown weight kind {kind!r}")

@@ -98,21 +98,21 @@ def build(raw_path=None) -> Passport:
                          "доминируют неучтённые переотражения между решётками и "
                          "дифракционное рассеяние при theta > 50 град"),
         calibration_note=(
-            f"Источник: официальный паспорт продукта {SPEC['serial']} "
-            f"(passport.tex), Menlo Tera K8 THz-TDS, горизонтальная линейная "
-            f"поляризация. Прибор = ДВА независимых проволочных поляризатора; "
-            f"первый выровнен по поляризации пучка (theta1=0), вращается второй "
-            f"(анализатор). Затухание задаётся относительным углом theta=theta2-theta1. "
-            f"Номинал P/D = {SPEC['P_nominal_um']}/{SPEC['D_phys_um']} мкм; "
-            f"микрофото даёт P_geom = {SPEC['P_geom_um'][0]}+-{SPEC['P_geom_um'][1]} мкм. "
-            f"D_eff = {SPEC['D_eff_um'][0]} мкм — эквивалентная ПЛОСКАЯ полоска "
-            f"(круглая проволока D=11 работает примерно как полоска шириной D/2), "
-            f"не геометрический диаметр. "
-            + (f"Сеансы для оценки воспроизводимости: {', '.join(sessions)}."
+            f"Source: official product passport {SPEC['serial']} "
+            f"(passport.tex), Menlo Tera K8 THz-TDS, horizontal linear "
+            f"polarization. Device = TWO independent wire-grid polarizers; "
+            f"the first is aligned with the beam polarization (theta1=0), the second "
+            f"(analyzer) rotates. Attenuation is set by the relative angle theta=theta2-theta1. "
+            f"Nominal P/D = {SPEC['P_nominal_um']}/{SPEC['D_phys_um']} um; "
+            f"micrograph gives P_geom = {SPEC['P_geom_um'][0]}+-{SPEC['P_geom_um'][1]} um. "
+            f"D_eff = {SPEC['D_eff_um'][0]} um is an equivalent FLAT strip "
+            f"(a round wire D=11 acts roughly as a strip of width D/2), "
+            f"not the geometric diameter. "
+            + (f"Sessions used for reproducibility estimate: {', '.join(sessions)}."
                if sessions else "")),
     )
     for w in p.validate():
-        print(f"  предупреждение: {w}")
+        print(f"  warning: {w}")
     return p
 
 
@@ -120,19 +120,19 @@ def main():
     p = build()
     out = PASSPORTS / "ATT-11-16-CA85_02721.json"
     p.save(out)
-    print(f"=== паспорт {p.serial} ===")
-    print(f"  апертура   {p.aperture_mm:g} мм -> шкала {p.scale.division_deg:g} град, "
-          f"sigma(угол) {p.scale.sigma_total_deg():.2f} град")
-    for name, prm, unit in (("P_eff", p.P_um, "мкм"), ("D_eff", p.D_eff_um, "мкм"),
-                            ("loss", p.loss_factor, f"дБ/ТГц^{p.gamma.value:g}"),
-                            ("offset", p.angle_offset_deg, "град")):
+    print(f"=== passport {p.serial} ===")
+    print(f"  aperture   {p.aperture_mm:g} mm -> scale {p.scale.division_deg:g} deg, "
+          f"sigma(angle) {p.scale.sigma_total_deg():.2f} deg")
+    for name, prm, unit in (("P_eff", p.P_um, "um"), ("D_eff", p.D_eff_um, "um"),
+                            ("loss", p.loss_factor, f"dB/THz^{p.gamma.value:g}"),
+                            ("offset", p.angle_offset_deg, "deg")):
         print(f"  {name:<10} {prm.value:+8.3f} +- {prm.sigma:.3f} {unit:<18} [{prm.source}]")
     print(f"  D_eff/D_phys = {p.D_eff_um.value / p.D_phys_um:.3f}")
-    print(f"  RMSE модели  {p.model_rmse_db:.2f} дБ")
-    print(f"  полоса       {p.band_thz[0]}-{p.band_thz[1]} ТГц, схема {p.fit_scheme}, "
-          f"детектор {p.fit_detector}")
-    print(f"  nu аномалии  {p.nu_anomaly_thz:.1f} ТГц, зелёная зона до {p.zone_green_max_thz:.2f} ТГц")
-    print(f"  плёнки       {p.film.name} (опционально в схеме S3)")
+    print(f"  model RMSE   {p.model_rmse_db:.2f} dB")
+    print(f"  band         {p.band_thz[0]}-{p.band_thz[1]} THz, scheme {p.fit_scheme}, "
+          f"detector {p.fit_detector}")
+    print(f"  anomaly nu   {p.nu_anomaly_thz:.1f} THz, green zone up to {p.zone_green_max_thz:.2f} THz")
+    print(f"  films        {p.film.name} (optional in scheme S3)")
     print(f"-> {out}")
 
 

@@ -31,7 +31,7 @@ GRID = "#e1e0d9"
 AXIS = "#c3c2b7"
 
 ZONE_COLOR = {"green": STATUS["good"], "amber": STATUS["warning"], "red": STATUS["critical"]}
-ZONE_LABEL = {"green": "надёжная", "amber": "деградация поляризации", "red": "решётка дифрагирует"}
+ZONE_LABEL = {"green": "reliable", "amber": "polarization degradation", "red": "grid diffracts"}
 
 
 def available() -> bool:
@@ -141,7 +141,7 @@ def _band(ax, band, freqs):
     for x in drawn:
         ax.axvline(x, color=MUTED, lw=1.0, ls=(0, (4, 3)), zorder=1)
     if drawn:
-        ax.text(drawn[0], 0.02, " граница калибровки",
+        ax.text(drawn[0], 0.02, " calibration boundary",
                 transform=ax.get_xaxis_transform(), ha="left", va="bottom",
                 fontsize=7.6, color=MUTED)
     return bool(drawn)
@@ -163,7 +163,7 @@ def _split_extrap(x, y, inside):
 # ---------------------------------------------------------------------------
 def spectrum(path, freqs, att_db, *, lo_db=None, hi_db=None, zones=None,
              band=None, extrapolated=None, dr_db=None, theta_deg=None,
-             mode="относительный", footer=""):
+             mode="relative", footer=""):
     """A(nu): кривая, коридор 95 %, зоны применимости, полоса калибровки, DR."""
     plt = _mpl()
     fig, ax = plt.subplots(figsize=(7.4, 4.3))
@@ -172,24 +172,24 @@ def spectrum(path, freqs, att_db, *, lo_db=None, hi_db=None, zones=None,
     single_zone = _zones(ax, nu, zones) if zones is not None else None
     if lo_db is not None and hi_db is not None:
         ax.fill_between(nu, lo_db, hi_db, color=SERIES[0], alpha=0.14, lw=0,
-                        label="95 % интервал", zorder=2)
+                        label="95 % interval", zorder=2)
     if extrapolated is not None and np.any(extrapolated):
         solid, dashed = _split_extrap(nu, att_db, ~np.asarray(extrapolated, dtype=bool))
-        ax.plot(nu, solid, color=SERIES[0], lw=2.0, zorder=4, label="модель (в полосе)")
+        ax.plot(nu, solid, color=SERIES[0], lw=2.0, zorder=4, label="model (in band)")
         ax.plot(nu, dashed, color=SERIES[0], lw=2.0, ls=(0, (5, 2.5)), zorder=4,
-                label="экстраполяция")
+                label="extrapolation")
     else:
-        ax.plot(nu, att_db, color=SERIES[0], lw=2.0, zorder=4, label="модель")
+        ax.plot(nu, att_db, color=SERIES[0], lw=2.0, zorder=4, label="model")
     if dr_db is not None:
         ax.plot(nu, dr_db, color=SERIES[1], lw=1.6, ls=(0, (1.5, 2)), zorder=3,
-                label="динамический диапазон установки")
+                label="setup dynamic range")
     if band is not None:
         _band(ax, band, nu)
 
-    sub = (f"theta = {theta_deg:+.2f}°, {mode} режим" if theta_deg is not None else mode)
+    sub = (f"theta = {theta_deg:+.2f} deg, {mode} mode" if theta_deg is not None else mode)
     if single_zone:
-        sub += f" · вся полоса в зоне «{ZONE_LABEL.get(single_zone, single_zone)}»"
-    _finish(ax, "частота, ТГц", "затухание, дБ (по мощности)", "Спектр затухания", sub)
+        sub += f" · whole band in zone '{ZONE_LABEL.get(single_zone, single_zone)}'"
+    _finish(ax, "frequency, THz", "attenuation, dB (power)", "Attenuation spectrum", sub)
     _legend(ax, loc="lower left")
     if footer:
         _footer(fig, footer)
@@ -212,10 +212,10 @@ def angular_curve(path, theta, att_db, ideal_db, *, lo_db=None, hi_db=None,
 
     if lo_db is not None and hi_db is not None:
         ax.fill_between(th, lo_db, hi_db, color=SERIES[0], alpha=0.14, lw=0,
-                        label="95 % интервал", zorder=2)
+                        label="95 % interval", zorder=2)
     ax.plot(th, ideal_db, color=MUTED, lw=1.5, ls=(0, (5, 2.5)), zorder=3,
-            label="идеальный предел cos⁴")
-    ax.plot(th, att_db, color=SERIES[0], lw=2.0, zorder=4, label="модель прибора")
+            label="ideal cos^4 limit")
+    ax.plot(th, att_db, color=SERIES[0], lw=2.0, zorder=4, label="device model")
     if mark is not None:
         mx, my, mlabel = mark
         ax.plot([mx], [my], marker="o", ms=7, mfc=SERIES[1], mec=SURFACE, mew=1.6,
@@ -226,9 +226,9 @@ def angular_curve(path, theta, att_db, ideal_db, *, lo_db=None, hi_db=None,
     top = float(np.nanmax(hi_db if hi_db is not None else att_db))
     ax.set_ylim(bottom=min(-1.0, float(np.nanmin(att_db)) - 1.0), top=top * 1.12 + 2.0)
 
-    _finish(ax, "" if ax2 is not None else "угол, град",
-            "затухание, дБ (по мощности)", "Угловая характеристика",
-            "относительный режим, отсчёт от нуля")
+    _finish(ax, "" if ax2 is not None else "angle, deg",
+            "attenuation, dB (power)", "Angular characteristic",
+            "relative mode, referenced to zero")
     _legend(ax, loc="upper left")
 
     if ax2 is not None:
@@ -236,8 +236,8 @@ def angular_curve(path, theta, att_db, ideal_db, *, lo_db=None, hi_db=None,
         ax2.plot(th, sl, color=SERIES[2], lw=2.0, zorder=4)
         ax2.fill_between(th, 0, sl, color=SERIES[2], alpha=0.12, lw=0)
         ax2.set_ylim(0, float(np.nanmax(sl)) * 1.35 + 0.05)
-        _finish(ax2, "угол, град", "|dA/dθ|, дБ/град")
-        ax2.text(0.01, 0.92, "крутизна: во сколько дБ обходится градус ошибки",
+        _finish(ax2, "angle, deg", "|dA/dtheta|, dB/deg")
+        ax2.text(0.01, 0.92, "slope: how many dB one degree of error costs",
                  transform=ax2.transAxes, ha="left", va="top",
                  fontsize=7.8, color=MUTED)
     if footer:
@@ -254,7 +254,7 @@ def validation(path, rows, *, footer=""):
                                   gridspec_kw={"height_ratios": [2.4, 1]})
     groups = {}
     for ds, a, meas, pred, lo, hi, inside in rows:
-        groups.setdefault("второй (анализатор)" if ds.startswith("356") else "первый",
+        groups.setdefault("second (analyzer)" if ds.startswith("356") else "first",
                           []).append((a, meas, pred, lo, hi, inside))
 
     # коридор строится по всем точкам, отсортированным по углу
@@ -264,8 +264,8 @@ def validation(path, rows, *, footer=""):
     hi = np.array([r[4] for r in allr])
     pr = np.array([r[2] for r in allr])
     ax.fill_between(aa, lo, hi, color=SERIES[0], alpha=0.14, lw=0,
-                    label="95 % интервал модели", zorder=2)
-    ax.plot(aa, pr, color=SERIES[0], lw=2.0, zorder=4, label="модель")
+                    label="model 95 % interval", zorder=2)
+    ax.plot(aa, pr, color=SERIES[0], lw=2.0, zorder=4, label="model")
 
     for i, (name, g) in enumerate(sorted(groups.items())):
         g = sorted(g, key=lambda r: r[0])
@@ -273,22 +273,22 @@ def validation(path, rows, *, footer=""):
         y = np.array([r[1] for r in g])
         ax.plot(x, y, linestyle="none", marker="o" if i == 0 else "^", ms=5.5,
                 mfc=SERIES[1 + i], mec=SURFACE, mew=1.0, zorder=5,
-                label=f"измерено, вращался {name}")
+                label=f"measured, {name} polarizer rotated")
         ax2.plot(x, y - np.array([r[2] for r in g]), linestyle="none",
                  marker="o" if i == 0 else "^", ms=5.5,
                  mfc=SERIES[1 + i], mec=SURFACE, mew=1.0, zorder=5)
 
-    _finish(ax, "", "затухание, дБ (по мощности)",
-            "Проверка модели на измерениях",
-            f"{len(allr)} точек, относительный режим, SET ZERO на 0°")
+    _finish(ax, "", "attenuation, dB (power)",
+            "Model check against measurements",
+            f"{len(allr)} points, relative mode, SET ZERO at 0 deg")
     _legend(ax, loc="upper left")
 
     dev = np.array([r[1] - r[2] for r in allr])
     half = 0.5 * (hi - lo)
     ax2.fill_between(aa, -half, half, color=SERIES[0], alpha=0.14, lw=0, zorder=2)
     ax2.axhline(0, color=AXIS, lw=1.0, zorder=3)
-    _finish(ax2, "угол, град", "измерено − модель, дБ")
-    ax2.text(0.99, 0.06, f"смещение {dev.mean():+.2f} дБ, RMSE {np.sqrt((dev**2).mean()):.2f} дБ",
+    _finish(ax2, "angle, deg", "measured - model, dB")
+    ax2.text(0.99, 0.06, f"bias {dev.mean():+.2f} dB, RMSE {np.sqrt((dev**2).mean()):.2f} dB",
              transform=ax2.transAxes, ha="right", va="bottom", fontsize=8, color=INK2)
     if footer:
         _footer(fig, footer)
@@ -303,8 +303,8 @@ def polarization(path, freqs, azimuth, ellipticity, *, zones=None, band=None,
     plt = _mpl()
     fig, (ax, ax2) = plt.subplots(2, 1, figsize=(7.4, 5.6), sharex=True)
     nu = np.asarray(freqs, dtype=float)
-    for a, y, lab, col in ((ax, azimuth, "азимут, град", SERIES[0]),
-                           (ax2, ellipticity, "эллиптичность, град", SERIES[2])):
+    for a, y, lab, col in ((ax, azimuth, "azimuth, deg", SERIES[0]),
+                           (ax2, ellipticity, "ellipticity, deg", SERIES[2])):
         if zones is not None:
             _zones(a, nu, zones)
         a.plot(nu, y, color=col, lw=2.0, zorder=4)
@@ -312,9 +312,9 @@ def polarization(path, freqs, azimuth, ellipticity, *, zones=None, band=None,
         a.margins(y=0.12)          # иначе кривая ложится на верхнюю рамку
         if band is not None:
             _band(a, band, nu)
-    _finish(ax, "", "азимут, град", "Поляризация на выходе",
-            (f"theta = {theta_deg:+.2f}°" if theta_deg is not None else None))
-    _finish(ax2, "частота, ТГц", "эллиптичность, град")
+    _finish(ax, "", "azimuth, deg", "Output polarization",
+            (f"theta = {theta_deg:+.2f} deg" if theta_deg is not None else None))
+    _finish(ax2, "frequency, THz", "ellipticity, deg")
     if footer:
         _footer(fig, footer)
     fig.savefig(path)
@@ -334,10 +334,10 @@ def angle_map(path, th1, th2, att_db, *, footer=""):
                     linewidths=0.7, alpha=0.75)
     ax.clabel(cs, inline=True, fontsize=7, fmt="%.0f")
     cb = fig.colorbar(m, ax=ax, pad=0.02)
-    cb.set_label("затухание, дБ (по мощности)", color=INK2)
+    cb.set_label("attenuation, dB (power)", color=INK2)
     cb.outline.set_edgecolor(AXIS)
-    _finish(ax, "угол WGP1, град", "угол WGP2, град", "Карта затухания",
-            "изолинии подписаны в дБ")
+    _finish(ax, "WGP1 angle, deg", "WGP2 angle, deg", "Attenuation map",
+            "contour labels in dB")
     if footer:
         _footer(fig, footer)
     fig.savefig(path)

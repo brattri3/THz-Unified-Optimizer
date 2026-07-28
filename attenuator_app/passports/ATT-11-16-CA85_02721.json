@@ -61,7 +61,7 @@
  ],
  "fit_scheme": "S0",
  "fit_detector": "coherent",
- "calibration_note": "Источник: официальный паспорт продукта ATT-11-16-CA85 S/N #02721 (passport.tex), Menlo Tera K8 THz-TDS, горизонтальная линейная поляризация. Прибор = ДВА независимых проволочных поляризатора; первый выровнен по поляризации пучка (theta1=0), вращается второй (анализатор). Затухание задаётся относительным углом theta=theta2-theta1. Номинал P/D = 16.0/11.0 мкм; микрофото даёт P_geom = 15.93+-5.03 мкм. D_eff = 5.67 мкм — эквивалентная ПЛОСКАЯ полоска (круглая проволока D=11 работает примерно как полоска шириной D/2), не геометрический диаметр. Сеансы для оценки воспроизводимости: 356att, series1, series2, series3.",
+ "calibration_note": "Source: official product passport ATT-11-16-CA85 S/N #02721 (passport.tex), Menlo Tera K8 THz-TDS, horizontal linear polarization. Device = TWO independent wire-grid polarizers; the first is aligned with the beam polarization (theta1=0), the second (analyzer) rotates. Attenuation is set by the relative angle theta=theta2-theta1. Nominal P/D = 16.0/11.0 um; micrograph gives P_geom = 15.93+-5.03 um. D_eff = 5.67 um is an equivalent FLAT strip (a round wire D=11 acts roughly as a strip of width D/2), not the geometric diameter. Sessions used for reproducibility estimate: 356att, series1, series2, series3.",
  "datasets": [
   "356att",
   "series1",

@@ -36,9 +36,9 @@ class MotionCommand:
 
     def as_operator_instruction(self) -> str:
         d = self.target_deg - self.from_deg
-        way = "по часовой" if d < 0 else "против часовой"
-        return (f"[{self.axis}] повернуть на {abs(d):.1f}° {way} "
-                f"→ установить {self.target_deg:+.1f}°"
+        way = "clockwise" if d < 0 else "counterclockwise"
+        return (f"[{self.axis}] rotate by {abs(d):.1f} deg {way} "
+                f"-> set {self.target_deg:+.1f} deg"
                 + (f"   ({self.note})" if self.note else ""))
 
 
@@ -56,7 +56,7 @@ class Attenuator:
         self.zero_deg: float | None = None
         self.theta_deg: float = 0.0
         self.weight = None
-        self.weight_desc = "не задан"
+        self.weight_desc = "not set"
         self._dr = None
 
     # -- конструкторы --------------------------------------------------
@@ -102,8 +102,8 @@ class Attenuator:
         ref = (self.zero_deg if self.zero_deg is not None else 0.0) if relative else None
         if integral:
             if self.weight is None:
-                raise ValueError("интегральное затухание требует спектрального веса "
-                                 "(set_weight): без w(ν) величина не определена")
+                raise ValueError("integral attenuation requires a spectral weight "
+                                 "(set_weight): without w(nu) the value is undefined")
             val = float(attenuation_integral_db(th, self.freqs, self.weight,
                                                 self.passport, self.setup,
                                                 ref_theta1_deg=ref)[0])
@@ -135,7 +135,7 @@ class Attenuator:
     def solve(self, target_db: float, *, integral=False, policy="monotone_then_precision",
               snap=True):
         if integral and self.weight is None:
-            raise ValueError("интегральная обратная задача требует спектрального веса")
+            raise ValueError("integral inverse problem requires a spectral weight")
         return inverse.solve(float(target_db), self.passport, self.setup, self.freqs,
                              weight=self.weight,
                              ref_theta_deg=self.zero_deg if self.zero_deg is not None else 0.0,
@@ -161,7 +161,7 @@ class Attenuator:
     def motion_plan(self, solution) -> list[MotionCommand]:
         """Решение -> команды поворота. Сейчас инструкция оператору, потом — драйверу."""
         cmds = [MotionCommand("wgp1", solution.theta_set_deg, self.theta_deg,
-                              f"деление шкалы {self.passport.scale.division_deg:g}°")]
+                              f"scale division {self.passport.scale.division_deg:g} deg")]
         return cmds
 
     def apply(self, solution):

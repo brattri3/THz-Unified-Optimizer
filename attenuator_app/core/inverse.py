@@ -34,10 +34,10 @@ class Solution:
     parts: dict = field(default_factory=dict)
 
     def __str__(self):
-        return (f"theta = {self.theta_set_deg:+7.2f} град  ->  {self.achieved_db:6.2f} дБ "
+        return (f"theta = {self.theta_set_deg:+7.2f} deg  ->  {self.achieved_db:6.2f} dB "
                 f"[95%: {self.lo_db:6.2f} ... {self.hi_db:6.2f}]  "
-                f"крутизна {self.slope_db_per_deg:5.2f} дБ/град  "
-                f"ветвь {self.branch}, ход {self.move_deg:+.1f} град")
+                f"slope {self.slope_db_per_deg:5.2f} dB/deg  "
+                f"branch {self.branch}, move {self.move_deg:+.1f} deg")
 
 
 def analytic_guess_deg(target_db: float) -> float:

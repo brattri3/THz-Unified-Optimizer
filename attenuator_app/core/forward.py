@@ -15,18 +15,18 @@ from .passport import Passport
 
 # ---------------------------------------------------------------------------
 SCHEMES = {
-    "S0": "одиночный WGP(theta) -> детектор",
-    "S1": "WGP(theta) -> WGP(phi2 фикс) -> детектор",
-    "S2": "WGP(theta1) -> WGP(theta2) -> детектор (оба подвижны)",
-    "S3": "плёнка(0) -> WGP(theta) -> плёнка(0) -> детектор  [схема калибровки]",
+    "S0": "single WGP(theta) -> detector",
+    "S1": "WGP(theta) -> WGP(phi2 fixed) -> detector",
+    "S2": "WGP(theta1) -> WGP(theta2) -> detector (both movable)",
+    "S3": "film(0) -> WGP(theta) -> film(0) -> detector  [calibration scheme]",
 }
 DETECTORS = {
-    "coherent": "когерентный (фотопроводящая антенна, ЭО-стробирование) — проекция ПОЛЯ на ось d",
-    "power": "мощностной (болометр, пироприёмник, ячейка Голея) — полная мощность обеих компонент",
+    "coherent": "coherent (photoconductive antenna, EO sampling) - FIELD projection onto axis d",
+    "power": "power (bolometer, pyroelectric, Golay cell) - total power of both components",
 }
 SOURCES = {
-    "linear": "линейно поляризованный источник (угол ψ)",
-    "unpolarized": "неполяризованный / частично поляризованный (DOP)",
+    "linear": "linearly polarized source (angle psi)",
+    "unpolarized": "unpolarized / partially polarized (DOP)",
 }
 
 
@@ -44,13 +44,13 @@ class Setup:
 
     def validate(self):
         if self.scheme not in SCHEMES:
-            raise ValueError(f"неизвестная схема {self.scheme!r}, доступны {list(SCHEMES)}")
+            raise ValueError(f"unknown scheme {self.scheme!r}, available {list(SCHEMES)}")
         if self.detector not in DETECTORS:
-            raise ValueError(f"неизвестный детектор {self.detector!r}")
+            raise ValueError(f"unknown detector {self.detector!r}")
         if self.source not in SOURCES:
-            raise ValueError(f"неизвестный источник {self.source!r}")
+            raise ValueError(f"unknown source {self.source!r}")
         if not 0.0 <= self.dop <= 1.0:
-            raise ValueError("DOP должен быть в [0, 1]")
+            raise ValueError("DOP must be within [0, 1]")
 
 
 # ---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ def chain(theta1_deg, freqs_thz, passport: Passport, setup: Setup,
                        np.asarray(fb, dtype=complex))
             M = _mul(F[0][None], _mul(M, F[0][None]))
     else:
-        raise ValueError(f"схема {sch!r} не реализована")
+        raise ValueError(f"scheme {sch!r} is not implemented")
 
     if passport.tau_ps.value:
         M = M * np.exp(-1j * 2 * np.pi * nu * passport.tau_ps.value)[None, :, None, None]

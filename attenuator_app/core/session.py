@@ -45,7 +45,7 @@ class Session:
         self._n = 0
         self._write_meta()
         (self.dir / "log.txt").write_text(
-            f"# сеанс {name}, начат {self.started}\n", encoding="utf-8")
+            f"# session {name}, started {self.started}\n", encoding="utf-8")
 
     # ------------------------------------------------------------------
     def _write_meta(self):
@@ -74,7 +74,7 @@ class Session:
                   "band_thz", "weight", "scale_division_deg"):
             if k in c:
                 w.append(f"# {k:<18} {c[k]}")
-        return (f"# {title}\n# сеанс {self.meta['session']}   "
+        return (f"# {title}\n# session {self.meta['session']}   "
                 f"{datetime.now().isoformat(timespec='seconds')}\n" + "\n".join(w) + "\n")
 
     def save_plot(self, title: str, body: str, slug: str) -> Path:
@@ -118,14 +118,14 @@ def _fmt(v):
 
 # ---------------------------------------------------------------------------
 def ascii_plot(x, y, *, width=64, height=18, xlabel="x", ylabel="y",
-               marks=None, ref=None, ref_label="опора"):
+               marks=None, ref=None, ref_label="reference"):
     """ASCII-график y(x). marks — [(x, символ, подпись)], ref — вторая кривая."""
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
     ok = np.isfinite(x) & np.isfinite(y)
     x, y = x[ok], y[ok]
     if x.size < 2:
-        return "(недостаточно точек)"
+        return "(not enough points)"
 
     ys = [y] + ([np.asarray(ref, dtype=float)[ok]] if ref is not None else [])
     lo = min(float(np.nanmin(a)) for a in ys)
@@ -160,9 +160,9 @@ def ascii_plot(x, y, *, width=64, height=18, xlabel="x", ylabel="y",
     axis = lbl + mid.rjust(width // 2 - len(lbl) + len(mid)) + end.rjust(width // 2 - len(mid) + len(end))
     out.append(" " * 10 + axis[:width])
     out.append(" " * 10 + xlabel)
-    legend = "  * — модель"
+    legend = "  * - model"
     if ref is not None:
-        legend += f",  . — {ref_label}"
+        legend += f",  . - {ref_label}"
     for m in (marks or []):
         legend += f",  {m[1]} — {m[2]}" if len(m) > 2 else ""
     out.append(legend)

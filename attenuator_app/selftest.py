@@ -40,7 +40,7 @@ def ideal_passport(ideal=True):
 
 
 def main():
-    print("=== attenuator_app: приёмочные проверки ===\n")
+    print("=== attenuator_app: acceptance checks ===\n")
     nu = np.linspace(0.2, 1.5, 24)
     th = np.linspace(0, 90, 46)
 
@@ -53,8 +53,8 @@ def main():
     th_id = np.linspace(0, 85, 36)
     db, _ = attenuation_db(th_id, nu, p, s, ref_theta1_deg=0.0)
     err = float(np.max(np.abs(db.mean(axis=1) - ideal_cos4_db(th_id, 0.0))))
-    check("идеальный предел = cos^4 (S0, идеальные элементы)", err < 1e-9,
-          f"max |dA| = {err:.4f} дБ")
+    check("ideal limit = cos^4 (S0, ideal elements)", err < 1e-9,
+          f"max |dA| = {err:.4f} dB")
 
     # 2. Энергия не растёт: |E_out|^2 <= |E_in|^2
     worst = 0.0
@@ -63,7 +63,7 @@ def main():
         pp.P_um, pp.D_eff_um = Param(P, 0, "fixed"), Param(D, 0, "fixed")
         I, _ = intensity(th, nu, pp, Setup(scheme="S0", detector="power", use_film=False))
         worst = max(worst, float(I.max()))
-    check("сохранение энергии в S0", worst <= 1.0 + 1e-9, f"max |E_out|^2 = {worst:.6f}")
+    check("energy conservation in S0", worst <= 1.0 + 1e-9, f"max |E_out|^2 = {worst:.6f}")
 
     # 3. Относительный режим НЕ зависит от рассеяния (loss, gamma сокращаются)
     #    — ключевое физическое утверждение docs/attenuator_app/02_SCENARIOS.md §2.2
@@ -76,32 +76,32 @@ def main():
     alt = att.attenuation(60, relative=True)["att_db"]
     att.passport.loss_factor = Param(hold[0], 0.0, "fixed")
     att.passport.gamma = Param(hold[1], 0.0, "fixed")
-    check("относительный режим не зависит от loss/gamma",
-          abs(base - alt) < 1e-9, f"|dA| = {abs(base-alt):.2e} дБ")
+    check("relative mode does not depend on loss/gamma",
+          abs(base - alt) < 1e-9, f"|dA| = {abs(base-alt):.2e} dB")
 
     # 4. Абсолютный режим ЗАВИСИТ от рассеяния (иначе п.3 был бы тривиален)
     a1 = att.attenuation(60, relative=False)["att_db"]
     att.passport.loss_factor = Param(hold[0] * 4 + 1.0, 0.0, "fixed")
     a2 = att.attenuation(60, relative=False)["att_db"]
     att.passport.loss_factor = Param(hold[0], 0.0, "fixed")
-    check("абсолютный режим зависит от loss (проверка невырожденности п.3)",
-          abs(a1 - a2) > 0.5, f"|dA| = {abs(a1-a2):.3f} дБ")
+    check("absolute mode depends on loss (non-degeneracy of check 3)",
+          abs(a1 - a2) > 0.5, f"|dA| = {abs(a1-a2):.3f} dB")
 
     # 5. Мощностной детектор в S0 на 45 град даёт ровно на 3 дБ меньше
     att.setup = Setup(scheme="S0", detector="coherent", use_film=False)
     c45 = att.attenuation(45, relative=True)["att_db"]
     att.setup = Setup(scheme="S0", detector="power", use_film=False)
     p45 = att.attenuation(45, relative=True)["att_db"]
-    check("S0: power vs coherent на 45 град = 3 дБ",
-          abs((c45 - p45) - 3.0) < 0.15, f"разница {c45-p45:.3f} дБ")
+    check("S0: power vs coherent at 45 deg = 3 dB",
+          abs((c45 - p45) - 3.0) < 0.15, f"difference {c45-p45:.3f} dB")
 
     # 6. Теорема выравнивания: второй WGP вдоль оси детектора почти ничего не меняет
     att.setup = Setup(scheme="S0", detector="coherent", use_film=False)
     a_one = att.attenuation(45, relative=True)["att_db"]
     att.setup = Setup(scheme="S1", detector="coherent", use_film=False)
     a_two = att.attenuation(45, relative=True)["att_db"]
-    check("теорема выравнивания: S1 == S0 при выровненной оси",
-          abs(a_one - a_two) < 0.05, f"разница {a_two-a_one:+.4f} дБ")
+    check("alignment theorem: S1 == S0 with aligned axis",
+          abs(a_one - a_two) < 0.05, f"difference {a_two-a_one:+.4f} dB")
 
     # 7. Обратная задача обращает прямую
     att.setup = Setup(scheme="S3", detector="coherent")
@@ -113,27 +113,27 @@ def main():
         if sols:
             errs.append(min(abs(s.theta_deg - t) for s in sols))
     check("inverse(forward(theta)) == theta", errs and max(errs) < 0.05,
-          f"max |dtheta| = {max(errs):.4f} град" if errs else "нет решений")
+          f"max |dtheta| = {max(errs):.4f} deg" if errs else "no solutions")
 
     # 8. Пол затухания конечен и лежит НЕ на 90 град ровно
     th_ext, floor = att.auto_cross()
-    check("пол затухания конечен", 10.0 < floor < 80.0,
-          f"{floor:.2f} дБ при theta = {th_ext:.2f} град")
+    check("attenuation floor is finite", 10.0 < floor < 80.0,
+          f"{floor:.2f} dB at theta = {th_ext:.2f} deg")
 
     # 9. Крутизна растёт с углом (обоснование проверки F4)
     from .core.limits import slope_db_per_deg
     sl = [slope_db_per_deg(t, att.passport, att.setup, att.freqs, ref_theta_deg=0.0)
           for t in (30, 50, 70, 85)]
-    check("крутизна dA/dtheta монотонно растёт", all(np.diff(sl) > 0),
-          " -> ".join(f"{x:.2f}" for x in sl) + " дБ/град")
+    check("slope dA/dtheta grows monotonically", all(np.diff(sl) > 0),
+          " -> ".join(f"{x:.2f}" for x in sl) + " dB/deg")
 
     # 10. Экстраполяция расширяет интервал неопределённости
     from .core.limits import uncertainty
     u_in = uncertainty(60, att.passport, att.setup, np.array([1.0]), ref_theta_deg=0.0)
     u_out = uncertainty(60, att.passport, att.setup, np.array([4.0]), ref_theta_deg=0.0)
-    check("вне полосы калибровки интервал шире",
+    check("interval widens outside the calibration band",
           u_out.sigma_db > u_in.sigma_db,
-          f"sigma {u_in.sigma_db:.3f} -> {u_out.sigma_db:.3f} дБ")
+          f"sigma {u_in.sigma_db:.3f} -> {u_out.sigma_db:.3f} dB")
 
     # 10b. Интервал ОБЯЗАН содержать само показываемое значение.
     #      Регрессия: uncertainty() считала по первой частоте, а attenuation()
@@ -144,28 +144,28 @@ def main():
         lo, hi = r["ci95_db"]
         if not (lo - 1e-9 <= r["att_db"] <= hi + 1e-9):
             bad.append((t, r["att_db"], lo, hi))
-    check("95 % интервал содержит само значение", not bad,
-          "все углы" if not bad else f"нарушено при theta = {[b[0] for b in bad]}")
+    check("95 % interval contains the value itself", not bad,
+          "all angles" if not bad else f"violated at theta = {[b[0] for b in bad]}")
 
     # 11. Софт-клип ограничивает степенной закон и непрерывен
     f_lo, f_hi = 0.2, 1.5
     x = np.linspace(1.0, 40.0, 400)
     y = blanco.soft_clip(x, f_hi, f_lo, "soft")
-    check("софт-клип ограничен и монотонен",
+    check("soft clip is bounded and monotonic",
           y.max() < 6 * f_hi and np.all(np.diff(y) >= -1e-12),
-          f"nu 40 ТГц -> nu_eff {y[-1]:.2f} ТГц")
+          f"nu 40 THz -> nu_eff {y[-1]:.2f} THz")
 
     # 12. Кэш Бланко работает
     blanco.clear_cache()
     for _ in range(5):
         blanco.blanco_t(nu, 15.5, 4.48)
     st = blanco.cache_stats()
-    check("кэш Бланко", st["hits"] == 4 and st["misses"] == 1, str(st))
+    check("Blanco cache", st["hits"] == 4 and st["misses"] == 1, str(st))
 
     bad = [n for n, ok, _ in RESULTS if not ok]
-    print(f"\n=== {len(RESULTS)-len(bad)}/{len(RESULTS)} пройдено ===")
+    print(f"\n=== {len(RESULTS)-len(bad)}/{len(RESULTS)} passed ===")
     if bad:
-        print("НЕ ПРОШЛИ: " + ", ".join(bad))
+        print("FAILED: " + ", ".join(bad))
     return 1 if bad else 0
 
 

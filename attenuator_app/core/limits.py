@@ -178,33 +178,33 @@ def run_checks(target_db, theta_deg, passport: Passport, setup: Setup, freqs, *,
 
     if theta_deg is None:
         out.append(Check("F0", False,
-                         "обратная задача не имеет решения — угол не определён",
-                         "см. F2: цель выше пола прибора"))
+                         "inverse problem has no solution - angle undefined",
+                         "see F2: target above the device floor"))
 
     # F1 — усиление невозможно
     out.append(Check("F1", target_db >= -1e-9,
-                     f"цель {target_db:+.2f} дБ"
-                     + ("" if target_db >= 0 else " — отрицательное затухание невозможно"),
-                     "минимум = 0 дБ (опорные углы)"))
+                     f"target {target_db:+.2f} dB"
+                     + ("" if target_db >= 0 else " - negative attenuation is impossible"),
+                     "minimum = 0 dB (reference angles)"))
 
     # F2 — пол затухания прибора
     if floor_db is not None:
         ok = target_db <= floor_db + 1e-9
         out.append(Check("F2", ok,
-                         f"пол прибора {floor_db:.1f} дБ при theta={floor_theta:.1f} град"
-                         + ("" if ok else f"; цель {target_db:.1f} дБ недостижима"),
-                         "решётка с меньшим D/P, либо каскад с пластиной HR-Si (−3.01 дБ)"))
+                         f"device floor {floor_db:.1f} dB at theta={floor_theta:.1f} deg"
+                         + ("" if ok else f"; target {target_db:.1f} dB unreachable"),
+                         "grid with smaller D/P, or cascade with an HR-Si wafer (-3.01 dB)"))
 
     # F3 — динамический диапазон установки
     if dr_db is None:
-        out.append(Check("F3", True, "динамический диапазон не задан — проверка пропущена",
-                         "загрузить фоновое измерение (bg) для оценки DR(ν)"))
+        out.append(Check("F3", True, "dynamic range not set - check skipped",
+                         "load a background scan (bg) to estimate DR(nu)"))
     else:
         dr = float(np.min(np.atleast_1d(dr_db)))
         ok = target_db <= dr - dr_margin_db
-        out.append(Check("F3", ok, f"DR установки {dr:.1f} дБ (запас {dr_margin_db:.0f} дБ)"
-                         + ("" if ok else "; результат будет НЕПРОВЕРЯЕМ — сигнал уйдёт под шум"),
-                         "увеличить усреднение или сузить рабочую полосу"))
+        out.append(Check("F3", ok, f"setup DR {dr:.1f} dB (margin {dr_margin_db:.0f} dB)"
+                         + ("" if ok else "; result will be UNVERIFIABLE - signal below noise"),
+                         "increase averaging or narrow the working band"))
 
     # F4 — угловая разрешимость
     if theta_deg is not None:
@@ -214,9 +214,9 @@ def run_checks(target_db, theta_deg, passport: Passport, setup: Setup, freqs, *,
         ok = s_a <= tol_sigma_db
         need = tol_sigma_db / max(sl, 1e-9) * 2.0 / np.sqrt(2.0)
         out.append(Check("F4", ok,
-                         f"крутизна {sl:.2f} дБ/град, шкала {passport.scale.division_deg:g} град "
-                         f"-> sigma(угол) = {s_a:.2f} дБ (допуск {tol_sigma_db:.2f})",
-                         f"нужна шкала с делением <= {need:.2f} град или моторизованный ротатор"))
+                         f"slope {sl:.2f} dB/deg, scale {passport.scale.division_deg:g} deg "
+                         f"-> sigma(angle) = {s_a:.2f} dB (tolerance {tol_sigma_db:.2f})",
+                         f"need a scale division <= {need:.2f} deg or a motorized rotator"))
 
     # F5 — спектральная неравномерность
     if theta_deg is not None and nu.size > 1:
@@ -225,18 +225,18 @@ def run_checks(target_db, theta_deg, passport: Passport, setup: Setup, freqs, *,
         spread = float(db[0, m].max() - db[0, m].min()) if m.any() else 0.0
         ok = spread <= tol_spread_db
         out.append(Check("F5", ok,
-                         f"неравномерность {spread:.2f} дБ p-p в {nu[m].min():.2f}–{nu[m].max():.2f} ТГц"
-                         if m.any() else "полоса вне области применимости",
-                         "сузить рабочую полосу или использовать пластины HR-Si"))
+                         f"non-uniformity {spread:.2f} dB p-p over {nu[m].min():.2f}-{nu[m].max():.2f} THz"
+                         if m.any() else "band outside the applicability range",
+                         "narrow the working band or use HR-Si wafers"))
 
     # F6 — зона применимости решётки
     z = passport.zone(nu)
     n_red, n_amb = int((z == "red").sum()), int((z == "amber").sum())
     out.append(Check("F6", n_red == 0,
-                     f"зоны: зелёная {(z=='green').sum()}, жёлтая {n_amb}, красная {n_red} "
-                     f"(nu аномалии = {passport.nu_anomaly_thz:.1f} ТГц, "
-                     f"зелёная до {passport.zone_green_max_thz:.2f} ТГц)",
-                     "снизить верхнюю частоту: в красной зоне решётка работает как дифракционная"))
+                     f"zones: green {(z=='green').sum()}, amber {n_amb}, red {n_red} "
+                     f"(anomaly nu = {passport.nu_anomaly_thz:.1f} THz, "
+                     f"green up to {passport.zone_green_max_thz:.2f} THz)",
+                     "lower the top frequency: in the red zone the grid acts as a diffraction grating"))
 
     # F7 — неопределённость экстраполяции
     if theta_deg is not None:
@@ -246,9 +246,9 @@ def run_checks(target_db, theta_deg, passport: Passport, setup: Setup, freqs, *,
         f_lo, f_hi = passport.band_thz
         n_out = int(((nu < f_lo) | (nu > f_hi)).sum())
         out.append(Check("F7", ok,
-                         f"полная σ = {u.sigma_db:.2f} дБ, 95 % [{u.lo_db:.2f}, {u.hi_db:.2f}] дБ"
-                         + (f"; {n_out} частот вне полосы калибровки {f_lo}–{f_hi} ТГц" if n_out else ""),
-                         "докалибровать прибор в нужной полосе"))
+                         f"total sigma = {u.sigma_db:.2f} dB, 95 % [{u.lo_db:.2f}, {u.hi_db:.2f}] dB"
+                         + (f"; {n_out} frequencies outside calibration band {f_lo}-{f_hi} THz" if n_out else ""),
+                         "recalibrate the device in the required band"))
 
     # F8 — состояние поляризации на выходе
     if theta_deg is not None:
@@ -260,10 +260,10 @@ def run_checks(target_db, theta_deg, passport: Passport, setup: Setup, freqs, *,
             ok = az_max <= tol_azimuth_deg
             i_bad = int(np.argmax(np.abs(az[0] - setup.det_deg) * m))
             out.append(Check("F8", ok,
-                             f"азимут выхода отклонён на {az_max:.2f} град "
-                             f"(на {nu[i_bad]:.2f} ТГц), эллиптичность {el_max:.2f} град",
-                             "в глубокой тени основная компонента подавлена сильнее, чем "
-                             "утечка выходного поляризатора, поэтому азимут уезжает; "
-                             "не уходить так глубоко либо ставить выходной анализатор "
-                             "с лучшей экстинкцией в этой части полосы"))
+                             f"output azimuth deviates by {az_max:.2f} deg "
+                             f"(at {nu[i_bad]:.2f} THz), ellipticity {el_max:.2f} deg",
+                             "deep in the shadow the main component is suppressed more than "
+                             "the output polarizer leakage, so the azimuth drifts; "
+                             "do not go that deep, or use an output analyzer "
+                             "with better extinction in this part of the band"))
     return out
