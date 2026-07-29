@@ -21,6 +21,13 @@
   },
   "tasks": [
     {
+      "id": "A0_malus_linearization",
+      "status": "done",
+      "desc": "OWNER PRIORITY QUESTION 2026-07-29 (out of order): is there a LINEARIZATION of Malus' law for a non-ideal polarizer with leakage? Answer + teaching note.",
+      "artifact": "research/two_wgp/NOTE_malus_linearization.md + malus_linearization.py + research/results/two_wgp/a0_malus_linearization.json + a0_malus_harmonics_data.json",
+      "result": "YES and it is EXACT, but the textbook 3-parameter form a0+a1cos2t+b1sin2t only holds for INTENSITY (incoherent) composition. For this project's COHERENT model (E=t_perp cos^2 + t_par sin^2, U=|E|^2) the exact linear basis is 5-dimensional: U = c0 + a2cos2t + b2sin2t + a4cos4t + b4sin4t (identity, synthetic resid rms 1.4e-16). Closed forms: |t_perp|^2=c0+c2+c4, |t_par|^2=c0-c2+c4, Re(t_perp conj(t_par))=c0-3c4 -> eta and cos(dphi) model-free; theta0=0.5*atan2(b2,a2) with ANALYTIC sigma (delta method), no multistart, no bootstrap. IDENTIFIABILITY: an angular scan at ONE frequency constrains at most 5 real numbers -> formal reason for the D_eff<->eta degeneracy. A4/A2 = 0.2498/0.2458/0.2549/0.2549 on data vs 0.25 exactly for ideal cos^4. *** KEY FOR A6: cost of ANGLES_LIMIT_2D=(0,90) measured — cond(XtX) 2.14 (full) vs 236.3 (truncated), sigma(theta0) 9.9x worse from PLAN GEOMETRY ALONE; theta0 shift full->truncated: 356att -0.687, series1 +0.351, series2 -2.103, test_grid -0.920 deg — COMPARABLE TO THE WHOLE A2 angle_offset dispute (-1.294/+0.219/+0.584). *** WEIGHTING MATTERS: unweighted LS on power weights points as U^2 -> blind to the shadow; series1 gave |t_par|^2<0. With sigma_i ~ U_i the two independent offsets (from h2 and h4) agree to 0.004-0.051 deg. Model-free theta0: +0.901+-0.184 / -0.546+-0.248 / -0.463+-0.198 / +0.599+-0.327 deg; eta 0.0127/0.0121/0.0130/0.0329 (M5 range 0.012-0.036). *** tau_leak model-free from slope of dphi(nu): 356att 0.195 ps vs M5's 0.19 ps (independent confirmation) but NOT universal (series2 -0.104 ps); reliability gated by Cauchy-Schwarz |cos dphi|<=1, violated 12/151, 43/94, 20/129, 0/147 -> OPEN QUESTION. Breaks linearity: log/dB scale, Fabry-Perot, detector nonlinearity, angle error. Does NOT break: eta(nu), phase term, Parseval summation, two-WGP structure (T8), phi2 misalignment."
+    },
+    {
       "id": "A1_model_2wgp",
       "status": "done",
       "desc": "Build two-WGP forward model E_out=d^T J_WGP2(phi2) J_WGP1(theta) E_in (freq-complex, per-element). Validate: energy<=1, ideal limit = Malus cos^2(theta1-theta2), match transmission_complex_two_polarizers for identical WGPs.",
@@ -74,6 +81,7 @@
   ],
   "scope_note": "BROADENED 2026-07-28 by owner: A is no longer only 'two-WGP model'. Its actual product is falsification / structural identifiability (see A1_verdict) and it already owns the hypothesis registry research/hypotheses/HYPOTHESES.md per OWNERSHIP.md. New hypothesis scripts go in A's OWN zone (research/two_wgp/, research/hypotheses/) — NOT in research/experiments/, whose editing owner is B.",
   "angle_coverage_finding": "356att spans -90..+90 deg (19 angles); series1/2 = 0-90 + 270-350; series3 = 0-90 + 310/350. But config.ANGLES_LIMIT_2D=(0,90) means Phases 1-3 AND A2 used only 10 of 19 angles — 356att's negative half was NEVER fitted. angle_offset is ASYMMETRIC in theta while physical leakage/D_eff are SYMMETRIC, so the full range breaks the angle_offset<->phi2<->eps_cross degeneracy that A2 could not resolve. fit_lib.build_experiment reads the production config (read-only) -> A writes its own builder in its own zone; no handoff to B needed.",
+  "harmonic_toolkit": "A0 gives A6/A3 a linear closed-form estimator (research/two_wgp/malus_linearization.py): fit_harmonics(theta, U, sigma, order=4) -> channel_params() -> theta0, eta, cos(dphi) with ANALYTIC errors. Use it as the WARM START and reference point for every nonlinear angular fit (A2 lesson: cold starts overstate significance). Always weight sigma_i ~ U_i and fit U, never ln U.",
   "recommended_order": [
     "A6_angle_symmetry (cheap, model-free, unblocks A3's question)",
     "A4_attenuation_calc (owner-requested deliverable; Session C depends on its API)",
