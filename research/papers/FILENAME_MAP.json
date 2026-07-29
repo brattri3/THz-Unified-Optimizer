@@ -1,0 +1,122 @@
+[
+  {
+    "old": "bf02920016",
+    "new": "1955_Wait_Reflection-arbitrary-incidence-parallel-wire-grid",
+    "doi": "10.1007/BF02920016",
+    "title": "Reflection at arbitrary incidence from a parallel wire grid"
+  },
+  {
+    "old": "tmtt.1962.1125490",
+    "new": "1962_Larsen_Survey-Theory-Wire-Grids",
+    "doi": "10.1109/TMTT.1962.1125490",
+    "title": "A Survey of the Theory of Wire Grids"
+  },
+  {
+    "old": "1.88079",
+    "new": "1975_Auston_Picosecond-optoelectronic-switching-gating-silicon",
+    "doi": "10.1063/1.88079",
+    "title": "Picosecond optoelectronic switching and gating in silicon"
+  },
+  {
+    "old": "JOSA.67.000979",
+    "new": "1977_Costley-etal_Free-standing-fine-wire-grids-manufacture",
+    "doi": "10.1364/JOSA.67.000979",
+    "title": "Free-standing fine-wire grids: Their manufacture, performance, and use at millimeter and submillimeter wavelengths"
+  },
+  {
+    "old": "blanco1986",
+    "new": "1986_Blanco-etal_Transmission-coefficients-free-standing-wire-grids",
+    "doi": "10.1016/0020-0891(86)90058-8",
+    "title": "Transmission coefficients of free-standing wire grids in the far infrared: A theoretical approach for easy computation"
+  },
+  {
+    "old": "JOSAB.7.002006",
+    "new": "1990_Grischkowsky-etal_Far-infrared-time-domain-spectroscopy-terahertz",
+    "doi": "10.1364/JOSAB.7.002006",
+    "title": "Far-infrared time-domain spectroscopy with terahertz beams of dielectrics and semiconductors"
+  },
+  {
+    "old": "2944.571775",
+    "new": "1996_Duvillaret-etal_reliable-method-extraction-material-parameters-terahertz",
+    "doi": "10.1109/2944.571775",
+    "title": "A reliable method for extraction of material parameters in terahertz time-domain spectroscopy"
+  },
+  {
+    "old": "8.777130",
+    "new": "1999_Yasumoto-Yoshitomi_Efficient-calculation-lattice-sums-free-space",
+    "doi": "10.1109/8.777130",
+    "title": "Efficient calculation of lattice sums for free-space periodic Green's function"
+  },
+  {
+    "old": "1.1951051",
+    "new": "2005_Castro-Camus-etal_Polarization-sensitive-terahertz-detection-multicontact-photoconductive",
+    "doi": "10.1063/1.1951051",
+    "title": "Polarization-sensitive terahertz detection by multicontact photoconductive receivers"
+  },
+  {
+    "old": "Transmission_and_reflection_characteristics_of_slightly_irregular",
+    "new": "2005_Manabe-Murk_Transmission-reflection-characteristics-slightly-irregular-wire",
+    "doi": "10.1109/TAP.2004.838786",
+    "title": "Transmission and reflection characteristics of slightly irregular wire-grids with finite conductivity for arbitrary angles of incidence and grid rotation"
+  },
+  {
+    "old": "JOSAB.25.001059",
+    "new": "2008_Withayachumnankul-etal_Uncertainty-terahertz-time-domain-spectroscopy-measurement",
+    "doi": "10.1364/JOSAB.25.001059",
+    "title": "Uncertainty in terahertz time-domain spectroscopy measurement"
+  },
+  {
+    "old": "OL.34.000274",
+    "new": "2009_Yamada-etal_Terahertz-wire-grid-polarizers-micrometer-pitch",
+    "doi": "10.1364/OL.34.000274",
+    "title": "Terahertz wire-grid polarizers with micrometer-pitch Al gratings"
+  },
+  {
+    "old": "NanoimprintWGP2011",
+    "new": "2011_Takano-etal_Wire-grid-polarizer-sheet-terahertz-region",
+    "doi": "10.1364/OL.36.002665",
+    "title": "Wire-grid polarizer sheet in the terahertz region fabricated by nanoimprint technology"
+  },
+  {
+    "old": "s10762-011-9856-8",
+    "new": "2012_Castro-Camus_Polarization-Resolved-Terahertz-Time-Domain-Spectroscopy",
+    "doi": "10.1007/s10762-011-9856-8",
+    "title": "Polarization-Resolved Terahertz Time-Domain Spectroscopy"
+  },
+  {
+    "old": "PhysRevB.90.035135",
+    "new": "2014_Armitage_Constraints-Jones-transmission-matrices-time-reversal",
+    "doi": "10.1103/PhysRevB.90.035135",
+    "title": "Constraints on Jones transmission matrices from time-reversal invariance and discrete spatial symmetries"
+  },
+  {
+    "old": "oe.23.016184",
+    "new": "2015_Niehues-etal_matter-symmetry-terahertz-polarization-detection-properties",
+    "doi": "10.1364/OE.23.016184",
+    "title": "A matter of symmetry: terahertz polarization detection properties of a multi-contact photoconductive antenna evaluated by a response matrix analysis"
+  },
+  {
+    "old": "ol.41.002009",
+    "new": "2016_Ferraro-etal_Flexible-terahertz-wire-grid-polarizer-high",
+    "doi": "10.1364/OL.41.002009",
+    "title": "Flexible terahertz wire grid polarizer with high extinction ratio and low loss"
+  },
+  {
+    "old": "s10762-016-0330-5",
+    "new": "2017_Farid-etal_Inkjet-Printed-Wire-Grid-Polarizers-THz",
+    "doi": "10.1007/s10762-016-0330-5",
+    "title": "Inkjet Printed Wire-Grid Polarizers for the THz Frequency Range"
+  },
+  {
+    "old": "s10762-019-00608-x",
+    "new": "2019_Kaltenecker-etal_Attenuation-THz-Beams-How-Tutorial",
+    "doi": "10.1007/s10762-019-00608-x",
+    "title": "Attenuation of THz Beams: A “How to” Tutorial"
+  },
+  {
+    "old": "10.21203_rs.3.rs-8474834_v1",
+    "new": "2026_Karimi-etal_situ-calibration-terahertz-time-domain-polarimetry",
+    "doi": "10.21203/rs.3.rs-8474834/v1",
+    "title": "In situ calibration of terahertz time-domain polarimetry systems with a leaky wire grid polarizer"
+  }
+]

@@ -8,27 +8,35 @@
 
 ## Карта файл→работа
 
-| Файл | Работа | DOI | Роль для модели |
+> **Переименование корпуса (2026-07-29, L).** Имена файлов приведены к сортируемому виду
+> `ГОД_Автор_слаг`. Год — первым, поэтому `ls` даёт хронологию; автор и слаг взяты из Crossref,
+> а не придуманы. Старые имена (`8.777130.pdf`, `bf02920016.pdf` и т.п.) были обломками DOI и
+> ничего не говорили. Соответствие старое↔новое — `FILENAME_MAP.json` (машиночитаемое) и
+> `FILENAME_MAP.md` (для человека); в append-only журналах старые имена остаются по определению,
+> карта служит мостом.
+
+| Файл (`litrev/pdfs/` и `txt/`) | Работа | DOI | Роль для модели |
 |------|--------|-----|-----------------|
-| blanco1986.pdf | Blanco, Fonti & Piacente 1986, *Infrared Phys.* 26(6):357–363 | [10.1016/0020-0891(86)90058-8](https://doi.org/10.1016/0020-0891(86)90058-8) | ядро аналитики $t_\perp,t_\parallel$; границы $d/\lambda<0.2$, $d/p<0.1$ (до 0.5) |
-| Transmission_..._irregular.pdf | Manabe & Murk 2005 | 10.1109/TAP.2004.838786 | конечная проводимость + нерегулярность (HN4) |
-| 8.777130.pdf | Yasumoto 1999 | 10.1109/8.777130 | lattice-sum эталон (T5/HN1) |
-| tmtt.1962.1125490.pdf | Larsen 1962 | 10.1109/TMTT.1962.1125490 | обзор эквив. схем |
-| bf02920016.pdf | Wait 1955 | 10.1007/BF02920016 | импедансная модель решётки |
-| JOSAB.7.002006.pdf | Grischkowsky 1990 | 10.1364/JOSAB.7.002006 | метод THz-TDS |
-| 2944.571775.pdf | Duvillaret 1996 | 10.1109/2944.571775 | обратная задача |
-| JOSAB.25.001059.pdf | Naftaly 2008 | 10.1364/JOSAB.25.001059 | шум/погрешности (HN5, HN6) |
-| 1.1951051.pdf | Castro-Camus 2005 | 10.1063/1.1951051 | детекторная кросс-поляризация (H4) |
-| s10762-011-9856-8.pdf | Castro-Camus 2012 | 10.1007/s10762-011-9856-8 | поляриметрия обзор |
-| oe.23.016184.pdf | Response-matrix 2015 | 10.1364/OE.23.016184 | формализм отклика детектора |
-| PhysRevB.90.035135.pdf | Jones constraints 2014 | 10.1103/PhysRevB.90.035135 | симметрии матриц Джонса |
-| OL.34.000274.pdf | THz WGP Al 2009 | 10.1364/OL.34.000274 | эталон ER |
-| ol.41.002009.pdf | Flexible WGP 2016 | 10.1364/OL.41.002009 | Фабри-Перо-остаток (HN3) |
-| NanoimprintWGP2011.pdf | Nanoimprint WGP 2011 | 10.1364/OL.36.002665 | плёночные WGP |
-| s10762-016-0330-5.pdf | Inkjet WGP 2016 | 10.1007/s10762-016-0330-5 | печатные WGP |
-| s10762-019-00608-x.pdf | Kaltenecker 2019 | 10.1007/s10762-019-00608-x | $U(\theta)$ Парсеваль (HN7) |
-| 1.88079.pdf | Auston 1975 | 10.1063/1.88079 | корень THz-TDS |
-| 10.21203_rs.3.rs-8474834_v1.pdf | Karimi 2026 | 10.21203/rs.3.rs-8474834/v1 | leaky $\eta,\delta$ (HN2) |
+| `1955_Wait_Reflection-arbitrary-incidence-parallel-wire-grid` | Wait 1955 | [10.1007/BF02920016](https://doi.org/10.1007/BF02920016) | импедансная модель решётки |
+| `1962_Larsen_Survey-Theory-Wire-Grids` | Larsen 1962 | [10.1109/TMTT.1962.1125490](https://doi.org/10.1109/TMTT.1962.1125490) | обзор эквив. схем |
+| `1975_Auston_Picosecond-optoelectronic-switching-gating-silicon` | Auston 1975 | [10.1063/1.88079](https://doi.org/10.1063/1.88079) | корень THz-TDS |
+| `1977_Costley-etal_Free-standing-fine-wire-grids-manufacture` ⚠ только PDF | Costley, Hursey, Neal & Woolard 1977 | [10.1364/JOSA.67.000979](https://doi.org/10.1364/JOSA.67.000979) | **канон изготовления свободновисящих решёток (P4)**; текст не извлечён |
+| `1986_Blanco-etal_Transmission-coefficients-free-standing-wire-grids` | **Blanco, Fonti & Piacente 1986**, *Infrared Phys.* 26(6):357–363 | [10.1016/0020-0891(86)90058-8](https://doi.org/10.1016/0020-0891(86)90058-8) | **ядро аналитики** $t_\perp,t_\parallel$; границы $d/\lambda<0.2$, $d/p<0.1$ (до 0.5) |
+| `1990_Grischkowsky-etal_Far-infrared-time-domain-spectroscopy-terahertz` | Grischkowsky 1990 | [10.1364/JOSAB.7.002006](https://doi.org/10.1364/JOSAB.7.002006) | метод THz-TDS |
+| `1996_Duvillaret-etal_reliable-method-extraction-material-parameters-terahertz` | Duvillaret 1996 | [10.1109/2944.571775](https://doi.org/10.1109/2944.571775) | обратная задача |
+| `1999_Yasumoto-Yoshitomi_Efficient-calculation-lattice-sums-free-space` | Yasumoto & Yoshitomi 1999 | [10.1109/8.777130](https://doi.org/10.1109/8.777130) | lattice-sum эталон (T5/HN1) |
+| `2005_Castro-Camus-etal_Polarization-sensitive-terahertz-detection-multicontact-photoconductive` | Castro-Camus 2005 | [10.1063/1.1951051](https://doi.org/10.1063/1.1951051) | детекторная кросс-поляризация (H4) |
+| `2005_Manabe-Murk_Transmission-reflection-characteristics-slightly-irregular-wire` | Manabe & Murk 2005 | [10.1109/TAP.2004.838786](https://doi.org/10.1109/TAP.2004.838786) ⚠ DOI исправлен | конечная проводимость + нерегулярность (HN4) |
+| `2008_Withayachumnankul-etal_Uncertainty-terahertz-time-domain-spectroscopy-measurement` | **Withayachumnankul et al. 2008** ⚠ ранее числилась как «Naftaly 2008» | [10.1364/JOSAB.25.001059](https://doi.org/10.1364/JOSAB.25.001059) | шум/погрешности (HN5, HN6) |
+| `2009_Yamada-etal_Terahertz-wire-grid-polarizers-micrometer-pitch` | Yamada et al. 2009 | [10.1364/OL.34.000274](https://doi.org/10.1364/OL.34.000274) | эталон ER |
+| `2011_Takano-etal_Wire-grid-polarizer-sheet-terahertz-region` | Takano et al. 2011 (nanoimprint) | [10.1364/OL.36.002665](https://doi.org/10.1364/OL.36.002665) | плёночные WGP |
+| `2012_Castro-Camus_Polarization-Resolved-Terahertz-Time-Domain-Spectroscopy` | Castro-Camus 2012 | [10.1007/s10762-011-9856-8](https://doi.org/10.1007/s10762-011-9856-8) | поляриметрия обзор |
+| `2014_Armitage_Constraints-Jones-transmission-matrices-time-reversal` | Armitage 2014 | [10.1103/PhysRevB.90.035135](https://doi.org/10.1103/PhysRevB.90.035135) | симметрии матриц Джонса |
+| `2015_Niehues-etal_matter-symmetry-terahertz-polarization-detection-properties` | Niehues et al. 2015 | [10.1364/OE.23.016184](https://doi.org/10.1364/OE.23.016184) | формализм отклика детектора |
+| `2016_Ferraro-etal_Flexible-terahertz-wire-grid-polarizer-high` | Ferraro et al. 2016 | [10.1364/OL.41.002009](https://doi.org/10.1364/OL.41.002009) | Фабри-Перо-остаток (HN3) |
+| `2017_Farid-etal_Inkjet-Printed-Wire-Grid-Polarizers-THz` | Farid et al. 2017 (онлайн 2016) | [10.1007/s10762-016-0330-5](https://doi.org/10.1007/s10762-016-0330-5) | печатные WGP |
+| `2019_Kaltenecker-etal_Attenuation-THz-Beams-How-Tutorial` | Kaltenecker 2019 | [10.1007/s10762-019-00608-x](https://doi.org/10.1007/s10762-019-00608-x) | $U(\theta)$ Парсеваль (HN7) |
+| `2026_Karimi-etal_situ-calibration-terahertz-time-domain-polarimetry` | Karimi 2026 (препринт) | [10.21203/rs.3.rs-8474834/v1](https://doi.org/10.21203/rs.3.rs-8474834/v1) | leaky $\eta,\delta$ (HN2) |
 
 ---
 
