@@ -52,6 +52,7 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "research" / "two_wgp"))
 
 import exp_builder                                        # noqa: E402
+import malus_linearization as ml                          # noqa: E402  (A0: линейный оценщик)
 from unified_optimizer import config                      # noqa: E402
 from unified_optimizer.data_manager import DataManager     # noqa: E402
 
@@ -224,7 +225,8 @@ def extinction_minimum(theta, S, near, half_window=15.0):
     S = np.asarray(S, float)
     sel = np.abs(th - near) <= half_window
     if sel.sum() < 3:
-        return None
+        return {"edge_limited": True, "n_points": int(sel.sum()),
+                "reason": "покрытие обрывается: <3 точек в окне вокруг минимума"}
     ts, ss = th[sel], S[sel]
     i_min = int(np.argmin(ss))
     if i_min == 0 or i_min == len(ts) - 1:
@@ -237,6 +239,88 @@ def extinction_minimum(theta, S, near, half_window=15.0):
 
 
 # ---------------------------------------------------------------- анализ датасета
+def _offset_by_zone(pairs, bright_max, chi2_global):
+    """theta0 отдельно по яркой зоне и по тени — ТЕСТ НА ОФСЕТНУЮ ФОРМУ.
+
+    Угловой офсет — ОДНО число: он обязан давать одинаковый theta0 из любой пары
+    углов. Если оценки по яркой зоне и по тени расходятся значимо, значит
+    асимметрия НЕ сводится к сдвигу нуля шкалы, и подгонять её одним параметром
+    `angle_offset` некорректно. Ошибки инфлируются на sqrt(chi2) (поправка
+    Бирджа): разброс между парами сам по себе — свидетельство недомоделирования.
+    """
+    if not pairs:
+        return None
+    br = [p for p in pairs if abs(p["theta_deg"]) <= bright_max]
+    sh = [p for p in pairs if abs(p["theta_deg"]) > bright_max]
+
+    def agg(ps):
+        if len(ps) < 2:
+            return None
+        m, s, c = weighted_mean([p["theta0_deg"] for p in ps],
+                                [p.get("sigma_theta0_deg", np.nan) for p in ps])
+        return {"theta0_deg": m, "err_deg": s * max(np.sqrt(c), 1.0),
+                "err_raw_deg": s, "chi2_red": c, "n_pairs": len(ps)}
+
+    b, s_ = agg(br), agg(sh)
+    out = {"bright": b, "shadow": s_, "bright_max_deg": bright_max,
+           "chi2_red_global": chi2_global}
+    if b and s_:
+        d = s_["theta0_deg"] - b["theta0_deg"]
+        sd = float(np.hypot(b["err_deg"], s_["err_deg"]))
+        out["shadow_minus_bright_deg"] = float(d)
+        out["shadow_minus_bright_err_deg"] = sd
+        out["n_sigma"] = float(abs(d) / sd) if sd > 0 else None
+        out["pure_offset_form"] = bool(sd > 0 and abs(d) / sd < 3.0)
+        out["interpretation"] = (
+            "theta0 из яркой зоны и из тени СОВПАДАЮТ -> асимметрия совместима "
+            "с чистым угловым офсетом"
+            if out["pure_offset_form"] else
+            "theta0 из яркой зоны и из тени РАСХОДЯТСЯ -> асимметрия НЕ сводится "
+            "к одному angle_offset; подгонка её одним параметром некорректна")
+    return out
+
+
+def _asym_verdict(xr, dres, boot_rms, noise, bright_max):
+    """Остаточная асимметрия против ДВУХ границ шума — нижней и верхней.
+
+    Урок A2: одна нижняя граница (бутстрап по частотам) завышает значимость,
+    потому что не видит шума УРОВНЯ УГЛА. Вердикт выносится по ВЕРХНЕЙ границе:
+    значимо только то, что её превышает. Яркая зона и тень разделены — там
+    разные механизмы шума и разные амплитуды эффекта.
+    """
+    xr = np.asarray(xr, float)
+    dres = np.asarray(dres, float)
+    br = xr <= bright_max
+    sh = ~br
+
+    def blk(sel, up):
+        if not np.any(sel):
+            return None
+        rms = float(np.sqrt(np.mean(dres[sel] ** 2)))
+        out = {"rms_db": rms, "max_abs_db": float(np.max(np.abs(dres[sel]))),
+               "n": int(sel.sum()), "noise_upper_db": up}
+        out["significance_vs_upper"] = float(rms / up) if up else None
+        out["significant"] = bool(up and rms > up)
+        return out
+
+    up_b = noise.get("rms_db_bright")
+    up_s = noise.get("rms_db_shadow")
+    rms_all = float(np.sqrt(np.mean(dres ** 2)))
+    return {
+        "x_deg": [float(v) for v in xr],
+        "delta_db": [float(v) for v in dres],
+        "max_abs_db": float(np.max(np.abs(dres))),
+        "rms_db": rms_all,
+        "noise_lower_boot_db": boot_rms,
+        "significance_vs_lower_boot": (float(rms_all / boot_rms) if boot_rms else None),
+        "bright": blk(br, up_b),
+        "shadow": blk(sh, up_s),
+        "verdict_rule": "значимо ТОЛЬКО если rms превышает ВЕРХНЮЮ границу шума "
+                        "(невязка к cos^4+пол). Бутстрап по частотам — нижняя граница, "
+                        "по ней значимость систематически завышена (урок A2).",
+    }
+
+
 def analyse(dataset, dm, nboot=600, x_max=70.0, bright_max=40.0,
             seed=20260728, verbose=True):
     ang_lim, freqs, exp, valid, meta = exp_builder.load(
@@ -276,6 +360,10 @@ def analyse(dataset, dm, nboot=600, x_max=70.0, bright_max=40.0,
     else:
         m1 = s1 = chi1 = float("nan")
 
+    # РАЗДЕЛЕНИЕ по зонам: если асимметрия — чистый угловой офсет, оба значения
+    # обязаны совпасть. Расхождение = асимметрия НЕ офсетной формы.
+    e1_zones = _offset_by_zone(pairs, bright_max, chi1)
+
     # --- E2
     t0_sp, sp, Jmin = spline_symmetry_offset(theta, S, x_max=x_max)
     s_sp = float(np.std(boot_t0_sp, ddof=1)) if nboot > 2 else float("nan")
@@ -297,6 +385,17 @@ def analyse(dataset, dm, nboot=600, x_max=70.0, bright_max=40.0,
     min_pos = extinction_minimum(theta, S, near=+90.0)
     min_neg = extinction_minimum(theta, S, near=-90.0)
 
+    # --- E5: гармонический (ЛИНЕЙНЫЙ) оценщик из A0 — замкнутая формула,
+    #     единственный минимум, аналитическая ошибка. Опорная точка для E1-E4.
+    p5, cov5, info5 = ml.fit_harmonics(theta, U, sigma=np.maximum(U, 1e-300), order=4)
+    ch5 = ml.channel_params(p5)
+    ch5["theta0_err_deg"] = ml.theta0_error(p5, cov5, info5["chi2_red"])
+    ch5["resid_rms_rel"] = float(np.sqrt(info5["chi2_red"]))
+    ch5["design"] = ml.design_diagnostics(theta, order=4)
+
+    # --- шум уровня УГЛА: ВЕРХНЯЯ граница (бутстрап по частотам даёт НИЖНЮЮ)
+    noise = angle_level_noise(theta, S, c4_full, bright_max)
+
     out = {
         "dataset": dataset,
         "coverage": {"angles": [float(a) for a in theta],
@@ -312,7 +411,8 @@ def analyse(dataset, dm, nboot=600, x_max=70.0, bright_max=40.0,
                          for a, u in zip(theta, U)},
         "sigma_S_boot": {f"{a:+.0f}": float(s) for a, s in zip(theta, sigma_S)},
         "E1_pairwise": {"pairs": pairs, "theta0_wmean_deg": m1,
-                        "theta0_wmean_err_deg": s1, "chi2_red_consistency": chi1},
+                        "theta0_wmean_err_deg": s1, "chi2_red_consistency": chi1,
+                        "by_zone": e1_zones},
         "E2_spline": {"theta0_deg": t0_sp, "theta0_boot_err_deg": s_sp,
                       "J_min": Jmin, "x_max_deg": x_max},
         "E3_cos4_full": c4_full,
@@ -321,15 +421,10 @@ def analyse(dataset, dm, nboot=600, x_max=70.0, bright_max=40.0,
         "E3_eps_boot_err": (float(np.std(boot_eps, ddof=1)) if nboot > 2 else None),
         "E4_extinction_min_plus": min_pos,
         "E4_extinction_min_minus": min_neg,
-        "residual_asymmetry_after_offset": {
-            "x_deg": [float(v) for v in xr],
-            "delta_db": [float(v) for v in dres],
-            "max_abs_db": float(np.max(np.abs(dres))),
-            "rms_db": float(np.sqrt(np.mean(dres ** 2))),
-            "boot_noise_rms_db": res_noise_rms,
-            "significance_rms_over_noise": float(np.sqrt(np.mean(dres ** 2)) / res_noise_rms)
-            if res_noise_rms > 0 else None,
-        },
+        "E5_harmonic_linear": ch5,
+        "angle_level_noise": noise,
+        "residual_asymmetry_after_offset": _asym_verdict(
+            xr, dres, res_noise_rms, noise, bright_max),
         "raw_asymmetry_before_offset_db": {
             f"{p['theta_deg']:.0f}": p["delta_db"] for p in pairs},
         "nboot": nboot,
@@ -347,17 +442,40 @@ def analyse(dataset, dm, nboot=600, x_max=70.0, bright_max=40.0,
               " ".join(f"{p['theta_deg']:.0f}:{p['theta0_deg']:+.3f}" for p in pairs))
         print(f"  E1 взвеш.среднее theta0 = {m1:+.4f} +- {s1:.4f} град "
               f"(chi2_red согласованности {chi1:.2f})")
+        if e1_zones and e1_zones.get("bright") and e1_zones.get("shadow"):
+            z = e1_zones
+            print(f"  E1 ПО ЗОНАМ: яркая {z['bright']['theta0_deg']:+.4f}"
+                  f"+-{z['bright']['err_deg']:.4f} против тень "
+                  f"{z['shadow']['theta0_deg']:+.4f}+-{z['shadow']['err_deg']:.4f} "
+                  f"-> разность {z['shadow_minus_bright_deg']:+.4f} "
+                  f"({z['n_sigma']:.1f} sigma) "
+                  f"{'ОФСЕТНАЯ ФОРМА' if z['pure_offset_form'] else 'НЕ ОФСЕТНАЯ ФОРМА'}")
         print(f"  E2 сплайн         theta0 = {t0_sp:+.4f} +- {s_sp:.4f} град")
         print(f"  E3 cos^4 полный   theta0 = {c4_full['theta0_deg']:+.4f} град, "
               f"пол eps = {c4_full['eps_floor']:.5f}")
         print(f"  E3 cos^4 ТОЛЬКО 0..90  theta0 = {c4_half['theta0_deg']:+.4f} град, "
               f"пол eps = {c4_half['eps_floor']:.5f}")
         print(f"  E4 минимум экстинкции: +{90}: {min_pos}, -{90}: {min_neg}")
+        print(f"  E5 гармонич.(лин.) theta0 = {ch5['theta0_deg_from_h2']:+.4f} "
+              f"+- {ch5['theta0_err_deg']:.4f} град  [замкнутая формула, ОПОРНАЯ ТОЧКА]; "
+              f"сверка h4-h2 = {ch5['theta0_h4_minus_h2_deg']:+.4f}, "
+              f"A4/A2 = {ch5['harmonic4_over_harmonic2']:.4f}, eta = {ch5['eta_amplitude']:.5f}")
+        print(f"     план: cond = {ch5['design']['cond_XtX']:.2f}, "
+              f"sigma(theta0)|1% = {ch5['design']['sigma_theta0_deg']:.4f} град")
+        print(f"  ШУМ УРОВНЯ УГЛА (верхняя граница): яркая зона "
+              f"{noise['rms_db_bright']:.4f} дБ, тень {noise['rms_db_shadow']:.4f} дБ; "
+              f"бутстрап по частотам (нижняя) {res_noise_rms:.4f} дБ")
         r = out["residual_asymmetry_after_offset"]
         print(f"  ОСТАТОЧНАЯ асимметрия после снятия theta0: "
-              f"rms={r['rms_db']:.4f} дБ, max={r['max_abs_db']:.4f} дБ, "
-              f"шум бутстрапа={r['boot_noise_rms_db']:.4f} дБ "
-              f"-> значимость {r['significance_rms_over_noise']:.2f}x")
+              f"rms={r['rms_db']:.4f} дБ, max={r['max_abs_db']:.4f} дБ")
+        for nm in ("bright", "shadow"):
+            b = r[nm]
+            if b:
+                print(f"     {nm:>6}: rms={b['rms_db']:.4f} дБ против верхней границы "
+                      f"{b['noise_upper_db']:.4f} дБ -> {b['significance_vs_upper']:.2f}x "
+                      f"{'ЗНАЧИМО' if b['significant'] else 'не значимо'}")
+        print(f"     (по нижней границе бутстрапа было бы "
+              f"{r['significance_vs_lower_boot']:.2f}x — ЗАВЫШЕНО, урок A2)")
     return out
 
 
