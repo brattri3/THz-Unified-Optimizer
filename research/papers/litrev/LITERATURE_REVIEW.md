@@ -11,7 +11,7 @@
 
 | # | Работа | Роль в проекте | OpenAlex |
 |---|---|---|---|
-| **S1** | **Blanco et al. (1986)**, *A study of the properties of wire grid polarizers in the far infrared*, IJIMW 7(11) | **Аналитическое ядро модели** (эквивалентные схемы, t⊥/t∥) | не индексируется в OpenAlex; PDF/цитата в `scientific_foundation.md` |
+| **S1** | **Blanco A., Fonti S., Piacente A. (1986)**, *Transmission coefficients of free-standing wire grids in the far infrared: a theoretical approach for easy computation*, **Infrared Physics 26(6):357–363**, DOI [10.1016/0020-0891(86)90058-8](https://doi.org/10.1016/0020-0891(86)90058-8) | **Аналитическое ядро модели** (эквивалентные схемы, t⊥/t∥); границы: $d/\lambda<0.2$, $d/p<0.1$ (приемлемо до 0.5) | индексируется в OpenAlex и Crossref (запись исправлена L 2026-07-29, см. `answers/D2_P1_blanco1986.md`) |
 | **S2** | **Manabe & Murk (2005)**, *Transmission and Reflection Characteristics of Slightly Irregular Wire-Grids with Finite Conductivity…*, IEEE TAP 53(1):250 | **Конечная проводимость + теория возмущений для нерегулярности/шероховатости** (гипотеза диффузного рассеяния) | W2138091822 |
 | **S3** | **Castro-Camus (2011/2012)**, *Polarization-Resolved Terahertz Time-Domain Spectroscopy*, JIMTW 33:418 | **Поляриметрия THz-TDS + многоконтактные PCA-детекторы** (гипотеза кросс-поляризации детектора) | W2100964144 |
 

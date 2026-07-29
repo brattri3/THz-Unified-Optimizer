@@ -3,7 +3,7 @@
 **Назначение**: рабочие заметки для литобзора будущей статьи проекта THz-Unified-Optimizer.
 **Дата**: 2026-07-23. **Метод сбора**: цитатные цепочки (OpenAlex references + citing) от 3 затравок + тематические поиски вне цепочки + релевантностные проверки. Все ключевые работы — с DOI. OA-PDF, которые удалось легально скачать, лежат в `litrev/pdfs/`.
 
-> Затравки: Manabe & Murk 2005 (`10.1109/TAP.2004.884786`), Castro-Camus 2011 (`10.1007/s10762-011-9856-8`), Blanco 1986 (IJIMW, в OpenAlex не индексируется).
+> Затравки: Manabe & Murk 2005 (`10.1109/TAP.2004.838786`), Castro-Camus 2011 (`10.1007/s10762-011-9856-8`), Blanco 1986 (IJIMW, в OpenAlex не индексируется).
 
 ---
 
@@ -15,7 +15,8 @@
 Корень — квазистатическая теория дифракционных решёток из проволок:
 - **Wait, J.R. (1955)** «Reflection at arbitrary incidence from a parallel wire grid» — `10.1007/bf02920016`. Импедансное описание решётки при произвольном угле. **Практическая точка отсчёта теории.**
 - **Larsen, T. (1962)** «A Survey of the Theory of Wire Grids» — `10.1109/tmtt.1962.1125490`. Обзор эквивалентных схем; фундамент формул Бланко. *Тезис (abs): систематизирует ЭМ-свойства решёток и конфигурации.*
-- **Blanco, J. et al. (1986)** «A study of the properties of wire grid polarizers in the far infrared», *IJIMW* 7(11):1611 — **DOI в OpenAlex отсутствует** (старый выпуск). **Аналитическое ядро модели проекта** (эквивалентные T-/П-схемы, $t_\perp,t_\parallel$).
+- **Blanco A., Fonti S., Piacente A. (1986)** «Transmission coefficients of free-standing wire grids in the far infrared: a theoretical approach for easy computation», *Infrared Physics* 26(6):357–363 — [`10.1016/0020-0891(86)90058-8`](https://doi.org/10.1016/0020-0891(86)90058-8). **Аналитическое ядро модели проекта** (расширение аналогии Marcuvitz с линией передачи на область $p>\lambda$, $t_\perp,t_\parallel$). Заявленные авторами границы: точно при $d/\lambda<0.2$ и $d/p<0.1$, приемлемо до $d/p<0.5$; бесконечная проводимость, нормальное падение. Экспериментальное продолжение той же группы — [`10.1016/0020-0891(87)90067-4`](https://doi.org/10.1016/0020-0891(87)90067-4) (1987).
+  > **Исправлено 2026-07-29 (L, запрос D2/P1).** Здесь стояло «A study of the properties of wire grid polarizers in the far infrared, *IJIMW* 7(11):1611, DOI отсутствует». Такой работы **не существует**: страницы 1605–1629 тома 7 IJIMW занимает статья Henningsen о метанольном лазере (выпуск 10), а выпуск 11 начинается с 1691. Разбор — `answers/D2_P1_blanco1986.md`.
 
 ### Линия B — импульсная THz-спектроскопия (метод измерения)
 - **Auston, D.H. (1975)** «Picosecond optoelectronic switching and gating in silicon» — `10.1063/1.88079`. Рождение фотопроводящих ключей.
@@ -36,13 +37,13 @@
 
 ### 2.1. Теоретическая ветвь (назад и вперёд от Manabe & Murk 2005)
 Родословная (references):
-- Wait 1955 `10.1007/bf02920016` → Larsen 1962 `10.1109/tmtt.1962.1125490` → скаттеринг на регулярной решётке цилиндров 1980 `10.1088/0305-4470/13/4/032` → **точный lattice-sum** Yasumoto 1999 `10.1109/8.777130` и массивы двух цилиндров 2000 `10.2528/pier99103101` → Manabe & Murk 2005 `10.1109/TAP.2004.884786`.
+- Wait 1955 `10.1007/bf02920016` → Larsen 1962 `10.1109/tmtt.1962.1125490` → скаттеринг на регулярной решётке цилиндров 1980 `10.1088/0305-4470/13/4/032` → **точный lattice-sum** Yasumoto 1999 `10.1109/8.777130` и массивы двух цилиндров 2000 `10.2528/pier99103101` → Manabe & Murk 2005 `10.1109/TAP.2004.838786`.
 - Свободновисящие вольфрамовые решётки (прямые предки объекта): 5 µm wire 1979 `10.1016/0020-0891(79)90080-0`; 10 µm tungsten 1981 `10.1364/josa.71.000184`; влияние однородности шага 1990 `10.1007/bf01008639`; большие решётки 1999 `10.1023/a:1021743415811`; обзор Polarizing Grids 2001 `10.1086/320287`.
 
 Вперёд (citing Manabe & Murk) — тема нерегулярности/погрешностей:
 - «Effects of Random Positioning Errors Upon EM Characteristics of a Wire Grid» (2011) — прямое развитие возмущённой теории.
 - Решётки в SNG/SZ/хиральных/би-изотропных средах (2014–2019) — обобщения импедансной границы (потенциал для подложечных поляризаторов).
-- «Wire-Grid and Sparse MoM Antennas: Past/Present/Future» (2023, `10.1109/…`) — мост к численным методам.
+- Alhaj Hasan et al. «Wire-Grid and Sparse MoM Antennas: Past Evolution, Present Implementation, and Future Possibilities» (*Symmetry* 15(2):378, 2023, [`10.3390/sym15020378`](https://doi.org/10.3390/sym15020378), OA) — мост к численным методам. *(DOI был плейсхолдером `10.1109/…`; разрешён L 2026-07-29.)*
 
 ### 2.2. THz-TDS / поляриметрическая ветвь (от Castro-Camus 2011)
 - Корни: Auston 1975/1984 → Grischkowsky 1990 → извлечение параметров Duvillaret 1996 `10.1109/2944.571775`.
@@ -210,9 +211,9 @@
 **Теория проволочных решёток**
 1. Wait J. R. Reflection at arbitrary incidence from a parallel wire grid // Applied Scientific Research, Section B. — 1955. — DOI: [10.1007/BF02920016](https://doi.org/10.1007/BF02920016).
 2. Larsen T. A Survey of the Theory of Wire Grids // IRE Transactions on Microwave Theory and Techniques. — 1962. — Vol. 10, no. 3. — P. 191–201. — DOI: [10.1109/TMTT.1962.1125490](https://doi.org/10.1109/TMTT.1962.1125490).
-3. Blanco J., et al. A study of the properties of wire grid polarizers in the far infrared // International Journal of Infrared and Millimeter Waves. — 1986. — Vol. 7, no. 11. — P. 1611–1629. — (DOI отсутствует в базах; печатный источник).
+3. Blanco A., Fonti S., Piacente A. Transmission coefficients of free-standing wire grids in the far infrared: a theoretical approach for easy computation // Infrared Physics. — 1986. — Vol. 26, no. 6. — P. 357–363. — DOI: [10.1016/0020-0891(86)90058-8](https://doi.org/10.1016/0020-0891(86)90058-8).
 4. Yasumoto K., Yoshitomi K. Efficient calculation of lattice sums for free-space periodic Green's function // IEEE Transactions on Antennas and Propagation. — 1999. — Vol. 47, no. 6. — P. 1050–1055. — DOI: [10.1109/8.777130](https://doi.org/10.1109/8.777130).
-5. Manabe T., Murk A. Transmission and reflection characteristics of slightly irregular wire-grids for arbitrary angles of incidence and grid rotation // IEEE Transactions on Antennas and Propagation. — 2005. — Vol. 53, no. 1. — P. 250–259. — DOI: [10.1109/TAP.2004.884786](https://doi.org/10.1109/TAP.2004.884786).
+5. Manabe T., Murk A. Transmission and reflection characteristics of slightly irregular wire-grids **with finite conductivity** for arbitrary angles of incidence and grid rotation // IEEE Transactions on Antennas and Propagation. — 2005. — Vol. 53, no. 1. — P. 250–259. — DOI: [10.1109/TAP.2004.838786](https://doi.org/10.1109/TAP.2004.838786).
 
 **Изготовление свободновисящих решёток**
 6. Costley A. E., Hursey K. H., Neal R. H., Woolard J. M. Free-standing fine-wire grids: their manufacture, performance, and use at millimeter and submillimeter wavelengths // Journal of the Optical Society of America. — 1977. — Vol. 67, no. 8. — P. 979–981. — DOI: [10.1364/JOSA.67.000979](https://doi.org/10.1364/JOSA.67.000979).

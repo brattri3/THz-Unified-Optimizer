@@ -15,7 +15,7 @@ pirated sources (no Sci-Hub, no scrapers, no Google Scholar).
 
 Usage:
   python metasearch.py search  "terahertz wire grid polarizer" --limit 15 --oa-only
-  python metasearch.py resolve 10.1109/TAP.2004.884786
+  python metasearch.py resolve 10.1109/TAP.2004.838786
   python metasearch.py download "terahertz wire grid polarizer" --limit 10 --out pdfs
 """
 from __future__ import annotations
@@ -29,7 +29,55 @@ import time
 import xml.etree.ElementTree as ET
 from typing import Any, Dict, List, Optional
 
-import requests
+try:
+    import requests
+except ModuleNotFoundError:  # pragma: no cover
+    # Фолбэк на стандартную библиотеку: `requests` не объявлен в requirements.txt
+    # и отсутствует и в .venv, и в системном Python (проверено 2026-07-29, Сессия L).
+    # Ставить пакет в ОБЩИЙ venv ради инструмента одной зоны нельзя — это тихая
+    # мутация окружения других сессий. Поэтому здесь минимальная совместимая
+    # обёртка над urllib: ровно та часть API requests, которой пользуется файл
+    # (get(url, params, headers, timeout) -> .status_code/.json()/.text/.content,
+    # плюс исключение RequestException).
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+    import types
+
+    class _Response:
+        def __init__(self, status_code: int, content: bytes, encoding: str = "utf-8"):
+            self.status_code = status_code
+            self.content = content
+            self._encoding = encoding
+
+        @property
+        def text(self) -> str:
+            return self.content.decode(self._encoding, errors="replace")
+
+        def json(self):
+            return json.loads(self.text)
+
+    class _RequestException(Exception):
+        pass
+
+    def _requests_get(url, params=None, headers=None, timeout=None):
+        if params:
+            clean = {k: v for k, v in params.items() if v is not None}
+            url = url + ("&" if "?" in url else "?") + urllib.parse.urlencode(clean)
+        req = urllib.request.Request(url, headers=headers or {})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                charset = resp.headers.get_content_charset() or "utf-8"
+                return _Response(resp.status, resp.read(), charset)
+        except urllib.error.HTTPError as e:
+            # HTTP-ошибку возвращаем как ответ: вызывающий код сам разбирает
+            # коды 429/5xx и делает бэкофф.
+            return _Response(e.code, e.read() if e.fp else b"")
+        except (urllib.error.URLError, OSError) as e:
+            raise _RequestException(str(e)) from e
+
+    requests = types.SimpleNamespace(get=_requests_get,
+                                     RequestException=_RequestException)
 
 EMAIL = os.getenv("CONTACT_EMAIL", "brattri3@gmail.com")
 S2_API_KEY = os.getenv("S2_API_KEY", "").strip()
