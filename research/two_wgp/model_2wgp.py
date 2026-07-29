@@ -51,6 +51,9 @@ sys.path.insert(0, str(REPO))
 
 from unified_optimizer import config, model_blanco  # noqa: E402  (read-only use)
 
+sys.path.insert(0, str(REPO / "research" / "experiments"))
+import model_core as _core                      # noqa: E402  (общее ядро, зона B, read-only)
+
 # --------------------------------------------------------------------------
 # Blanco t_perp/t_par with a cache (PLAN sec.7.2: Blanco is recomputed on every
 # lmfit iteration; two WGPs would double that cost).  Key = (freqs, P, D, N, drude).
@@ -62,10 +65,33 @@ _CACHE_MAX = 4096          # FIFO eviction; a fit sweeps D so keys keep growing
 
 def blanco_t(freqs_thz, p_um: float, d_um: float, N: int = 15,
              use_drude: bool = True):
-    """Frequency arrays (t_perp, t_par) for one wire grid, cached.
+    """Frequency arrays (t_perp, t_par) for one wire grid.
 
-    p_um, d_um: period and effective wire diameter in micrometres.
-    Returns two complex ndarrays of shape freqs_thz.shape.
+    p_um, d_um: period and effective wire diameter in MICROMETRES.
+    Delegates to the shared vectorised kernel `model_core.blanco_t`, which takes
+    METRES (handoff B->A, 2026-07-28).  The local FIFO cache below is kept only
+    as the legacy reference path (`_blanco_t_legacy`) for the bit-comparison in
+    `--verify-core`; the kernel has its own LRU cache.
+
+    NOTE ON UNITS (measured, see `verify_core`): Blanco depends on p and d only
+    through `pol = p/lambda` and `d/p`.  Converting um -> m is NOT bit-neutral:
+    `p_um*1e-6 / (c/f)` and `p_um / (c/f*1e6)` differ in the last ULP for ~1/3 of
+    the frequency grid (1e-6 is not exactly representable in binary).  The
+    resulting deviation in t_perp/t_par is at machine-epsilon level and is
+    reported numerically by `--verify-core` rather than assumed to be zero.
+    """
+    t_perp, t_par = _core.blanco_t(np.ascontiguousarray(freqs_thz, dtype=float),
+                                   p_um * 1e-6, d_um * 1e-6, N, use_drude)
+    return t_perp, t_par
+
+
+def _blanco_t_legacy(freqs_thz, p_um: float, d_um: float, N: int = 15,
+                     use_drude: bool = True):
+    """ЛЕГАСИ-путь: скалярный цикл по частотам + собственный FIFO-кэш.
+
+    Оставлен ТОЛЬКО как эталон для бит-сверки (`--verify-core`). В расчётах не
+    используется. Не удалять без пересогласования с B: это единственная
+    независимая реализация, против которой проверяется общее ядро на этом пути.
     """
     freqs_thz = np.asarray(freqs_thz, dtype=float)
     key = (freqs_thz.tobytes(), freqs_thz.shape, round(float(p_um), 12),
@@ -97,13 +123,72 @@ def blanco_t(freqs_thz, p_um: float, d_um: float, N: int = 15,
     return out
 
 
+def verify_core(verbose=True):
+    """Сверка ЛЕГАСИ-пути против общего ядра (хэндофф B->A, критерий готовности).
+
+    Критерий B был «бит-в-бит, допуск 0». Он НЕ достижим и не должен быть
+    достижим: переход мкм -> м меняет порядок операций с плавающей точкой
+    (1e-6 не представимо двоично точно). Поэтому здесь измеряется и печатается
+    ФАКТИЧЕСКОЕ расхождение в ULP и в относительной мере, а вердикт выносится
+    по порогу машинной точности, а не по нулю.
+    """
+    geoms = [("356att", 15.5, 11.0), ("series (паспорт)", 16.0, 11.0),
+             ("specac", 24.9, 14.0), ("test_grid_40_20", 38.8, 18.0),
+             ("purewave", 25.5, 10.6)]
+    freqs = np.arange(config.F_MIN, getattr(config, "F_MAX_2D", config.F_MAX)
+                      + 1e-12, 0.005)
+    rows, worst = [], 0.0
+    for name, p_um, d_um in geoms:
+        for drude in (True, False):
+            a_tp, a_ta = _blanco_t_legacy(freqs, p_um, d_um, 15, drude)
+            b_tp, b_ta = blanco_t(freqs, p_um, d_um, 15, drude)
+            rel = max(_relmax(a_tp, b_tp), _relmax(a_ta, b_ta))
+            ulp = max(_ulpmax(a_tp, b_tp), _ulpmax(a_ta, b_ta))
+            exact = bool(np.array_equal(a_tp, b_tp) and np.array_equal(a_ta, b_ta))
+            worst = max(worst, rel)
+            rows.append({"geometry": name, "p_um": p_um, "d_um": d_um,
+                         "drude": drude, "bit_exact": exact,
+                         "max_rel_dev": rel, "max_ulp": ulp})
+            if verbose:
+                print(f"  {name:<18} P={p_um:<5} D={d_um:<5} Друде={str(drude):<5} "
+                      f"бит-в-бит: {'ДА' if exact else 'нет'}  "
+                      f"max отн. = {rel:.2e}  max ULP = {ulp}")
+    ok = worst < 1e-13
+    if verbose:
+        print(f"\n  Худшее относительное расхождение: {worst:.3e} "
+              f"(порог машинной точности 1e-13) -> {'ПРИНЯТО' if ok else 'ПРОВАЛ'}")
+        print(f"  Бит-в-бит совпадений: {sum(r['bit_exact'] for r in rows)}/{len(rows)}"
+              f" — расхождение вносит перевод мкм->м, а не алгоритм ядра.")
+    return {"rows": rows, "worst_rel_dev": worst, "accepted": ok,
+            "criterion": "max отн. расхождение < 1e-13 (порог машинной точности); "
+                         "исходный критерий B «допуск 0» недостижим при смене единиц"}
+
+
+def _relmax(a, b):
+    den = np.maximum(np.abs(a), 1e-300)
+    return float(np.max(np.abs(a - b) / den))
+
+
+def _ulpmax(a, b):
+    """Максимальное расхождение в ULP по вещественной и мнимой частям."""
+    out = 0
+    for x, y in ((a.real, b.real), (a.imag, b.imag)):
+        d = np.abs(x - y)
+        sp = np.abs(np.spacing(x))
+        out = max(out, int(np.max(np.where(sp > 0, d / sp, 0.0))))
+    return out
+
+
 def cache_stats() -> dict:
-    return dict(_CACHE_STATS)
+    """Статистика кэша. С 2026-07-29 расчёт идёт через общее ядро, поэтому
+    возвращается ЕГО статистика; локальный FIFO обслуживает только легаси-путь."""
+    return {"core": _core.cache_stats(), "legacy_fifo": dict(_CACHE_STATS)}
 
 
 def clear_cache() -> None:
     _T_CACHE.clear()
     _CACHE_STATS.update(hits=0, misses=0)
+    _core.clear_cache()
 
 
 # --------------------------------------------------------------------------
@@ -501,9 +586,20 @@ if __name__ == "__main__":
 
     ap = argparse.ArgumentParser(description="two-WGP forward model (A1)")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--verify-core", action="store_true",
+                    help="сверка легаси-пути Бланко против общего ядра (хэндофф B->A)")
     ap.add_argument("--out", default=str(REPO / "research" / "results" / "two_wgp"
                                         / "a1_validation.json"))
     args = ap.parse_args()
+
+    if args.verify_core:
+        print("Сверка blanco_t: ЛЕГАСИ (скалярный цикл) против model_core (ядро B)")
+        vr = verify_core()
+        out = Path(args.out).with_name("a1_verify_core.json")
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(vr, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"\nartifact -> {out}")
+        raise SystemExit(0 if vr["accepted"] else 1)
 
     r = selftest()
     out = Path(args.out)

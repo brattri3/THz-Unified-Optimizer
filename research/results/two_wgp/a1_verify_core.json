@@ -1,0 +1,97 @@
+{
+  "rows": [
+    {
+      "geometry": "356att",
+      "p_um": 15.5,
+      "d_um": 11.0,
+      "drude": true,
+      "bit_exact": false,
+      "max_rel_dev": 8.684045685340195e-16,
+      "max_ulp": 30
+    },
+    {
+      "geometry": "356att",
+      "p_um": 15.5,
+      "d_um": 11.0,
+      "drude": false,
+      "bit_exact": false,
+      "max_rel_dev": 9.322983095658684e-16,
+      "max_ulp": 26
+    },
+    {
+      "geometry": "series (паспорт)",
+      "p_um": 16.0,
+      "d_um": 11.0,
+      "drude": true,
+      "bit_exact": false,
+      "max_rel_dev": 7.276349320881306e-16,
+      "max_ulp": 17
+    },
+    {
+      "geometry": "series (паспорт)",
+      "p_um": 16.0,
+      "d_um": 11.0,
+      "drude": false,
+      "bit_exact": false,
+      "max_rel_dev": 6.990322818240752e-16,
+      "max_ulp": 23
+    },
+    {
+      "geometry": "specac",
+      "p_um": 24.9,
+      "d_um": 14.0,
+      "drude": true,
+      "bit_exact": false,
+      "max_rel_dev": 8.124361196505768e-16,
+      "max_ulp": 25
+    },
+    {
+      "geometry": "specac",
+      "p_um": 24.9,
+      "d_um": 14.0,
+      "drude": false,
+      "bit_exact": false,
+      "max_rel_dev": 7.545486048427116e-16,
+      "max_ulp": 16
+    },
+    {
+      "geometry": "test_grid_40_20",
+      "p_um": 38.8,
+      "d_um": 18.0,
+      "drude": true,
+      "bit_exact": false,
+      "max_rel_dev": 1.0318635552031113e-15,
+      "max_ulp": 24
+    },
+    {
+      "geometry": "test_grid_40_20",
+      "p_um": 38.8,
+      "d_um": 18.0,
+      "drude": false,
+      "bit_exact": false,
+      "max_rel_dev": 1.0457082579510296e-15,
+      "max_ulp": 24
+    },
+    {
+      "geometry": "purewave",
+      "p_um": 25.5,
+      "d_um": 10.6,
+      "drude": true,
+      "bit_exact": false,
+      "max_rel_dev": 5.720114484497128e-16,
+      "max_ulp": 24
+    },
+    {
+      "geometry": "purewave",
+      "p_um": 25.5,
+      "d_um": 10.6,
+      "drude": false,
+      "bit_exact": false,
+      "max_rel_dev": 7.494956826050107e-16,
+      "max_ulp": 17
+    }
+  ],
+  "worst_rel_dev": 1.0457082579510296e-15,
+  "accepted": true,
+  "criterion": "max отн. расхождение < 1e-13 (порог машинной точности); исходный критерий B «допуск 0» недостижим при смене единиц"
+}
