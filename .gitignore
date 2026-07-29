@@ -13,3 +13,12 @@ research/papers/litrev/pdfs/
 
 # рабочие сеансы attenuator_app: журнал, метафайлы, графики каждого запуска
 runs/
+
+# LaTeX build-артефакты (исходники .tex и итоговые .pdf трекаются)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
