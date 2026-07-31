@@ -17,4 +17,6 @@ A→`research/two_wgp/`+`research/hypotheses/` · B→`research/experiments/mode
 D→`research/paper/` · L→`research/papers/` (вкл. свёрнутый `research/papers/litrev/`) · ORCH→`coordination/`,`CLAUDE.md`,main `research/state.json`.
 
 ## Активные «замки» намерений
-См. `coordination/sessions/*.md`. Перед правкой общего файла — проверь их.
+См. `coordination/sessions/*.md`. Перед правкой общего файла — проверь их. Каждый файл содержит
+блок «🔒 Замок исполнения» (CHARTER §12): статус `IN_PROGRESS`/`FREE`, ник держателя, таймаут
+простоя 15 минут. Реестр ников чатов — `coordination/NICKS.md`.
