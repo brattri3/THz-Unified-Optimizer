@@ -1,0 +1,614 @@
+{
+  "generated_at": "2026-07-31T10:42:46.511061+00:00",
+  "chats": [
+    {
+      "nick": "O1",
+      "role": "ORCH",
+      "chat_id": "450c5ce8-f862-46b2-a38f-e5d383d924d9",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired",
+      "project_dir": "C--Users-pop-Antigravity-IDE",
+      "first_ts": "2026-07-23T18:35:45.588000+00:00",
+      "last_ts": "2026-07-28T14:14:24.253000+00:00",
+      "duration_hours": 115.64,
+      "user_turns": 63,
+      "user_entries": 392,
+      "assistant_entries": 800,
+      "compactions": 1,
+      "clears": 0,
+      "tool_calls": {
+        "Read": 27,
+        "Bash": 114,
+        "Write": 42,
+        "Edit": 134,
+        "ScheduleWakeup": 6,
+        "PowerShell": 3,
+        "ToolSearch": 1,
+        "WebSearch": 1,
+        "AskUserQuestion": 1
+      },
+      "tool_calls_total": 329,
+      "effort_counts": {
+        "high": 794
+      },
+      "tokens_by_model": {
+        "claude-opus-4-8": {
+          "input": 1474,
+          "output": 1690019,
+          "cache_write": 14602199,
+          "cache_read": 325487116
+        }
+      },
+      "tokens_total": {
+        "input": 1474,
+        "output": 1690019,
+        "cache_write": 14602199,
+        "cache_read": 325487116
+      },
+      "tokens_grand_total": 341780808,
+      "cost_usd": 177.7591
+    },
+    {
+      "nick": "O2",
+      "role": "ORCH",
+      "chat_id": "e41a7ae7-6ea2-46a8-99e3-6df6d5532a9e",
+      "found": true,
+      "is_active": true,
+      "status_note": "**active**",
+      "project_dir": "C--Users-pop-Antigravity-IDE",
+      "first_ts": "2026-07-28T14:15:19.493000+00:00",
+      "last_ts": "2026-07-31T10:42:40.130000+00:00",
+      "duration_hours": 68.46,
+      "user_turns": 33,
+      "user_entries": 274,
+      "assistant_entries": 465,
+      "compactions": 1,
+      "clears": 1,
+      "tool_calls": {
+        "Read": 52,
+        "Bash": 66,
+        "Edit": 99,
+        "AskUserQuestion": 2,
+        "Write": 7,
+        "Grep": 12,
+        "Glob": 1,
+        "PowerShell": 1,
+        "Skill": 1
+      },
+      "tool_calls_total": 241,
+      "effort_counts": {
+        "high": 460
+      },
+      "tokens_by_model": {
+        "claude-opus-4-8": {
+          "input": 370,
+          "output": 318885,
+          "cache_write": 1291323,
+          "cache_read": 28538952
+        },
+        "claude-sonnet-5": {
+          "input": 1985,
+          "output": 308187,
+          "cache_write": 1028983,
+          "cache_read": 42422551
+        }
+      },
+      "tokens_total": {
+        "input": 2355,
+        "output": 627072,
+        "cache_write": 2320306,
+        "cache_read": 70961503
+      },
+      "tokens_grand_total": 73911236,
+      "cost_usd": 39.4027
+    },
+    {
+      "nick": "A1",
+      "role": "A",
+      "chat_id": "a0e3dd33-eba0-4c43-ae9f-f8e8e7fe17d6",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired",
+      "project_dir": "C--Users-pop-Antigravity-IDE-THz-Unified-Optimizer",
+      "first_ts": "2026-07-25T13:45:35.250000+00:00",
+      "last_ts": "2026-07-28T05:19:35.802000+00:00",
+      "duration_hours": 63.57,
+      "user_turns": 7,
+      "user_entries": 76,
+      "assistant_entries": 126,
+      "compactions": 0,
+      "clears": 0,
+      "tool_calls": {
+        "Read": 15,
+        "Bash": 31,
+        "Write": 3,
+        "Edit": 20
+      },
+      "tool_calls_total": 69,
+      "effort_counts": {
+        "high": 125
+      },
+      "tokens_by_model": {
+        "claude-opus-5": {
+          "input": 229,
+          "output": 224625,
+          "cache_write": 1110586,
+          "cache_read": 14548011
+        }
+      },
+      "tokens_total": {
+        "input": 229,
+        "output": 224625,
+        "cache_write": 1110586,
+        "cache_read": 14548011
+      },
+      "tokens_grand_total": 15883451,
+      "cost_usd": 59.4958
+    },
+    {
+      "nick": "A2",
+      "role": "A",
+      "chat_id": "b91ac21e-b1f1-4ae6-b00b-1334d3db8e6b",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired (2026-07-31, `exit`)",
+      "project_dir": "C--Users-pop-Antigravity-IDE-THz-Unified-Optimizer",
+      "first_ts": "2026-07-28T05:21:54.951000+00:00",
+      "last_ts": "2026-07-29T11:06:33.255000+00:00",
+      "duration_hours": 29.74,
+      "user_turns": 12,
+      "user_entries": 163,
+      "assistant_entries": 248,
+      "compactions": 1,
+      "clears": 1,
+      "tool_calls": {
+        "Read": 17,
+        "Bash": 66,
+        "Edit": 61,
+        "Write": 5,
+        "Grep": 2
+      },
+      "tool_calls_total": 151,
+      "effort_counts": {
+        "high": 246
+      },
+      "tokens_by_model": {
+        "claude-opus-5": {
+          "input": 458,
+          "output": 372782,
+          "cache_write": 951584,
+          "cache_read": 32060205
+        }
+      },
+      "tokens_total": {
+        "input": 458,
+        "output": 372782,
+        "cache_write": 951584,
+        "cache_read": 32060205
+      },
+      "tokens_grand_total": 33385029,
+      "cost_usd": 93.898
+    },
+    {
+      "nick": "B1",
+      "role": "B",
+      "chat_id": "71f19454-d12b-4944-88f2-e8328dcfeb43",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired (упёрлась в лимит)",
+      "project_dir": "C--Users-pop-Antigravity-IDE-THz-Unified-Optimizer",
+      "first_ts": "2026-07-27T11:32:26.350000+00:00",
+      "last_ts": "2026-07-28T05:32:41.513000+00:00",
+      "duration_hours": 18.0,
+      "user_turns": 8,
+      "user_entries": 122,
+      "assistant_entries": 206,
+      "compactions": 0,
+      "clears": 0,
+      "tool_calls": {
+        "Skill": 1,
+        "Bash": 47,
+        "Read": 18,
+        "Grep": 2,
+        "Write": 11,
+        "Edit": 33,
+        "ScheduleWakeup": 2
+      },
+      "tool_calls_total": 114,
+      "effort_counts": {
+        "high": 205
+      },
+      "tokens_by_model": {
+        "claude-opus-5": {
+          "input": 12733,
+          "output": 322566,
+          "cache_write": 932894,
+          "cache_read": 33578475
+        }
+      },
+      "tokens_total": {
+        "input": 12733,
+        "output": 322566,
+        "cache_write": 932894,
+        "cache_read": 33578475
+      },
+      "tokens_grand_total": 34846668,
+      "cost_usd": 92.2429
+    },
+    {
+      "nick": "C1",
+      "role": "C",
+      "chat_id": "f8241c1b-2e46-4b7f-baf8-2bd6f194ef9d",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired",
+      "project_dir": "C--Users-pop-Antigravity-IDE-THz-Unified-Optimizer",
+      "first_ts": "2026-07-27T11:53:44.818000+00:00",
+      "last_ts": "2026-07-28T12:42:18.842000+00:00",
+      "duration_hours": 24.81,
+      "user_turns": 17,
+      "user_entries": 249,
+      "assistant_entries": 395,
+      "compactions": 1,
+      "clears": 0,
+      "tool_calls": {
+        "Bash": 107,
+        "Read": 36,
+        "ToolSearch": 1,
+        "WebFetch": 7,
+        "WebSearch": 2,
+        "Write": 31,
+        "Edit": 46,
+        "Skill": 1,
+        "Grep": 1
+      },
+      "tool_calls_total": 232,
+      "effort_counts": {
+        "high": 394
+      },
+      "tokens_by_model": {
+        "claude-opus-5": {
+          "input": 28645,
+          "output": 559580,
+          "cache_write": 4170133,
+          "cache_read": 114617069
+        }
+      },
+      "tokens_total": {
+        "input": 28645,
+        "output": 559580,
+        "cache_write": 4170133,
+        "cache_read": 114617069
+      },
+      "tokens_grand_total": 119375427,
+      "cost_usd": 292.5138
+    },
+    {
+      "nick": "D1",
+      "role": "D",
+      "chat_id": "5ad5d6ae-b102-4571-ab86-9a8251a89fff",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired (2026-07-31, `exit`)",
+      "project_dir": "C--Users-pop-Antigravity-IDE",
+      "first_ts": "2026-07-29T10:17:46.743000+00:00",
+      "last_ts": "2026-07-29T11:00:43.108000+00:00",
+      "duration_hours": 0.72,
+      "user_turns": 4,
+      "user_entries": 45,
+      "assistant_entries": 73,
+      "compactions": 0,
+      "clears": 0,
+      "tool_calls": {
+        "Bash": 15,
+        "Read": 11,
+        "Edit": 8,
+        "Write": 6,
+        "ScheduleWakeup": 1
+      },
+      "tool_calls_total": 41,
+      "effort_counts": {
+        "high": 73
+      },
+      "tokens_by_model": {
+        "claude-opus-5": {
+          "input": 135,
+          "output": 173355,
+          "cache_write": 341591,
+          "cache_read": 7821701
+        }
+      },
+      "tokens_total": {
+        "input": 135,
+        "output": 173355,
+        "cache_write": 341591,
+        "cache_read": 7821701
+      },
+      "tokens_grand_total": 8336782,
+      "cost_usd": 31.141
+    },
+    {
+      "nick": "L1",
+      "role": "L",
+      "chat_id": "b6a0aadc-1b45-48f8-b140-a4491da0d6bd",
+      "found": true,
+      "is_active": false,
+      "status_note": "retired (2026-07-31, `exit`)",
+      "project_dir": "C--Users-pop-Antigravity-IDE",
+      "first_ts": "2026-07-23T14:51:31.687000+00:00",
+      "last_ts": "2026-07-31T07:19:04.164000+00:00",
+      "duration_hours": 184.46,
+      "user_turns": 66,
+      "user_entries": 221,
+      "assistant_entries": 393,
+      "compactions": 9,
+      "clears": 1,
+      "tool_calls": {
+        "PowerShell": 37,
+        "Glob": 6,
+        "Read": 30,
+        "AskUserQuestion": 5,
+        "ToolSearch": 1,
+        "Write": 20,
+        "WebFetch": 5,
+        "Edit": 25,
+        "Bash": 18,
+        "WebSearch": 2
+      },
+      "tool_calls_total": 149,
+      "effort_counts": {
+        "high": 63
+      },
+      "tokens_by_model": {
+        "claude-opus-4-8": {
+          "input": 101830,
+          "output": 653756,
+          "cache_write": 5330387,
+          "cache_read": 55878095
+        }
+      },
+      "tokens_total": {
+        "input": 101830,
+        "output": 653756,
+        "cache_write": 5330387,
+        "cache_read": 55878095
+      },
+      "tokens_grand_total": 61964068,
+      "cost_usd": 46.8642
+    },
+    {
+      "nick": "L2",
+      "role": "L",
+      "chat_id": "4b905aef-567c-41e8-a2fe-e9aaf0de99e6",
+      "found": true,
+      "is_active": false,
+      "status_note": "idle / **задвоение**",
+      "project_dir": "C--Users-pop-Antigravity-IDE-THz-Unified-Optimizer",
+      "first_ts": "2026-07-29T11:47:03.949000+00:00",
+      "last_ts": "2026-07-29T16:56:49.783000+00:00",
+      "duration_hours": 5.16,
+      "user_turns": 4,
+      "user_entries": 98,
+      "assistant_entries": 176,
+      "compactions": 0,
+      "clears": 0,
+      "tool_calls": {
+        "Read": 12,
+        "PowerShell": 43,
+        "Glob": 1,
+        "ToolSearch": 1,
+        "Edit": 23,
+        "CronCreate": 1,
+        "Grep": 5,
+        "Write": 8
+      },
+      "tool_calls_total": 94,
+      "effort_counts": {
+        "high": 176
+      },
+      "tokens_by_model": {
+        "claude-opus-5": {
+          "input": 10035,
+          "output": 194804,
+          "cache_write": 1173535,
+          "cache_read": 20398526
+        }
+      },
+      "tokens_total": {
+        "input": 10035,
+        "output": 194804,
+        "cache_write": 1173535,
+        "cache_read": 20398526
+      },
+      "tokens_grand_total": 21776900,
+      "cost_usd": 67.3624
+    }
+  ],
+  "roles": {
+    "ORCH": {
+      "chats": 2,
+      "duration_hours": 184.1,
+      "user_turns": 96,
+      "tool_calls_total": 570,
+      "tokens_total": {
+        "input": 3829,
+        "output": 2317091,
+        "cache_write": 16922505,
+        "cache_read": 396448619
+      },
+      "tokens_grand_total": 415692044,
+      "cost_usd": 217.1618,
+      "compactions": 2,
+      "clears": 1,
+      "is_active": true
+    },
+    "A": {
+      "chats": 2,
+      "duration_hours": 93.31,
+      "user_turns": 19,
+      "tool_calls_total": 220,
+      "tokens_total": {
+        "input": 687,
+        "output": 597407,
+        "cache_write": 2062170,
+        "cache_read": 46608216
+      },
+      "tokens_grand_total": 49268480,
+      "cost_usd": 153.3938,
+      "compactions": 1,
+      "clears": 1,
+      "is_active": false
+    },
+    "B": {
+      "chats": 1,
+      "duration_hours": 18.0,
+      "user_turns": 8,
+      "tool_calls_total": 114,
+      "tokens_total": {
+        "input": 12733,
+        "output": 322566,
+        "cache_write": 932894,
+        "cache_read": 33578475
+      },
+      "tokens_grand_total": 34846668,
+      "cost_usd": 92.2429,
+      "compactions": 0,
+      "clears": 0,
+      "is_active": false
+    },
+    "C": {
+      "chats": 1,
+      "duration_hours": 24.81,
+      "user_turns": 17,
+      "tool_calls_total": 232,
+      "tokens_total": {
+        "input": 28645,
+        "output": 559580,
+        "cache_write": 4170133,
+        "cache_read": 114617069
+      },
+      "tokens_grand_total": 119375427,
+      "cost_usd": 292.5138,
+      "compactions": 1,
+      "clears": 0,
+      "is_active": false
+    },
+    "D": {
+      "chats": 1,
+      "duration_hours": 0.72,
+      "user_turns": 4,
+      "tool_calls_total": 41,
+      "tokens_total": {
+        "input": 135,
+        "output": 173355,
+        "cache_write": 341591,
+        "cache_read": 7821701
+      },
+      "tokens_grand_total": 8336782,
+      "cost_usd": 31.141,
+      "compactions": 0,
+      "clears": 0,
+      "is_active": false
+    },
+    "L": {
+      "chats": 2,
+      "duration_hours": 189.62,
+      "user_turns": 70,
+      "tool_calls_total": 243,
+      "tokens_total": {
+        "input": 111865,
+        "output": 848560,
+        "cache_write": 6503922,
+        "cache_read": 76276621
+      },
+      "tokens_grand_total": 83740968,
+      "cost_usd": 114.2266,
+      "compactions": 9,
+      "clears": 1,
+      "is_active": false
+    }
+  },
+  "git": {
+    "ORCH": {
+      "commits": 9,
+      "insertions": 3279,
+      "deletions": 130
+    },
+    "A": {
+      "commits": 4,
+      "insertions": 15989,
+      "deletions": 75
+    },
+    "B": {
+      "commits": 0,
+      "insertions": 0,
+      "deletions": 0
+    },
+    "C": {
+      "commits": 6,
+      "insertions": 725,
+      "deletions": 352
+    },
+    "D": {
+      "commits": 2,
+      "insertions": 1449,
+      "deletions": 21
+    },
+    "L": {
+      "commits": 3,
+      "insertions": 1083,
+      "deletions": 43
+    }
+  },
+  "research_log": {
+    "ORCH": 0,
+    "A": 5,
+    "B": 0,
+    "C": 1,
+    "D": 0,
+    "L": 0
+  },
+  "pricing_table": {
+    "claude-opus-5": {
+      "input": 15.0,
+      "output": 75.0,
+      "cache_write": 18.75,
+      "cache_read": 1.5
+    },
+    "claude-sonnet-5": {
+      "input": 3.0,
+      "output": 15.0,
+      "cache_write": 3.75,
+      "cache_read": 0.3
+    },
+    "claude-fable-5": {
+      "input": 3.0,
+      "output": 15.0,
+      "cache_write": 3.75,
+      "cache_read": 0.3
+    },
+    "claude-haiku-4-5": {
+      "input": 0.8,
+      "output": 4.0,
+      "cache_write": 1.0,
+      "cache_read": 0.08
+    }
+  },
+  "role_order": [
+    "ORCH",
+    "A",
+    "B",
+    "C",
+    "D",
+    "L"
+  ],
+  "role_color": {
+    "ORCH": "#8890a0",
+    "A": "#4fb3e0",
+    "B": "#2fbf98",
+    "C": "#e2933f",
+    "D": "#b876e0",
+    "L": "#e0645f"
+  }
+}

@@ -1,0 +1,196 @@
+
+<title>KPI-отчёт: THz-Unified-Optimizer</title>
+
+<style>
+:root{
+  --bg:#f7f4ee; --panel:#ffffff; --border:#e4ded2; --fg:#1c1b18; --muted:#6d6656;
+  --accent:#b8650f; --accent-fg:#ffffff; --code-bg:#efe9db;
+  --grid-line:#e4ded2; --callout-bg:#fdf1dc; --callout-fg:#8a5410; --callout-border:#eaceA0;
+  --ok:#2f8f5b; --off:#8a8374;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0f1113; --panel:#171a1e; --border:#2a2e33; --fg:#e9ece7; --muted:#8b9199;
+    --accent:#ffb545; --accent-fg:#241300; --code-bg:#1d2126;
+    --grid-line:#262a2f; --callout-bg:#241c0c; --callout-fg:#f0c46b; --callout-border:#4a3a17;
+    --ok:#59c98a; --off:#7a7f87; }
+}
+:root[data-theme="dark"]{ --bg:#0f1113; --panel:#171a1e; --border:#2a2e33; --fg:#e9ece7; --muted:#8b9199;
+  --accent:#ffb545; --accent-fg:#241300; --code-bg:#1d2126;
+  --grid-line:#262a2f; --callout-bg:#241c0c; --callout-fg:#f0c46b; --callout-border:#4a3a17;
+  --ok:#59c98a; --off:#7a7f87; }
+:root[data-theme="light"]{ --bg:#f7f4ee; --panel:#ffffff; --border:#e4ded2; --fg:#1c1b18; --muted:#6d6656;
+  --accent:#b8650f; --accent-fg:#ffffff; --code-bg:#efe9db;
+  --grid-line:#e4ded2; --callout-bg:#fdf1dc; --callout-fg:#8a5410; --callout-border:#eaceA0;
+  --ok:#2f8f5b; --off:#8a8374; }
+
+*{box-sizing:border-box;}
+body{background:var(--bg); color:var(--fg);}
+.mono{font-family:ui-monospace,SFMono-Regular,"Cascadia Code",Consolas,"Liberation Mono",monospace;}
+.tnum{font-variant-numeric:tabular-nums;}
+.kpi-wrap{
+  max-width:1020px; margin:0 auto; padding:28px 18px 72px;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.55;
+}
+h1{
+  font-family:ui-monospace,SFMono-Regular,"Cascadia Code",Consolas,monospace;
+  font-size:1.5rem; font-weight:700; margin:0 0 4px; letter-spacing:-.01em; text-wrap:balance;
+}
+h2{
+  font-family:ui-monospace,SFMono-Regular,"Cascadia Code",Consolas,monospace;
+  font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--muted); margin:0 0 12px;
+}
+.panel + .panel, .panel-group + h2, h2 + .panel, h2 + .panel-group{margin-top:6px;}
+section{margin-top:34px;}
+.subtitle{color:var(--muted); font-size:.88rem; margin:0 0 4px;}
+.subtitle.tight{margin-bottom:14px;}
+.callout{
+  background:var(--callout-bg); color:var(--callout-fg); border:1px solid var(--callout-border);
+  border-radius:6px; padding:11px 15px; font-size:.86rem; margin:16px 0 0;
+}
+.callout code{background:transparent; padding:0; color:inherit; border-bottom:1px dotted currentColor;}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
+.card{
+  background:var(--panel); border:1px solid var(--border); border-top:3px solid var(--role-color);
+  border-radius:8px; padding:14px 14px 12px; display:flex; flex-direction:column; gap:2px;
+}
+.card-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
+.card .role{font-weight:700; font-size:.92rem; font-family:ui-monospace,monospace;}
+.chip{
+  font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  padding:2px 7px; border-radius:99px; line-height:1.6;
+}
+.chip.on{background:color-mix(in srgb, var(--ok) 18%, transparent); color:var(--ok);}
+.chip.off{background:color-mix(in srgb, var(--off) 18%, transparent); color:var(--off);}
+.card .metric{font-size:1.32rem; font-weight:700; font-family:ui-monospace,monospace; margin-top:2px;}
+.card .metric.small{font-size:1rem; margin-top:9px;}
+.card .label{font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em;}
+
+.panel{
+  background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  padding:16px 18px 14px;
+}
+.panel + .panel{margin-top:12px;}
+
+.chart-label{fill:var(--fg); font-size:11.5px; font-family:ui-monospace,monospace;}
+.chart-legend{fill:var(--muted); font-size:10.5px; font-family:ui-monospace,monospace;}
+.grid-line{stroke:var(--grid-line); stroke-width:1;}
+
+.table-scroll{overflow-x:auto; border:1px solid var(--border); border-radius:8px;}
+.data-table{width:100%; border-collapse:collapse; font-size:.82rem; min-width:640px;}
+.data-table th{
+  text-align:left; color:var(--muted); font-weight:600; padding:8px 10px;
+  border-bottom:1px solid var(--border); font-size:.68rem; text-transform:uppercase; letter-spacing:.04em;
+  white-space:nowrap; position:sticky; top:0; background:var(--panel);
+}
+.data-table td{padding:7px 10px; border-bottom:1px solid var(--border); font-variant-numeric:tabular-nums;}
+.data-table tbody tr:hover{background:color-mix(in srgb, var(--accent) 6%, transparent);}
+.role-cell{border-left:4px solid var(--role-color); font-weight:700; font-family:ui-monospace,monospace;}
+code{background:var(--code-bg); padding:1px 6px; border-radius:4px; font-size:.85em; font-family:ui-monospace,monospace;}
+
+.scenario{
+  background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0; padding:11px 15px; display:flex; flex-direction:column; gap:3px;
+}
+.scenario b{color:var(--fg); font-size:.9rem;}
+.scenario span{color:var(--muted); font-size:.85rem;}
+.scenario-grid{display:grid; gap:8px;}
+
+ul.method{padding-left:1.1em; display:flex; flex-direction:column; gap:8px; font-size:.88rem;}
+ul.method li::marker{color:var(--accent);}
+
+footer{color:var(--muted); font-size:.76rem; margin-top:44px; border-top:1px solid var(--border); padding-top:12px;}
+a{color:var(--accent);}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+
+<div class="kpi-wrap">
+  <h1>Приборная панель координации &middot; THz-Unified-Optimizer</h1>
+  <div class="subtitle">сгенерировано 2026-07-31 10:42:46 UTC &middot;
+    источник — <code>NICKS.md</code> + локальные транскрипты Claude Code + <code>git log</code> +
+    <code>RESEARCH_LOG.md</code></div>
+
+  <div class="callout">
+    ⚠ Оценка стоимости ($) — ОРИЕНТИРОВОЧНАЯ (тарифы для модельной линейки этого проекта официально не
+    подтверждены, перенесены из ближайшего известного прайс-листа). Годится для СРАВНЕНИЯ ролей между
+    собой, не для сверки со счётом. Токены — точные (взяты из полей <code>usage</code> транскриптов).
+  </div>
+
+  <section>
+    <h2>Сводка по ролям</h2>
+    <div class="cards"><div class='card' style='--role-color:#8890a0'><div class='card-head'><span class='role'>ORCH</span><span class='chip on'>active</span></div><div class='metric tnum'>415 692 044</div><div class='label'>токенов &middot; 2 чат(ов)</div><div class='metric small tnum'>$217.16</div><div class='label'>оценка стоимости</div><div class='metric small tnum'>7.7 дн</div><div class='label'>суммарное время жизни чатов</div></div><div class='card' style='--role-color:#4fb3e0'><div class='card-head'><span class='role'>A</span><span class='chip off'>stopped</span></div><div class='metric tnum'>49 268 480</div><div class='label'>токенов &middot; 2 чат(ов)</div><div class='metric small tnum'>$153.39</div><div class='label'>оценка стоимости</div><div class='metric small tnum'>3.9 дн</div><div class='label'>суммарное время жизни чатов</div></div><div class='card' style='--role-color:#2fbf98'><div class='card-head'><span class='role'>B</span><span class='chip off'>stopped</span></div><div class='metric tnum'>34 846 668</div><div class='label'>токенов &middot; 1 чат(ов)</div><div class='metric small tnum'>$92.24</div><div class='label'>оценка стоимости</div><div class='metric small tnum'>18.0 ч</div><div class='label'>суммарное время жизни чатов</div></div><div class='card' style='--role-color:#e2933f'><div class='card-head'><span class='role'>C</span><span class='chip off'>stopped</span></div><div class='metric tnum'>119 375 427</div><div class='label'>токенов &middot; 1 чат(ов)</div><div class='metric small tnum'>$292.51</div><div class='label'>оценка стоимости</div><div class='metric small tnum'>24.8 ч</div><div class='label'>суммарное время жизни чатов</div></div><div class='card' style='--role-color:#b876e0'><div class='card-head'><span class='role'>D</span><span class='chip off'>stopped</span></div><div class='metric tnum'>8 336 782</div><div class='label'>токенов &middot; 1 чат(ов)</div><div class='metric small tnum'>$31.14</div><div class='label'>оценка стоимости</div><div class='metric small tnum'>0.7 ч</div><div class='label'>суммарное время жизни чатов</div></div><div class='card' style='--role-color:#e0645f'><div class='card-head'><span class='role'>L</span><span class='chip off'>stopped</span></div><div class='metric tnum'>83 740 968</div><div class='label'>токенов &middot; 2 чат(ов)</div><div class='metric small tnum'>$114.23</div><div class='label'>оценка стоимости</div><div class='metric small tnum'>7.9 дн</div><div class='label'>суммарное время жизни чатов</div></div></div>
+  </section>
+
+  <section>
+    <h2>Токены по ролям — input / output / cache-write / cache-read</h2>
+    <div class="panel"><svg viewBox="0 0 720 306" width="100%" height="306" class="chart" role="img" aria-label="Токены по ролям"><line x1="60.0" y1="16" x2="60.0" y2="262" class="grid-line"/><text x="60.0" y="12" class="chart-legend" text-anchor="middle">0</text><line x1="182.5" y1="16" x2="182.5" y2="262" class="grid-line"/><text x="182.5" y="12" class="chart-legend" text-anchor="middle">103 923 011</text><line x1="305.0" y1="16" x2="305.0" y2="262" class="grid-line"/><text x="305.0" y="12" class="chart-legend" text-anchor="middle">207 846 022</text><line x1="427.5" y1="16" x2="427.5" y2="262" class="grid-line"/><text x="427.5" y="12" class="chart-legend" text-anchor="middle">311 769 033</text><line x1="550.0" y1="16" x2="550.0" y2="262" class="grid-line"/><text x="550.0" y="12" class="chart-legend" text-anchor="middle">415 692 044</text><rect x="60.0" y="22" width="0.0" height="26" fill="#6d7280"><title>ORCH · input: 3 829 ток.</title></rect><rect x="60.0" y="22" width="2.7" height="26" fill="#d98a3d"><title>ORCH · output: 2 317 091 ток.</title></rect><rect x="62.7" y="22" width="19.9" height="26" fill="#8a6b9e"><title>ORCH · cache-write: 16 922 505 ток.</title></rect><rect x="82.7" y="22" width="467.3" height="26" fill="#4f8fae"><title>ORCH · cache-read: 396 448 619 ток.</title></rect><text x="8" y="40.0" class="chart-label" font-weight="700">ORCH</text><text x="560" y="40.0" class="chart-label">415 692 044</text><rect x="60.0" y="62" width="0.0" height="26" fill="#6d7280"><title>A · input: 687 ток.</title></rect><rect x="60.0" y="62" width="0.7" height="26" fill="#d98a3d"><title>A · output: 597 407 ток.</title></rect><rect x="60.7" y="62" width="2.4" height="26" fill="#8a6b9e"><title>A · cache-write: 2 062 170 ток.</title></rect><rect x="63.1" y="62" width="54.9" height="26" fill="#4f8fae"><title>A · cache-read: 46 608 216 ток.</title></rect><text x="8" y="80.0" class="chart-label" font-weight="700">A</text><text x="560" y="80.0" class="chart-label">49 268 480</text><rect x="60.0" y="102" width="0.0" height="26" fill="#6d7280"><title>B · input: 12 733 ток.</title></rect><rect x="60.0" y="102" width="0.4" height="26" fill="#d98a3d"><title>B · output: 322 566 ток.</title></rect><rect x="60.4" y="102" width="1.1" height="26" fill="#8a6b9e"><title>B · cache-write: 932 894 ток.</title></rect><rect x="61.5" y="102" width="39.6" height="26" fill="#4f8fae"><title>B · cache-read: 33 578 475 ток.</title></rect><text x="8" y="120.0" class="chart-label" font-weight="700">B</text><text x="560" y="120.0" class="chart-label">34 846 668</text><rect x="60.0" y="142" width="0.0" height="26" fill="#6d7280"><title>C · input: 28 645 ток.</title></rect><rect x="60.0" y="142" width="0.7" height="26" fill="#d98a3d"><title>C · output: 559 580 ток.</title></rect><rect x="60.7" y="142" width="4.9" height="26" fill="#8a6b9e"><title>C · cache-write: 4 170 133 ток.</title></rect><rect x="65.6" y="142" width="135.1" height="26" fill="#4f8fae"><title>C · cache-read: 114 617 069 ток.</title></rect><text x="8" y="160.0" class="chart-label" font-weight="700">C</text><text x="560" y="160.0" class="chart-label">119 375 427</text><rect x="60.0" y="182" width="0.0" height="26" fill="#6d7280"><title>D · input: 135 ток.</title></rect><rect x="60.0" y="182" width="0.2" height="26" fill="#d98a3d"><title>D · output: 173 355 ток.</title></rect><rect x="60.2" y="182" width="0.4" height="26" fill="#8a6b9e"><title>D · cache-write: 341 591 ток.</title></rect><rect x="60.6" y="182" width="9.2" height="26" fill="#4f8fae"><title>D · cache-read: 7 821 701 ток.</title></rect><text x="8" y="200.0" class="chart-label" font-weight="700">D</text><text x="560" y="200.0" class="chart-label">8 336 782</text><rect x="60.0" y="222" width="0.1" height="26" fill="#6d7280"><title>L · input: 111 865 ток.</title></rect><rect x="60.1" y="222" width="1.0" height="26" fill="#d98a3d"><title>L · output: 848 560 ток.</title></rect><rect x="61.1" y="222" width="7.7" height="26" fill="#8a6b9e"><title>L · cache-write: 6 503 922 ток.</title></rect><rect x="68.8" y="222" width="89.9" height="26" fill="#4f8fae"><title>L · cache-read: 76 276 621 ток.</title></rect><text x="8" y="240.0" class="chart-label" font-weight="700">L</text><text x="560" y="240.0" class="chart-label">83 740 968</text><rect x="60" y="288" width="12" height="12" fill="#6d7280"/><text x="76" y="298" class="chart-legend">input</text><rect x="170" y="288" width="12" height="12" fill="#d98a3d"/><text x="186" y="298" class="chart-legend">output</text><rect x="280" y="288" width="12" height="12" fill="#8a6b9e"/><text x="296" y="298" class="chart-legend">cache-write</text><rect x="390" y="288" width="12" height="12" fill="#4f8fae"/><text x="406" y="298" class="chart-legend">cache-read</text></svg></div>
+  </section>
+
+  <section>
+    <h2>Оценка стоимости по ролям</h2>
+    <div class="panel"><svg viewBox="0 0 720 276" width="100%" height="276" class="chart" role="img"><line x1="60.0" y1="16" x2="60.0" y2="274" class="grid-line"/><text x="60.0" y="12" class="chart-legend" text-anchor="middle">$0.00</text><line x1="192.5" y1="16" x2="192.5" y2="274" class="grid-line"/><text x="192.5" y="12" class="chart-legend" text-anchor="middle">$73.13</text><line x1="325.0" y1="16" x2="325.0" y2="274" class="grid-line"/><text x="325.0" y="12" class="chart-legend" text-anchor="middle">$146.26</text><line x1="457.5" y1="16" x2="457.5" y2="274" class="grid-line"/><text x="457.5" y="12" class="chart-legend" text-anchor="middle">$219.39</text><line x1="590.0" y1="16" x2="590.0" y2="274" class="grid-line"/><text x="590.0" y="12" class="chart-legend" text-anchor="middle">$292.51</text><rect x="60" y="22" width="530.0" height="26" fill="#e2933f" rx="3"><title>C: $292.51</title></rect><text x="8" y="40.0" class="chart-label" font-weight="700">C</text><text x="598.0" y="40.0" class="chart-label">$292.51</text><rect x="60" y="62" width="393.5" height="26" fill="#8890a0" rx="3"><title>ORCH: $217.16</title></rect><text x="8" y="80.0" class="chart-label" font-weight="700">ORCH</text><text x="461.47119349582823" y="80.0" class="chart-label">$217.16</text><rect x="60" y="102" width="277.9" height="26" fill="#4fb3e0" rx="3"><title>A: $153.39</title></rect><text x="8" y="120.0" class="chart-label" font-weight="700">A</text><text x="345.931208715623" y="120.0" class="chart-label">$153.39</text><rect x="60" y="142" width="207.0" height="26" fill="#e0645f" rx="3"><title>L: $114.23</title></rect><text x="8" y="160.0" class="chart-label" font-weight="700">L</text><text x="274.96492951785524" y="160.0" class="chart-label">$114.23</text><rect x="60" y="182" width="167.1" height="26" fill="#2fbf98" rx="3"><title>B: $92.24</title></rect><text x="8" y="200.0" class="chart-label" font-weight="700">B</text><text x="235.1330959428239" y="200.0" class="chart-label">$92.24</text><rect x="60" y="222" width="56.4" height="26" fill="#b876e0" rx="3"><title>D: $31.14</title></rect><text x="8" y="240.0" class="chart-label" font-weight="700">D</text><text x="124.42376530611547" y="240.0" class="chart-label">$31.14</text></svg></div>
+  </section>
+
+  <section>
+    <h2>Коммиты по ролям — git log, тег [РОЛЬ]</h2>
+    <div class="panel"><svg viewBox="0 0 720 236" width="100%" height="236" class="chart" role="img"><line x1="60.0" y1="16" x2="60.0" y2="234" class="grid-line"/><text x="60.0" y="12" class="chart-legend" text-anchor="middle">0</text><line x1="192.5" y1="16" x2="192.5" y2="234" class="grid-line"/><text x="192.5" y="12" class="chart-legend" text-anchor="middle">2</text><line x1="325.0" y1="16" x2="325.0" y2="234" class="grid-line"/><text x="325.0" y="12" class="chart-legend" text-anchor="middle">4</text><line x1="457.5" y1="16" x2="457.5" y2="234" class="grid-line"/><text x="457.5" y="12" class="chart-legend" text-anchor="middle">6</text><line x1="590.0" y1="16" x2="590.0" y2="234" class="grid-line"/><text x="590.0" y="12" class="chart-legend" text-anchor="middle">9</text><rect x="60" y="22" width="530.0" height="26" fill="#8890a0" rx="3"><title>ORCH: 9</title></rect><text x="8" y="40.0" class="chart-label" font-weight="700">ORCH</text><text x="598.0" y="40.0" class="chart-label">9</text><rect x="60" y="62" width="353.3" height="26" fill="#e2933f" rx="3"><title>C: 6</title></rect><text x="8" y="80.0" class="chart-label" font-weight="700">C</text><text x="421.3333333333333" y="80.0" class="chart-label">6</text><rect x="60" y="102" width="235.6" height="26" fill="#4fb3e0" rx="3"><title>A: 4</title></rect><text x="8" y="120.0" class="chart-label" font-weight="700">A</text><text x="303.55555555555554" y="120.0" class="chart-label">4</text><rect x="60" y="142" width="176.7" height="26" fill="#e0645f" rx="3"><title>L: 3</title></rect><text x="8" y="160.0" class="chart-label" font-weight="700">L</text><text x="244.66666666666666" y="160.0" class="chart-label">3</text><rect x="60" y="182" width="117.8" height="26" fill="#b876e0" rx="3"><title>D: 2</title></rect><text x="8" y="200.0" class="chart-label" font-weight="700">D</text><text x="185.77777777777777" y="200.0" class="chart-label">2</text></svg></div>
+  </section>
+
+  <section>
+    <h2>Хронология жизни чатов</h2>
+    <p class="subtitle tight">Каждый бар — один физический чат (ник) от первого до последнего
+      сообщения. Перекрывающиеся бары одной роли = коллизия (см. CHARTER §12, прецедент L1/L2).</p>
+    <div class="panel"><svg viewBox="0 0 760 310" width="100%" height="310" class="chart" role="img" aria-label="Хронология жизни чатов"><line x1="17.0" y1="10" x2="17.0" y2="288" class="grid-line"/><text x="17.0" y="302" class="chart-legend" text-anchor="middle">23.07</text><line x1="102.6" y1="10" x2="102.6" y2="288" class="grid-line"/><text x="102.6" y="302" class="chart-legend" text-anchor="middle">24.07</text><line x1="188.2" y1="10" x2="188.2" y2="288" class="grid-line"/><text x="188.2" y="302" class="chart-legend" text-anchor="middle">25.07</text><line x1="273.8" y1="10" x2="273.8" y2="288" class="grid-line"/><text x="273.8" y="302" class="chart-legend" text-anchor="middle">26.07</text><line x1="359.4" y1="10" x2="359.4" y2="288" class="grid-line"/><text x="359.4" y="302" class="chart-legend" text-anchor="middle">27.07</text><line x1="445.0" y1="10" x2="445.0" y2="288" class="grid-line"/><text x="445.0" y="302" class="chart-legend" text-anchor="middle">28.07</text><line x1="530.6" y1="10" x2="530.6" y2="288" class="grid-line"/><text x="530.6" y="302" class="chart-legend" text-anchor="middle">29.07</text><line x1="616.2" y1="10" x2="616.2" y2="288" class="grid-line"/><text x="616.2" y="302" class="chart-legend" text-anchor="middle">30.07</text><line x1="701.8" y1="10" x2="701.8" y2="288" class="grid-line"/><text x="701.8" y="302" class="chart-legend" text-anchor="middle">31.07</text><rect x="70.0" y="10" width="657.9" height="24" fill="#e0645f" rx="4"><title>L/L1: 2026-07-23 14:51 → 2026-07-31 07:19 (184.5 ч)</title></rect><text x="4" y="26.0" class="chart-label">L1</text><rect x="83.3" y="40" width="412.5" height="24" fill="#8890a0" rx="4"><title>ORCH/O1: 2026-07-23 18:35 → 2026-07-28 14:14 (115.6 ч)</title></rect><text x="4" y="56.0" class="chart-label">O1</text><rect x="237.3" y="70" width="226.7" height="24" fill="#4fb3e0" rx="4"><title>A/A1: 2026-07-25 13:45 → 2026-07-28 05:19 (63.6 ч)</title></rect><text x="4" y="86.0" class="chart-label">A1</text><rect x="400.6" y="100" width="64.2" height="24" fill="#2fbf98" rx="4"><title>B/B1: 2026-07-27 11:32 → 2026-07-28 05:32 (18.0 ч)</title></rect><text x="4" y="116.0" class="chart-label">B1</text><rect x="401.8" y="130" width="88.5" height="24" fill="#e2933f" rx="4"><title>C/C1: 2026-07-27 11:53 → 2026-07-28 12:42 (24.8 ч)</title></rect><text x="4" y="146.0" class="chart-label">C1</text><rect x="464.1" y="160" width="106.1" height="24" fill="#4fb3e0" rx="4"><title>A/A2: 2026-07-28 05:21 → 2026-07-29 11:06 (29.7 ч)</title></rect><text x="4" y="176.0" class="chart-label">A2</text><rect x="495.8" y="190" width="244.2" height="24" fill="#8890a0" rx="4"><title>ORCH/O2: 2026-07-28 14:15 → 2026-07-31 10:42 (68.5 ч)</title></rect><text x="4" y="206.0" class="chart-label">O2</text><rect x="567.3" y="220" width="3.0" height="24" fill="#b876e0" rx="4"><title>D/D1: 2026-07-29 10:17 → 2026-07-29 11:00 (0.7 ч)</title></rect><text x="4" y="236.0" class="chart-label">D1</text><rect x="572.6" y="250" width="18.4" height="24" fill="#e0645f" rx="4"><title>L/L2: 2026-07-29 11:47 → 2026-07-29 16:56 (5.2 ч)</title></rect><text x="4" y="266.0" class="chart-label">L2</text></svg></div>
+  </section>
+
+  <section>
+    <h2>Эффективность по ролям</h2>
+    <div class="table-scroll"><table class='data-table'><thead><tr><th>Роль</th><th>Токены</th><th>Коммиты</th><th>+/− строк</th><th>Записей в RESEARCH_LOG</th><th>Токенов/коммит</th><th>$/запись в логе</th><th>Вызовов инстр./реплику</th><th>Compact-ов</th><th>/clear-ов</th></tr></thead><tbody><tr><td class='role-cell' style='--role-color:#8890a0'>ORCH</td><td>415 692 044</td><td>9</td><td>+3279/−130</td><td>0</td><td>46 188 005</td><td>—</td><td>5.9</td><td>2</td><td>1</td></tr><tr><td class='role-cell' style='--role-color:#4fb3e0'>A</td><td>49 268 480</td><td>4</td><td>+15989/−75</td><td>5</td><td>12 317 120</td><td>$30.68</td><td>11.6</td><td>1</td><td>1</td></tr><tr><td class='role-cell' style='--role-color:#2fbf98'>B</td><td>34 846 668</td><td>0</td><td>+0/−0</td><td>0</td><td>—</td><td>—</td><td>14.2</td><td>0</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#e2933f'>C</td><td>119 375 427</td><td>6</td><td>+725/−352</td><td>1</td><td>19 895 904</td><td>$292.51</td><td>13.6</td><td>1</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#b876e0'>D</td><td>8 336 782</td><td>2</td><td>+1449/−21</td><td>0</td><td>4 168 391</td><td>—</td><td>10.2</td><td>0</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#e0645f'>L</td><td>83 740 968</td><td>3</td><td>+1083/−43</td><td>0</td><td>27 913 656</td><td>—</td><td>3.5</td><td>9</td><td>1</td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Топ инструментов по вызовам — все чаты</h2>
+    <div class="table-scroll"><table class='data-table'><thead><tr><th>Инструмент</th><th>Вызовов (все чаты)</th></tr></thead><tbody><tr><td>Bash</td><td>464</td></tr><tr><td>Edit</td><td>449</td></tr><tr><td>Read</td><td>218</td></tr><tr><td>Write</td><td>133</td></tr><tr><td>PowerShell</td><td>84</td></tr><tr><td>Grep</td><td>22</td></tr><tr><td>WebFetch</td><td>12</td></tr><tr><td>ScheduleWakeup</td><td>9</td></tr><tr><td>AskUserQuestion</td><td>8</td></tr><tr><td>Glob</td><td>8</td></tr><tr><td>WebSearch</td><td>5</td></tr><tr><td>ToolSearch</td><td>4</td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Детализация по чатам</h2>
+    <div class="table-scroll"><table class='data-table'><thead><tr><th>Роль</th><th>Ник</th><th>Chat ID</th><th>Начало (UTC)</th><th>Конец (UTC)</th><th>Длительность</th><th>Реплик польз.</th><th>Вызовов инстр.</th><th>Токены</th><th>~Стоимость</th><th>Compact-ов</th><th>/clear-ов</th></tr></thead><tbody><tr><td class='role-cell' style='--role-color:#e0645f'>L</td><td>L1</td><td><code>b6a0aadc…</code></td><td>2026-07-23 14:51</td><td>2026-07-31 07:19</td><td>7.7 дн</td><td>66</td><td>149</td><td>61 964 068</td><td>$46.86</td><td>9</td><td>1</td></tr><tr><td class='role-cell' style='--role-color:#8890a0'>ORCH</td><td>O1</td><td><code>450c5ce8…</code></td><td>2026-07-23 18:35</td><td>2026-07-28 14:14</td><td>4.8 дн</td><td>63</td><td>329</td><td>341 780 808</td><td>$177.76</td><td>1</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#4fb3e0'>A</td><td>A1</td><td><code>a0e3dd33…</code></td><td>2026-07-25 13:45</td><td>2026-07-28 05:19</td><td>2.6 дн</td><td>7</td><td>69</td><td>15 883 451</td><td>$59.50</td><td>0</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#2fbf98'>B</td><td>B1</td><td><code>71f19454…</code></td><td>2026-07-27 11:32</td><td>2026-07-28 05:32</td><td>18.0 ч</td><td>8</td><td>114</td><td>34 846 668</td><td>$92.24</td><td>0</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#e2933f'>C</td><td>C1</td><td><code>f8241c1b…</code></td><td>2026-07-27 11:53</td><td>2026-07-28 12:42</td><td>24.8 ч</td><td>17</td><td>232</td><td>119 375 427</td><td>$292.51</td><td>1</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#4fb3e0'>A</td><td>A2</td><td><code>b91ac21e…</code></td><td>2026-07-28 05:21</td><td>2026-07-29 11:06</td><td>29.7 ч</td><td>12</td><td>151</td><td>33 385 029</td><td>$93.90</td><td>1</td><td>1</td></tr><tr><td class='role-cell' style='--role-color:#8890a0'>ORCH</td><td>O2</td><td><code>e41a7ae7…</code></td><td>2026-07-28 14:15</td><td>2026-07-31 10:42</td><td>2.9 дн</td><td>33</td><td>241</td><td>73 911 236</td><td>$39.40</td><td>1</td><td>1</td></tr><tr><td class='role-cell' style='--role-color:#b876e0'>D</td><td>D1</td><td><code>5ad5d6ae…</code></td><td>2026-07-29 10:17</td><td>2026-07-29 11:00</td><td>0.7 ч</td><td>4</td><td>41</td><td>8 336 782</td><td>$31.14</td><td>0</td><td>0</td></tr><tr><td class='role-cell' style='--role-color:#e0645f'>L</td><td>L2</td><td><code>4b905aef…</code></td><td>2026-07-29 11:47</td><td>2026-07-29 16:56</td><td>5.2 ч</td><td>4</td><td>94</td><td>21 776 900</td><td>$67.36</td><td>0</td><td>0</td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Как читать этот отчёт — сценарии использования</h2>
+    <div class="scenario-grid"><div class='scenario'><b>Где горит бюджет?</b><span>Раздел «Токены по ролям» и «Стоимость по ролям» — сразу видно, какая роль тяжелее всех по токенам/деньгам. Если это не совпадает с ощущением важности роли — повод пересмотреть промт или разбить задачу на более мелкие шаги.</span></div><div class='scenario'><b>Кто продуктивнее на единицу токенов?</b><span>Таблица «Эффективность»: токенов на коммит и $ на запись в RESEARCH_LOG. Низкое число = дёшево произведённый результат; высокое = либо сложная задача, либо чат «буксует» (много рассуждений, мало фиксируемого результата).</span></div><div class='scenario'><b>Не залипает ли чат в лимит контекста?</b><span>Столбец «Compact-ов» в детальной таблице — сколько раз чат упирался в `/compact`. Много compact-ов у одной роли = её промт/файлы координации слишком тяжёлые для повторного чтения на старте, стоит сжать CHARTER/BOARD или чаще делать хэндоффы.</span></div><div class='scenario'><b>Были ли параллельные (конфликтующие) чаты одной роли?</b><span>График «Хронология жизни чатов» — если два бара одной роли перекрываются по времени, это ровно та ситуация, от которой защищает CHARTER §12 (зафиксированный прецедент - L1/L2, 29-30 июля).</span></div><div class='scenario'><b>Сравнить два чата одной роли (напр. A1 vs A2)</b><span>Детальная таблица отсортирована по времени начала — соседние строки одной роли сравнимы напрямую: сколько токенов/времени/коммитов дал каждый конкретный чат-инстанс.</span></div><div class='scenario'><b>Какие инструменты самые дорогие по вызовам?</b><span>Таблица «Топ инструментов» — если Bash/Read доминируют с большим отрывом, возможно, часть работы стоит закрыть более точечными инструментами или скриптами вместо интерактивного перебора.</span></div></div>
+  </section>
+
+  <section>
+    <h2>Методология и оговорки</h2>
+  <ul class="method">
+    <li><b>Токены</b> — сумма полей <code>usage.input_tokens/output_tokens/cache_creation_input_tokens/
+      cache_read_input_tokens</code> по всем assistant-сообщениям транскрипта (модель <code>&lt;synthetic&gt;</code>
+      исключена — это служебные, не биллингуемые записи).</li>
+    <li><b>«Реплик пользователя»</b> — user-записи, содержащие хотя бы один текстовый блок; записи,
+      целиком состоящие из <code>tool_result</code> (автоматическая обратная связь инструментов), не
+      считаются репликой человека.</li>
+    <li><b>Compact-ы</b> — вхождения <code>&lt;command-name&gt;compact&lt;/command-name&gt;</code> в
+      тексте реплик — то есть сколько раз ЭТОТ чат достиг предела контекста и был сжат.</li>
+    <li><b>Коммиты/строки</b> — <code>git log</code>, коммиты с subject, начинающимся на
+      <code>[РОЛЬ]</code>; для B в этом репозитории таких коммитов 0 (её первая работа попала в общий
+      бутстрап-коммит без тега — известный факт, см. <code>sessions/B.md</code>), это не значит «ноль
+      работы».</li>
+    <li><b>RESEARCH_LOG</b> — считает только записи в общем файле; роли, ведущие числа в других файлах
+      (D → <code>DRAFT.md</code>, L → <code>litrev/answers/**</code>, B → <code>CHANGELOG_model_core.md</code>)
+      здесь недоучтены — раздел показывает нижнюю границу, не полный объём.</li>
+    <li><b>Sidechain/субагенты</b> — если чат использовал инструмент Agent (подзадачи), их токены могут
+      быть в ОТДЕЛЬНЫХ файлах транскриптов, не привязанных напрямую к нику в <code>NICKS.md</code> —
+      скрипт их не подтягивает (нет надёжного способа сопоставить subagent-транскрипт с родительским
+      чатом без дополнительных данных).</li>
+  </ul>
+  </section>
+
+  <footer>
+    Сгенерировано <code>coordination/tools/kpi_stats.py</code>. Перезапуск:
+    <code>python coordination/tools/kpi_stats.py</code> из корня репозитория. Зона ORCH (CHARTER §3).
+  </footer>
+</div>
