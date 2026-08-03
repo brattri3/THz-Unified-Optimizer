@@ -49,8 +49,9 @@
 # --dataset series1 | --method 1d|2d|both | --no-global
 # отчёт -> results/optimization_report.md
 
-# тесты продакшн-пакета
+# тесты продакшн-пакета (unittest-классы, запускаются через pytest)
 .venv\Scripts\python.exe -m pytest unified_optimizer/tests -q
+.venv\Scripts\python.exe -m pytest unified_optimizer/tests/test_model.py::TestModelBlanco::test_angle_symmetry -q  # один тест
 
 # исследовательские скрипты — ВСЕГДА из корня репозитория
 .venv\Scripts\python.exe research/experiments/t1_baseline.py
