@@ -94,6 +94,9 @@ GROUP = {
     "att-11-16-356": "attenuator", "att-11-16-s1": "attenuator",
     "att-11-16-s2": "attenuator", "att-11-16-s3": "attenuator",
     "specac": "single_wgp", "test_grid_40_20": "single_wgp",
+    # purewave добавлен 2026-08-04 (A7), когда владелец домерил датасет; в прогоне A3
+    # он ещё числился BLOCKED (файлы-заглушки нулевого размера).
+    "purewave": "single_wgp",
 }
 DEFAULT_DATASETS = ["att-11-16-356", "att-11-16-s1", "att-11-16-s2", "att-11-16-s3",
                     "specac", "test_grid_40_20"]

@@ -1,0 +1,571 @@
+{
+  "task": "A8_diffraction_zones",
+  "session": "A",
+  "nick": "A3",
+  "images": [
+    {
+      "file": "bad 1.jpg",
+      "shape": [
+        1848,
+        4000
+      ],
+      "line_slope": 0.02745606715881462,
+      "line_intercept_px": 723.9573912195749,
+      "line_tilt_deg": 1.5727216584347592,
+      "saturated_px": 2657,
+      "half_width_px": 18,
+      "zone": "восстановленная (bad)",
+      "n_orders": 13,
+      "order0_index_px": 1738,
+      "window_px": [
+        1138,
+        2338
+      ],
+      "step_px": 45.5,
+      "step_std_px": 99.22823400747603,
+      "step_rel_std": 2.180840307856616,
+      "spectral": {
+        "period_px": 150.0,
+        "peak_over_median": 30.03639078704734,
+        "energy_fraction_in_peak": 0.5901584693502786,
+        "modulation_rms": 0.26376585655850043
+      },
+      "visibility": 0.19059159503350712,
+      "order_fwhm_px": 29.0,
+      "fwhm_over_step": 0.6373626373626373,
+      "peak_positions_px": [
+        1155,
+        1186,
+        1209,
+        1364,
+        1414,
+        1439,
+        1733,
+        2011,
+        2039,
+        2094,
+        2226,
+        2267,
+        2291
+      ],
+      "dynamic_range_log10": 1.798634335242708,
+      "spec_period_px": 150.0,
+      "spec_peak_over_median": 30.03639078704734,
+      "spec_energy_fraction_in_peak": 0.5901584693502786,
+      "spec_modulation_rms": 0.26376585655850043
+    },
+    {
+      "file": "bad 2.jpg",
+      "shape": [
+        1848,
+        4000
+      ],
+      "line_slope": 0.033807695649601906,
+      "line_intercept_px": 855.1520688942277,
+      "line_tilt_deg": 1.9363007955253444,
+      "saturated_px": 1400,
+      "half_width_px": 18,
+      "zone": "восстановленная (bad)",
+      "n_orders": 20,
+      "order0_index_px": 2150,
+      "window_px": [
+        1550,
+        2750
+      ],
+      "step_px": 31.0,
+      "step_std_px": 57.44598276357115,
+      "step_rel_std": 1.8530962181797146,
+      "spectral": {
+        "period_px": 200.0,
+        "peak_over_median": 32.83230455245955,
+        "energy_fraction_in_peak": 0.5850322426684403,
+        "modulation_rms": 0.31583458328562514
+      },
+      "visibility": 0.19202230715039023,
+      "order_fwhm_px": 14.5,
+      "fwhm_over_step": 0.46774193548387094,
+      "peak_positions_px": [
+        1568,
+        1621,
+        1648,
+        1679,
+        1777,
+        1797,
+        1823,
+        1925,
+        1950,
+        2155,
+        2350,
+        2383,
+        2503,
+        2529,
+        2560,
+        2611,
+        2633,
+        2662,
+        2682,
+        2718
+      ],
+      "dynamic_range_log10": 2.6544332550415772,
+      "spec_period_px": 200.0,
+      "spec_peak_over_median": 32.83230455245955,
+      "spec_energy_fraction_in_peak": 0.5850322426684403,
+      "spec_modulation_rms": 0.31583458328562514
+    },
+    {
+      "file": "bad 4.jpg",
+      "shape": [
+        1848,
+        4000
+      ],
+      "line_slope": 0.036641597909852754,
+      "line_intercept_px": 836.4680735334617,
+      "line_tilt_deg": 2.098470110844162,
+      "saturated_px": 1270,
+      "half_width_px": 18,
+      "zone": "восстановленная (bad)",
+      "n_orders": 12,
+      "order0_index_px": 2210,
+      "window_px": [
+        1610,
+        2810
+      ],
+      "step_px": 95.0,
+      "step_std_px": 71.49659877479233,
+      "step_rel_std": 0.7525957765767614,
+      "spectral": {
+        "period_px": 150.0,
+        "peak_over_median": 69.30636059970176,
+        "energy_fraction_in_peak": 0.7095246114843653,
+        "modulation_rms": 0.5763453496066632
+      },
+      "visibility": 0.5077606368715043,
+      "order_fwhm_px": 44.0,
+      "fwhm_over_step": 0.4631578947368421,
+      "peak_positions_px": [
+        1673,
+        1713,
+        1847,
+        1987,
+        2207,
+        2424,
+        2529,
+        2558,
+        2582,
+        2660,
+        2755,
+        2782
+      ],
+      "dynamic_range_log10": 2.6291376551477446,
+      "spec_period_px": 150.0,
+      "spec_peak_over_median": 69.30636059970176,
+      "spec_energy_fraction_in_peak": 0.7095246114843653,
+      "spec_modulation_rms": 0.5763453496066632
+    },
+    {
+      "file": "good 1.jpg",
+      "shape": [
+        1848,
+        4000
+      ],
+      "line_slope": 0.03285183515535349,
+      "line_intercept_px": 870.4175443954559,
+      "line_tilt_deg": 1.8815947989772233,
+      "saturated_px": 1224,
+      "half_width_px": 18,
+      "zone": "заводская (good)",
+      "n_orders": 16,
+      "order0_index_px": 2031,
+      "window_px": [
+        1431,
+        2631
+      ],
+      "step_px": 58.0,
+      "step_std_px": 46.42690106885385,
+      "step_rel_std": 0.800463811531963,
+      "spectral": {
+        "period_px": 150.0,
+        "peak_over_median": 41.50630416733919,
+        "energy_fraction_in_peak": 0.6652320097213797,
+        "modulation_rms": 0.4071982469634648
+      },
+      "visibility": 0.2763610980028793,
+      "order_fwhm_px": 44.0,
+      "fwhm_over_step": 0.7586206896551724,
+      "peak_positions_px": [
+        1462,
+        1515,
+        1536,
+        1632,
+        1666,
+        1800,
+        1826,
+        1968,
+        2031,
+        2089,
+        2247,
+        2367,
+        2394,
+        2423,
+        2495,
+        2545
+      ],
+      "dynamic_range_log10": 2.602506829226325,
+      "spec_period_px": 150.0,
+      "spec_peak_over_median": 41.50630416733919,
+      "spec_energy_fraction_in_peak": 0.6652320097213797,
+      "spec_modulation_rms": 0.4071982469634648
+    },
+    {
+      "file": "good 2.jpg",
+      "shape": [
+        1848,
+        4000
+      ],
+      "line_slope": 0.027139406611528253,
+      "line_intercept_px": 625.829658814229,
+      "line_tilt_deg": 1.5545918554087534,
+      "saturated_px": 3041,
+      "half_width_px": 18,
+      "zone": "заводская (good)",
+      "n_orders": 11,
+      "order0_index_px": 1708,
+      "window_px": [
+        1108,
+        2308
+      ],
+      "step_px": 93.5,
+      "step_std_px": 84.17996594598186,
+      "step_rel_std": 0.9003204914008756,
+      "spectral": {
+        "period_px": 240.0,
+        "peak_over_median": 133.95260829275026,
+        "energy_fraction_in_peak": 0.7088201797948119,
+        "modulation_rms": 0.4807071381487014
+      },
+      "visibility": 0.28137984929214366,
+      "order_fwhm_px": 51.0,
+      "fwhm_over_step": 0.5454545454545454,
+      "peak_positions_px": [
+        1160,
+        1350,
+        1613,
+        1711,
+        1800,
+        2003,
+        2051,
+        2073,
+        2205,
+        2232,
+        2266
+      ],
+      "dynamic_range_log10": 1.6933049765489345,
+      "spec_period_px": 240.0,
+      "spec_peak_over_median": 133.95260829275026,
+      "spec_energy_fraction_in_peak": 0.7088201797948119,
+      "spec_modulation_rms": 0.4807071381487014
+    },
+    {
+      "file": "good 3.jpg",
+      "shape": [
+        1848,
+        4000
+      ],
+      "line_slope": 0.0036317242587371014,
+      "line_intercept_px": 749.5442809117573,
+      "line_tilt_deg": 0.2080815575590362,
+      "saturated_px": 2240,
+      "half_width_px": 18,
+      "zone": "заводская (good)",
+      "n_orders": 16,
+      "order0_index_px": 1862,
+      "window_px": [
+        1262,
+        2462
+      ],
+      "step_px": 60.0,
+      "step_std_px": 48.623137741300944,
+      "step_rel_std": 0.8103856290216824,
+      "spectral": {
+        "period_px": 240.0,
+        "peak_over_median": 83.48276825617228,
+        "energy_fraction_in_peak": 0.7037044051344704,
+        "modulation_rms": 0.5677851293494354
+      },
+      "visibility": 0.2409215746550112,
+      "order_fwhm_px": 33.0,
+      "fwhm_over_step": 0.55,
+      "peak_positions_px": [
+        1315,
+        1342,
+        1448,
+        1476,
+        1502,
+        1541,
+        1569,
+        1704,
+        1764,
+        1857,
+        1951,
+        2016,
+        2165,
+        2208,
+        2371,
+        2391
+      ],
+      "dynamic_range_log10": 2.1177131008636554,
+      "spec_period_px": 240.0,
+      "spec_peak_over_median": 83.48276825617228,
+      "spec_energy_fraction_in_peak": 0.7037044051344704,
+      "spec_modulation_rms": 0.5677851293494354
+    }
+  ],
+  "comparison": {
+    "n_orders": {
+      "good": {
+        "mean": 14.333333333333334,
+        "std": 2.8867513459481287,
+        "n": 3
+      },
+      "bad": {
+        "mean": 15.0,
+        "std": 4.358898943540674,
+        "n": 3
+      },
+      "bad_over_good": 1.0465116279069766
+    },
+    "step_px": {
+      "good": {
+        "mean": 70.5,
+        "std": 19.94367067517913,
+        "n": 3
+      },
+      "bad": {
+        "mean": 57.166666666666664,
+        "std": 33.55716515639146,
+        "n": 3
+      },
+      "bad_over_good": 0.8108747044917257
+    },
+    "step_rel_std": {
+      "good": {
+        "mean": 0.8370566439848403,
+        "std": 0.055012238710893835,
+        "n": 3
+      },
+      "bad": {
+        "mean": 1.5955107675376974,
+        "std": 0.7481532654273062,
+        "n": 3
+      },
+      "bad_over_good": 1.9060965336135522
+    },
+    "visibility": {
+      "good": {
+        "mean": 0.2662208406500114,
+        "std": 0.022053040856992993,
+        "n": 3
+      },
+      "bad": {
+        "mean": 0.29679151301846723,
+        "std": 0.18270602110707496,
+        "n": 3
+      },
+      "bad_over_good": 1.1148320029859937
+    },
+    "fwhm_over_step": {
+      "good": {
+        "mean": 0.618025078369906,
+        "std": 0.12178058024071203,
+        "n": 3
+      },
+      "bad": {
+        "mean": 0.5227541558611168,
+        "std": 0.09928031719054833,
+        "n": 3
+      },
+      "bad_over_good": 0.8458461867598086
+    },
+    "dynamic_range_log10": {
+      "good": {
+        "mean": 2.137841635546305,
+        "std": 0.45493501806230824,
+        "n": 3
+      },
+      "bad": {
+        "mean": 2.360735081810677,
+        "std": 0.4869578049612696,
+        "n": 3
+      },
+      "bad_over_good": 1.104260971700747
+    },
+    "spec_period_px": {
+      "good": {
+        "mean": 210.0,
+        "std": 51.96152422706632,
+        "n": 3
+      },
+      "bad": {
+        "mean": 166.66666666666666,
+        "std": 28.867513459481287,
+        "n": 3
+      },
+      "bad_over_good": 0.7936507936507936
+    },
+    "spec_peak_over_median": {
+      "good": {
+        "mean": 86.31389357208724,
+        "std": 46.288132815310334,
+        "n": 3
+      },
+      "bad": {
+        "mean": 44.058351979736216,
+        "std": 21.910060198486363,
+        "n": 3
+      },
+      "bad_over_good": 0.5104433383362526
+    },
+    "spec_energy_fraction_in_peak": {
+      "good": {
+        "mean": 0.6925855315502206,
+        "std": 0.02382654307541291,
+        "n": 3
+      },
+      "bad": {
+        "mean": 0.6282384411676948,
+        "std": 0.07044253447712878,
+        "n": 3
+      },
+      "bad_over_good": 0.9070914891356492
+    },
+    "spec_modulation_rms": {
+      "good": {
+        "mean": 0.4852301714872005,
+        "std": 0.08038893003111354,
+        "n": 3
+      },
+      "bad": {
+        "mean": 0.38531526315026293,
+        "std": 0.16747285906797202,
+        "n": 3
+      },
+      "bad_over_good": 0.7940876017031164
+    }
+  },
+  "reproducibility": {
+    "good": {
+      "pairs": [
+        {
+          "a": "good 1",
+          "b": "good 2",
+          "max_corr": 0.21122457675864348
+        },
+        {
+          "a": "good 1",
+          "b": "good 3",
+          "max_corr": 0.2616052096999308
+        },
+        {
+          "a": "good 2",
+          "b": "good 3",
+          "max_corr": 0.8069824732108668
+        }
+      ],
+      "mean_corr": 0.42660408655648036
+    },
+    "bad": {
+      "pairs": [
+        {
+          "a": "bad 1",
+          "b": "bad 2",
+          "max_corr": 0.08002592308084792
+        },
+        {
+          "a": "bad 1",
+          "b": "bad 4",
+          "max_corr": 0.338443862655294
+        },
+        {
+          "a": "bad 2",
+          "b": "bad 4",
+          "max_corr": 0.3447207707007029
+        }
+      ],
+      "mean_corr": 0.25439685214561497
+    }
+  },
+  "geometry_check": {
+    "lambda_mm": 0.00065,
+    "L_mm": 315.0,
+    "micrograph_P_um": 25.5,
+    "micrograph_P_err_um": 0.9,
+    "variants": [
+      {
+        "interpretation": "владелец: 1.75 мм между СОСЕДНИМИ порядками",
+        "x_mm": 1.75,
+        "d_um": 117.0,
+        "ratio_to_micrograph": 4.588235294117647,
+        "consistent": false
+      },
+      {
+        "interpretation": "владелец: 1.75 мм между m=+1 и m=-1",
+        "x_mm": 1.75,
+        "d_um": 234.0,
+        "ratio_to_micrograph": 9.176470588235293,
+        "consistent": false
+      },
+      {
+        "interpretation": "гипотеза опечатки: 17.5 мм между m=+1 и m=-1",
+        "x_mm": 17.5,
+        "d_um": 23.4,
+        "ratio_to_micrograph": 0.9176470588235294,
+        "consistent": true
+      },
+      {
+        "interpretation": "гипотеза опечатки: 17.5 мм между СОСЕДНИМИ",
+        "x_mm": 17.5,
+        "d_um": 11.7,
+        "ratio_to_micrograph": 0.4588235294117647,
+        "consistent": false
+      }
+    ],
+    "frame_plausibility": [
+      {
+        "assumption": "шаг 1.75 мм",
+        "step_mm": 1.75,
+        "px_per_mm": 100.0,
+        "frame_width_mm": 40.0,
+        "implied_camera_distance_mm": 28.571428571428573
+      },
+      {
+        "assumption": "шаг 0.875 мм (1.75 между ±1)",
+        "step_mm": 0.875,
+        "px_per_mm": 200.0,
+        "frame_width_mm": 20.0,
+        "implied_camera_distance_mm": 14.285714285714286
+      },
+      {
+        "assumption": "шаг 8.75 мм (17.5 между ±1)",
+        "step_mm": 8.75,
+        "px_per_mm": 20.0,
+        "frame_width_mm": 200.0,
+        "implied_camera_distance_mm": 142.85714285714286
+      },
+      {
+        "assumption": "шаг 8.03 мм (из микрофото P=25.5)",
+        "step_mm": 8.02941176470588,
+        "px_per_mm": 21.7948717948718,
+        "frame_width_mm": 183.52941176470586,
+        "implied_camera_distance_mm": 131.0924369747899
+      }
+    ],
+    "expected_from_micrograph": {
+      "step_adjacent_mm": 8.02941176470588,
+      "span_pm1_mm": 16.05882352941176,
+      "max_order": 39,
+      "comment": "при P=25.5 мкм и L=315 мм соседние порядки отстоят на ~8 мм, т.е. +1 и -1 разнесены на ~16 мм"
+    }
+  },
+  "method_note": "для количественного вывода нужна пересъёмка с ЛИНЕЙКОЙ в кадре и фиксированным расстоянием: сейчас масштаб кадров различается (период главного пика 150..240 px), поэтому сравнимы только безразмерные метрики",
+  "scale_caveat": "в кадре нет линейки: пиксельный масштаб зависит от расстояния и зума, поэтому абсолютный период из снимка не восстанавливается; сравнимы только безразмерные метрики"
+}
