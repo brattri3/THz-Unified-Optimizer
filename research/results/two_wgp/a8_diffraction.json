@@ -501,51 +501,53 @@
     "micrograph_P_err_um": 0.9,
     "variants": [
       {
-        "interpretation": "владелец: 1.75 мм между СОСЕДНИМИ порядками",
-        "x_mm": 1.75,
-        "d_um": 117.0,
-        "ratio_to_micrograph": 4.588235294117647,
-        "consistent": false
-      },
-      {
-        "interpretation": "владелец: 1.75 мм между m=+1 и m=-1",
-        "x_mm": 1.75,
-        "d_um": 234.0,
-        "ratio_to_micrograph": 9.176470588235293,
-        "consistent": false
-      },
-      {
-        "interpretation": "гипотеза опечатки: 17.5 мм между m=+1 и m=-1",
+        "interpretation": "уточнено: 17.5 мм между m=+1 и m=-1",
         "x_mm": 17.5,
         "d_um": 23.4,
         "ratio_to_micrograph": 0.9176470588235294,
         "consistent": true
       },
       {
-        "interpretation": "гипотеза опечатки: 17.5 мм между СОСЕДНИМИ",
+        "interpretation": "если бы это был шаг СОСЕДНИХ порядков",
         "x_mm": 17.5,
         "d_um": 11.7,
         "ratio_to_micrograph": 0.4588235294117647,
         "consistent": false
+      },
+      {
+        "interpretation": "первоначальная описка: 1.75 мм между m=+1 и m=-1",
+        "x_mm": 1.75,
+        "d_um": 234.0,
+        "ratio_to_micrograph": 9.176470588235293,
+        "consistent": false
+      },
+      {
+        "interpretation": "первоначальная описка: 1.75 мм между СОСЕДНИМИ",
+        "x_mm": 1.75,
+        "d_um": 117.0,
+        "ratio_to_micrograph": 4.588235294117647,
+        "consistent": false
       }
     ],
+    "primary": {
+      "interpretation": "17.5 мм между m=+1 и m=-1 (уточнено владельцем 2026-08-04)",
+      "P_diffraction_um": 23.4,
+      "P_diffraction_err_um": 0.7737320107697468,
+      "rel_err": 0.03306547054571568,
+      "error_budget": {
+        "lambda": 0.015384615384615384,
+        "L": 0.006349206349206349,
+        "x": 0.02857142857142857
+      },
+      "micrograph_minus_diffraction_um": 2.1000000000000014,
+      "discrepancy_sigma": 1.769359224787822,
+      "consistent": true,
+      "max_order": 36,
+      "caveat": "оптический период относится К ТОЙ ЗОНЕ, куда светила указка; микрофото — к другому (неизвестному) участку. При пространственной неоднородности образца это РАЗНЫЕ величины, а не два измерения одной."
+    },
     "frame_plausibility": [
       {
-        "assumption": "шаг 1.75 мм",
-        "step_mm": 1.75,
-        "px_per_mm": 100.0,
-        "frame_width_mm": 40.0,
-        "implied_camera_distance_mm": 28.571428571428573
-      },
-      {
-        "assumption": "шаг 0.875 мм (1.75 между ±1)",
-        "step_mm": 0.875,
-        "px_per_mm": 200.0,
-        "frame_width_mm": 20.0,
-        "implied_camera_distance_mm": 14.285714285714286
-      },
-      {
-        "assumption": "шаг 8.75 мм (17.5 между ±1)",
+        "assumption": "шаг 8.75 мм (уточнённые 17.5 между ±1)",
         "step_mm": 8.75,
         "px_per_mm": 20.0,
         "frame_width_mm": 200.0,
@@ -557,8 +559,23 @@
         "px_per_mm": 21.7948717948718,
         "frame_width_mm": 183.52941176470586,
         "implied_camera_distance_mm": 131.0924369747899
+      },
+      {
+        "assumption": "шаг 0.875 мм (описка 1.75 между ±1)",
+        "step_mm": 0.875,
+        "px_per_mm": 200.0,
+        "frame_width_mm": 20.0,
+        "implied_camera_distance_mm": 14.285714285714286
+      },
+      {
+        "assumption": "шаг 1.75 мм (описка, как соседние)",
+        "step_mm": 1.75,
+        "px_per_mm": 100.0,
+        "frame_width_mm": 40.0,
+        "implied_camera_distance_mm": 28.571428571428573
       }
     ],
+    "frame_plausibility_caveat": "оценка расстояния предполагает поле зрения ~70° (без зума); при съёмке с зумом поле уже, и то же расстояние даёт больший масштаб. Поэтому проверка различает варианты, отличающиеся в 10 раз, но не в 2",
     "expected_from_micrograph": {
       "step_adjacent_mm": 8.02941176470588,
       "span_pm1_mm": 16.05882352941176,

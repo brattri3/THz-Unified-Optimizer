@@ -65,7 +65,12 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 LAMBDA_NM = (640.0, 660.0)          # надпись на указке
 L_MM = 315.0                        # поляризатор -> экран
-DX_FIRST_ORDERS_MM = 1.75           # «расстояние между двумя первыми порядками»
+# Расстояние между порядками m=+1 и m=-1. Владелец уточнил 2026-08-04: 17.5 мм
+# (в первом сообщении было «1,75 мм» — описка, подтверждено им же после сверки
+# с микрофото и с оценкой расстояния съёмки по кадру).
+DX_FIRST_ORDERS_MM = 17.5
+DX_ERR_MM = 0.5                     # реалистичная точность отсчёта по экрану
+L_ERR_MM = 2.0
 P_MICROGRAPH_UM = 25.5              # research/validation/MANIFEST.md
 P_MICROGRAPH_ERR_UM = 0.9
 
@@ -316,14 +321,38 @@ def geometry_check(step_px_measured=None):
       * если между m=+1 и m=-1 (т.е. полушаг = x/2):        d = 2*lambda*L/x.
     """
     lam = np.mean(LAMBDA_NM) * 1e-6                       # мм
+    lam_err = (LAMBDA_NM[1] - LAMBDA_NM[0]) / 2 * 1e-6    # надпись 640..660 -> +-10 нм
     out = {"lambda_mm": lam, "L_mm": L_MM,
            "micrograph_P_um": P_MICROGRAPH_UM, "micrograph_P_err_um": P_MICROGRAPH_ERR_UM,
            "variants": []}
+
+    # Основной результат: 17.5 мм между m=+1 и m=-1 => полушаг x/2, d = 2*lambda*L/x.
+    d_um = 2 * lam * L_MM / DX_FIRST_ORDERS_MM * 1000.0
+    rel = np.sqrt((lam_err / lam) ** 2 + (L_ERR_MM / L_MM) ** 2
+                  + (DX_ERR_MM / DX_FIRST_ORDERS_MM) ** 2)
+    d_err = d_um * rel
+    diff = P_MICROGRAPH_UM - d_um
+    sig = float(np.hypot(d_err, P_MICROGRAPH_ERR_UM))
+    out["primary"] = {
+        "interpretation": "17.5 мм между m=+1 и m=-1 (уточнено владельцем 2026-08-04)",
+        "P_diffraction_um": d_um, "P_diffraction_err_um": d_err,
+        "rel_err": rel,
+        "error_budget": {"lambda": lam_err / lam, "L": L_ERR_MM / L_MM,
+                         "x": DX_ERR_MM / DX_FIRST_ORDERS_MM},
+        "micrograph_minus_diffraction_um": diff,
+        "discrepancy_sigma": diff / sig,
+        "consistent": bool(abs(diff) <= 2 * sig),
+        "max_order": int(np.floor(d_um * 1e-3 / lam)),
+        "caveat": "оптический период относится К ТОЙ ЗОНЕ, куда светила указка; микрофото — "
+                  "к другому (неизвестному) участку. При пространственной неоднородности "
+                  "образца это РАЗНЫЕ величины, а не два измерения одной.",
+    }
+
     for label, x_mm, factor in (
-            ("владелец: 1.75 мм между СОСЕДНИМИ порядками", DX_FIRST_ORDERS_MM, 1.0),
-            ("владелец: 1.75 мм между m=+1 и m=-1", DX_FIRST_ORDERS_MM, 2.0),
-            ("гипотеза опечатки: 17.5 мм между m=+1 и m=-1", 10 * DX_FIRST_ORDERS_MM, 2.0),
-            ("гипотеза опечатки: 17.5 мм между СОСЕДНИМИ", 10 * DX_FIRST_ORDERS_MM, 1.0)):
+            ("уточнено: 17.5 мм между m=+1 и m=-1", DX_FIRST_ORDERS_MM, 2.0),
+            ("если бы это был шаг СОСЕДНИХ порядков", DX_FIRST_ORDERS_MM, 1.0),
+            ("первоначальная описка: 1.75 мм между m=+1 и m=-1", DX_FIRST_ORDERS_MM / 10, 2.0),
+            ("первоначальная описка: 1.75 мм между СОСЕДНИМИ", DX_FIRST_ORDERS_MM / 10, 1.0)):
         d_mm = factor * lam * L_MM / x_mm
         d_um = d_mm * 1000.0
         out["variants"].append({
@@ -338,11 +367,15 @@ def geometry_check(step_px_measured=None):
     # различает варианты, отличающиеся в 10 раз.
     if step_px_measured:
         out["frame_plausibility"] = []
-        for label, s_mm in (("шаг 1.75 мм", DX_FIRST_ORDERS_MM),
-                            ("шаг 0.875 мм (1.75 между ±1)", DX_FIRST_ORDERS_MM / 2),
-                            ("шаг 8.75 мм (17.5 между ±1)", 10 * DX_FIRST_ORDERS_MM / 2),
+        out["frame_plausibility_caveat"] = (
+            "оценка расстояния предполагает поле зрения ~70° (без зума); при съёмке с зумом "
+            "поле уже, и то же расстояние даёт больший масштаб. Поэтому проверка различает "
+            "варианты, отличающиеся в 10 раз, но не в 2")
+        for label, s_mm in (("шаг 8.75 мм (уточнённые 17.5 между ±1)", DX_FIRST_ORDERS_MM / 2),
                             ("шаг 8.03 мм (из микрофото P=25.5)",
-                             lam * L_MM / (P_MICROGRAPH_UM * 1e-3))):
+                             lam * L_MM / (P_MICROGRAPH_UM * 1e-3)),
+                            ("шаг 0.875 мм (описка 1.75 между ±1)", DX_FIRST_ORDERS_MM / 20),
+                            ("шаг 1.75 мм (описка, как соседние)", DX_FIRST_ORDERS_MM / 10)):
             px_per_mm = step_px_measured / s_mm
             frame_mm = 4000.0 / px_per_mm
             out["frame_plausibility"].append({
@@ -421,6 +454,15 @@ def main():
                  if c["bad_over_good"] else ""))
 
     print("\n--- ГЕОМЕТРИЯ: период из дифракции vs микрофото ---")
+    pr = geo["primary"]
+    print(f"  ОПТИЧЕСКИЙ ПЕРИОД: P = {pr['P_diffraction_um']:.2f} ± {pr['P_diffraction_err_um']:.2f} мкм "
+          f"({pr['interpretation']})")
+    print(f"    бюджет ошибки: λ {100 * pr['error_budget']['lambda']:.1f}%, "
+          f"L {100 * pr['error_budget']['L']:.1f}%, отсчёт x {100 * pr['error_budget']['x']:.1f}% "
+          f"⇒ {100 * pr['rel_err']:.1f}%")
+    print(f"    микрофото − дифракция = {pr['micrograph_minus_diffraction_um']:+.2f} мкм "
+          f"({pr['discrepancy_sigma']:+.2f}σ) — "
+          f"{'совместимо' if pr['consistent'] else 'РАСХОЖДЕНИЕ'}; порядков до m = {pr['max_order']}")
     e = geo["expected_from_micrograph"]
     print(f"  при P = {P_MICROGRAPH_UM} мкм (микрофото) и L = {L_MM} мм ожидается: "
           f"соседние порядки {e['step_adjacent_mm']:.2f} мм, "
