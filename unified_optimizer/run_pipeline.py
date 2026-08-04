@@ -8,7 +8,7 @@ from unified_optimizer.analytics import generate_report
 
 def main():
     parser = argparse.ArgumentParser(description="Запуск THz Unified Optimizer")
-    parser.add_argument("--dataset", type=str, help="Имя конкретного датасета для обработки (например, series1)")
+    parser.add_argument("--dataset", type=str, help="Имя конкретного датасета для обработки (например, att-11-16-s1)")
     parser.add_argument("--method", type=str, choices=["1d", "2d", "both"], default="both", 
                         help="Метод оптимизации (1d, 2d или both)")
     parser.add_argument("--no-global", action="store_true", help="Отключить глобальное усреднение")

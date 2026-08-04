@@ -14,7 +14,9 @@
 
 ДИЗАЙН. Две группы датасетов с РАЗНОЙ оптической схемой (метаданные владельца 2026-07-27,
 `data_pool/two_wgp_attenuator/README.md`):
-  * АТТЕНЮАТОР (два реальных WGP): `356att`, `series1`, `series2`, `series3`;
+  * АТТЕНЮАТОР (два реальных WGP): `att-11-16-356`, `att-11-16-s1`, `att-11-16-s2`,
+    `att-11-16-s3` — это ОДИН прибор ATT-11-16-CA85 в четырёх условиях съёмки
+    (переименование 2026-08-04; прежние имена `356att`, `series1..3`);
   * ОДИНОЧНЫЙ WGP между почти идеальными плёнками TYDEX: `specac`, `test_grid_40_20`.
 Разделение существенно: если `eps_cross` — свойство ДЕТЕКТОРА, он обязан быть одинаков в обеих
 группах; если свойство конкретной сборки — группы разойдутся. Это делает тест диагностическим,
@@ -53,7 +55,7 @@ AIC = -22684.4 и |eps| = 0.0345 — БИТ-В-БИТ опубликованно
 
 Запуск ИЗ КОРНЯ репозитория:
     .venv/Scripts/python.exe research/two_wgp/a3_eps_stability.py
-    ... --datasets 356att series1 series2 series3 specac test_grid_40_20
+    ... --datasets att-11-16-356 att-11-16-s1 att-11-16-s2 att-11-16-s3 specac test_grid_40_20
     ... --no-fullrange        # только продакшн-диапазон (быстрее)
 """
 from __future__ import annotations
@@ -89,15 +91,15 @@ W_AMP, W_PHASE = fit_lib.W_AMP, fit_lib.W_PHASE
 
 # Группировка по оптической схеме (метаданные владельца 2026-07-27).
 GROUP = {
-    "356att": "attenuator", "series1": "attenuator",
-    "series2": "attenuator", "series3": "attenuator",
+    "att-11-16-356": "attenuator", "att-11-16-s1": "attenuator",
+    "att-11-16-s2": "attenuator", "att-11-16-s3": "attenuator",
     "specac": "single_wgp", "test_grid_40_20": "single_wgp",
 }
-DEFAULT_DATASETS = ["356att", "series1", "series2", "series3",
+DEFAULT_DATASETS = ["att-11-16-356", "att-11-16-s1", "att-11-16-s2", "att-11-16-s3",
                     "specac", "test_grid_40_20"]
 # Затравка D_eff: известные значения M3 там, где есть; иначе половина D_phys
 # (эмпирика «D_eff/D_phys = 0.43..0.64» из Фаз 1-3 — стартовая точка, НЕ пин).
-SEED_D = {"356att": 4.683, "test_grid_40_20": 11.447, "specac": 6.240}
+SEED_D = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447, "specac": 6.240}
 EPS_SEED_ABS = 0.034            # |eps_cross| у 356att (A2) — масштаб альтернативных бассейнов
 
 
@@ -495,7 +497,7 @@ def verify(verbose=True):
     """Сверка приватных копий с оригиналами (гарантия «не форкнул логику молча»)."""
     ok = True
     dm = DataManager(config.DATA_DIR)
-    for ds in ("356att", "series1", "specac"):
+    for ds in ("att-11-16-356", "att-11-16-s1", "specac"):
         if not dm.get_data_for_dataset(ds):
             continue
         mine = noise_floor(ds, "config")
@@ -506,7 +508,7 @@ def verify(verbose=True):
             print(f"  noise_floor({ds:<16}) vs t6_hn6: "
                   f"{'бит-в-бит' if same else 'РАСХОЖДЕНИЕ'}")
     import model_m5 as m5
-    for ds in ("356att", "series1"):
+    for ds in ("att-11-16-356", "att-11-16-s1"):
         if not dm.get_data_for_dataset(ds):
             continue
         a1, f1, e1, v1, _ = build_masked(ds, "config")

@@ -525,7 +525,7 @@ def main():
     args = ap.parse_args()
 
     if args.data is not None:
-        ds = args.data or ["356att", "series1", "series2", "test_grid_40_20"]
+        ds = args.data or ["att-11-16-356", "att-11-16-s1", "att-11-16-s2", "test_grid_40_20"]
         res = {"datasets": {}, "note": "гармонический разбор, полный угловой диапазон"}
         for d in ds:
             try:

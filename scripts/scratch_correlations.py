@@ -68,8 +68,8 @@ def get_residuals_for_ds(manager, ds):
 def main():
     manager = DataManager(config.DATA_DIR)
     
-    ang1, f1, mask1, amp1, ph1 = get_residuals_for_ds(manager, '356att')
-    ang2, f2, mask2, amp2, ph2 = get_residuals_for_ds(manager, 'series3')
+    ang1, f1, mask1, amp1, ph1 = get_residuals_for_ds(manager, 'att-11-16-356')
+    ang2, f2, mask2, amp2, ph2 = get_residuals_for_ds(manager, 'att-11-16-s3')
     
     common_angles = sorted(list(set(ang1).intersection(set(ang2))))
     

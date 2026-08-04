@@ -1,0 +1,765 @@
+{
+  "device": "ATT-11-16-CA85 S/N #02721",
+  "when": "2026-08-04 06:27:44",
+  "session": "A",
+  "nick": "A3",
+  "mapping": {
+    "356att": "att-11-16-356",
+    "series1": "att-11-16-s1",
+    "series2": "att-11-16-s2",
+    "series3": "att-11-16-s3",
+    "series4": "att-11-16-s4-artifact",
+    "series5": "att-11-16-s5-artifact"
+  },
+  "config_note": {
+    "att-11-16-356": "плёнка после генератора; WGP1 неподвижен, WGP2 (у детектора) вращается; выходной плёнки НЕТ",
+    "att-11-16-s1": "плёнок НЕТ вовсе; вращается ПЕРВЫЙ WGP",
+    "att-11-16-s2": "обе плёнки (вход+выход); вращается ПЕРВЫЙ WGP",
+    "att-11-16-s3": "обе плёнки (вход+выход); вращается ПЕРВЫЙ WGP (повтор условий s2)",
+    "att-11-16-s4-artifact": "АРТЕФАКТ кругового скана, 1 угол — не использовать в фитах",
+    "att-11-16-s5-artifact": "АРТЕФАКТ кругового скана, 1 угол — не использовать в фитах"
+  },
+  "n_files": 142,
+  "moves": [
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-10deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-10deg_rep1_bg.txt",
+      "sha256": "76c5fb781ff77d691867edf441b916475d9de1d076089ff3ae17cb01b34906b9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-10deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-10deg_rep1_sig.txt",
+      "sha256": "81c97129ee1f47fbc62146a67feaa283ac960800d5ce531cf3b90b670812b6a4"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-20deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-20deg_rep1_bg.txt",
+      "sha256": "76c5fb781ff77d691867edf441b916475d9de1d076089ff3ae17cb01b34906b9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-20deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-20deg_rep1_sig.txt",
+      "sha256": "56a6bef11dd72062d9f8650025bc8413decdcbab0d5605b1914c29941feebeb6"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-30deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-30deg_rep1_bg.txt",
+      "sha256": "76c5fb781ff77d691867edf441b916475d9de1d076089ff3ae17cb01b34906b9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-30deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-30deg_rep1_sig.txt",
+      "sha256": "7dcbe633f625e87ca084682bb8d4004100ada5ea35052e602f019344038fd89c"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-40deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-40deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-40deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-40deg_rep1_sig.txt",
+      "sha256": "381a70a5ae01c88bb2f1bf10f98279ab63101b4b5fc925616447f0f6ba8f92e0"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-50deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-50deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-50deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-50deg_rep1_sig.txt",
+      "sha256": "581b7bdc2941f425946d62c56e1eb5c2f86bcf9c3782792af623f2331e10169d"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-60deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-60deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-60deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-60deg_rep1_sig.txt",
+      "sha256": "90a463c656bd00388cdbe4a8f1793696ce6c91c687d43f233bed3c95c97c7bdb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-70deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-70deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-70deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-70deg_rep1_sig.txt",
+      "sha256": "5ff64f2ee7180b2c97a775bcdde8d9cc3af5ee8b71be398c9c4749f943d11075"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-80deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-80deg_rep1_bg.txt",
+      "sha256": "5599eb1f071809639389aee3b9aba43057396e11749d6fe71f69b2fe480ef222"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-80deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-80deg_rep1_sig.txt",
+      "sha256": "a1744aeb6d05fed4d43b2f05b4f03fa296be71103482dfb09bc236c5c6aac0d0"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-90deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-90deg_rep1_bg.txt",
+      "sha256": "5599eb1f071809639389aee3b9aba43057396e11749d6fe71f69b2fe480ef222"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_-90deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_-90deg_rep1_sig.txt",
+      "sha256": "6fb88731af7e707b81433f410a5d9e955f377fae335e5bec87c3f8d4be7ad844"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_0deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_0deg_rep1_bg.txt",
+      "sha256": "76c5fb781ff77d691867edf441b916475d9de1d076089ff3ae17cb01b34906b9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_0deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_0deg_rep1_sig.txt",
+      "sha256": "e883694716150774b33e632de3eec851babd867357f910e41ea3136f1446fc49"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_10deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_10deg_rep1_bg.txt",
+      "sha256": "76c5fb781ff77d691867edf441b916475d9de1d076089ff3ae17cb01b34906b9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_10deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_10deg_rep1_sig.txt",
+      "sha256": "948881bda2886cfd3da05d5bc95b8de5aaa236f30928610223f3735715d455d5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_20deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_20deg_rep1_bg.txt",
+      "sha256": "76c5fb781ff77d691867edf441b916475d9de1d076089ff3ae17cb01b34906b9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_20deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_20deg_rep1_sig.txt",
+      "sha256": "c60bece253c66e92fda70e2dabfcb14dc777e1fdb21915c0bcbd1994b65cb778"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_30deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_30deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_30deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_30deg_rep1_sig.txt",
+      "sha256": "38dc526d34f8f8714c21f0625f814f13c15c2a262ab155bcac1aa7aeab488bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_40deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_40deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_40deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_40deg_rep1_sig.txt",
+      "sha256": "a037bad57f15ddd4789f67a7695f531035bc46cbf4a3f288931d66df881da306"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_50deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_50deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_50deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_50deg_rep1_sig.txt",
+      "sha256": "a16bdbde3fdfeb5cf8fef0bf03ffd48ec05d31267707ae229331c6e31c47734f"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_60deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_60deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_60deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_60deg_rep1_sig.txt",
+      "sha256": "64b79a9b9c2ba03ec9557c483b9179ba7da053af7fc2dee6abd5dac32f7bb672"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_70deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_70deg_rep1_bg.txt",
+      "sha256": "df9e81840ef5266de97eeaa0e6903270fd9d7a018402116e60a212fae6da4bfb"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_70deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_70deg_rep1_sig.txt",
+      "sha256": "9cf726758c5dfa064770ae40fe9351778f9112a1dfd4ff4a39dcd0c32901bd2c"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_80deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_80deg_rep1_bg.txt",
+      "sha256": "5599eb1f071809639389aee3b9aba43057396e11749d6fe71f69b2fe480ef222"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_80deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_80deg_rep1_sig.txt",
+      "sha256": "c5a9d58c3451097d9326e8c7fd8878aa4b4699a316f2784c362cfc7aad0e0156"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_90deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_90deg_rep1_bg.txt",
+      "sha256": "5599eb1f071809639389aee3b9aba43057396e11749d6fe71f69b2fe480ef222"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\356att_90deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-356_90deg_rep1_sig.txt",
+      "sha256": "9699eaf5aa450e8569a2865e42ff381e7c854844b21ae83880a6917302928f55"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_0deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_0deg_rep1_bg.txt",
+      "sha256": "484164e756666fbbfd2eb6e3f0729e7504ad49f8f6372400894517f8d90a716d"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_0deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_0deg_rep1_sig.txt",
+      "sha256": "1f39ab2487ac74457ea1243bd252aecb6d214271afe8b1c659c51bdc0a03f6ef"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_10deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_10deg_rep1_bg.txt",
+      "sha256": "484164e756666fbbfd2eb6e3f0729e7504ad49f8f6372400894517f8d90a716d"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_10deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_10deg_rep1_sig.txt",
+      "sha256": "1f22b6658ad53b77a357f1a72a2e04b2f3a0f4a62775f53710029cf907ee1e48"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_20deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_20deg_rep1_bg.txt",
+      "sha256": "5d57aad42ab51a33b79e4ea610067b1a374eb09546cf0c486d15a1b9b7755800"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_20deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_20deg_rep1_sig.txt",
+      "sha256": "6524db469bde8ef3b37112a223ee21ef0e2d4073a5ba0009becc924dfa8abec7"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_270deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_270deg_rep1_bg.txt",
+      "sha256": "8f93f5c1a7fbed5212bb5bc8a21f0c69df61d9975aac5dfe68db7ffaafe5b0b6"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_270deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_270deg_rep1_sig.txt",
+      "sha256": "5d0957d48163c6e32ac8854449e80e34fa22441f18165b3f1eb09d7241a04b71"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_280deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_280deg_rep1_bg.txt",
+      "sha256": "8f93f5c1a7fbed5212bb5bc8a21f0c69df61d9975aac5dfe68db7ffaafe5b0b6"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_280deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_280deg_rep1_sig.txt",
+      "sha256": "2559ce8828e758850f50c12ccd86492ac0550424a0e208b431b6aa33e858c093"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_290deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_290deg_rep1_bg.txt",
+      "sha256": "fd6206d3fdba8c59dc4c573d80565dc72278e1ce67ea466455ac6ea325125cf4"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_290deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_290deg_rep1_sig.txt",
+      "sha256": "0b29e72778f10008c719c414b40b3e1cdf1820c7ebc6128ce5114e78b950f753"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_300deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_300deg_rep1_bg.txt",
+      "sha256": "fd6206d3fdba8c59dc4c573d80565dc72278e1ce67ea466455ac6ea325125cf4"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_300deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_300deg_rep1_sig.txt",
+      "sha256": "10e3ceec64408f1eeabfd47bdb812dcc187bfdbdfb1ae0c11a3e86b8d28909b7"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_30deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_30deg_rep1_bg.txt",
+      "sha256": "5d57aad42ab51a33b79e4ea610067b1a374eb09546cf0c486d15a1b9b7755800"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_30deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_30deg_rep1_sig.txt",
+      "sha256": "baef190e3e2c30f75c1c0a225aa1b52ff5547d40b628c2e3ef1d938eb5409656"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_310deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_310deg_rep1_bg.txt",
+      "sha256": "756801bd599ebb5704a5fa3664f9ce7f221355482104d3033ba6efc518e827bc"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_310deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_310deg_rep1_sig.txt",
+      "sha256": "5b00832e0523bd26a3f5b9285e1166551b880e9d1ac4fbb1c119f0d56d843c7e"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_320deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_320deg_rep1_bg.txt",
+      "sha256": "756801bd599ebb5704a5fa3664f9ce7f221355482104d3033ba6efc518e827bc"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_320deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_320deg_rep1_sig.txt",
+      "sha256": "f3496dfddb5958331a26ebb7c5588ed988cb08932b06fbf98b4f4997e04841cf"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_330deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_330deg_rep1_bg.txt",
+      "sha256": "36e2901d41a443b65a0a449280350b7dcf6d869980bccb0ae43ffb9b20488eb5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_330deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_330deg_rep1_sig.txt",
+      "sha256": "a6a6f6510f6367c9371ecc582601476009f5c2914f187d0bc0cf03b86810e50f"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_340deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_340deg_rep1_bg.txt",
+      "sha256": "36e2901d41a443b65a0a449280350b7dcf6d869980bccb0ae43ffb9b20488eb5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_340deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_340deg_rep1_sig.txt",
+      "sha256": "9c0cd6955b890eed25253530173c8eea2987658dfd54fb59ac7330072e6afee7"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_350deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_350deg_rep1_bg.txt",
+      "sha256": "1307a6b7bbf33c85208248971a85f4cc5b896e9a2cfb55a346d9279b2bfbc034"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_350deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_350deg_rep1_sig.txt",
+      "sha256": "dcb39743b0b3ebe6c8d540618bffea84947e43e160c6c18a0725cb2795bb7c63"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_40deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_40deg_rep1_bg.txt",
+      "sha256": "a035035f434a330fc676168a0e9e2afd0ac04d053da9c0b01718ea0338222e45"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_40deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_40deg_rep1_sig.txt",
+      "sha256": "1afc169516311f1e14a62a1a2ee1026aee81699e7c817034e37178bb2998d43c"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_50deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_50deg_rep1_bg.txt",
+      "sha256": "f4e77d8d9ff15f0f54c58a7bbfb94884413be9a92d35ef96e71a8e34ee186228"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_50deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_50deg_rep1_sig.txt",
+      "sha256": "451b636118bf2d82a9430138cb12d48de4943e7943e3dbdd09b5723a8e7cb7dc"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_60deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_60deg_rep1_bg.txt",
+      "sha256": "f4e77d8d9ff15f0f54c58a7bbfb94884413be9a92d35ef96e71a8e34ee186228"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_60deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_60deg_rep1_sig.txt",
+      "sha256": "ad9b50b5ce7b23c4eaeb62849e9a77e2770358df66f55ae4bba2c1d4ccee94f2"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_70deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_70deg_rep1_bg.txt",
+      "sha256": "32b80a6474d635249c36ee06e19ac4f204ee911631507d8cba2b7f80e0c556b1"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_70deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_70deg_rep1_sig.txt",
+      "sha256": "2cd215123070f3e3f27a732f09f22dad90273d28c985fde008ca9307b748e011"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_80deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_80deg_rep1_bg.txt",
+      "sha256": "32b80a6474d635249c36ee06e19ac4f204ee911631507d8cba2b7f80e0c556b1"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_80deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_80deg_rep1_sig.txt",
+      "sha256": "da5b242466735d6569c18b8b25f2dc6f827ca0302a4a009bcbba3cb4de24b012"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_90deg_rep1_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_90deg_rep1_bg.txt",
+      "sha256": "8b25e89951d2c666b516cba7b47b12ddf26444d2d7b64d1cb335b6b56014f3f9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series1_90deg_rep1_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s1_90deg_rep1_sig.txt",
+      "sha256": "5e15e14ee319897d29aab566ae42a5a592c14a07054f574811a2ab39976fc9c4"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_0deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_0deg_rep2_bg.txt",
+      "sha256": "3b2120e0f9f34e76e4c46ba7268fe8900b47b10b53e1f773073514854ac76011"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_0deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_0deg_rep2_sig.txt",
+      "sha256": "4caaabd22562f67058a7461485a4a4f2679aaa38db940eb41b2816cabf9d58e3"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_10deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_10deg_rep2_bg.txt",
+      "sha256": "3b2120e0f9f34e76e4c46ba7268fe8900b47b10b53e1f773073514854ac76011"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_10deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_10deg_rep2_sig.txt",
+      "sha256": "e4ca12e117ea82fdc2dee855519e809efe9f0e01f6f21f84c752130e2e896bb7"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_20deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_20deg_rep2_bg.txt",
+      "sha256": "3597efd144633d4646cf23fa10357191c6894a49f3b955609b9bf737752d6cdc"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_20deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_20deg_rep2_sig.txt",
+      "sha256": "7327ab9fc59f0a908d5fd7ed23cb4f81e835510bae1e3eb71c24fe918c1001e9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_270deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_270deg_rep2_bg.txt",
+      "sha256": "7c3bbc58094534104e085fc77ddeb9f3f56fb1b24f49f140c5f2cb16744d426a"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_270deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_270deg_rep2_sig.txt",
+      "sha256": "7a2d9650ee33c3345c5f717212a6210be89379e14a0330d1c161a0df2a3e8a85"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_280deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_280deg_rep2_bg.txt",
+      "sha256": "7c3bbc58094534104e085fc77ddeb9f3f56fb1b24f49f140c5f2cb16744d426a"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_280deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_280deg_rep2_sig.txt",
+      "sha256": "8530cb32b50f241bb613c8269ff6bf3101d1ef836c189ce4cc2422b6f8d45a5c"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_290deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_290deg_rep2_bg.txt",
+      "sha256": "df654476cf83f5bcd6e93563aab7581ac20d60a3229347aa973fb03181c44c19"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_290deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_290deg_rep2_sig.txt",
+      "sha256": "db8cd8c1566fce57ca39901108b8d15270e406da27dace61416848cd822408fd"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_300deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_300deg_rep2_bg.txt",
+      "sha256": "df654476cf83f5bcd6e93563aab7581ac20d60a3229347aa973fb03181c44c19"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_300deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_300deg_rep2_sig.txt",
+      "sha256": "0d25ed50b1bac0d184ea555f33ac9121f6c550138d3018351bc3ef2a8e866eed"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_30deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_30deg_rep2_bg.txt",
+      "sha256": "3597efd144633d4646cf23fa10357191c6894a49f3b955609b9bf737752d6cdc"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_30deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_30deg_rep2_sig.txt",
+      "sha256": "c9eca3390e1f68229f1b62a2b450b0a6ebc35324a7fb4564ad6069a14483ae5b"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_310deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_310deg_rep2_bg.txt",
+      "sha256": "0791e3f4861031c96287fb1bebd69bfe5a1891092413db6e9e5469bd18844982"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_310deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_310deg_rep2_sig.txt",
+      "sha256": "d640fcc538ee9358539b8e445eca61f48ef97968ee208276b51eb0c8920fd14d"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_320deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_320deg_rep2_bg.txt",
+      "sha256": "58de8f2c6a2d9b1af66e9058329c4b2db8a3b7ed2a786299117ec8acec8ad96a"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_320deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_320deg_rep2_sig.txt",
+      "sha256": "78e471fd793eea46efaac512b117dc6abe15b657b1d796d4500b341dddc8f93c"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_330deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_330deg_rep2_bg.txt",
+      "sha256": "58de8f2c6a2d9b1af66e9058329c4b2db8a3b7ed2a786299117ec8acec8ad96a"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_330deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_330deg_rep2_sig.txt",
+      "sha256": "7da1aa97f1e638e31672cb57f9d48e6df1f3d7eba7d29f245a4b2ed014e006a5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_340deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_340deg_rep2_bg.txt",
+      "sha256": "d1be04b2b397775b963243d9aaa736dc2ba1da639ac4839c893443f6477d4bf3"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_340deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_340deg_rep2_sig.txt",
+      "sha256": "9c3e3f14b7cea4890659ea920b2f35b16b0500c2d1dc896245a3b985263909ad"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_350deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_350deg_rep2_bg.txt",
+      "sha256": "d1be04b2b397775b963243d9aaa736dc2ba1da639ac4839c893443f6477d4bf3"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_350deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_350deg_rep2_sig.txt",
+      "sha256": "727cb4b082f0b13d8e7132bfe17b5dd7fdec243251f975657f9218e4dd90fdae"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_40deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_40deg_rep2_bg.txt",
+      "sha256": "c33f9e5af27c84aedf321fcce0406e60c665735c908ca39cf789f03051ebbc30"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_40deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_40deg_rep2_sig.txt",
+      "sha256": "656bfd7038a984d7638cccecad43a9db4310cfa99bfa7028259f00eeffb08654"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_50deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_50deg_rep2_bg.txt",
+      "sha256": "c33f9e5af27c84aedf321fcce0406e60c665735c908ca39cf789f03051ebbc30"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_50deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_50deg_rep2_sig.txt",
+      "sha256": "6bfec15ebf0000724ca6a5086c1ca367421d5cfb21f8be6f63cdb0acc0e7b395"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_60deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_60deg_rep2_bg.txt",
+      "sha256": "245d536afb0039c36f58d2a8166eb46221eedffde85a80545c9f7969b5a7b9a5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_60deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_60deg_rep2_sig.txt",
+      "sha256": "fd1048e951e4953dd1036ac1d85bd5fc81196a7834505b7a4e4ec20dc80bf820"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_70deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_70deg_rep2_bg.txt",
+      "sha256": "245d536afb0039c36f58d2a8166eb46221eedffde85a80545c9f7969b5a7b9a5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_70deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_70deg_rep2_sig.txt",
+      "sha256": "09f75d3a8739dc52c3539a052c430e27c6808461e101a826e0a87cc77eb59207"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_80deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_80deg_rep2_bg.txt",
+      "sha256": "83771ed80cce83d9268af498891dbfbc0dde368865146acc4f85b93c3d4cc336"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_80deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_80deg_rep2_sig.txt",
+      "sha256": "a18a2df73c440407c72d8da806cb8f749a734ed963d802a6b49794797192d789"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_90deg_rep2_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_90deg_rep2_bg.txt",
+      "sha256": "83771ed80cce83d9268af498891dbfbc0dde368865146acc4f85b93c3d4cc336"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series2_90deg_rep2_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s2_90deg_rep2_sig.txt",
+      "sha256": "96bdb0e6815d0b106b03bee336e0b70e968a3ec57fa39daaf7eb1052bbf822de"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_0deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_0deg_rep3_bg.txt",
+      "sha256": "1307a6b7bbf33c85208248971a85f4cc5b896e9a2cfb55a346d9279b2bfbc034"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_0deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_0deg_rep3_sig.txt",
+      "sha256": "daba2155ed65678226637f98006b10c8b19f67d44f306bd08f263884843c914d"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_10deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_10deg_rep3_bg.txt",
+      "sha256": "1cd1cd0affc816d109525726fbdf9c7fae2a8b11d184da4dc8e9c942ef888510"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_10deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_10deg_rep3_sig.txt",
+      "sha256": "ba4abeb807dadfde9c8b8393aff4c769c0367c1314eda4bb9e4c7ecfc7705c02"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_20deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_20deg_rep3_bg.txt",
+      "sha256": "1cd1cd0affc816d109525726fbdf9c7fae2a8b11d184da4dc8e9c942ef888510"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_20deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_20deg_rep3_sig.txt",
+      "sha256": "77b9bf9bea7f14cde96a820c0dd16548f8296721a98011496680134436528622"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_30deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_30deg_rep3_bg.txt",
+      "sha256": "68cb66453c14e662f68394cf544cc0afa533990f558d0a3551833abdd3f893a6"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_30deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_30deg_rep3_sig.txt",
+      "sha256": "fb85bfdfba108c329d6591f908aed0fa8611ea2c53ae879430f876ab42eb6e6b"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_310deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_310deg_rep3_bg.txt",
+      "sha256": "0791e3f4861031c96287fb1bebd69bfe5a1891092413db6e9e5469bd18844982"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_310deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_310deg_rep3_sig.txt",
+      "sha256": "a93b0f13dc7b1e4aed037fe03acaee1c36216de5e4e6d779cd923a69339af56c"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_350deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_350deg_rep3_bg.txt",
+      "sha256": "5873dfed88d1ebf3d6ffd291719a36f91633f627531d8be0f465387b325d3076"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_350deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_350deg_rep3_sig.txt",
+      "sha256": "076817de7a27565e4e092e215c755aa13c1e7f7b42a9252534e3d3d418eff50e"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_40deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_40deg_rep3_bg.txt",
+      "sha256": "68cb66453c14e662f68394cf544cc0afa533990f558d0a3551833abdd3f893a6"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_40deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_40deg_rep3_sig.txt",
+      "sha256": "381f7bc689f67ffb609c5c9f12b372636519abc208cce776a118ee3c30bdae19"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_50deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_50deg_rep3_bg.txt",
+      "sha256": "e76815362f48acd104eab55eab818bb16495c69ec07dd5df4f8a2c4f660d1d34"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_50deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_50deg_rep3_sig.txt",
+      "sha256": "a35b14a3161cbd9baf10f27cd8863b185d4970e125907d93914e332e2333f44a"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_60deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_60deg_rep3_bg.txt",
+      "sha256": "e76815362f48acd104eab55eab818bb16495c69ec07dd5df4f8a2c4f660d1d34"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_60deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_60deg_rep3_sig.txt",
+      "sha256": "3fbd4100685692ac723d38348ce35aa986525f050cc181cc2dbd0e9f4b517c63"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_70deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_70deg_rep3_bg.txt",
+      "sha256": "a6a38a6b4967a21b8c019fb636a3c1ac0e80b29f05fbbc2367edaec3ab5efd87"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_70deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_70deg_rep3_sig.txt",
+      "sha256": "44a52ecdcb9f949f746ecbf2f971ae8531987ab06720bb1182a16c36888dbbd5"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_80deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_80deg_rep3_bg.txt",
+      "sha256": "a6a38a6b4967a21b8c019fb636a3c1ac0e80b29f05fbbc2367edaec3ab5efd87"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_80deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_80deg_rep3_sig.txt",
+      "sha256": "46c26098e1ff957d2e63e3de95fd4d371c3841069e9cf97c0482b26cd612c745"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_90deg_rep3_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_90deg_rep3_bg.txt",
+      "sha256": "9a5569385951617c91a31dddcb11f8438273899f07a3077edd1260f70b7cae33"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series3_90deg_rep3_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s3_90deg_rep3_sig.txt",
+      "sha256": "cf15aeb45c000c1de9becadb34a0c9f4d7c7f5ce194c5e0473f9a60c4b0275f0"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series4_0deg_rep4_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s4-artifact_0deg_rep4_bg.txt",
+      "sha256": "5482ea42eba27d6b9f8fbd508c895b1e433731481a6fd7507fde397ba94d0ec9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series4_0deg_rep4_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s4-artifact_0deg_rep4_sig.txt",
+      "sha256": "f17ecf9ee88a12500b10b1aa2a0601a56bc2f5ae6a5e7caf8f199be86d9bf79a"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series5_0deg_rep5_bg.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s5-artifact_0deg_rep5_bg.txt",
+      "sha256": "5482ea42eba27d6b9f8fbd508c895b1e433731481a6fd7507fde397ba94d0ec9"
+    },
+    {
+      "old": "data_pool\\two_wgp_attenuator\\series5_0deg_rep5_sig.txt",
+      "new": "data_pool\\two_wgp_attenuator\\att-11-16-s5-artifact_0deg_rep5_sig.txt",
+      "sha256": "92167d49b7d07b8c42e061d9abadb6af60862c33d2cc76afbe6ee9f03ea3ab7f"
+    }
+  ],
+  "verification": {
+    "sha256_all_match": true,
+    "datamanager_angles_and_arrays_identical": true,
+    "datasets": {
+      "356att": {
+        "new": "att-11-16-356",
+        "n_angles": 19
+      },
+      "series1": {
+        "new": "att-11-16-s1",
+        "n_angles": 19
+      },
+      "series2": {
+        "new": "att-11-16-s2",
+        "n_angles": 19
+      },
+      "series3": {
+        "new": "att-11-16-s3",
+        "n_angles": 12
+      },
+      "series4": {
+        "new": "att-11-16-s4-artifact",
+        "n_angles": 1
+      },
+      "series5": {
+        "new": "att-11-16-s5-artifact",
+        "n_angles": 1
+      }
+    }
+  }
+}

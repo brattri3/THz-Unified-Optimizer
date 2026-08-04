@@ -108,7 +108,7 @@ def fit_variant(dataset, leakage, fix_D=None):
 
 def main():
     # M3-fitted D_eff (from T1 baseline) to isolate leakage from the eta0-Deff degeneracy
-    M3_D = {"356att": 4.683, "test_grid_40_20": 11.447}
+    M3_D = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447}
     rows = []
     for ds in fit_lib.GEOMETRY:
         m3 = fit_variant(ds, leakage=False)

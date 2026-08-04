@@ -55,13 +55,13 @@ def fit(dataset, gamma_free):
 
 def main():
     rows = []
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         a = fit(ds, False); b = fit(ds, True)
         b["dAIC_vs_M5"] = b["aic"]-a["aic"]
         rows.extend([a, b])
     (OUT / "hn5_nondrude.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     print("=== T11 HN5: free gamma (non-Drude dispersion) vs post-M5 residual ===")
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         a = [r for r in rows if r["dataset"] == ds and not r["gamma_free"]][0]
         b = [r for r in rows if r["dataset"] == ds and r["gamma_free"]][0]
         print(f"\n{ds}:")

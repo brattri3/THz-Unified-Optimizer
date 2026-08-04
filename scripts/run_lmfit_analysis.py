@@ -16,8 +16,8 @@ def main():
     data_dir = Path(config.DATA_DIR)
     manager = DataManager(data_dir)
     
-    # We will run on the best dataset '356att'
-    dataset = "356att"
+    # We will run on the best dataset 'att-11-16-356'
+    dataset = "att-11-16-356"
     logging.info(f"Loading data for {dataset}...")
     data_dict = manager.get_data_for_dataset(dataset)
     

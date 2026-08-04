@@ -50,14 +50,14 @@ from t6_hn8 import compute_grid_hn8                        # noqa: E402
 OUT = REPO / "research" / "results" / "two_wgp"
 OUT.mkdir(parents=True, exist_ok=True)
 W_AMP, W_PHASE = m5.W_AMP, m5.W_PHASE
-PHYS_D = {"356att": 11.0}
+PHYS_D = {"att-11-16-356": 11.0}
 
 
 # --------------------------------------------------------------------------
 def base_params(p_um, *, phi2=False, psi=False, eps=False, leak=True, seed=None):
     P = lmfit.Parameters()
     P.add("P_um", value=p_um, vary=False)
-    P.add("D_um", value=m5.M3_D.get("356att", 4.683), min=0.5, max=p_um - 0.5)
+    P.add("D_um", value=m5.M3_D.get("att-11-16-356", 4.683), min=0.5, max=p_um - 0.5)
     P.add("loss_factor", value=0.3, min=0.0, max=5.0)
     P.add("gamma", value=2.0, vary=False)          # HN11: degenerate, pinned
     P.add("angle_offset", value=0.0, min=-10, max=10)
@@ -165,7 +165,7 @@ def run_variant(label, dataset, angles, freqs, exp, valid, *, kind,
 def main():
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dataset", default="356att")
+    ap.add_argument("--dataset", default="att-11-16-356")
     args = ap.parse_args()
     ds = args.dataset
 

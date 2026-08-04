@@ -19,7 +19,7 @@ from t6_hn8 import compute_grid_hn8
 
 OUT = HERE.parents[0] / "results" / "HN10"
 OUT.mkdir(parents=True, exist_ok=True)
-DEFF = {"356att": 4.683, "test_grid_40_20": 11.447, "specac": 6.240}
+DEFF = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447, "specac": 6.240}
 
 
 def residual_apod(params, angles_val, freqs, exp, valid):
@@ -63,13 +63,13 @@ def fit(dataset, apod):
 
 def main():
     rows = []
-    for ds in ("356att", "specac"):
+    for ds in ("att-11-16-356", "specac"):
         m = fit(ds, False); a = fit(ds, True)
         a["dAIC_vs_M5"] = a["aic"]-m["aic"]
         rows.extend([m, a])
     (OUT / "hn10_apodization.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     print("=== HN10: grazing-angle apodization vs post-M5 residual ===")
-    for ds in ("356att", "specac"):
+    for ds in ("att-11-16-356", "specac"):
         m = [r for r in rows if r["dataset"] == ds and not r["apod_on"]][0]
         a = [r for r in rows if r["dataset"] == ds and r["apod_on"]][0]
         print(f"\n{ds}: M5 AIC={m['aic']:.1f} | M5+apod AIC={a['aic']:.1f} dAIC={a['dAIC_vs_M5']:+.1f}")

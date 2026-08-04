@@ -63,7 +63,7 @@ def fit(dataset, fp):
 
 def main():
     rows = []
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         m = fit(ds, False); f = fit(ds, True)
         f["dAIC_vs_M5"] = f["aic"]-m["aic"]
         # implied substrate thickness for n=3.4 (HR-Si): L = c*tau/(2n)
@@ -71,7 +71,7 @@ def main():
         rows.extend([m, f])
     (OUT / "hn3_fabryperot.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     print("=== T10 HN3: Fabry-Perot vs post-M5 residual ===")
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         m = [r for r in rows if r["dataset"] == ds and not r["fp"]][0]
         f = [r for r in rows if r["dataset"] == ds and r["fp"]][0]
         print(f"\n{ds}: M5 AIC={m['aic']:.1f} | M5+FP AIC={f['aic']:.1f} dAIC={f['dAIC_vs_M5']:+.1f}")

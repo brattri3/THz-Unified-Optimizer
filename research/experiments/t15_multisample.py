@@ -19,7 +19,7 @@ from unified_optimizer.data_manager import DataManager
 
 OUT = HERE.parents[0] / "results" / "validation"
 OUT.mkdir(parents=True, exist_ok=True)
-DATASETS = ["356att", "test_grid_40_20", "series1", "series2", "series3", "series4", "series5"]
+DATASETS = ["att-11-16-356", "test_grid_40_20", "att-11-16-s1", "att-11-16-s2", "att-11-16-s3", "att-11-16-s4-artifact", "att-11-16-s5-artifact"]
 
 
 def leak_floor(dataset):

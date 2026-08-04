@@ -277,8 +277,8 @@ def main():
         [Paragraph("<b>Датасет</b>", style_th), Paragraph("<b>Невязка</b>", style_th), Paragraph("<b>Shapiro Stat</b>", style_th), Paragraph("<b>Shapiro p-val</b>", style_th), Paragraph("<b>Jarque-Bera Stat</b>", style_th), Paragraph("<b>JB p-val</b>", style_th), Paragraph("<b>Вывод</b>", style_th)],
         [Paragraph("test_grid_40_20", style_td_left), Paragraph("Амплитудная", style_td), Paragraph("0.8841", style_td), Paragraph("9.89e-67", style_td), Paragraph("14205.2", style_td), Paragraph("0.000", style_td), Paragraph("Ненормально &#10060;", style_td)],
         [Paragraph("test_grid_40_20", style_td_left), Paragraph("Фазовая", style_td), Paragraph("0.8924", style_td), Paragraph("3.42e-65", style_td), Paragraph("12890.5", style_td), Paragraph("0.000", style_td), Paragraph("Ненормально &#10060;", style_td)],
-        [Paragraph("356att", style_td_left), Paragraph("Амплитудная", style_td), Paragraph("0.9102", style_td), Paragraph("1.12e-47", style_td), Paragraph("8910.4", style_td), Paragraph("0.000", style_td), Paragraph("Ненормально &#10060;", style_td)],
-        [Paragraph("356att", style_td_left), Paragraph("Фазовая", style_td), Paragraph("0.9315", style_td), Paragraph("2.36e-38", style_td), Paragraph("5670.5", style_td), Paragraph("0.000", style_td), Paragraph("Ненормально &#10060;", style_td)],
+        [Paragraph("att-11-16-356", style_td_left), Paragraph("Амплитудная", style_td), Paragraph("0.9102", style_td), Paragraph("1.12e-47", style_td), Paragraph("8910.4", style_td), Paragraph("0.000", style_td), Paragraph("Ненормально &#10060;", style_td)],
+        [Paragraph("att-11-16-356", style_td_left), Paragraph("Фазовая", style_td), Paragraph("0.9315", style_td), Paragraph("2.36e-38", style_td), Paragraph("5670.5", style_td), Paragraph("0.000", style_td), Paragraph("Ненормально &#10060;", style_td)],
     ]
     t_norm = Table(norm_data, colWidths=[90, 75, 65, 75, 80, 50, 70])
     t_norm.setStyle(TableStyle([

@@ -143,7 +143,7 @@ def main():
 
     manager = DataManager(DATA_DIR)
     data_40_20 = manager.get_data_for_dataset("test_grid_40_20")
-    data_356att = manager.get_data_for_dataset("356att")
+    data_356att = manager.get_data_for_dataset("att-11-16-356")
 
     ang_40, freqs_40, exp_40, mask_40, wmask_40 = prepare_data(data_40_20)
     ang_35, freqs_35, exp_35, mask_35, wmask_35 = prepare_data(data_356att)

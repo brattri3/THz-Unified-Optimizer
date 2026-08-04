@@ -38,8 +38,8 @@ from attenuator_app.core.limits import uncertainty
 from attenuator_app.core.passport import Passport
 
 DATA = REPO / "data_pool"
-ROTATES = {"356att": "second (analyzer)", "series1": "first", "series2": "first",
-           "series3": "first", "series4": "first", "series5": "first"}
+ROTATES = {"att-11-16-356": "second (analyzer)", "att-11-16-s1": "first", "att-11-16-s2": "first",
+           "att-11-16-s3": "first", "att-11-16-s4-artifact": "first", "att-11-16-s5-artifact": "first"}
 
 
 def energy(path, f1, f2):
@@ -130,7 +130,7 @@ def run(passport_path, band, datasets, verbose=True):
 
     # разбивка по тому, какой поляризатор вращался — проверка закона Малюса на железе
     groups = {}
-    for grp, name in (("356att", "second (analyzer)"), ("series", "first")):
+    for grp, name in (("att-11-16-356", "second (analyzer)"), ("series", "first")):
         sel = [r for r in rows if r[0].startswith(grp)]
         if not sel:
             continue
@@ -140,7 +140,7 @@ def run(passport_path, band, datasets, verbose=True):
         print(f"  {name:<20} rotated: {n_in_g}/{len(sel)} = {100*n_in_g/len(sel):3.0f} %, "
               f"bias {d.mean():+.2f} dB, RMSE {np.sqrt((d**2).mean()):.2f} dB")
     if len(groups) == 2:
-        a, b = groups["356att"], groups["series"]
+        a, b = groups["att-11-16-356"], groups["series"]
         print(f"  -> bias difference between groups {a.mean()-b.mean():+.2f} dB "
               f"(Malus law: attenuation must not depend on "
               f"which polarizer is rotated)")

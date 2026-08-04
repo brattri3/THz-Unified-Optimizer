@@ -61,7 +61,7 @@ def analyze(dataset):
 
 
 def main():
-    rows = [analyze(ds) for ds in ("356att", "test_grid_40_20")]
+    rows = [analyze(ds) for ds in ("att-11-16-356", "test_grid_40_20")]
     (OUT / "hn12_depth_delay.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     print("=== HN12: multi-plane depth -> delayed leakage (time-domain, model-independent) ===")
     print("Micrograph prediction (P40, Delta_z=200um): single-pass 0.67 ps / etalon 1.33 ps LATER at 90deg")

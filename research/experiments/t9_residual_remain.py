@@ -93,7 +93,7 @@ def analyze(dataset):
 
 
 def main():
-    res = [analyze(ds) for ds in ("356att", "test_grid_40_20")]
+    res = [analyze(ds) for ds in ("att-11-16-356", "test_grid_40_20")]
     (OUT / "residual_remain.json").write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
     print("=== T9: structural residual remaining after M5 ===")
     for r in res:

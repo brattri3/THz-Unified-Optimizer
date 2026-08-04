@@ -8,7 +8,7 @@ from unified_optimizer import config
 
 def diagnose():
     manager = DataManager(config.DATA_DIR)
-    for ds in ['series1', 'series2']:
+    for ds in ['att-11-16-s1', 'att-11-16-s2']:
         print(f"\n--- Диагностика {ds} ---")
         try:
             data = manager.get_data_for_dataset(ds)

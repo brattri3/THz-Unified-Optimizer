@@ -16,7 +16,7 @@ def main():
         ("M5_lowD_leak",  lambda ds: dict(D_um=m5.M3_D[ds],   D_vary=False, leakage=True)),
     ]
     rows = []
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         base = None
         for name, cfg in variants:
             r = m5.fit_variant(ds, **cfg(ds))

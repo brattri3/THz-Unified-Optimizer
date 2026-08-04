@@ -61,7 +61,7 @@ RESULTS = REPO / "research" / "results" / "two_wgp"
 
 # Геометрия образцов — единственный источник истины на сегодня (fit_lib.GEOMETRY,
 # read-only). Дублируется здесь ТОЛЬКО как значения по умолчанию для CLI.
-DEFAULT_GEOM = {"356att": (15.5, 11.0), "series": (16.0, 11.0),
+DEFAULT_GEOM = {"att-11-16-356": (15.5, 11.0), "series": (16.0, 11.0),
                 "specac": (24.9, 14.0), "test_grid_40_20": (38.8, 18.0),
                 "purewave": (25.5, 10.6)}
 

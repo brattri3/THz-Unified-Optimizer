@@ -57,7 +57,7 @@ def fit_with_fmin(dataset, fmin):
 
 
 def main():
-    ds = "356att"
+    ds = "att-11-16-356"
     rows = [fit_with_fmin(ds, fm) for fm in (0.20, 0.25, 0.30, 0.35, 0.40)]
     near = [w for w in WATER_LINES if abs(w-0.215) < 0.05]
     out = {"dataset": ds, "fmin_scan": rows, "water_lines_near_0.215THz": near,

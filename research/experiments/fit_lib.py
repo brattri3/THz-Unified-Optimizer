@@ -24,7 +24,7 @@ from unified_optimizer.utils import find_auto_water_mask
 
 # nominal geometry per dataset (P_um, D_phys_um)
 GEOMETRY = {
-    "356att":          {"P_um": 15.5, "D_phys_um": 11.0},
+    "att-11-16-356":          {"P_um": 15.5, "D_phys_um": 11.0},
     "test_grid_40_20": {"P_um": 38.8, "D_phys_um": 18.0},  # micrograph GT (was nominal 40/20)
     # T15 external validation — micrograph ground-truth (2026-07-24, REVISED diam).
     # Micrograph fixes PERIOD tightly; DIAMETER is a lower-ish prior (mirror-blik
@@ -41,17 +41,21 @@ GEOMETRY = {
     #   THz DATA READY in data_pool/specac/ (13 angles 0-100deg incl 84/90/96 near shadow;
     #   drift-aware bg1..bg7). Model-independent leakage floor eta=0.0357, SNR 68x (best).
     "specac":          {"P_um": 24.9, "D_phys_um": 14.0},
-    # Attenuator (356att + series1-5) = TWO IDENTICAL WGPs, PASSPORT P=16um, D=11um
+    # Attenuator (att-11-16-*) = ONE physical device "THz Tunable Precision Attenuator
+    # ATT-11-16-CA85" S/N #02721 measured under different conditions/dates; renamed
+    # 2026-08-04 (was 356att, series1..5 — see data_pool/two_wgp_attenuator/README.md).
+    # TWO IDENTICAL WGPs, PASSPORT P=16um, D=11um
     # (owner 2026-07-27). WARNING: passport != REAL wound geometry -- winding error
     # shifts the true period; MICROGRAPH is ground truth (owner is reconciling them).
     # So P16/D11 here is a PRIOR, not measured GT; treat like other pre-micrograph values.
-    # 356att legacy value above is P=15.5 (Phase1-3 baseline); passport=16, ~3% gap,
-    # legacy KEPT to preserve logged numbers. series1-3 = same attenuator -> P16/D11 prior.
-    # 356 rotates WGP_B (no output film); series1-3 rotate WGP_A (series1 no films,
-    # series2/3 with near-ideal TYDEX films). series4/5 = circular-scan ARTIFACTS.
-    "series1":         {"P_um": 16.0, "D_phys_um": 11.0},
-    "series2":         {"P_um": 16.0, "D_phys_um": 11.0},
-    "series3":         {"P_um": 16.0, "D_phys_um": 11.0},
+    # att-11-16-356 legacy value above is P=15.5 (Phase1-3 baseline); passport=16, ~3% gap,
+    # legacy KEPT to preserve logged numbers. -s1..-s3 = same device -> P16/D11 prior.
+    # -356 rotates the SECOND WGP (near detector; input film only, no output film);
+    # -s1..-s3 rotate the FIRST WGP (-s1 no films at all, -s2/-s3 with both near-ideal
+    # TYDEX films). -s4-artifact/-s5-artifact = circular-scan ARTIFACTS, excluded by name.
+    "att-11-16-s1":         {"P_um": 16.0, "D_phys_um": 11.0},
+    "att-11-16-s2":         {"P_um": 16.0, "D_phys_um": 11.0},
+    "att-11-16-s3":         {"P_um": 16.0, "D_phys_um": 11.0},
 }
 
 W_AMP = 1.0

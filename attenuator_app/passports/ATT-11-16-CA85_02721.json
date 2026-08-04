@@ -63,10 +63,10 @@
  "fit_detector": "coherent",
  "calibration_note": "Source: official product passport ATT-11-16-CA85 S/N #02721 (passport.tex), Menlo Tera K8 THz-TDS, horizontal linear polarization. Device = TWO independent wire-grid polarizers; the first is aligned with the beam polarization (theta1=0), the second (analyzer) rotates. Attenuation is set by the relative angle theta=theta2-theta1. Nominal P/D = 16.0/11.0 um; micrograph gives P_geom = 15.93+-5.03 um. D_eff = 5.67 um is an equivalent FLAT strip (a round wire D=11 acts roughly as a strip of width D/2), not the geometric diameter. Sessions used for reproducibility estimate: 356att, series1, series2, series3.",
  "datasets": [
-  "356att",
-  "series1",
-  "series2",
-  "series3"
+  "att-11-16-356",
+  "att-11-16-s1",
+  "att-11-16-s2",
+  "att-11-16-s3"
  ],
  "model_rmse_db": 1.39,
  "model_rmse_note": "паспортная RMSE аппроксимации, динамический диапазон до -45 дБ; доминируют неучтённые переотражения между решётками и дифракционное рассеяние при theta > 50 град",
