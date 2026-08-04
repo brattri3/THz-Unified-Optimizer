@@ -14,6 +14,7 @@
 | `attenuator_app/**`, `docs/attenuator_app/**` | C | read |
 | `research/paper/**` | D | read |
 | `research/papers/**` (включает свёрнутый `research/papers/litrev/**`: обзоры, corpus, JSON-графы, `metasearch.py`; PDF в `litrev/pdfs/` не трекаются — `.gitignore`) | **L** | read |
+| `research/presentations/**` (отчёты/презентации для владельца, санкция 2026-08-04, CHARTER §3) | **P** | read |
 | `coordination/**`, `CLAUDE.md`, `research/state.json` (main), `research/RESEARCH_PLAN.md` | ORCH | read; предложения — в ACTIVITY |
 
 ## Общие (shared) файлы и правила доступа
@@ -31,6 +32,7 @@
 - B → `research/experiments/CHANGELOG_model_core.md` (+ свой state при необходимости)
 - C → `attenuator_app/STATE.md` (создать)
 - D → `research/paper/STATE.md` (создать)
+- P → `research/presentations/STATE.md` (создать)
 - Главная линия исследования → `research/state.json` (владелец ORCH / основной анализ).
 
 ## Граница B↔A: ПО СЛОЮ, а не по каталогу (решение ORCH, 2026-07-28)

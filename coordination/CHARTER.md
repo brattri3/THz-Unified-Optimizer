@@ -38,6 +38,7 @@
 | **C** | приложение-прототип | `attenuator_app/`, `docs/attenuator_app/` | model_blanco, research/two_wgp |
 | **D** | статья | `research/paper/` | SYNTHESIS, RESEARCH_LOG, results |
 | **L** | литература/обзор + метапоиск | `research/papers/` (включает свёрнутый `research/papers/litrev/`) | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |
+| **P** | отчётные презентации/доклады | `research/presentations/` | всё research (SYNTHESIS, HYPOTHESES, RESEARCH_LOG, results/**, paper/DRAFT.md) — только чтение |
 | **ORCH** | контроль/мерж/координация | `coordination/`, `CLAUDE.md`, main `research/state.json`, ветки/мержи | всё |
 **Правило shared-кода:** общие модули (`fit_lib.py`, `model_core.py`, `model_blanco`) правит ТОЛЬКО
 владелец (B). Другим — read-only; нужна правка → запрос через `ACTIVITY.md` + `HANDOFFS.md`, ждать B.
@@ -67,6 +68,17 @@
 > чужой copyright) в git НЕ трекаются (`.gitignore`) — извлечённый текст в `research/papers/txt/`.
 > Инструмент `metasearch.py` теперь в `research/papers/litrev/`. Исходник в `THz-WGP-Analysis/litrev/`
 > оставлен до проверки владельцем, затем удаляется владельцем.
+
+> **[2026-08-04, санкция владельца, §8]** Создана зона **P (отчётные презентации/доклады)** — по
+> прямому запросу владельца. Задача: собирать промежуточные и еженедельные отчёты/презентации по
+> проекту (для владельца, не для рецензента — этим занимается D в `research/paper/**`). Зона на
+> запись = `research/presentations/**`. P **не ведёт собственных расчётов** (CHARTER §6) — только
+> синтез уже готовых чисел/выводов из `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**`,
+> `research/hypotheses/HYPOTHESES.md`, `BOARD.md`/`ACTIVITY.md` (кто что сделал за период) и,
+> при необходимости цитирования драфта, `research/paper/DRAFT.md` (только чтение, не правит).
+> Отличие от D: **D** пишет обзор/статью ДЛЯ РЕЦЕНЗЕНТА (научный регистр, полная строгость); **P**
+> готовит отчёт/презентацию ДЛЯ ВЛАДЕЛЬЦА (тот же образовательный регистр §11, но короче и с
+> акцентом на «что сделано за неделю / что дальше», а не на публикационную полноту).
 
 ## 4. Общая зона обмена (координация)
 - `coordination/BOARD.md` — ЖИВОЙ статус всех сессий (обновляй свою строку при старте, смене задачи,
