@@ -1,0 +1,133 @@
+% =====================================================================
+%  preamble.tex — пакеты, стили и макросы учебного курса
+%  Зона D (research/paper/**). Движок: pdflatex (T2A + babel), MiKTeX.
+%  Выбор pdflatex, а не XeLaTeX: так же собран seed-документ проекта
+%  (research/paper/problem_statement.tex), меньше внешних зависимостей.
+% =====================================================================
+
+% --- Кодировка и язык ---
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+% --- Математика ---
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}
+
+% --- Вёрстка ---
+\usepackage[margin=24mm,bottom=28mm]{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{needspace}   % удержать врезку целиком: \needspace{N\baselineskip}
+
+% --- Ссылки (последним, hyperref любит быть в конце) ---
+\usepackage[colorlinks=true,linkcolor=cAccent,urlcolor=cAccent,citecolor=cAccent]{hyperref}
+
+% =====================================================================
+%  Палитра. Совпадает со стилем графиков figures/pstyle.py, чтобы текст
+%  и иллюстрации читались как один документ.
+% =====================================================================
+\definecolor{cInk}{HTML}{0F172A}      % основной текст
+\definecolor{cInk2}{HTML}{475569}     % вторичный текст
+\definecolor{cAccent}{HTML}{0B5AA8}   % заголовки, ссылки
+\definecolor{cS1}{HTML}{2A78D6}       % слот 1 графиков
+\definecolor{cS2}{HTML}{EB6834}       % слот 2 графиков
+\definecolor{cS3}{HTML}{1BAF7A}       % слот 3 графиков
+\definecolor{cPanel}{HTML}{F1F5F9}    % заливка врезок
+\definecolor{cGrid}{HTML}{CBD5E1}     % линии
+
+\color{cInk}
+
+% --- Заголовки ---
+\titleformat{\section}{\Large\bfseries\color{cAccent}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{cAccent}}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4\baselineskip}{0.5\baselineskip}
+
+% --- Колонтитулы ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{cInk2}\nouppercase{\leftmark}}
+\fancyhead[R]{\small\color{cInk2}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{cGrid}\hrule height 0.4pt}
+
+% --- Подписи к рисункам и таблицам ---
+\captionsetup{font=small,labelfont={bf,color=cAccent},margin=10pt}
+
+% =====================================================================
+%  Учебные врезки. Педагогический мандат CHARTER §11: интуиция ДО
+%  формализма, предупреждения — выделены, фактура — со ссылкой на артефакт.
+% =====================================================================
+
+% Интуиция / пояснение «на пальцах»
+\newtcolorbox{intuition}[1][]{
+  enhanced, breakable, colback=cPanel, colframe=cS1,
+  boxrule=0pt, leftrule=3pt, arc=1pt,
+  fonttitle=\bfseries\color{cAccent},
+  title={Интуиция#1}, coltitle=cAccent,
+  attach boxed title to top left={xshift=6pt,yshift=-2pt},
+  boxed title style={colback=cPanel,boxrule=0pt,arc=0pt},
+  top=10pt
+}
+
+% Предупреждение / типичная ошибка
+\newtcolorbox{warning}[1][]{
+  enhanced, breakable, colback=cS2!6, colframe=cS2,
+  boxrule=0pt, leftrule=3pt, arc=1pt,
+  fonttitle=\bfseries, title={Осторожно#1}, coltitle=cS2,
+  attach boxed title to top left={xshift=6pt,yshift=-2pt},
+  boxed title style={colback=cS2!6,boxrule=0pt,arc=0pt},
+  top=10pt
+}
+
+% Числа проекта: каждый учебный тезис опирается на реальный результат
+\newtcolorbox{projectfact}[1][]{
+  enhanced, breakable, colback=cS3!6, colframe=cS3,
+  boxrule=0pt, leftrule=3pt, arc=1pt,
+  fonttitle=\bfseries, title={Число проекта#1}, coltitle=cS3!70!black,
+  attach boxed title to top left={xshift=6pt,yshift=-2pt},
+  boxed title style={colback=cS3!6,boxrule=0pt,arc=0pt},
+  top=10pt
+}
+
+% Строгая формулировка после интуитивной
+\newtcolorbox{strict}[1][]{
+  enhanced, breakable, colback=white, colframe=cGrid,
+  boxrule=0.8pt, arc=1pt,
+  fonttitle=\bfseries\color{cInk}, title={Строго#1},
+  attach boxed title to top left={xshift=6pt,yshift=-2pt},
+  boxed title style={colback=white,boxrule=0pt,arc=0pt},
+  top=10pt
+}
+
+% =====================================================================
+%  Макросы обозначений. Единая нотация всего курса — менять только здесь.
+% =====================================================================
+\newcommand{\Deff}{D_{\mathrm{eff}}}
+\newcommand{\Dphys}{D_{\mathrm{phys}}}
+\newcommand{\tperp}{t_{\perp}}
+\newcommand{\tpar}{t_{\parallel}}
+\newcommand{\tleak}{\tau_{\mathrm{leak}}}
+\newcommand{\dAIC}{\Delta\mathrm{AIC}}
+\newcommand{\Efield}{\tilde{E}}
+\newcommand{\jj}{\mathrm{j}}                      % инженерная мнимая единица
+\newcommand{\Rot}[1]{R(#1)}
+\DeclareMathOperator{\Real}{Re}
+\DeclareMathOperator{\Imag}{Im}
+\DeclareMathOperator{\cond}{cond}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\AIC}{AIC}
+
+% Ссылка на артефакт проекта — единый способ пометить происхождение числа
+\newcommand{\artifact}[1]{{\small\color{cInk2}\texttt{#1}}}
+
+% Термин при первом употреблении (педагогический мандат)
+\newcommand{\term}[1]{\textbf{\color{cAccent}#1}}
