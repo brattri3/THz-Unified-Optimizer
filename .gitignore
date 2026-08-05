@@ -26,3 +26,10 @@ coordination/sessions/*.lock
 *.synctex.gz
 *.fls
 *.fdb_latexmk
+
+# рабочие промты/отчёты ORCH в корне репозитория (per-заход переписка с владельцем,
+# не координационное состояние — то живёт в coordination/) - только корень, не рекурсивно
+/PROMPT_*.md
+/REPORT_*.md
+/*_REVIEW_*.md
+/commits_review_*.txt
