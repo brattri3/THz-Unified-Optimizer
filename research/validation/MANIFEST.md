@@ -215,3 +215,29 @@ arbitrate (refits differ by 0.3 AIC). With `D = 10.0` fixed, purewave is therefo
 Settling the period needs a graticule and the sample shot in ONE session without touching the
 zoom — ideally both in the SAME frame, which removes the calibration chain entirely.
 
+## ✅ FIXED BY THE OWNER 2026-08-06 — test_grid_33_11 wire diameter = **11.2 um** (provisional)
+
+Owner's own measurement on his composite (graticule + sample in one frame, imageonline.io):
+10.70 / 10.93 / 11.37 / 11.42 / 11.86 um, median 11.37, mean 11.26 — **adopted 11.2 um**.
+Marked *provisional*: the owner intends to re-photograph this polarizer.
+
+⚠ **Do not cite my A16 value 12.60 against this.** Re-measuring the owner's composite
+automatically gives 14.54 um, but that composite is downscaled to 576 px (the source frames are
+2048 px), and resampling widens the 10 %-level footprint. So the composite cannot be used to
+check an absolute diameter — only the period, which survives downscaling because it is an average
+over many wires.
+
+**Period from the same composite: 30.93 um** (graticule 33.81 px = 10 um). Compare 31.82 (mid-mag
+chain) and 31.44 (high-mag chain) — a ~3 % spread, so unlike purewave this sample has no period
+ambiguity worth worrying about.
+
+**Consequences with `D_phys = 11.2`** (`D_eff` does not depend on it):
+
+| | value |
+|---|---|
+| `D/P` (at P = 31.82) | **0.352** |
+| `D_eff` (multistart M5, P pinned at 31.75) | 7.233 um |
+| `D_eff/D_phys` | **0.646** |
+| H5 `1 - 0.85*(D/P)` | 0.701 |
+| deviation | **-0.055** |
+
