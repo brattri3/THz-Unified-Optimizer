@@ -187,3 +187,31 @@ Details: `research/two_wgp/REPORT_A16_geometry_h5.md`.
 **What would settle it:** 3-4 high-mag frames per sample from different places on the aperture,
 plus a graticule shot in the same session without changing the zoom; and a focus series
 (0/40/80/120 um) on one spot to calibrate the width-blur relation directly.
+
+## ✅ FIXED BY THE OWNER 2026-08-06 — purewave wire diameter = **10.0 um**
+
+The owner closed the question: purewave's physical wire diameter is **exactly 10.0 um**, the
+manufacturer's specification. This is a DECISION, not a measurement, and it supersedes every
+micrograph-derived value for this sample. Do not re-open it.
+
+Our three independent estimates bracket it, which is why the decision is comfortable:
+
+| source | D, um |
+|---|---|
+| A16, all purewave high-mag frames, sharpest quarter | 9.83 |
+| owner's manual measurement (imageonline.io, own composite) | 10.02 |
+| the same composite re-measured automatically | 10.82 |
+| **manufacturer's spec — ADOPTED** | **10.0** |
+
+⚠ **The PERIOD is a separate, still-open question.** The mid-magnification chain gives
+`P = 24.72` and the high-magnification chain `P = 26.10` — 5.6 % apart — and the THz data cannot
+arbitrate (refits differ by 0.3 AIC). With `D = 10.0` fixed, purewave is therefore:
+
+| P chain | P, um | D/P | D_eff, um | D_eff/D_phys |
+|---|---|---|---|---|
+| mid mag | 24.72 | 0.405 | 6.733 | **0.673** |
+| high mag | 26.10 | 0.383 | 7.173 | **0.717** |
+
+Settling the period needs a graticule and the sample shot in ONE session without touching the
+zoom — ideally both in the SAME frame, which removes the calibration chain entirely.
+
