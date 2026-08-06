@@ -40,10 +40,14 @@ def main():
     # строилось предсказание. Показываем и то и другое: старая точка помечена как
     # отозванная, иначе рисунок противоречил бы отчёту.
     ref = json.loads((RES / "a14_refit_measured_geometry.json").read_text(encoding="utf-8"))
-    g = ref["measured_geometry"]
-    dp_new = g["D_phys_um"] / g["P_um"]
-    ratio_new = ref["runs"]["measured"]["best"]["D_over_Dphys"]
-    prereg = ref["H5_measured"]
+    # Диаметр переизмерен с поправкой на расфокусировку (A14b, замечание владельца):
+    # 12.55 -> 10.91 мкм. Период и D_eff при этом не меняются (D_phys входит только
+    # в знаменатель отношения — проверено повторным фитом).
+    dfc = json.loads((RES / "a14b_diameter_defocus.json").read_text(encoding="utf-8"))
+    r33 = dfc["result_test_grid_33_11"]
+    dp_new = r33["D_over_P"]
+    ratio_new = r33["D_eff_over_D_phys"]
+    prereg = r33["H5"]
 
     dp_nom = d["D_over_P"]
     ratio_nom = d["fit"]["full_range"]["best"]["D_over_Dphys"]

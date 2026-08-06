@@ -1,0 +1,408 @@
+{
+  "instrument_blur_floor_px": 8.68809602709967,
+  "instrument_blur_floor_um": 1.0981753378253984,
+  "um_per_px": 0.1264,
+  "samples": {
+    "test_grid_33_11": {
+      "median_w10": 12.238969201980357,
+      "min_w10": 10.798316764126115,
+      "D_zero_blur": 9.079801114308303,
+      "D_zero_blur_err": 0.6470878424396405,
+      "D_at_instrument_limit": 10.913582774427937,
+      "D_at_instrument_limit_err": 0.40638247856127824,
+      "slope": 0.2110683001660838,
+      "intercept": 9.079801114308303,
+      "r": 0.7729594443781707,
+      "n_wires": 32
+    },
+    "purewave": {
+      "median_w10": 10.516374311230212,
+      "min_w10": 8.717100923229626,
+      "D_zero_blur": 7.8003769247591075,
+      "D_zero_blur_err": 3.601450017537251,
+      "D_at_instrument_limit": 9.494278333380525,
+      "D_at_instrument_limit_err": 2.079304065825033,
+      "slope": 0.19496808084738554,
+      "intercept": 7.8003769247591075,
+      "r": 0.207418700430695,
+      "n_wires": 28
+    }
+  },
+  "result_test_grid_33_11": {
+    "D_um": 10.913582774427937,
+    "D_err_um": 0.40638247856127824,
+    "D_um_previous": 12.55,
+    "P_um": 31.75,
+    "D_over_P": 0.34373489053316336,
+    "D_eff_um": 7.233,
+    "D_eff_over_D_phys": 0.6627521089543517,
+    "H5": 0.7078253430468111,
+    "deviation": -0.04507323409245945
+  },
+  "wires": {
+    "test_grid_33_11": [
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 228,
+        "blur_px": 14.24061677669543,
+        "w10_um": 12.244767878451139
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 449,
+        "blur_px": 12.050631926890924,
+        "w10_um": 11.925477499615601
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 676,
+        "blur_px": 20.317377662060203,
+        "w10_um": 13.243503598437117
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 967,
+        "blur_px": 10.379380345435784,
+        "w10_um": 12.63571491568289
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 1208,
+        "blur_px": 12.46805793862975,
+        "w10_um": 14.387684143370779
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 1363,
+        "blur_px": 18.079157504918435,
+        "w10_um": 12.941669528455485
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 1698,
+        "blur_px": 18.74233276986237,
+        "w10_um": 13.604032572428723
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+        "peak_px": 2016,
+        "blur_px": 13.447907697606352,
+        "w10_um": 11.525062259081656
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 229,
+        "blur_px": 14.270237875714557,
+        "w10_um": 11.841009082377605
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 449,
+        "blur_px": 15.251221799871649,
+        "w10_um": 12.036527505874016
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 680,
+        "blur_px": 12.163204280768015,
+        "w10_um": 11.84672200149379
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 967,
+        "blur_px": 14.644404840071292,
+        "w10_um": 12.233170525509577
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 1209,
+        "blur_px": 15.009702209414028,
+        "w10_um": 13.662599615741232
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 1363,
+        "blur_px": 24.519999999999992,
+        "w10_um": 13.272436658498911
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 1699,
+        "blur_px": 12.874463873309146,
+        "w10_um": 12.215729161701978
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+        "peak_px": 2017,
+        "blur_px": 25.414128215598208,
+        "w10_um": 11.424344404640886
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 152,
+        "blur_px": 21.017593140153753,
+        "w10_um": 11.438186666666883
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 475,
+        "blur_px": 18.762542684528487,
+        "w10_um": 13.621191915536178
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 742,
+        "blur_px": 10.622723389714675,
+        "w10_um": 12.143714150558031
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 946,
+        "blur_px": 49.05077574047957,
+        "w10_um": 21.61660011340134
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 1307,
+        "blur_px": 11.087610933617322,
+        "w10_um": 11.285802601851092
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 1531,
+        "blur_px": 15.955263022574174,
+        "w10_um": 12.473447661700757
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 1725,
+        "blur_px": 13.777217429772175,
+        "w10_um": 12.038550129077388
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+        "peak_px": 1905,
+        "blur_px": 25.113065572168473,
+        "w10_um": 11.553619809814803
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 151,
+        "blur_px": 18.56058768028035,
+        "w10_um": 11.605766463894673
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 482,
+        "blur_px": 16.815811606391925,
+        "w10_um": 11.268999859023719
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 732,
+        "blur_px": 24.587905631383894,
+        "w10_um": 16.021203031054085
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 955,
+        "blur_px": 15.830363208779731,
+        "w10_um": 10.798316764126115
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 1304,
+        "blur_px": 24.552077294685986,
+        "w10_um": 16.53297722312989
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 1529,
+        "blur_px": 28.26346962170422,
+        "w10_um": 14.277055632495616
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 1720,
+        "blur_px": 27.902587200167602,
+        "w10_um": 16.203539502301712
+      },
+      {
+        "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+        "peak_px": 1905,
+        "blur_px": 29.993048973143747,
+        "w10_um": 14.49210059059075
+      }
+    ],
+    "purewave": [
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 228,
+        "blur_px": 23.393972012917114,
+        "w10_um": 10.940191997311985
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 427,
+        "blur_px": 22.4963733286726,
+        "w10_um": 10.827172542179456
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 638,
+        "blur_px": 18.939561925365055,
+        "w10_um": 10.939907688314749
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 845,
+        "blur_px": 22.504770992366442,
+        "w10_um": 10.679328211798914
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 1040,
+        "blur_px": 21.905896366885074,
+        "w10_um": 11.044942901809595
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 1245,
+        "blur_px": 24.62580757813866,
+        "w10_um": 10.384862152040702
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 1471,
+        "blur_px": 25.59337349397588,
+        "w10_um": 21.000186555033505
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 1810,
+        "blur_px": 27.125477578926176,
+        "w10_um": 10.451905071094684
+      },
+      {
+        "file": "purewave__wgp__highmag_01.bmp",
+        "peak_px": 1999,
+        "blur_px": 25.443665867600973,
+        "w10_um": 9.681872363542679
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 242,
+        "blur_px": 18.842500341203753,
+        "w10_um": 9.542248835290847
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 437,
+        "blur_px": 17.620759018372,
+        "w10_um": 10.121902887554878
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 649,
+        "blur_px": 16.91066771787252,
+        "w10_um": 11.280076563533667
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 855,
+        "blur_px": 14.467245051691004,
+        "w10_um": 11.335957087323097
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 1049,
+        "blur_px": 17.046588813767663,
+        "w10_um": 12.201984597344218
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 1257,
+        "blur_px": 16.17905827727841,
+        "w10_um": 11.31955602189839
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 1482,
+        "blur_px": 22.098532988154084,
+        "w10_um": 21.636442576507537
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 1817,
+        "blur_px": 18.07659464355025,
+        "w10_um": 10.818292947841128
+      },
+      {
+        "file": "purewave__wgp__highmag_02.bmp",
+        "peak_px": 2010,
+        "blur_px": 23.003678314663112,
+        "w10_um": 10.512988248023488
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 74,
+        "blur_px": 19.4126382306477,
+        "w10_um": 10.00552771827144
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 232,
+        "blur_px": 19.45418269915919,
+        "w10_um": 9.759248400008039
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 453,
+        "blur_px": 17.127454964106718,
+        "w10_um": 10.519760374436938
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 643,
+        "blur_px": 13.92918905090816,
+        "w10_um": 10.056574545130877
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 833,
+        "blur_px": 16.486524002313487,
+        "w10_um": 10.261540872047153
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 1065,
+        "blur_px": 17.143382854027543,
+        "w10_um": 9.931239234472125
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 1288,
+        "blur_px": 13.329692767937695,
+        "w10_um": 10.382385582550528
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 1459,
+        "blur_px": 19.48222451689041,
+        "w10_um": 10.42454264382118
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 1709,
+        "blur_px": 18.48266154830455,
+        "w10_um": 20.882657669893597
+      },
+      {
+        "file": "purewave__wgp__highmag_03.bmp",
+        "peak_px": 2032,
+        "blur_px": 18.9667645488521,
+        "w10_um": 8.717100923229626
+      }
+    ]
+  }
+}

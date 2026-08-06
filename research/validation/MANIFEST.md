@@ -44,7 +44,7 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
 | specac   | (per model) | TODO               | TODO               | TODO     | TODO           | `data_pool/specac/` (TODO)   | TODO |
 | 356att   | D11 / P16   | TODO (add micros)  | TODO               | TODO     | TODO           | `data_pool/356att…`          | ✓ |
 | test_grid_40_20 | D20 / P40 | **38.8 ± 0.3** | **~17 (in-focus, nom 20)** | 0.45 | in-plane RMS ~3–5 µm (~8–13%); **+ wires span ~200 µm in z** | `data_pool/test_grid…` | ✓ |
-| test_grid_33_11 | D11 / P33 (nominal, owner) | **31.75 ± 0.65** (cross-mag: mid 31.82 / high 31.69, 0.4% apart) | **12.55 ± 0.60** (highmag, in-focus, 10% base width; midmag reads 15–18 — wire is only ~19 px there) | **0.395** (nominal 0.333) | ~22% (median over frames; > purewave ≤13%) | `data_pool/test_grid_33_11/` ✓ 37 angles −100…+100 | ✓ |
+| test_grid_33_11 | D11 / P33 (nominal, owner) | **31.75 ± 0.65** (cross-mag: mid 31.82 / high 31.69, 0.4% apart) | **10.91 ± 0.41** (defocus-corrected, A14b; the raw in-focus-filtered value was 12.55 — withdrawn) | **0.344** (nominal 0.333) | ~22% (median over frames; > purewave ≤13%) | `data_pool/test_grid_33_11/` ✓ 37 angles −100…+100 | ✓ |
 
 ### PureWave notes (measured 2026-07-24)
 - **P = 25.5 ± 0.9 µm** — dominant lattice period; σ is the cross-magnification
@@ -113,3 +113,33 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
   (4 each). Same caveat as test_grid_40_20 (~200 µm span) ⇒ relevant to HN12.
 - Analysis: `research/two_wgp/a14_micrograph_33_11.py`, artefact
   `research/results/two_wgp/a14_micrograph_33_11.json`.
+
+### ⚠ Diameter is defocus-sensitive — correction added 2026-08-06 (A14b)
+
+The owner pointed out that at maximum magnification not all wires are in focus and the image
+smears; measuring `D` on such a frame over-reads. Confirmed, and the cause is in the tooling:
+`micrograph_period.in_focus_mask` selects by **quantiles within the frame** (top 45 % by edge
+steepness, top 60 % by brightness), so it always keeps about half the wires **even when all of
+them are blurred**. Fine for a coplanar sample, wrong for one whose wires sit at different depths.
+
+**Correction procedure** (`research/two_wgp/a14b_diameter_defocus.py`). Per wire measure
+`w10` (width at 10 % of peak) and `b = peak height / max |gradient|` — the inverse normalised
+edge steepness, which grows linearly with the blur width. Regress `w10` on `b` and evaluate at
+the **instrument's own blur floor**, measured from the graticule (its edges are physically sharp,
+so all blur there is instrumental): **8.69 px = 1.10 µm** at high mag. Do **not** extrapolate to
+`b → 0` — that removes the instrument PSF as well and under-reads.
+
+**The slope is instrumental, not per-sample:** +0.211 µm/px on test_grid_33_11 versus +0.195 on
+purewave, 8 % apart. What differs between samples is the blur SPREAD (purewave 13–27 px,
+test_grid_33_11 10–49 px), i.e. how coplanar the winding is.
+
+| sample | slope, µm/px | D published | **D defocus-corrected** |
+|---|---|---|---|
+| test_grid_33_11 | +0.211 | (12.55, withdrawn) | **10.91 ± 0.41** |
+| purewave | +0.195 | 10.6 ± 0.5 | 9.49 ± 2.08 |
+
+⚠ **Consequence for the whole table.** Every published `D` here carries a defocus contribution
+that differs per sample, so the `D/P` column is not strictly comparable across rows. Recomputing
+all of them would also retune the empirical `D_eff` law (H5), which was fitted on these very
+`D/P` values. Only test_grid_33_11 has been corrected so far — see `research/two_wgp/state.json`,
+task `A16_defocus_recompute_all_samples` (proposed, needs the owner's decision).

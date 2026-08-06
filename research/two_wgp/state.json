@@ -129,6 +129,22 @@
       "artifact": "—",
       "result": "Motivated by A14: at equal parameter count the fit prefers P = 31.75 over P = 33 by 7.1 AIC, so the data carry information about the period even though it is pinned. A scan of P over roughly 30-34 um with the multistart fit at each node would turn that into a measurement. Not started - needs the owner's go-ahead.",
       "date": "2026-08-06"
+    },
+    {
+      "id": "A14b_diameter_defocus",
+      "status": "done",
+      "desc": "Owner objected that the wire diameter must be smaller: at maximum magnification not all wires are in focus and the image smears out.",
+      "artifact": "research/results/two_wgp/a14b_diameter_defocus.{json,png}; research/two_wgp/a14b_diameter_defocus.py; REPORT_test_grid_33_11.md section 9",
+      "result": "Owner was right. Root cause: micrograph_period.in_focus_mask selects wires by QUANTILES WITHIN THE FRAME (top 45% by edge steepness, top 60% by brightness), which is a RELATIVE criterion - it always keeps about half the wires even when every one of them is blurred. Acceptable for a coplanar sample; wrong here, where the 0 / 0.12 mm focus pair shows the wires sit at different depths. New method: instead of deciding which wire is in focus, measure each wire's blur and bring them all to a common sharpness. Per wire: w10 = width at 10% of peak, b = blur = peak height / max |gradient| (inverse normalised edge steepness). Over 32 wires from 4 high-mag frames, r(w10, b) = +0.773, slope +0.211 um per px of blur. The reference sharpness is MEASURED, not chosen: the calibration graticule has physically sharp edges, so all blur seen there is instrumental - median 8.69 px = 1.10 um. Evaluating the regression there gives D = 10.91 +- 0.41 um (versus 9.08 +- 0.65 extrapolating to b -> 0, which over-corrects by removing the instrument PSF too, and 12.55 +- 0.60 uncorrected). Model-free corroboration: the single best wire of the 32 has w10 = 10.80 um, a hard upper bound consistent with 10.91. The owner's nominal 11 um is 0.8% away. KEY CONTROL: the same procedure on purewave gives slope +0.195 um/px against +0.211 here - 8% apart, so the blur-to-width relation is INSTRUMENTAL, not fitted to one sample. What differs is the blur spread: purewave 13-27 px versus 10-49 px here, five times wider, which is why purewave's correlation is weak (r = 0.21, narrow range) and this one's is strong. Consistent with purewave being a factory sample and nearly coplanar. CONSEQUENCE: D_eff is unchanged (refit confirms D_eff = 7.233, AIC -44783.7 identical - D_phys enters only the denominator and the seed), but D/P 0.395 -> 0.344, D_eff/D_phys 0.576 -> 0.663, H5 0.664 -> 0.708, deviation -0.088 -> -0.045, now inside the spread of the seven earlier samples. OPEN AND IMPORTANT: the same correction moves the reference too - purewave 10.6 -> 9.5 +- 2.1 - so every published diameter in the project carries a different amount of defocus. Either recompute D consistently across all samples with micrographs, which would also retune the empirical H5 law since it was fitted on those D/P, or state the incomparability explicitly. A blanket recomputation shifts the Phase 1-3 baseline and needs the owner's decision.",
+      "date": "2026-08-06"
+    },
+    {
+      "id": "A16_defocus_recompute_all_samples",
+      "status": "proposed",
+      "desc": "Recompute the wire diameter of every sample that has micrographs using the defocus correction of A14b, and re-derive the empirical H5 law from the corrected D/P.",
+      "artifact": "—",
+      "result": "Motivated by A14b: the blur-to-width slope is instrumental (+0.195 vs +0.211 um/px on two samples), so every published D carries a defocus contribution that differs per sample. purewave alone moves 10.6 -> 9.5. Because H5 was fitted on these D/P values, correcting them retunes the law itself and shifts the Phase 1-3 baseline. Not started - explicitly needs the owner's go-ahead.",
+      "date": "2026-08-06"
     }
   ],
   "owner_questions_open": [
