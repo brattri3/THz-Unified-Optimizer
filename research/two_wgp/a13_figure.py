@@ -43,11 +43,14 @@ def main():
     # Диаметр переизмерен с поправкой на расфокусировку (A14b, замечание владельца):
     # 12.55 -> 10.91 мкм. Период и D_eff при этом не меняются (D_phys входит только
     # в знаменатель отношения — проверено повторным фитом).
-    dfc = json.loads((RES / "a14b_diameter_defocus.json").read_text(encoding="utf-8"))
-    r33 = dfc["result_test_grid_33_11"]
+    # Итоговые числа — из единого пересчёта A16 (поправка A14b отозвана: её
+    # экстраполяция переоценивала диаметр). Полная картина по всем образцам —
+    # a16_h5_recompute.png; здесь показана только точка этого образца.
+    a16 = json.loads((RES / "a16_h5_recompute.json").read_text(encoding="utf-8"))
+    r33 = next(r for r in a16["points"] if r["sample"] == "test_grid_33_11")
     dp_new = r33["D_over_P"]
     ratio_new = r33["D_eff_over_D_phys"]
-    prereg = r33["H5"]
+    prereg = 1 - 0.85 * dp_new
 
     dp_nom = d["D_over_P"]
     ratio_nom = d["fit"]["full_range"]["best"]["D_over_Dphys"]

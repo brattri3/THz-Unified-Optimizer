@@ -44,7 +44,7 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
 | specac   | (per model) | TODO               | TODO               | TODO     | TODO           | `data_pool/specac/` (TODO)   | TODO |
 | 356att   | D11 / P16   | TODO (add micros)  | TODO               | TODO     | TODO           | `data_pool/356att…`          | ✓ |
 | test_grid_40_20 | D20 / P40 | **38.8 ± 0.3** | **~17 (in-focus, nom 20)** | 0.45 | in-plane RMS ~3–5 µm (~8–13%); **+ wires span ~200 µm in z** | `data_pool/test_grid…` | ✓ |
-| test_grid_33_11 | D11 / P33 (nominal, owner) | **31.75 ± 0.65** (cross-mag: mid 31.82 / high 31.69, 0.4% apart) | **10.91 ± 0.41** (defocus-corrected, A14b; the raw in-focus-filtered value was 12.55 — withdrawn) | **0.344** (nominal 0.333) | ~22% (median over frames; > purewave ≤13%) | `data_pool/test_grid_33_11/` ✓ 37 angles −100…+100 | ✓ |
+| test_grid_33_11 | D11 / P33 (nominal, owner) | **31.75 ± 0.65** (cross-mag: mid 31.82 / high 31.69, 0.4% apart) | **12.60** (A16, median over the sharpest quarter of wires; A14b's 10.91 withdrawn) | **0.396** (nominal 0.333) | ~22% (median over frames; > purewave ≤13%) | `data_pool/test_grid_33_11/` ✓ 37 angles −100…+100 | ✓ |
 
 ### PureWave notes (measured 2026-07-24)
 - **P = 25.5 ± 0.9 µm** — dominant lattice period; σ is the cross-magnification
@@ -143,3 +143,47 @@ that differs per sample, so the `D/P` column is not strictly comparable across r
 all of them would also retune the empirical `D_eff` law (H5), which was fitted on these very
 `D/P` values. Only test_grid_33_11 has been corrected so far — see `research/two_wgp/state.json`,
 task `A16_defocus_recompute_all_samples` (proposed, needs the owner's decision).
+
+## ⚠ UNIFORM RECOMPUTATION 2026-08-06 (A16) — read before using any D above
+
+All diameters were recomputed with one method at the owner's request. Two problems in the old
+numbers had to be fixed first.
+
+**(a) The frame scale drifts.** The pixel-period ratio high/mid must equal the calibration ratio
+0.6444/0.1264 = 5.098. Measured: 5.02 (test_grid_33_11), 5.29 (test_grid_40_20), 5.39 (purewave),
+**4.39 (specac)**. The zoom changed between sessions, so a shared `high` scale is invalid.
+**Fix:** every high-mag frame is self-calibrated by the sample's own period
+(`um/px = P_um / P_px`), with `P_um` from mid mag. `D/P` then needs no calibration at all — it is
+a pixel ratio inside one frame.
+
+**(b) Regressing width on blur over-corrects.** The strong correlation (r = 0.7-0.9) comes from
+the heavily defocused tail; restricted to weakly blurred wires the slope collapses
+(+0.47 / +1.88 / -0.34 / +0.16 across the four samples), i.e. near best focus the width barely
+depends on blur. **Fix:** `D` = median width over the **sharpest quarter** of wires — stable
+against the threshold (checked at 1.6/1.8/2.0/2.2/2.5 um), unlike the extrapolation.
+
+| sample | P um (was) | D um (was) | D/P (was) | note |
+|---|---|---|---|---|
+| purewave | 24.72 (25.5) | 9.83 (10.6) | 0.398 (0.416) | old P mixed mid+high mag; now mid only |
+| specac | 24.91 (24.9) | **7.77 (14.0)** | 0.312 (0.562) | the old 14.0 was NOT a measurement — a hand x1.9 glint correction |
+| test_grid_40_20 | 38.87 (38.8) | 15.99 (18.0) | 0.411 (0.464) | old 18 = measured 17 nudged toward nominal 20; new value rests on 3 sharp wires |
+| test_grid_33_11 | 31.82 | 12.60 | 0.396 | |
+| att-11-16-* | 15.5 / 16.0 | 11.0 | 0.710 / 0.688 | **passport prior, NOT measured** |
+
+**att-11-16 cannot be measured from these micrographs**: mid-mag frames only, wires nearly
+touching (`D/P` about 0.69), peak finding unstable — the FFT returns 62/103/146 px instead of the
+expected ~25. The defocus check needs high magnification.
+
+**Systematic common to all:** the 10 % base width measures `D_true + instrumental broadening`.
+The instrument blur floor from the graticule is **1.10 um**, so absolute diameters are high by
+roughly that much. It largely cancels in sample-to-sample comparisons.
+
+**Effect on the D_eff law (H5).** Refitting `D_eff/D_phys = 1 - k*(D/P)`: k = **0.855 +- 0.085**
+(4 measured samples), 0.829 +- 0.040 (all 8, four on passport geometry), against the previous
+0.850 — unchanged within error. Note `D` appears in both numerator and denominator, so an error in
+`D` moves a point almost ALONG the law line; the law's stability is weak evidence about `D`.
+Details: `research/two_wgp/REPORT_A16_geometry_h5.md`.
+
+**What would settle it:** 3-4 high-mag frames per sample from different places on the aperture,
+plus a graticule shot in the same session without changing the zoom; and a focus series
+(0/40/80/120 um) on one spot to calibrate the width-blur relation directly.

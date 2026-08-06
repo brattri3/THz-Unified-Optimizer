@@ -1,0 +1,178 @@
+{
+  "blur_floor_um": 1.098416,
+  "um_per_px_mid": 0.6444,
+  "samples": {
+    "purewave": {
+      "P_um": 24.716526640880687,
+      "P_err_um": 0.49433053281761374,
+      "D_um": 8.973984471444497,
+      "D_err_um": 1.841316969308937,
+      "D_over_P": 0.36307627693131,
+      "D_um_uncorrected_median": 9.925608237573504,
+      "slope_um_per_um_blur": 1.6004924634191684,
+      "corr_w10_blur": 0.21920647399434762,
+      "n_wires": 28,
+      "n_high_frames": 3,
+      "blur_range_um": [
+        1.5747779414270986,
+        3.250701616218607
+      ],
+      "geometry_previous": {
+        "P_um": 25.5,
+        "D_phys_um": 10.6
+      },
+      "P_change_pct": -3.072444545565933,
+      "D_change_pct": -15.339769137316058,
+      "frames": [
+        {
+          "file": "purewave__wgp__highmag_01.bmp",
+          "P_px": 206.2470409099072,
+          "um_per_px": 0.11983942427410318
+        },
+        {
+          "file": "purewave__wgp__highmag_02.bmp",
+          "P_px": 206.77667057905936,
+          "um_per_px": 0.11953247226422735
+        },
+        {
+          "file": "purewave__wgp__highmag_03.bmp",
+          "P_px": 209.2128024824372,
+          "um_per_px": 0.11814060300136539
+        }
+      ]
+    },
+    "specac": {
+      "P_um": 24.907423797651713,
+      "P_err_um": 0.4981484759530343,
+      "D_um": 6.987812057857333,
+      "D_err_um": 0.29571284417882926,
+      "D_over_P": 0.2805513775582101,
+      "D_um_uncorrected_median": 8.605489358048665,
+      "slope_um_per_um_blur": 1.652646131559045,
+      "corr_w10_blur": 0.7118879099869722,
+      "n_wires": 39,
+      "n_high_frames": 4,
+      "blur_range_um": [
+        1.2785067646477735,
+        3.930589160783506
+      ],
+      "geometry_previous": {
+        "P_um": 24.9,
+        "D_phys_um": 14.0
+      },
+      "P_change_pct": 0.029814448400460387,
+      "D_change_pct": -50.08705672959048,
+      "frames": [
+        {
+          "file": "specac__wgp__highmag_01.bmp",
+          "P_px": 169.7533179275134,
+          "um_per_px": 0.14672716917549422
+        },
+        {
+          "file": "specac__wgp__highmag_02.bmp",
+          "P_px": 169.79528660852182,
+          "um_per_px": 0.14669090229270026
+        },
+        {
+          "file": "specac__wgp__highmag_03.bmp",
+          "P_px": 169.74189629597097,
+          "um_per_px": 0.14673704218681408
+        },
+        {
+          "file": "specac__wgp__highmag_04.bmp",
+          "P_px": 198.07772438956957,
+          "um_per_px": 0.1257457085313895
+        }
+      ]
+    },
+    "test_grid_40_20": {
+      "P_um": 38.86591539068667,
+      "P_err_um": 0.7773183078137335,
+      "D_um": 11.13409805496222,
+      "D_err_um": 1.4688361166284247,
+      "D_over_P": 0.2864746126018236,
+      "D_um_uncorrected_median": 16.966379150403668,
+      "slope_um_per_um_blur": 2.736325047132758,
+      "corr_w10_blur": 0.8990621790491786,
+      "n_wires": 14,
+      "n_high_frames": 2,
+      "blur_range_um": [
+        1.7614178309434196,
+        7.622669801846903
+      ],
+      "geometry_previous": {
+        "P_um": 38.8,
+        "D_phys_um": 18.0
+      },
+      "P_change_pct": 0.16988502754298013,
+      "D_change_pct": -38.14389969465434,
+      "frames": [
+        {
+          "file": "wgp_grid_D20_P40__wgp__highmag_focus0um.bmp",
+          "P_px": 318.1348665394672,
+          "um_per_px": 0.12216804719788561
+        },
+        {
+          "file": "wgp_grid_D20_P40__wgp__highmag_focus200um.bmp",
+          "P_px": 318.12398359495853,
+          "um_per_px": 0.1221722265372217
+        }
+      ]
+    },
+    "test_grid_33_11": {
+      "P_um": 31.821770780891395,
+      "P_err_um": 0.6472131154669721,
+      "D_um": 10.979171620880408,
+      "D_err_um": 0.4971296181821153,
+      "D_over_P": 0.3450207625615,
+      "D_um_uncorrected_median": 13.449138423713148,
+      "slope_um_per_um_blur": 1.9864801340408949,
+      "corr_w10_blur": 0.8055631880014988,
+      "n_wires": 32,
+      "n_high_frames": 4,
+      "blur_range_um": [
+        1.3279261789322845,
+        7.847367362995715
+      ],
+      "geometry_previous": {
+        "P_um": 31.75,
+        "D_phys_um": 10.91
+      },
+      "P_change_pct": 0.22604970359494486,
+      "D_change_pct": 0.6340203563740366,
+      "frames": [
+        {
+          "file": "wgp-grid-D11-P33__wgp__highmag_01.bmp",
+          "P_px": 248.72637307724128,
+          "um_per_px": 0.1279388686740076
+        },
+        {
+          "file": "wgp-grid-D11-P33__wgp__highmag_02.bmp",
+          "P_px": 247.8447846887053,
+          "um_per_px": 0.12839394954733363
+        },
+        {
+          "file": "wgp-grid-D11-P33__wgp__highmag_focus0um.bmp",
+          "P_px": 198.90524682185722,
+          "um_per_px": 0.15998457199769844
+        },
+        {
+          "file": "wgp-grid-D11-P33__wgp__highmag_focus120um.bmp",
+          "P_px": 267.90307745037074,
+          "um_per_px": 0.11878090794528631
+        }
+      ]
+    }
+  },
+  "not_measurable": {
+    "att-11-16-*": {
+      "dir": "wgp_grid_D11_P16",
+      "reason": "только кадры среднего увеличения; проволоки почти сомкнуты (D/P ~ 0.69), выделение отдельных проволок неустойчиво — FFT даёт 62/103/146 px вместо ожидаемых ~25. Поправка на расфокусировку требует большого увеличения.",
+      "geometry_kept": {
+        "P_um": "15.5 (-356) / 16.0 (-s1..-s3)",
+        "D_phys_um": 11.0,
+        "source": "паспорт прибора, ПРИОР, не измерение"
+      }
+    }
+  }
+}
