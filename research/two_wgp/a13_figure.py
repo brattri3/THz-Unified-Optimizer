@@ -36,9 +36,17 @@ def main():
     U = np.array([p["U_parseval"] for p in per])
     U_db = 10 * np.log10(U / U.max())
 
-    dp_new = d["D_over_P"]
-    ratio_new = d["fit"]["full_range"]["best"]["D_over_Dphys"]
-    prereg = d["prereg"]["D_over_Dphys"]
+    # Геометрия ИЗМЕРЕНА по микрофото (A14) и отличается от номинальной, на которой
+    # строилось предсказание. Показываем и то и другое: старая точка помечена как
+    # отозванная, иначе рисунок противоречил бы отчёту.
+    ref = json.loads((RES / "a14_refit_measured_geometry.json").read_text(encoding="utf-8"))
+    g = ref["measured_geometry"]
+    dp_new = g["D_phys_um"] / g["P_um"]
+    ratio_new = ref["runs"]["measured"]["best"]["D_over_Dphys"]
+    prereg = ref["H5_measured"]
+
+    dp_nom = d["D_over_P"]
+    ratio_nom = d["fit"]["full_range"]["best"]["D_over_Dphys"]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.4, 4.9))
 
@@ -64,27 +72,31 @@ def main():
     # --- (б) закон H5 -------------------------------------------------------
     x_old = np.array([o[1] for o in OLD])
     y_old = np.array([o[2] for o in OLD])
-    xs = np.linspace(0.30, 0.75, 100)
+    xs = np.linspace(0.33, 0.75, 100)
     ax2.plot(xs, 1 - 0.85 * xs, "-", lw=1.6, color="#404040",
              label="закон H5:  1 − 0.85·D/P")
     ax2.axvspan(0.416, 0.710, color="#dbe5f1", alpha=0.75, zorder=0)
-    ax2.text(0.563, 0.735, "диапазон, на котором\nзакон подбирался",
+    ax2.text(0.575, 0.735, "диапазон, на котором\nзакон подбирался",
              ha="center", va="top", fontsize=8.5, color="#31538f")
     ax2.plot(x_old, y_old, "o", ms=7, color="#1f4e79", label="7 прежних образцов")
+    ax2.plot([dp_nom], [ratio_nom], "o", ms=8, mfc="none", mec="#909090", mew=1.5,
+             label=f"номинальная геометрия — ОТОЗВАНО ({ratio_nom:.3f})")
+    ax2.annotate("", xy=(dp_new, ratio_new), xytext=(dp_nom, ratio_nom),
+                 arrowprops=dict(arrowstyle="->", color="#909090", lw=1.2, ls=":"))
     ax2.plot([dp_new], [prereg], "*", ms=17, mfc="none", mec="#c0504d", mew=1.8,
-             label=f"предсказано до опыта: {prereg:.3f}")
+             label=f"закон H5 при измеренной D/P: {prereg:.3f}")
     ax2.plot([dp_new], [ratio_new], "s", ms=9, color="#c0504d",
              label=f"измерено: {ratio_new:.3f}")
     ax2.annotate("", xy=(dp_new, ratio_new), xytext=(dp_new, prereg),
                  arrowprops=dict(arrowstyle="->", color="#c0504d", lw=1.2))
     ax2.set_xlabel("D/P (плотность решётки)")
     ax2.set_ylabel(r"$D_{eff}/D_{phys}$")
-    ax2.set_title("(б) Первая ЭКСТРАПОЛЯЦИОННАЯ проверка закона H5\n"
-                  f"новая точка D/P = {dp_new:.3f}, отклонение "
+    ax2.set_title("(б) Закон H5 после измерения геометрии по микрофото\n"
+                  f"D/P = {dp_new:.3f} (было {dp_nom:.3f}), отклонение "
                   f"{ratio_new - prereg:+.3f}", fontsize=10.5)
     ax2.grid(alpha=0.3)
     ax2.legend(fontsize=8.5, loc="lower left")
-    ax2.set_xlim(0.30, 0.75)
+    ax2.set_xlim(0.33, 0.75)
 
     fig.tight_layout()
     out = RES / "a13_test_grid_33_11.png"

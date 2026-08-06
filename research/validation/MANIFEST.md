@@ -44,6 +44,7 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
 | specac   | (per model) | TODO               | TODO               | TODO     | TODO           | `data_pool/specac/` (TODO)   | TODO |
 | 356att   | D11 / P16   | TODO (add micros)  | TODO               | TODO     | TODO           | `data_pool/356att…`          | ✓ |
 | test_grid_40_20 | D20 / P40 | **38.8 ± 0.3** | **~17 (in-focus, nom 20)** | 0.45 | in-plane RMS ~3–5 µm (~8–13%); **+ wires span ~200 µm in z** | `data_pool/test_grid…` | ✓ |
+| test_grid_33_11 | D11 / P33 (nominal, owner) | **31.75 ± 0.65** (cross-mag: mid 31.82 / high 31.69, 0.4% apart) | **12.55 ± 0.60** (highmag, in-focus, 10% base width; midmag reads 15–18 — wire is only ~19 px there) | **0.395** (nominal 0.333) | ~22% (median over frames; > purewave ≤13%) | `data_pool/test_grid_33_11/` ✓ 37 angles −100…+100 | ✓ |
 
 ### PureWave notes (measured 2026-07-24)
 - **P = 25.5 ± 0.9 µm** — dominant lattice period; σ is the cross-magnification
@@ -92,3 +93,23 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
   depth planes shift laterally by Δz·tanθ (≈17 µm at 5° ≈ half the 40 µm pitch),
   modulating the effective fill factor with angle. See files
   `micrographs/wgp_grid_D20_P40/…focus0um.bmp` / `…focus200um.bmp`.
+
+### test_grid_33_11 notes (measured 2026-08-06 from shots taken 2026-08-04)
+- Source: `I:\att\WGP-11-33\` (owner's USB), 9 frames at three magnifications
+  plus a focus pair 0 / 0.12 mm. Filed under the naming convention above.
+- ⚠ **No graticule was shot in that session** — the scale is TRANSFERRED from 2026-07-24
+  (the same purewave graticule frames), as was done for specac. Transfer validated twice,
+  independently: (a) pixel-period ratio between zoom steps high/mid = 5.019 vs July's scale
+  ratio 5.098 (1.5% apart), mid/low = 2.027 vs the expected 2; (b) after scaling, the period
+  in microns agrees across magnifications to 0.4%. Both checks must be redone if the
+  microscope zoom is ever reset.
+- **The measured period beat the nominal one on the THz data too**: at equal parameter count
+  the M5 multistart fit scores 7.1 AIC better with P = 31.75 than with P = 33
+  (`research/results/two_wgp/a14_refit_measured_geometry.json`). Two independent channels agree.
+- Consequence for the D_eff law: D_eff/D_phys = **0.576** (was 0.694 on nominal geometry),
+  H5 predicts 0.664 at the measured D/P ⇒ deviation **−0.088**, the largest negative of the
+  eight samples. The earlier claim that H5 passed an extrapolative test is withdrawn.
+- Wires are **non-coplanar**: the 0 / 0.12 mm focus pair brings different wires into focus
+  (4 each). Same caveat as test_grid_40_20 (~200 µm span) ⇒ relevant to HN12.
+- Analysis: `research/two_wgp/a14_micrograph_33_11.py`, artefact
+  `research/results/two_wgp/a14_micrograph_33_11.json`.
