@@ -1,0 +1,129 @@
+% =====================================================================
+%  СЛУЖЕБНОЕ ПРИЛОЖЕНИЕ. Происхождение числовых примеров.
+%
+%  Назначение (STYLE.md §3): основной текст курса не содержит путей к
+%  файлам, имён программ и внутренних обозначений наборов данных —
+%  измерение описывается физически. Прослеживаемость нужна для
+%  внутренней проверки и живёт здесь.
+%
+%  При публикации курса вовне: \provenancefalse в preamble.tex —
+%  приложение и ключи \srckey исчезают, основной текст не меняется.
+% =====================================================================
+\section{Происхождение числовых примеров}
+\label{sec:provenance}
+\markboth{Приложение. Происхождение числовых примеров}{}
+
+\begin{tcolorbox}[enhanced,colback=cPanel,colframe=cGrid,boxrule=0.8pt,arc=2pt]
+\small Служебный раздел для внутренней проверки, не входящий в учебное изложение. Каждый ключ
+вида \srckey{0.3} в тексте курса соответствует строке таблицы ниже. Пути к файлам даны от корня
+репозитория; сокращение \artifact{res/} означает \artifact{research/results/}.
+\end{tcolorbox}
+
+\subsection*{Соответствие «описание образца в тексте {$\to$} набор измерений»}
+
+В основном тексте образцы обозначаются физически~--- через параметр плотности. Ниже дано
+соответствие внутренним обозначениям наборов данных.
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.40\linewidth}p{0.24\linewidth}>{\raggedright\arraybackslash}p{0.30\linewidth}@{}}
+\toprule
+\textbf{Как назван в курсе} & \textbf{Набор} & \textbf{Примечание} \\
+\midrule
+плотная решётка, $D/P=0{,}71$ & \artifact{att-11-16-356} & пара поляризаторов; вращается второй \\
+повторные установки того же образца, $D/P=0{,}69$ & \artifact{att-11-16-s1,\,-s2,\,-s3} & тот же прибор, другие условия съёмки \\
+образец средней плотности, $D/P=0{,}56$ & \artifact{specac} & одиночный поляризатор между эталонными \\
+разреженный образец, $D/P=0{,}46$ & \artifact{test\_grid\_40\_20} & одиночный поляризатор \\
+наиболее разреженный образец, $D/P=0{,}42$ & \artifact{purewave} & одиночный поляризатор; два дня измерений \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{tcolorbox}[enhanced,colback=cS2!6,colframe=cS2,boxrule=0pt,leftrule=3pt,arc=1pt]
+\small\textbf{Внимание при пересчёте.} Наборы \artifact{att-11-16-*}~--- это ОДИН прибор
+(ATT-11-16-CA85, S/N~\#02721) в разных условиях съёмки, а не четыре образца. В курсе они
+проходят как повторные установки одного образца; считать их независимыми~--- значит вчетверо
+завысить объём выборки.
+\end{tcolorbox}
+
+\subsection*{§0. Электродинамика: необходимый минимум}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+0.1 & $\tleak\approx0{,}19$~пс из наклона фазы; сдвиг максимума импульса $-0{,}31$~пс &
+\artifact{research/SYNTHESIS.md}, линия HN8 ($\dAIC=-579$ поверх HN2);
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §7.1 \\
+\addlinespace[2pt]
+0.2 & Невязка пятимерного разложения $1{,}4\times10^{-16}$; $A_4/A_2$ $=$ $0{,}2498$ / $0{,}2458$ / $0{,}2549$ / $0{,}2549$ &
+\artifact{research/two\_wgp/NOTE\_malus\_linearization.md};
+\artifact{res/two\_wgp/a0\_malus\_linearization.json},
+\artifact{res/two\_wgp/a0\_malus\_harmonics\_data.json};
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §5.2 \\
+\addlinespace[2pt]
+0.3 & Период по дифракции $23{,}4\pm0{,}8$~мкм против микрофото $25{,}5\pm0{,}9$~мкм ($1{,}8\sigma$) &
+Задача A8 (дифракция лазерной указки), \artifact{res/two\_wgp/a8\_diffraction.json};
+сводка~--- \artifact{coordination/BOARD.md}, запись от 2026-08-04 \\
+\addlinespace[2pt]
+0.4 & Просачивание $\eta\approx0{,}012$ при $D/P=0{,}71$ против $\approx0{,}033$ при $D/P=0{,}46$ &
+\artifact{research/SYNTHESIS.md} §2 (модельно-независимая оценка из гармоник) \\
+\addlinespace[2pt]
+0.5 & $\Deff/\Dphys$ от $0{,}659$ ($D/P=0{,}416$) до $0{,}373$ ($D/P=0{,}710$); точный расчёт $\approx1$ &
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §11.3, колонка ПОЛНОГО углового диапазона.
+\textbf{Внимание:} значения с обрезки $(0^\circ,90^\circ)$ смещены и в курсе не используются \\
+\addlinespace[2pt]
+0.6 & Диаметр перетяжки $1{,}5\ldots2$~мм & \artifact{data\_pool/purewave/README.md}, раздел об
+оптической схеме \\
+\addlinespace[2pt]
+0.7 & Отзыв вывода о связи дефицита $\Deff$ с качеством решётки; угол и участок неразделимы &
+Уточнение схемы владельцем 2026-08-04; гипотеза HN15 переведена в статус НЕ ПРОВЕРЕНА,
+\artifact{research/hypotheses/HYPOTHESES.md};
+корректная постановка~--- \artifact{research/two\_wgp/PROTOCOL\_aperture\_scan.md} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §0}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:harmonics} & тождество для $\cos^4\theta$; измеренные $A_4/A_2$ & тождество~---
+чистая тригонометрия; точки~--- ключ~0.2 \\
+рис.~\ref{fig:geometry} & два канала решётки, конвенция угла & схема, данные не используются;
+конвенция~--- \artifact{research/two\_wgp/model\_2wgp.py} \\
+рис.~\ref{fig:scales} & $\lambda=c/\nu$ и полоса периодов & чистая кинематика, данные не
+используются \\
+рис.~\ref{fig:dp} & шкала $D/P$; $\Deff/\Dphys$ против плотности & ключ~0.5; граница применимости
+$D/P<0{,}5$~--- Blanco~A., Fonti~S., Piacente~A. // Infrared Phys. 1986. Vol.~26, №~6.
+P.~357--363 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Числа, сознательно не использованные}
+
+Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
+примеров:
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3em]
+  \item $\Deff/\Dphys$, полученные на усечённом угловом диапазоне $(0^\circ,90^\circ)$: они
+        смещены (для плотного образца $0{,}678$ против $0{,}373$). Берётся только полный
+        диапазон.
+  \item Значение перекрёстного члена $|\varepsilon_{\rm cross}|=0{,}0345$~--- отозвано:
+        соответствует локальному минимуму, хуже глобального на $192{,}5$ по информационному
+        критерию. Допустимо только как иллюстрация ошибки многостартовой оптимизации, с явным
+        указанием на это (§7).
+  \item Утверждение о связи дефицита эффективного диаметра с нерегулярностью решётки~--- не
+        проверено (ключ~0.7).
+  \item Четыре набора \artifact{att-11-16-*} как «четыре образца»~--- см. врезку выше.
+\end{enumerate}

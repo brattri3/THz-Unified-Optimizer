@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Рис. 0.3 — геометрия решётки и конвенция углов проекта.
+"""Рис. 0.3 — геометрия решётки и конвенция отсчёта углов.
 
 Показывает то место, где ошибаются чаще всего: проволочный поляризатор пропускает поле,
 перпендикулярное проволокам, а не параллельное им (интуиция «щель в заборе» даёт
-противоположный ответ). Плюс фиксирует конвенцию репозитория: угол элемента = ориентация
-оси ПРОПУСКАНИЯ, проволоки лежат под углом +90 градусов к ней (research/two_wgp/model_2wgp.py).
+противоположный ответ). Плюс фиксирует принятую в курсе конвенцию: угол элемента =
+ориентация оси ПРОПУСКАНИЯ, проволоки лежат под углом +90 градусов к ней.
 
 Схема, а не расчёт: никаких данных не используется.
 """
@@ -18,8 +18,8 @@ from matplotlib.patches import FancyArrowPatch
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(7.4, 3.6))
 
 # =========================== панель A: два канала ===========================
-axA.set_xlim(-1.45, 1.45)
-axA.set_ylim(-1.55, 1.45)
+axA.set_xlim(-1.55, 1.55)
+axA.set_ylim(-1.85, 1.45)
 axA.set_aspect("equal")
 axA.axis("off")
 
@@ -31,22 +31,22 @@ axA.text(0, 1.10, "проволоки", ha="center", fontsize=9, color=ps.INK_2)
 
 BOX = dict(facecolor="white", edgecolor="none", pad=1.2)
 
-# поле ВДОЛЬ проволок -> тёмный канал
+# поле ВДОЛЬ проволок -> канал подавления
 axA.add_patch(FancyArrowPatch((-0.62, 0.05), (-0.62, 0.72),
                               arrowstyle="-|>", mutation_scale=13,
                               color=ps.S2, lw=2.2, zorder=4))
 axA.text(-0.62, 0.38, "поле $\\parallel$", ha="center", va="center", fontsize=9,
          color=ps.S2, zorder=5, bbox=BOX)
-axA.text(-0.62, -0.55, "ток течёт\n$\\Rightarrow$ отражение\n(тёмный канал $t_\\parallel$)",
+axA.text(-0.68, -0.55, "ток течёт\n$\\Rightarrow$ отражение\nканал подавления\n$t_\\parallel$",
          ha="center", va="top", fontsize=8, color=ps.S2)
 
-# поле ПОПЕРЁК проволок -> яркий канал
+# поле ПОПЕРЁК проволок -> канал пропускания
 axA.add_patch(FancyArrowPatch((0.20, 0.38), (1.05, 0.38),
                               arrowstyle="-|>", mutation_scale=13,
                               color=ps.S3, lw=2.2, zorder=4))
 axA.text(0.62, 0.38, "поле $\\perp$", ha="center", va="center", fontsize=9,
          color=ps.S3, zorder=5, bbox=BOX)
-axA.text(0.62, -0.55, "току негде течь\n$\\Rightarrow$ проходит\n(яркий канал $t_\\perp$)",
+axA.text(0.68, -0.55, "току негде течь\n$\\Rightarrow$ проходит\nканал пропускания\n$t_\\perp$",
          ha="center", va="top", fontsize=8, color=ps.S3)
 
 axA.set_title("Пропускается то, что ПОПЕРЁК проволок",
@@ -87,7 +87,7 @@ axB.plot(0.45 * np.cos(arc), 0.45 * np.sin(arc), color=ps.S1, lw=1.2, zorder=3)
 axB.text(0.55 * np.cos(theta / 2), 0.55 * np.sin(theta / 2), r"$\theta$",
          color=ps.S1, fontsize=11, ha="left", va="center")
 
-axB.set_title("Конвенция репозитория: угол = ось пропускания", color=ps.TITLE,
+axB.set_title("Конвенция: угол = ориентация оси пропускания", color=ps.TITLE,
               fontsize=9.5, loc="left", fontweight="bold", pad=6)
 
 fig.tight_layout(w_pad=3.0)

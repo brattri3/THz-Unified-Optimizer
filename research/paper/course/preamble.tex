@@ -52,6 +52,7 @@
 \titlespacing*{\section}{0pt}{1.4\baselineskip}{0.5\baselineskip}
 
 % --- Колонтитулы ---
+\setlength{\headheight}{14pt}   % 12pt мало для 11pt-кегля: fancyhdr ругается
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small\color{cInk2}\nouppercase{\leftmark}}
@@ -88,11 +89,12 @@
   top=10pt
 }
 
-% Числа проекта: каждый учебный тезис опирается на реальный результат
-\newtcolorbox{projectfact}[1][]{
+% Реальное измерение как иллюстрация тезиса. Учебных примеров «из головы» в курсе
+% нет: каждое число здесь получено на настоящем приборе и настоящем образце.
+\newtcolorbox{example}[1][]{
   enhanced, breakable, colback=cS3!6, colframe=cS3,
   boxrule=0pt, leftrule=3pt, arc=1pt,
-  fonttitle=\bfseries, title={Число проекта#1}, coltitle=cS3!70!black,
+  fonttitle=\bfseries, title={Из эксперимента#1}, coltitle=cS3!70!black,
   attach boxed title to top left={xshift=6pt,yshift=-2pt},
   boxed title style={colback=cS3!6,boxrule=0pt,arc=0pt},
   top=10pt
@@ -126,8 +128,28 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator{\AIC}{AIC}
 
-% Ссылка на артефакт проекта — единый способ пометить происхождение числа
-\newcommand{\artifact}[1]{{\small\color{cInk2}\texttt{#1}}}
-
-% Термин при первом употреблении (педагогический мандат)
+% Термин при первом употреблении
 \newcommand{\term}[1]{\textbf{\color{cAccent}#1}}
+
+% =====================================================================
+%  Прослеживаемость числовых примеров.
+%
+%  В ОСНОВНОМ ТЕКСТЕ курса нет ни путей к файлам, ни имён программ, ни
+%  внутренних обозначений наборов данных: измерение описывается физически
+%  («плотная решётка D/P = 0.71»). Служебное приложение «Происхождение
+%  числовых примеров» связывает каждый пример с породившим его файлом
+%  результатов — это нужно для внутренней проверки, а не для читателя.
+%
+%  Публикация вовне: заменить \provenancetrue на \provenancefalse — приложение
+%  и ссылки на него исчезнут, основной текст не изменится.
+% =====================================================================
+\newif\ifprovenance
+\provenancetrue
+
+% Метка источника — употребляется ТОЛЬКО внутри служебного приложения.
+% \sloppy и мелкий кегль: пути к файлам длинные и в узкую колонку таблицы
+% иначе не влезают (моноширинный шрифт не переносится по слогам).
+\newcommand{\artifact}[1]{{\scriptsize\color{cInk2}\ttfamily\hbadness=10000 #1}}
+
+% Ключ примера: якорь, по которому пример находится в таблице приложения
+\newcommand{\srckey}[1]{\ifprovenance{\,\scriptsize\color{cInk2}[\,#1\,]}\fi}
