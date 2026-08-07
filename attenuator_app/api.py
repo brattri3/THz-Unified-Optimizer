@@ -160,7 +160,7 @@ class Attenuator:
     # -- движение ------------------------------------------------------
     def motion_plan(self, solution) -> list[MotionCommand]:
         """Решение -> команды поворота. Сейчас инструкция оператору, потом — драйверу."""
-        cmds = [MotionCommand("wgp1", solution.theta_set_deg, self.theta_deg,
+        cmds = [MotionCommand("wgp2", solution.theta_set_deg, self.theta_deg,
                               f"scale division {self.passport.scale.division_deg:g} deg")]
         return cmds
 
