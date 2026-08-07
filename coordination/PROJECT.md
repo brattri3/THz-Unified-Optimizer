@@ -25,12 +25,18 @@
 | **C** | `app-c` | приложение-прототип (аттенюатор) | `attenuator_app/**`, `docs/attenuator_app/**` | `model_blanco`, `research/two_wgp/**` |
 | **D** | `paper-d` | статья + образовательный слой | `research/paper/**` (включая `primers/`) | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**` |
 | **L** | `lit-l` | литература/обзор + метапоиск | `research/papers/**` (включая свёрнутый `research/papers/litrev/**`) | `SYNTHESIS.md`, `HYPOTHESES.md`, `RESEARCH_LOG.md` |
+| **P** | `pres-p` | отчётные презентации/доклады владельцу (не для рецензента — это D) | `research/presentations/**` | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**`, `HYPOTHESES.md`, `BOARD.md`, `ACTIVITY.md`, `DRAFT.md` (только цитирование) |
 | **ORCH** | `orch` | контроль/мерж/координация | `coordination/**`, `CLAUDE.md`, `research/state.json` (main) | всё |
+
+Роль **P** не ведёт расчётов/фитов — только синтезирует уже готовые числа из зон A/B/C/D/L с
+явной ссылкой на артефакт-источник (файл + по возможности дата/автор-сессия); числа «по памяти»
+без ссылки в отчёт не идут.
 
 Общие файлы: `research/logs/RESEARCH_LOG.md` (append-only, тег `[<роль>]`), `data_pool/**` и
 `unified_optimizer/**` (read-only для всех, кроме владельца-человека). Per-role state:
 `research/two_wgp/state.json` (A), `research/experiments/CHANGELOG_model_core.md` (B),
-`attenuator_app/STATE.md` (C), `research/paper/STATE.md` (D); главная линия — `research/state.json`.
+`attenuator_app/STATE.md` (C), `research/paper/STATE.md` (D), `research/presentations/STATE.md`
+(P); главная линия — `research/state.json`.
 
 ## Две границы, которые уже были спорными — не открывать заново
 
