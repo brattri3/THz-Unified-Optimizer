@@ -432,6 +432,56 @@ $\AIC$; отозвано, допустимо только как иллюстр�
 \end{tabular}
 \end{center}
 
+\subsection*{§8. Правдоподобие и остатки}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+8.1 & Статистика Дарбина--Уотсона опорной модели: $\approx0{,}32$ (плотная решётка) против
+$\approx1{,}76$ (разреженный образец) &
+\artifact{res/residual\_remain/residual\_remain.json}, поле \artifact{durbin\_watson};
+\artifact{research/SYNTHESIS.md} §6 \\
+\addlinespace[2pt]
+8.2 & Карта остатков угол$\times$частота впервые локализовала дефицит тени $3$--$4$~дБ только на
+плотном образце (до включения просачивания) &
+\artifact{res/residuals/356att\_grids.npz}, поле \artifact{amp\_res\_db};
+\artifact{res/residuals/residuals\_summary.json}, поле \artifact{angular\_hotspot};
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §9.2 \\
+\addlinespace[2pt]
+8.3 & После опорной модели: спектральный хотспот $0{,}21$--$0{,}22$~ТГц ($1{,}7$--$1{,}8$~дБ);
+гладкая дисперсия $-0{,}62$~дБ/ТГц &
+\artifact{res/residual\_remain/residual\_remain.json}, поля
+\artifact{spectral\_hotspot}, \artifact{spectral\_slope\_dB\_per\_THz} \\
+\addlinespace[2pt]
+8.4 & Held-out проверка просачивания: rmse $0{,}50$~дБ на обучающих (ярких) углах против
+$3{,}75$~дБ на отложенной тени &
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §9.2 (цит. по материалам зоны~A) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §8}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:qq} & Q-Q график остатка амплитуды, два образца, опорная модель &
+\artifact{res/residuals/\{356att,test\_grid\_40\_20\}\_grids.npz}, поле \artifact{amp\_res\_db} \\
+рис.~\ref{fig:residual-map} & карта остатка угол$\times$частота, плотная решётка, модель без
+явного просачивания & \artifact{res/residuals/356att\_grids.npz}, поле \artifact{amp\_res\_db};
+то же наблюдение~--- ключ~8.2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
