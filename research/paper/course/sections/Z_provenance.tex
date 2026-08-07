@@ -294,6 +294,48 @@ $c_0,c_2,c_4$ (5 гармоник) и без 4-й гармоники, плотн
 \end{tabular}
 \end{center}
 
+\subsection*{§5. Корреляция}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+5.1 & $\cond(X^{\mathsf T}X)=2{,}14$ (19 углов, $\pm90^\circ$) против $236{,}3$ (10 углов,
+$0$--$90^\circ$); $\sigma(\theta_0)$ $0{,}096^\circ$ против $0{,}944^\circ$; перекрытие 2-й и
+4-й гармоник $5\,\%$ против $37\,\%$ &
+\artifact{res/two\_wgp/a0\_malus\_linearization.json}, поля \artifact{design\_full\_range},
+\artifact{design\_half\_range}; те же числа~--- \artifact{BRIEF\_FOR\_D\_teaching\_ladder.md}
+§6.2 \\
+\addlinespace[2pt]
+5.2 & Сдвиг оценки офсета при переходе полный~$\to$~урезанный диапазон по четырём образцам &
+\artifact{res/two\_wgp/a0\_malus\_harmonics\_data.json}, поле
+\artifact{range\_sensitivity.delta\_deg} по каждому набору \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §5}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:cond-curve} & \textbf{чистая геометрия}: $\cond(X^{\mathsf T}X)$ как функция
+углового диапазона для базиса §4, две выделенные точки~--- проверка по ключу~5.1 & формула~---
+геометрия матрицы плана (PLAN.md §5, разрешённое самостоятельное вычисление); данные не
+используются \\
+рис.~\ref{fig:cov-ellipse} & \textbf{чистая геометрия}: эллипсы ковариации $(a_2,b_2)$ для двух
+планов при единичном шуме & то же; данные не используются \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
