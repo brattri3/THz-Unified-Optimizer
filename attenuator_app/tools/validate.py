@@ -9,16 +9,17 @@
 где U = интеграл |E(nu)|^2 по рабочей полосе (Парсеваль). Деление на фон снимает
 дрейф лазера между точками — иначе он маскирует проверку.
 
-Данные: один и тот же прибор, шесть сеансов.
-    356att      — вращался ВТОРОЙ поляризатор (ближний к детектору, анализатор)
-    series1..5  — вращался ПЕРВЫЙ поляризатор
+Данные: один и тот же прибор, шесть сеансов (имена с 2026-08-04, переименование A).
+    att-11-16-356       — вращался ВТОРОЙ поляризатор (ближний к детектору, анализатор)
+    att-11-16-s1..s3    — вращался ПЕРВЫЙ поляризатор
+    att-11-16-s4/s5-artifact — по одному углу, пропускаются
 По закону Малюса затухание зависит только от относительного угла, поэтому оба
 набора должны ложиться на одну кривую. Расхождение между группами — прямая
 проверка этого утверждения на железе.
 
 Запуск:
     .venv\\Scripts\\python.exe -m attenuator_app.tools.validate
-    ... --passport <файл> --band 0.2 1.5 --datasets 356att,series1
+    ... --passport <файл> --band 0.2 1.5 --datasets att-11-16-356,att-11-16-s1
 """
 from __future__ import annotations
 
@@ -91,8 +92,16 @@ def run(passport_path, band, datasets, verbose=True):
     rows, tot_in, tot_n = [], 0, 0
     for ds in datasets:
         meas = measured(ds, f1, f2)
+        if not meas:
+            # отдельная ветка: ноль НАЙДЕННЫХ файлов — это почти всегда переименование или
+            # перенос data_pool чужой сессией, а не свойство данных. Раньше этот случай
+            # сливался с «мало углов» и читался как безобидный пропуск
+            print(f"  {ds}: NO FILES FOUND under {DATA} "
+                  f"(pattern {ds}_*deg_rep*_sig.txt) -- renamed or moved?")
+            continue
         if 0.0 not in meas or len(meas) < 3:
-            print(f"  {ds}: skipped (no 0 deg reference point or too few angles)")
+            print(f"  {ds}: skipped ({len(meas)} angles found, but no 0 deg reference point "
+                  f"or too few angles)")
             continue
         ref = meas[0.0]
         angles = sorted(meas)
@@ -130,7 +139,8 @@ def run(passport_path, band, datasets, verbose=True):
 
     # разбивка по тому, какой поляризатор вращался — проверка закона Малюса на железе
     groups = {}
-    for grp, name in (("att-11-16-356", "second (analyzer)"), ("series", "first")):
+    # префиксы disjoint: "att-11-16-356" vs "att-11-16-s1..s5" (после переименования 2026-08-04)
+    for grp, name in (("att-11-16-356", "second (analyzer)"), ("att-11-16-s", "first")):
         sel = [r for r in rows if r[0].startswith(grp)]
         if not sel:
             continue
@@ -140,7 +150,7 @@ def run(passport_path, band, datasets, verbose=True):
         print(f"  {name:<20} rotated: {n_in_g}/{len(sel)} = {100*n_in_g/len(sel):3.0f} %, "
               f"bias {d.mean():+.2f} dB, RMSE {np.sqrt((d**2).mean()):.2f} dB")
     if len(groups) == 2:
-        a, b = groups["att-11-16-356"], groups["series"]
+        a, b = groups["att-11-16-356"], groups["att-11-16-s"]
         print(f"  -> bias difference between groups {a.mean()-b.mean():+.2f} dB "
               f"(Malus law: attenuation must not depend on "
               f"which polarizer is rotated)")
@@ -180,10 +190,13 @@ def main():
     ap.add_argument("--passport",
                     default=str(HERE.parent / "passports" / "ATT-11-16-CA85_02721.json"))
     ap.add_argument("--band", nargs=2, type=float, default=[0.2, 1.5])
-    ap.add_argument("--datasets", default="356att,series1,series2,series3,series4,series5")
+    ap.add_argument("--datasets", default="att-11-16-356,att-11-16-s1,att-11-16-s2,"
+                                          "att-11-16-s3,att-11-16-s4-artifact,att-11-16-s5-artifact")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args()
-    run(a.passport, a.band, [d for d in a.datasets.split(",") if d], verbose=not a.quiet)
+    rows = run(a.passport, a.band, [d for d in a.datasets.split(",") if d], verbose=not a.quiet)
+    # код возврата обязателен: без него «нет данных» уходит с кодом 0 и выглядит как успех
+    sys.exit(1 if rows == 1 else 0)
 
 
 if __name__ == "__main__":
