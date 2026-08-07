@@ -238,6 +238,62 @@ $\gamma$~--- ключи~3.1, 3.2; масштаб потерь на правой 
 \end{tabular}
 \end{center}
 
+\subsection*{§4. Линейная аппроксимация}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+4.1 & Относительная невязка тождества~\eqref{eq:linear5} порядка $10^{-16}$ &
+\artifact{research/two\_wgp/NOTE\_malus\_linearization.md} §4.1 (самопроверка); тот же результат,
+что ключ~0.2 \\
+\addlinespace[2pt]
+4.2 & Разложение $U(\theta)$ плотной решётки на $c_0,c_2,c_4$ (через $I_\perp,I_\parallel,
+\Real(\tperp\overline{\tpar})$) и восстановление кривой с 4-й гармоникой и без &
+\artifact{res/two\_wgp/a0\_malus\_harmonics\_data.json}, запись \artifact{356att},
+поля \artifact{parseval\_order4}, \artifact{parseval\_order2\_malus} (соответствие образцу~---
+таблица в начале приложения) \\
+\addlinespace[2pt]
+4.3 & Невзвешенная подгонка даёт $|\tpar|^2<0$ на одной из повторных установок образца
+$D/P=0{,}69$ &
+\artifact{research/two\_wgp/NOTE\_malus\_linearization.md} §6.2;
+\artifact{res/two\_wgp/a0\_malus\_harmonics\_data.json}, запись \artifact{series1},
+поле \artifact{weight\_sensitivity.uniform\_I\_par\_negative = true} \\
+\addlinespace[2pt]
+4.4 & Совпадение двух независимых оценок офсета до $0{,}004$--$0{,}05^\circ$ при относительном
+взвешивании &
+\artifact{res/two\_wgp/a0\_malus\_harmonics\_data.json}, поле
+\artifact{parseval\_order4.theta0\_h4\_minus\_h2\_deg} по всем четырём образцам \\
+\addlinespace[2pt]
+4.5 & Таблица $\theta_0,\eta$ равномерных/относительных весов по четырём образцам &
+\artifact{res/two\_wgp/a0\_malus\_harmonics\_data.json}, поля \artifact{weight\_sensitivity} и
+\artifact{parseval\_order4.eta\_amplitude}; те же числа~--- ключ~5.3 в контексте корреляции \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §4}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:harmonics-decomp} & реконструкция $U(\theta)$ по уже посчитанным коэффициентам
+$c_0,c_2,c_4$ (5 гармоник) и без 4-й гармоники, плотная решётка & ключ~4.2, алгебраическая
+пересборка коэффициентов из \artifact{I\_perp}, \artifact{I\_par}, \artifact{Re\_cross}, без
+нового МНК \\
+рис.~\ref{fig:weights} & согласие офсета из 2-й и 4-й гармоники по четырём образцам при
+относительных весах & ключ~4.4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
