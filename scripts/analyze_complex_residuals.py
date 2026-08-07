@@ -37,7 +37,7 @@ def main():
     images_dir.mkdir(exist_ok=True, parents=True)
     
     manager = DataManager(data_dir)
-    datasets = [ds for ds in manager.get_datasets() if ds in ['356att', 'series3']]
+    datasets = [ds for ds in manager.get_datasets() if ds in ['att-11-16-356', 'att-11-16-s3']]
     print(f"Обнаружено датасетов: {datasets}")
     
     all_stats = {}

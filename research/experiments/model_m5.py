@@ -30,8 +30,8 @@ sys.path.insert(0, str(HERE.parents[1]))
 from unified_optimizer import config, model_blanco
 
 W_AMP, W_PHASE = fit_lib.W_AMP, fit_lib.W_PHASE
-M3_D = {"356att": 4.683, "test_grid_40_20": 11.447}
-PHYS_D = {"356att": 11.0, "test_grid_40_20": 18.0}   # test_grid: micrograph GT D=18 (was nominal 20)
+M3_D = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447}
+PHYS_D = {"att-11-16-356": 11.0, "test_grid_40_20": 18.0}   # test_grid: micrograph GT D=18 (was nominal 20)
 
 
 def build_experiment_masked(dataset):

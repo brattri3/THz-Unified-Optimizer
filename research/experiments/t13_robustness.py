@@ -82,7 +82,7 @@ def bootstrap(dataset, nboot=40, seed=1):
 
 def main():
     out = {}
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         out[ds] = {"heldout_angle": heldout(ds), "bootstrap": bootstrap(ds)}
     (OUT / "robustness.json").write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 

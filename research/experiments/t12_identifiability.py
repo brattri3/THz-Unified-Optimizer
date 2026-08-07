@@ -22,7 +22,7 @@ from t6_hn8 import compute_grid_hn8
 
 OUT = HERE.parents[0] / "results" / "identifiability"
 OUT.mkdir(parents=True, exist_ok=True)
-DS = "356att"
+DS = "att-11-16-356"
 
 
 def base_params(Dfix=None, gamma_free=True):

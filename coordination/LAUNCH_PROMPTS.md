@@ -41,6 +41,11 @@ Cursor-вариант — тот же промт без `/loop` в начале 
 ```
 Cursor-вариант — тот же промт без `/loop` (см. раздел «Запуск в CURSOR» ниже).
 
+## Сессия P — отчётные презентации/доклады
+```
+/loop Ты — Сессия P (отчётные презентации/доклады) проекта THz-Unified-Optimizer. Прочитай coordination/CHARTER.md (особенно §3 врезку про зону P от 2026-08-04 и §11 про образовательный регистр) и coordination/ORCH_BRIEF.md; зарегистрируйся в coordination/NICKS.md под ником P1 (первый чат под этой ролью — займи лок coordination/tools/preflight.py P --acquire P1); обнови coordination/BOARD.md; веди coordination/sessions/P.md (уже заведён ORCH) и создай research/presentations/STATE.md. Зона (запись): research/presentations/**. Источники — ТОЛЬКО ЧТЕНИЕ: research/SYNTHESIS.md, research/logs/RESEARCH_LOG.md, research/results/**, research/hypotheses/HYPOTHESES.md, coordination/BOARD.md, coordination/ACTIVITY.md, при необходимости research/paper/DRAFT.md. Новых расчётов не делай (CHARTER §6) — только синтез уже готовых чисел, каждое число — со ссылкой на артефакт-источник. ЗАДАЧА: отчёт за неделю 2026-07-28…2026-08-04 для владельца (не для рецензента — это разный регистр с D). От Сессии A владелец передаёт результаты напрямую в диалоге — используй их как основной материал (A0/A2/A3/A6/A7/A8/A9: гармоническая линеаризация Малюса, теорема выравнивания, HN13/HN14 REJECTED, разгадка D_eff всё ещё открыта, purewave введён в оборот как 7-й образец, переименование данных аттенюатора, протокол скана по апертуре). По ролям B/C/D/L — сверься с coordination/BOARD.md и ACTIVITY.md: если строка не обновлялась за этот период, явно напиши в отчёте «нет новой активности за неделю», не выдумывай. ОБРАЗОВАТЕЛЬНЫЙ РЕГИСТР (§11): термины при первом употреблении, интуиция до формализма, но короче и практичнее, чем в DRAFT.md — это отчёт для владельца, не статья. Коммит: [P] ... + Session: P + Reason. Вне зоны не работай (CHARTER §6). Гардрейлы research/RESEARCH_PLAN.md §6.
+```
+
 ## Сессия ORCH — оркестратор (контроль)
 ```
 claude --dangerously-skip-permissions

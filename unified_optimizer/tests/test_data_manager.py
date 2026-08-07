@@ -24,6 +24,18 @@ class TestDataManager(unittest.TestCase):
         ds, angle, rep, type_ = parse_filename("series1_350deg_rep1_sig.txt")
         self.assertEqual(angle, -10.0)
         
+        # Имя датасета с дефисами (конвенция att-11-16-*, введена 2026-08-04):
+        # регулярка использует жадный (.+) для имени, поэтому дефисы и лишние
+        # подчёркивания в нём допустимы — на этом держится вся текущая нумерация данных.
+        ds, angle, rep, type_ = parse_filename("att-11-16-356_-20deg_rep1_bg.txt")
+        self.assertEqual(ds, "att-11-16-356")
+        self.assertEqual(angle, -20.0)
+        self.assertEqual(type_, "bg")
+
+        ds, angle, rep, type_ = parse_filename("att-11-16-s4-artifact_0deg_rep4_sig.txt")
+        self.assertEqual(ds, "att-11-16-s4-artifact")
+        self.assertEqual(rep, 4)
+
         # Некорректный файл
         with self.assertRaises(ValueError):
             parse_filename("wrong_format.txt")

@@ -44,6 +44,7 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
 | specac   | (per model) | TODO               | TODO               | TODO     | TODO           | `data_pool/specac/` (TODO)   | TODO |
 | 356att   | D11 / P16   | TODO (add micros)  | TODO               | TODO     | TODO           | `data_pool/356att…`          | ✓ |
 | test_grid_40_20 | D20 / P40 | **38.8 ± 0.3** | **~17 (in-focus, nom 20)** | 0.45 | in-plane RMS ~3–5 µm (~8–13%); **+ wires span ~200 µm in z** | `data_pool/test_grid…` | ✓ |
+| test_grid_33_11 | D11 / P33 (nominal, owner) | **31.75 ± 0.65** (cross-mag: mid 31.82 / high 31.69, 0.4% apart) | **12.60** (A16, median over the sharpest quarter of wires; A14b's 10.91 withdrawn) | **0.396** (nominal 0.333) | ~22% (median over frames; > purewave ≤13%) | `data_pool/test_grid_33_11/` ✓ 37 angles −100…+100 | ✓ |
 
 ### PureWave notes (measured 2026-07-24)
 - **P = 25.5 ± 0.9 µm** — dominant lattice period; σ is the cross-magnification
@@ -92,3 +93,151 @@ wires only** — for non-coplanar samples pass `in_focus_only=True` so defocused
   depth planes shift laterally by Δz·tanθ (≈17 µm at 5° ≈ half the 40 µm pitch),
   modulating the effective fill factor with angle. See files
   `micrographs/wgp_grid_D20_P40/…focus0um.bmp` / `…focus200um.bmp`.
+
+### test_grid_33_11 notes (measured 2026-08-06 from shots taken 2026-08-04)
+- Source: `I:\att\WGP-11-33\` (owner's USB), 9 frames at three magnifications
+  plus a focus pair 0 / 0.12 mm. Filed under the naming convention above.
+- ⚠ **No graticule was shot in that session** — the scale is TRANSFERRED from 2026-07-24
+  (the same purewave graticule frames), as was done for specac. Transfer validated twice,
+  independently: (a) pixel-period ratio between zoom steps high/mid = 5.019 vs July's scale
+  ratio 5.098 (1.5% apart), mid/low = 2.027 vs the expected 2; (b) after scaling, the period
+  in microns agrees across magnifications to 0.4%. Both checks must be redone if the
+  microscope zoom is ever reset.
+- **The measured period beat the nominal one on the THz data too**: at equal parameter count
+  the M5 multistart fit scores 7.1 AIC better with P = 31.75 than with P = 33
+  (`research/results/two_wgp/a14_refit_measured_geometry.json`). Two independent channels agree.
+- Consequence for the D_eff law: D_eff/D_phys = **0.576** (was 0.694 on nominal geometry),
+  H5 predicts 0.664 at the measured D/P ⇒ deviation **−0.088**, the largest negative of the
+  eight samples. The earlier claim that H5 passed an extrapolative test is withdrawn.
+- Wires are **non-coplanar**: the 0 / 0.12 mm focus pair brings different wires into focus
+  (4 each). Same caveat as test_grid_40_20 (~200 µm span) ⇒ relevant to HN12.
+- Analysis: `research/two_wgp/a14_micrograph_33_11.py`, artefact
+  `research/results/two_wgp/a14_micrograph_33_11.json`.
+
+### ⚠ Diameter is defocus-sensitive — correction added 2026-08-06 (A14b)
+
+The owner pointed out that at maximum magnification not all wires are in focus and the image
+smears; measuring `D` on such a frame over-reads. Confirmed, and the cause is in the tooling:
+`micrograph_period.in_focus_mask` selects by **quantiles within the frame** (top 45 % by edge
+steepness, top 60 % by brightness), so it always keeps about half the wires **even when all of
+them are blurred**. Fine for a coplanar sample, wrong for one whose wires sit at different depths.
+
+**Correction procedure** (`research/two_wgp/a14b_diameter_defocus.py`). Per wire measure
+`w10` (width at 10 % of peak) and `b = peak height / max |gradient|` — the inverse normalised
+edge steepness, which grows linearly with the blur width. Regress `w10` on `b` and evaluate at
+the **instrument's own blur floor**, measured from the graticule (its edges are physically sharp,
+so all blur there is instrumental): **8.69 px = 1.10 µm** at high mag. Do **not** extrapolate to
+`b → 0` — that removes the instrument PSF as well and under-reads.
+
+**The slope is instrumental, not per-sample:** +0.211 µm/px on test_grid_33_11 versus +0.195 on
+purewave, 8 % apart. What differs between samples is the blur SPREAD (purewave 13–27 px,
+test_grid_33_11 10–49 px), i.e. how coplanar the winding is.
+
+| sample | slope, µm/px | D published | **D defocus-corrected** |
+|---|---|---|---|
+| test_grid_33_11 | +0.211 | (12.55, withdrawn) | **10.91 ± 0.41** |
+| purewave | +0.195 | 10.6 ± 0.5 | 9.49 ± 2.08 |
+
+⚠ **Consequence for the whole table.** Every published `D` here carries a defocus contribution
+that differs per sample, so the `D/P` column is not strictly comparable across rows. Recomputing
+all of them would also retune the empirical `D_eff` law (H5), which was fitted on these very
+`D/P` values. Only test_grid_33_11 has been corrected so far — see `research/two_wgp/state.json`,
+task `A16_defocus_recompute_all_samples` (proposed, needs the owner's decision).
+
+## ⚠ UNIFORM RECOMPUTATION 2026-08-06 (A16) — read before using any D above
+
+All diameters were recomputed with one method at the owner's request. Two problems in the old
+numbers had to be fixed first.
+
+**(a) The frame scale drifts.** The pixel-period ratio high/mid must equal the calibration ratio
+0.6444/0.1264 = 5.098. Measured: 5.02 (test_grid_33_11), 5.29 (test_grid_40_20), 5.39 (purewave),
+**4.39 (specac)**. The zoom changed between sessions, so a shared `high` scale is invalid.
+**Fix:** every high-mag frame is self-calibrated by the sample's own period
+(`um/px = P_um / P_px`), with `P_um` from mid mag. `D/P` then needs no calibration at all — it is
+a pixel ratio inside one frame.
+
+**(b) Regressing width on blur over-corrects.** The strong correlation (r = 0.7-0.9) comes from
+the heavily defocused tail; restricted to weakly blurred wires the slope collapses
+(+0.47 / +1.88 / -0.34 / +0.16 across the four samples), i.e. near best focus the width barely
+depends on blur. **Fix:** `D` = median width over the **sharpest quarter** of wires — stable
+against the threshold (checked at 1.6/1.8/2.0/2.2/2.5 um), unlike the extrapolation.
+
+| sample | P um (was) | D um (was) | D/P (was) | note |
+|---|---|---|---|---|
+| purewave | 24.72 (25.5) | 9.83 (10.6) | 0.398 (0.416) | old P mixed mid+high mag; now mid only |
+| specac | 24.91 (24.9) | **7.77 (14.0)** | 0.312 (0.562) | the old 14.0 was NOT a measurement — a hand x1.9 glint correction |
+| test_grid_40_20 | 38.87 (38.8) | 15.99 (18.0) | 0.411 (0.464) | old 18 = measured 17 nudged toward nominal 20; new value rests on 3 sharp wires |
+| test_grid_33_11 | 31.82 | 12.60 | 0.396 | |
+| att-11-16-* | 15.5 / 16.0 | 11.0 | 0.710 / 0.688 | **passport prior, NOT measured** |
+
+**att-11-16 cannot be measured from these micrographs**: mid-mag frames only, wires nearly
+touching (`D/P` about 0.69), peak finding unstable — the FFT returns 62/103/146 px instead of the
+expected ~25. The defocus check needs high magnification.
+
+**Systematic common to all:** the 10 % base width measures `D_true + instrumental broadening`.
+The instrument blur floor from the graticule is **1.10 um**, so absolute diameters are high by
+roughly that much. It largely cancels in sample-to-sample comparisons.
+
+**Effect on the D_eff law (H5).** Refitting `D_eff/D_phys = 1 - k*(D/P)`: k = **0.855 +- 0.085**
+(4 measured samples), 0.829 +- 0.040 (all 8, four on passport geometry), against the previous
+0.850 — unchanged within error. Note `D` appears in both numerator and denominator, so an error in
+`D` moves a point almost ALONG the law line; the law's stability is weak evidence about `D`.
+Details: `research/two_wgp/REPORT_A16_geometry_h5.md`.
+
+**What would settle it:** 3-4 high-mag frames per sample from different places on the aperture,
+plus a graticule shot in the same session without changing the zoom; and a focus series
+(0/40/80/120 um) on one spot to calibrate the width-blur relation directly.
+
+## ✅ FIXED BY THE OWNER 2026-08-06 — purewave wire diameter = **10.0 um**
+
+The owner closed the question: purewave's physical wire diameter is **exactly 10.0 um**, the
+manufacturer's specification. This is a DECISION, not a measurement, and it supersedes every
+micrograph-derived value for this sample. Do not re-open it.
+
+Our three independent estimates bracket it, which is why the decision is comfortable:
+
+| source | D, um |
+|---|---|
+| A16, all purewave high-mag frames, sharpest quarter | 9.83 |
+| owner's manual measurement (imageonline.io, own composite) | 10.02 |
+| the same composite re-measured automatically | 10.82 |
+| **manufacturer's spec — ADOPTED** | **10.0** |
+
+⚠ **The PERIOD is a separate, still-open question.** The mid-magnification chain gives
+`P = 24.72` and the high-magnification chain `P = 26.10` — 5.6 % apart — and the THz data cannot
+arbitrate (refits differ by 0.3 AIC). With `D = 10.0` fixed, purewave is therefore:
+
+| P chain | P, um | D/P | D_eff, um | D_eff/D_phys |
+|---|---|---|---|---|
+| mid mag | 24.72 | 0.405 | 6.733 | **0.673** |
+| high mag | 26.10 | 0.383 | 7.173 | **0.717** |
+
+Settling the period needs a graticule and the sample shot in ONE session without touching the
+zoom — ideally both in the SAME frame, which removes the calibration chain entirely.
+
+## ✅ FIXED BY THE OWNER 2026-08-06 — test_grid_33_11 wire diameter = **11.2 um** (provisional)
+
+Owner's own measurement on his composite (graticule + sample in one frame, imageonline.io):
+10.70 / 10.93 / 11.37 / 11.42 / 11.86 um, median 11.37, mean 11.26 — **adopted 11.2 um**.
+Marked *provisional*: the owner intends to re-photograph this polarizer.
+
+⚠ **Do not cite my A16 value 12.60 against this.** Re-measuring the owner's composite
+automatically gives 14.54 um, but that composite is downscaled to 576 px (the source frames are
+2048 px), and resampling widens the 10 %-level footprint. So the composite cannot be used to
+check an absolute diameter — only the period, which survives downscaling because it is an average
+over many wires.
+
+**Period from the same composite: 30.93 um** (graticule 33.81 px = 10 um). Compare 31.82 (mid-mag
+chain) and 31.44 (high-mag chain) — a ~3 % spread, so unlike purewave this sample has no period
+ambiguity worth worrying about.
+
+**Consequences with `D_phys = 11.2`** (`D_eff` does not depend on it):
+
+| | value |
+|---|---|
+| `D/P` (at P = 31.82) | **0.352** |
+| `D_eff` (multistart M5, P pinned at 31.75) | 7.233 um |
+| `D_eff/D_phys` | **0.646** |
+| H5 `1 - 0.85*(D/P)` | 0.701 |
+| deviation | **-0.055** |
+

@@ -21,7 +21,7 @@ from t6_hn8 import compute_grid_hn8
 
 OUT = HERE.parents[0] / "results" / "HN11"
 OUT.mkdir(parents=True, exist_ok=True)
-DATASETS = ["356att", "test_grid_40_20", "specac"]
+DATASETS = ["att-11-16-356", "test_grid_40_20", "specac"]
 
 
 def fit_one(dataset, gamma_fixed=None):

@@ -45,7 +45,7 @@ def main():
     all_datasets = manager.get_datasets()
     
     # Оставляем только физически надежные серии для Global Average и пайплайна
-    reliable_datasets = ['356att', 'series3']
+    reliable_datasets = ['att-11-16-356', 'att-11-16-s3']
     datasets = [ds for ds in all_datasets if ds in reliable_datasets]
     
     if args.dry_run:

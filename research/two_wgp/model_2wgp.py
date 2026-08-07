@@ -132,7 +132,7 @@ def verify_core(verbose=True):
     ФАКТИЧЕСКОЕ расхождение в ULP и в относительной мере, а вердикт выносится
     по порогу машинной точности, а не по нулю.
     """
-    geoms = [("356att", 15.5, 11.0), ("series (паспорт)", 16.0, 11.0),
+    geoms = [("att-11-16-356", 15.5, 11.0), ("series (паспорт)", 16.0, 11.0),
              ("specac", 24.9, 14.0), ("test_grid_40_20", 38.8, 18.0),
              ("purewave", 25.5, 10.6)]
     freqs = np.arange(config.F_MIN, getattr(config, "F_MAX_2D", config.F_MAX)

@@ -27,7 +27,7 @@ from unified_optimizer import config, model_blanco
 
 OUT = HERE.parents[0] / "results" / "HN6"
 OUT.mkdir(parents=True, exist_ok=True)
-M3_D = {"356att": 4.683, "test_grid_40_20": 11.447}
+M3_D = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447}
 
 
 def noise_floor(dataset):
@@ -119,7 +119,7 @@ def run(dataset, weight_mode, leakage, apply_noise_mask):
 
 
 def main():
-    ds = "356att"
+    ds = "att-11-16-356"
     rows = []
     # A) weighting effect on residual normality (no noise mask), M3
     for wm in ("unweighted", "multiplicative", "additive_noise"):

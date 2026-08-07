@@ -27,7 +27,7 @@ from unified_optimizer import config, model_blanco               # noqa: E402
 from unified_optimizer.data_manager import DataManager           # noqa: E402
 from unified_optimizer.optimizer_2d import compute_theoretical_grid_2d  # noqa: E402
 
-DATASETS = ("356att", "test_grid_40_20")
+DATASETS = ("att-11-16-356", "test_grid_40_20")
 FAILURES = []
 
 
@@ -114,7 +114,7 @@ def main():
                 check(tag + " t_par ", got[1], ref[1])
 
         # --- grid equivalence, several parameter points -------------------
-        d = 4.683e-6 if ds == "356att" else 11.447e-6
+        d = 4.683e-6 if ds == "att-11-16-356" else 11.447e-6
         pts = [
             dict(loss_factor=0.3, angle_offset=0.0, tau_ps=0.0, gamma=2.0,
                  tau_par_ps=0.0),

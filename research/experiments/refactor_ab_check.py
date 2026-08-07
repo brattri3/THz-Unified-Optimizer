@@ -26,8 +26,8 @@ sys.path.insert(0, str(HERE.parents[1]))
 OUT = HERE.parents[0] / "results" / "refactor"
 OUT.mkdir(parents=True, exist_ok=True)
 
-DATASETS = ("356att", "test_grid_40_20")
-M3_D = {"356att": 4.683, "test_grid_40_20": 11.447}
+DATASETS = ("att-11-16-356", "test_grid_40_20")
+M3_D = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447}
 
 
 def _rec(res):
@@ -115,7 +115,7 @@ def collect():
             run(f"model_m5/{ds}/{nm}", lambda ds=ds, c=cfg: model_m5.fit_variant(ds, **c(ds)))
 
     print("t20_weighted_fit (multi-rep):")
-    for ds in ("specac", "purewave", "356att"):
+    for ds in ("specac", "purewave", "att-11-16-356"):
         def t20_fit(ds=ds):
             G = t20.build_weighted(ds)
             if G is None:

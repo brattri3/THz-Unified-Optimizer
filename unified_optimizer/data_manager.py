@@ -9,7 +9,8 @@ from unified_optimizer.utils import normalize_angle
 def parse_filename(filename: str) -> tuple:
     """
     Парсит имя нормализованного файла вида {dataset}_{angle}deg_rep{N}_{type}.txt
-    Например: series1_-10deg_rep1_sig.txt
+    Например: att-11-16-s1_-10deg_rep1_sig.txt
+    Имя датасета захватывается жадным (.+), поэтому дефисы и подчёркивания в нём допустимы.
     Возвращает (dataset_name, angle_deg, rep, type_)
     """
     name = Path(filename).stem

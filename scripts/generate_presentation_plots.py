@@ -80,7 +80,7 @@ def theo_grid(angles_calc, freqs, params, use_drude=True, use_scat=True, tau_par
 def plot_slide3_ablation():
     print("[Slide3] Ablation M0 vs M3 (vertikal'no)...")
     try:
-        data = load_dataset("356att")
+        data = load_dataset("att-11-16-356")
     except Exception as e:
         print("  OSHIBKA: " + str(e))
         return

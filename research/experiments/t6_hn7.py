@@ -94,7 +94,7 @@ def fit_models(angles_deg, U, U_noise):
 def main():
     results = {}
     fig, ax = plt.subplots(figsize=(7.5, 5))
-    for ds, color in (("356att", "tab:red"), ("test_grid_40_20", "tab:blue")):
+    for ds, color in (("att-11-16-356", "tab:red"), ("test_grid_40_20", "tab:blue")):
         ang, U, U_noise = energy_profile(ds)
         r = fit_models(ang, U, U_noise)
         results[ds] = r

@@ -20,7 +20,7 @@ def main():
     config.P_FIXED = 15.5e-6
     config.D_DEFAULT = 5.5e-6
     
-    target_series = "356att"
+    target_series = "att-11-16-356"
     logging.info(f"Loading data for {target_series}...")
     
     from unified_optimizer.data_manager import DataManager

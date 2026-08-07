@@ -37,7 +37,7 @@ OUT = HERE.parents[0] / "results" / "validation"
 OUT.mkdir(parents=True, exist_ok=True)
 W_AMP, W_PHASE = fit_lib.W_AMP, fit_lib.W_PHASE
 # known effective diameters for the cross-sample D_eff law table
-KNOWN = {"356att": (4.683, 11.0, 15.5), "test_grid_40_20": (11.447, 18.0, 38.8),
+KNOWN = {"att-11-16-356": (4.683, 11.0, 15.5), "test_grid_40_20": (11.447, 18.0, 38.8),
          "specac": (6.240, 14.0, 24.9)}   # (D_eff, D_phys, P)
 
 

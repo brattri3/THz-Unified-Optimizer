@@ -29,7 +29,7 @@ from unified_optimizer import config, model_blanco
 OUT = HERE.parents[0] / "results" / "HN8"
 OUT.mkdir(parents=True, exist_ok=True)
 W_AMP, W_PHASE = fit_lib.W_AMP, fit_lib.W_PHASE
-M3_D = {"356att": 4.683, "test_grid_40_20": 11.447}
+M3_D = {"att-11-16-356": 4.683, "test_grid_40_20": 11.447}
 
 
 def compute_grid_hn8(angles_deg, freqs_thz, p, d, loss_factor, angle_offset, tau_ps,
@@ -104,7 +104,7 @@ def t_peak_profile(dataset):
 
 def main():
     rows = []
-    for ds in ("356att", "test_grid_40_20"):
+    for ds in ("att-11-16-356", "test_grid_40_20"):
         for fixD in (True, False):
             m3 = fit(ds, "m3", fixD); hn2 = fit(ds, "hn2", fixD); hn8 = fit(ds, "hn8", fixD)
             base = m3["aic"]
@@ -112,7 +112,7 @@ def main():
                 r["dAIC_vs_M3"] = r["aic"]-base
             hn8["dAIC_vs_HN2"] = hn8["aic"]-hn2["aic"]
             rows.extend([m3, hn2, hn8])
-    tpk = {ds: t_peak_profile(ds) for ds in ("356att", "test_grid_40_20")}
+    tpk = {ds: t_peak_profile(ds) for ds in ("att-11-16-356", "test_grid_40_20")}
     (OUT / "hn8_ablation.json").write_text(json.dumps({"ablation": rows, "t_peak": tpk},
                                            ensure_ascii=False, indent=2), encoding="utf-8")
 

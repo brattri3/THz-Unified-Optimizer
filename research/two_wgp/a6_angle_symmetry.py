@@ -32,7 +32,7 @@ A6 -- МОДЕЛЬНО-НЕЗАВИСИМЫЙ тест угловой симме
 
 Запуск (из корня репозитория):
     .venv\\Scripts\\python.exe research/two_wgp/a6_angle_symmetry.py
-    ... --datasets 356att series1 --nboot 800 --no-plot
+    ... --datasets att-11-16-356 att-11-16-s1 --nboot 800 --no-plot
 
 Сессия A. Билдер -- research/two_wgp/exp_builder.py (бит-в-бит сверен с fit_lib на 0..90).
 """
@@ -524,7 +524,7 @@ def make_plot(results, path):
 def main():
     ap = argparse.ArgumentParser(description="A6: тест симметрии U(theta) vs U(-theta)")
     ap.add_argument("--datasets", nargs="*",
-                    default=["356att", "series1", "series2", "test_grid_40_20"])
+                    default=["att-11-16-356", "att-11-16-s1", "att-11-16-s2", "test_grid_40_20"])
     ap.add_argument("--nboot", type=int, default=600)
     ap.add_argument("--x-max", type=float, default=70.0,
                     help="макс. плечо |x| в градусах для сплайновой оценки (глубокая тень шумна)")
