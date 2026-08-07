@@ -385,6 +385,53 @@ $\dAIC\approx+6167$, опорная модель (bias $3{,}38\to1{,}25$~дБ, r
 \end{tabular}
 \end{center}
 
+\subsection*{§7. Нелинейный МНК}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+7.1 & Маска динамического диапазона усиливает, а не ослабляет эффект просачивания: $\dAIC$
+$-533\to-657$ &
+\artifact{research/SYNTHESIS.md} (реестр HN2, HN6);
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §8 \\
+\addlinespace[2pt]
+7.2 & $3$--$20$ областей притяжения на $21$ старт; доля успешных стартов $22{,}2\,\%$; группировка
+по $\AIC$ в пределах $0{,}5$ &
+\artifact{research/SYNTHESIS.md} §11.4 (T16), \artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §8.1 \\
+\addlinespace[2pt]
+7.3 & $|\varepsilon_{\rm cross}|=0{,}0345$~--- 4-й бассейн из 11, хуже глобального на $192{,}5$
+$\AIC$; отозвано, допустимо только как иллюстрация ошибки мультистарта &
+\artifact{research/paper/STATE.md} §3.1, \artifact{course/STYLE.md} §6 п.2 (запрещённый список);
+\artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §8.1 \\
+\addlinespace[2pt]
+7.4 & Бутстрап по частотам занижает ошибку в $3{,}5$--$18{,}9$ раз &
+\artifact{research/paper/DRAFT.md} §3.6 (цит. по \artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §8.2) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §7}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:lm-trajectory} & \textbf{учебная иллюстрация} (не проект): траектория ЛМ на
+игрушечной задаче подгонки экспоненты & синтетическая задача, данные проекта не используются \\
+рис.~\ref{fig:basins} & реальное сечение $\AIC(D)$ (профильное правдоподобие) и доля успешных
+стартов сетки & сечение~--- \artifact{res/identifiability/identifiability.json}, поле
+\artifact{profile\_Dscan}; доля стартов~--- ключ~7.2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
