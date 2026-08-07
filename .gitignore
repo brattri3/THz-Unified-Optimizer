@@ -14,6 +14,11 @@ research/papers/litrev/pdfs/
 # рабочие сеансы attenuator_app: журнал, метафайлы, графики каждого запуска
 runs/
 
+# PyInstaller build-артефакты GUI-приложения attenuator_app (gui.spec трекается,
+# распакованный build/ и собранный dist/*.exe - нет: воспроизводимо из спеки)
+attenuator_app/build/
+attenuator_app/dist/
+
 # файловые мьютексы координации (CHARTER §12) - эфемерное локальное состояние,
 # коммит/пуш случайного .lock перманентно "занял бы" роль для всех, кто клонирует/тянет
 coordination/sessions/*.lock
