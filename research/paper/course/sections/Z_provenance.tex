@@ -157,6 +157,48 @@ $\Deff$ $4{,}694\to4{,}694$~мкм & Задачи A1/T8 и A2, \artifact{BRIEF\_
 \end{tabular}
 \end{center}
 
+\subsection*{§2. Модель Бланко}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+2.1 & Формулировка границы применимости: <<точно при $D/\lambda<0{,}2$ и $D/P<0{,}1$, приемлемо
+при $D/P<0{,}5$>>; сверка кода со статьёй; список ссылок сверки (Chambers 1980 при $d/p=0{,}1$,
+Volkov 1982 при $d/p=0{,}5$) &
+Blanco A., Fonti S., Piacente A. // Infrared Physics. 1986. Vol.~26, №~6. P.~357--363,
+DOI~10.1016/0020-0891(86)90058-8; библиографическая сверка и перевод цитаты~---
+\artifact{research/papers/litrev/answers/D2\_P1\_blanco1986.md} \\
+\addlinespace[2pt]
+2.2 & Диапазон $D/P$ измеренных образцов $0{,}42\ldots0{,}71$; самый плотный превышает даже
+смягчённую границу $D/P<0{,}5$ при $D/\lambda\ll0{,}2$ &
+\artifact{research/papers/litrev/answers/D2\_P1\_blanco1986.md} §3 (вывод «наш плотный образец
+вне заявленной области»); значения $D/P$~--- ключ~0.5 и рис.~\ref{fig:dp} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §2}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:blanco-spectrum} & \textbf{модельный расчёт} $|\tperp(\nu)|,|\tpar(\nu)|$ по формулам
+параграфа (без Друде), $P=25$~мкм, две плотности из ключа~2.2 & формула
+\artifact{unified\_optimizer/model\_blanco.py}, геометрия~--- ключ~2.2; данные не используются \\
+рис.~\ref{fig:validity-map} & карта применимости по $D/P$ с границами $0{,}1$/$0{,}5$ и
+положением образцов & границы~--- ключ~2.1; положения образцов~--- ключ~2.2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
