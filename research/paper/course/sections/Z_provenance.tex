@@ -482,6 +482,52 @@ $3{,}75$~дБ на отложенной тени &
 \end{tabular}
 \end{center}
 
+\subsection*{§9. Идентифицируемость}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+9.1 & Корреляция $\Deff\leftrightarrow\eta_0$ при свободной подгонке $-0{,}999999$ &
+\artifact{res/identifiability/identifiability.json}, поле
+\artifact{free\_fit.correl\_with\_D.D\_um\textasciitilde eta0} \\
+\addlinespace[2pt]
+9.2 & Свободная оценка $\Deff=1{,}85\pm8{,}37$~мкм &
+\artifact{res/identifiability/identifiability.json}, поля
+\artifact{free\_fit.D\_um}, \artifact{free\_fit.D\_um\_stderr}; то же число~---
+\artifact{research/SYNTHESIS.md} §3, §11.2 (T12) \\
+\addlinespace[2pt]
+9.3 & Профильный минимум $\Deff\approx6$~мкм, немонотонность профиля между свободной оценкой и
+профильным минимумом &
+\artifact{res/identifiability/identifiability.json}, поля \artifact{profile\_Dscan},
+\artifact{profile\_min\_D}, \artifact{profile\_flatness} \\
+\addlinespace[2pt]
+9.4 & Карта корреляций $D$ со всеми параметрами опорной модели &
+\artifact{res/identifiability/identifiability.json}, поле \artifact{free\_fit.correl\_with\_D}
+целиком \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §9}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:profile} & профиль $\AIC(D)$ (та же кривая, что в рис.~\ref{fig:basins} §7) и
+компенсирующее $\eta_0(D)$ & ключи~9.2, 9.3 \\
+рис.~\ref{fig:corrmap} & корреляция свободной оценки $D$ со всеми остальными параметрами & ключ~9.4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
