@@ -1,10 +1,10 @@
 {
   "project": "THz-WGP — Session A: forward models, structural identifiability & hypothesis testing (+ attenuation software)",
   "created": "2026-07-25",
-  "read_first": "research/two_wgp/PLAN.md (full self-contained context)",
+  "read_first": "research/two_wgp/PLAN.md (full self-contained context) | research/two_wgp/HANDOFF_A_20260807.md (передача роли A от чата A3, 2026-08-07)",
   "protocol": "read this state -> first non-done task -> ONE atomic step (scripts in research/two_wgp/ or research/experiments/, run via .venv from THz-Unified-Optimizer root) -> numbers to research/logs/RESEARCH_LOG.md -> update this file. Guardrails RESEARCH_PLAN.md sec.6.",
   "run_mode": "bypass_permissions + /loop self-paced (auto-continuation unreliable -> manual re-invoke; state.json resumes)",
-  "current_task": "A18 — жду от владельца утверждённых физических диаметров остальных образцов; purewave закрыт (10.0 мкм). Пересчёт H5 отложен до полного набора.",
+  "current_task": "ЧАТ A3 ЗАКРЫТ 2026-08-07. Читать research/two_wgp/HANDOFF_A_20260807.md первым. Ждём от владельца утверждённые физические диаметры остальных образцов (specac, test_grid_40_20, att-11-16); purewave = 10.0 закрыт, test_grid_33_11 = 11.2 предварительно. До полного набора НЕ вносить строки в fit_lib.GEOMETRY и НЕ пересчитывать H5.",
   "A1_verdict": {
     "status": "hypothesis A FALSIFIED analytically + numerically (2026-07-25)",
     "alignment_theorem": "If WGP2's transmission axis coincides with the detector axis, d^T J_WGP2(phi2) == t_perp2(nu) * d^T IDENTICALLY (J2 diagonal in that basis) -> a REAL WGP2 is mathematically indistinguishable from an IDEAL analyser times the scalar t_perp2(nu), for ANY E_in/theta/geometry. Verified to 4.4e-16 over 9 (psi,delta) combos; non-vacuous (10deg misalignment -> 6.1e-3 deviation).",
