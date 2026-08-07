@@ -336,6 +336,55 @@ $0$--$90^\circ$); $\sigma(\theta_0)$ $0{,}096^\circ$ против $0{,}944^\circ
 \end{tabular}
 \end{center}
 
+\subsection*{§6. Лестница моделей}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.49\linewidth}@{}}
+\toprule
+\textbf{Ключ} & \textbf{Утверждение в тексте} & \textbf{Источник} \\
+\midrule
+6.1 & Таблица лестницы: $\dAIC\approx-957/-266$ (материал), пин к физическому $D$ без просачивания
+$\dAIC\approx+6167$, опорная модель (bias $3{,}38\to1{,}25$~дБ, rmse $2{,}21\to1{,}58$) &
+\artifact{research/SYNTHESIS.md} §1, §11.2; \artifact{BRIEF\_FOR\_D\_teaching\_ladder.md} §7.1 \\
+\addlinespace[2pt]
+6.2 & Провал пина к физическому $D$ универсален: до нескольких тысяч и $+9063$ на образце
+средней плотности, на трёх образцах &
+\artifact{research/SYNTHESIS.md} §11.2 (T15b) \\
+\addlinespace[2pt]
+6.3 & Проверка однородности перекрёстного члена между образцами: статистика $761{,}6$ при $10$
+степенях свободы, $p=3{,}8\times10^{-157}$; корреляция с просачиванием образца $0{,}73$ &
+\artifact{research/SYNTHESIS.md} (реестр HN14); то же число корреляции~--- ключ~1.2 \\
+\addlinespace[2pt]
+6.4 & Численная лестница $\dAIC$ относительно опорной модели, один и два элемента тракта
+(рис.~\ref{fig:ladder}) &
+\artifact{res/two\_wgp/a2\_356att\_ladder.json}, поле \artifact{dAIC\_vs\_M5\_1wgp}.
+Соответствие подписей: <<без просачивания>>~--- \artifact{M3ref\_1wgp}; <<опорная модель>>~---
+\artifact{M5\_1wgp}; <<+ перекрёстный член>> (один элемент)~--- \artifact{M5\_eps}; <<выровн. ось,
+без просачивания>>~--- \artifact{W2\_shared\_noleak}; <<выровн. ось, с просачиванием>>~---
+\artifact{W2\_shared}; <<разъюстированная ось>>~--- \artifact{W2\_mis}; <<+ наклон
+излучателя>>~--- \artifact{W2\_mis\_psi}; <<+ перекрёстный член>> (два элемента)~---
+\artifact{W2\_mis\_psi\_eps\_seedEps} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Рисунки §6}
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.20\linewidth}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.41\linewidth}@{}}
+\toprule
+\textbf{Рисунок} & \textbf{Что построено} & \textbf{Источник чисел} \\
+\midrule
+рис.~\ref{fig:ladder} & лестница $\dAIC$ для одного и двух элементов тракта, плотная решётка &
+ключ~6.4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \subsection*{Числа, сознательно не использованные}
 
 Эти результаты лежат в материалах проекта, выглядят пригодными и при этом непригодны для учебных
