@@ -13,6 +13,7 @@ cd "C:\Users\pop\Antigravity IDE\THz-Unified-Optimizer"
 .venv\Scripts\python.exe -m attenuator_app.selftest          # 13 приёмочных проверок
 .venv\Scripts\python.exe -m attenuator_app.tools.validate    # проверка на 6 сеансах измерений
 .venv\Scripts\python.exe -m attenuator_app.cli               # интерактивный цикл
+.venv\Scripts\python.exe -m attenuator_app.gui                # desktop GUI (tkinter)
 .venv\Scripts\python.exe -m attenuator_app.tools.make_passport   # пересобрать паспорт
 ```
 
@@ -35,6 +36,59 @@ att> bg data_pool/two_wgp_attenuator/att-11-16-356_0deg_rep1_bg.txt   фон -> 
 att> sweep 3,6,10,20,30     развёртка уровней
 att> plan 20                инструкция оператору
 ```
+
+## GUI (desktop, tkinter) — v0.3
+
+Практичное подмножество CLI для оператора прибора, поверх того же `api.Attenuator`
+(физика не дублируется). Только стандартная библиотека `tkinter` + numpy; если в
+окружении есть `matplotlib` — графики настоящие (те же функции `core/plots.py`,
+что и в CLI/отчётах), нет — рисуются вручную на `tkinter.Canvas` (упрощённо, но
+без внешних зависимостей). Это то же сознательное решение, что и для CLI:
+приложение должно запускаться у покупателя без научного стека.
+
+```powershell
+.venv\Scripts\python.exe -m attenuator_app.gui
+```
+
+Экраны (вкладки одного окна):
+
+- **боковая панель** — выбор паспорта (файл), сводка устройства, схема/детектор/
+  источник (выпадающие списки из `SCHEMES`/`DETECTORS`/`SOURCES`), psi/DOP,
+  частотная сетка, спектральный вес источника (для интегрального затухания),
+  SET ZERO / AUTO-ZERO / AUTO-CROSS, переключатель relative/absolute, ручная
+  установка текущего угла;
+- **Device** — сводка прибора (аналог `dev`);
+- **Forward (angle -> dB)** — прямая задача: угол -> затухание + 95 % интервал,
+  вклад каждого источника неопределённости (аналог `a`/`ai`);
+- **Inverse (dB -> angle)** — обратная задача: целевой dB -> все ветви решения
+  (таблица), рекомендованный угол, план поворота оператору (аналог `solve`/`plan`);
+- **Spectrum** — спектр затухания + зоны применимости + предупреждение об
+  экстраполяции за полосу калибровки (аналог `spec`);
+- **Curve A(theta)** — угловая кривая против идеальной cos^4 (аналог `curve`);
+- **Applicability checks** — проверки F1..F8 с вердиктом REACHABLE/REFUSED
+  (аналог `check`).
+
+GUI не пишет папку сеанса (`runs/...`) — это осталось только у CLI; если нужен
+журнал вычислений для паспорта прибора, используйте CLI.
+
+## Сборка автономного .exe (PyInstaller) — v0.3
+
+```powershell
+.venv\Scripts\python.exe -m pip install pyinstaller
+.venv\Scripts\python.exe -m PyInstaller attenuator_app\gui.spec ^
+    --distpath attenuator_app\dist --workpath attenuator_app\build
+```
+
+Результат — `attenuator_app\dist\THz-Attenuator.exe` (onefile, без консоли,
+ошибки уходят в `messagebox`, а не в невидимое окно консоли). Паспорт по
+умолчанию (`passports/ATT-11-16-CA85_02721.json`) упакован внутрь как данные.
+
+Проверено: PyInstaller 6.21.0 + Python 3.14.0 (венв репозитория) + tkinter
+8.6 + matplotlib 3.11.1 собираются и запускаются без конфликтов — headless-
+и живой запуск exe (`Get-Process` показывает окно с правильным заголовком,
+`Responding=True`, без падений). `attenuator_app/gui.spec` и
+`attenuator_app/gui_entry.py` — в репозитории (воспроизводимая сборка);
+`build/` и `dist/` — генерируемые артефакты, в `.gitignore`.
 
 ## Паспорт прибора
 
@@ -162,6 +216,8 @@ for cmd in att.motion_plan(att.solve(20)[0]):
 | Папки сеансов, метафайлы, ASCII-графики, CSV | ✅ |
 | Научные графики PNG: спектр, угловая, поляризация, валидация, карта | ✅ |
 | Задел на моторизацию | ✅ каркас |
+| Desktop GUI (tkinter, поверх `api.Attenuator`) | ✅ v0.3 |
+| Автономный `.exe` (PyInstaller, onefile, без консоли) | ✅ v0.3 |
 | Веб-версия, драйверы ротаторов | ❌ v1+ |
 
 ## Структура
@@ -177,6 +233,9 @@ core/session.py    папка сеанса, метафайл, ASCII-график
 core/plots.py      научные графики matplotlib (опциональная зависимость)
 api.py             фасад Attenuator для встраивания
 cli.py             интерактивный цикл
+gui.py             desktop GUI (tkinter), поверх api.Attenuator
+gui_entry.py        точка входа для PyInstaller (см. gui.spec)
+gui.spec            PyInstaller spec для сборки автономного .exe
 selftest.py        13 приёмочных проверок физики
 tools/make_passport.py   паспорт продукта + фиты -> JSON
 tools/validate.py        проверка покрытия 95 % на реальных измерениях + график
