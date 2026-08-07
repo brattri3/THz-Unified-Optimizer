@@ -18,6 +18,7 @@
 | 4 | [`04_ARCHITECTURE.md`](04_ARCHITECTURE.md) | одно ядро — две оболочки: desktop (Tauri) и web; модули, состояния, драйверы ротаторов |
 | 5 | [`05_API_AND_FORMATS.md`](05_API_AND_FORMATS.md) | REST-контракт, формат паспорта калибровки, форматы импорта/экспорта |
 | 6 | [`06_ROADMAP_AND_LITERATURE.md`](06_ROADMAP_AND_LITERATURE.md) | этапы MVP, критерии приёмки, литература + **задания владельцу на поиск** |
+| 8 | [`08_GUI_USER_GUIDE.md`](08_GUI_USER_GUIDE.md) | практическая инструкция по работе с desktop GUI/`.exe` у реального спектрометра (v0.3, предрелиз) |
 
 ## Одна фраза о продукте
 
