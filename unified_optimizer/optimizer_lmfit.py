@@ -2,7 +2,7 @@ import numpy as np
 import lmfit
 import time
 import logging
-from unified_optimizer import config
+from unified_optimizer import config, model_blanco
 from unified_optimizer.optimizer_2d import get_transmission_spectra, compute_theoretical_grid_2d
 from unified_optimizer.utils import find_auto_water_mask
 

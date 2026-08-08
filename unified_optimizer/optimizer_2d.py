@@ -118,7 +118,10 @@ def optimize_2d_spectral(data_dict):
     if config.P_FIXED is None:
         p_bounds = getattr(config, 'P_BOUNDS', (5.0, 40.0))
         free_params.append(('P_um', config.P_DEFAULT * 1e6, p_bounds))
-    
+
+    # Восстановлено (утеряно в b0372ce): верхняя достижимая граница периода в мкм.
+    # P зафиксирован -> само фиксированное значение; P свободен -> верх P_BOUNDS.
+    p_max_um = (config.P_FIXED * 1e6) if config.P_FIXED is not None else (getattr(config, 'P_BOUNDS', (5.0, 40.0))[1])
     d_max_um = p_max_um - 0.5
     d_bounds = getattr(config, 'D_BOUNDS', (1.0, d_max_um))
     d_init_um = model_blanco.estimate_deff_initial(p_max_um, config.D_DEFAULT * 1e6)
