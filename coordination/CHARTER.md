@@ -34,7 +34,7 @@
 | Сессия | Специализация | Владеет (пишет) | Читает |
 |---|---|---|---|
 | **A** | прямая модель, идентифицируемость и проверка гипотез + софт затухания | `research/two_wgp/`, `research/results/two_wgp/`, `research/hypotheses/` | model_blanco, fit_lib, model_core, research/experiments |
-| **B** | инфра/рефактор ядра | `research/experiments/model_core.py`, `verify_*`, рефактор `research/experiments/*.py` | всё research |
+| **B** | техническая гигиена: рефакторинг, дубли, инварианты, работоспособность кода + численное ядро | `research/experiments/model_core.py`, `verify_*`, рефактор `research/experiments/*.py`; `unified_optimizer/**` — только по разовой санкции владельца (переопределение роли 2026-08-08, `PROJECT.md`) | всё research |
 | **C** | приложение-прототип | `attenuator_app/`, `docs/attenuator_app/` | model_blanco, research/two_wgp |
 | **D** | статья | `research/paper/` | SYNTHESIS, RESEARCH_LOG, results |
 | **L** | литература/обзор + метапоиск | `research/papers/` (включает свёрнутый `research/papers/litrev/`) | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |

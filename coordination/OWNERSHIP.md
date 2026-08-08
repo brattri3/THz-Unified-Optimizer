@@ -9,6 +9,7 @@
 | `research/results/two_wgp/**` | A | read |
 | `research/hypotheses/**` | A | read (см. санкцию владельца 2026-07-28, CHARTER §3) |
 | **Численное ядро** (где бы ни лежало): `research/experiments/model_core.py`, `fit_lib.py`, `verify_model_core.py`, `refactor_ab_check.py` | **B** + роль ревьюера численной эквивалентности для правок ядра ЛЮБОЙ сессией | read |
+| `unified_optimizer/**` — **работоспособность кода** (падающие функции, мёртвые имена, битые импорты) | **B**, и только по **разовой санкции владельца на конкретный дефект**; по умолчанию файл остаётся read-only для всех (см. shared-таблицу ниже) | read |
 | **Скрипты-эксперименты/гипотезы** `research/experiments/tN_*.py`, `model_m5.py` (физика поверх ядра) | **A** (ведущий физику) — БЕЗ хэндоффа к B | read; B — ревьюер эквивалентности |
 | Геометрия образцов `research/experiments/geometry.py` (вынести `fit_lib.GEOMETRY` сюда) | **A** | read (ORCH, все) |
 | `attenuator_app/**`, `docs/attenuator_app/**` | C | read |
@@ -23,7 +24,7 @@
 | `research/logs/RESEARCH_LOG.md` | **append-only**, все сессии дописывают с тегом `[<ID>]`; не редактировать чужие записи |
 | `research/hypotheses/HYPOTHESES.md` | с 2026-07-28 — ЭКСКЛЮЗИВНАЯ зона A (см. выше) + ORCH; прочим read, правка через HANDOFFS |
 | `data_pool/**` | **read-only** для всех агентов (гардрейл §6); данные добавляет только ВЛАДЕЛЕЦ-человек |
-| `unified_optimizer/**` | **read-only** (продакшн; правка ломает базовую линию — спросить владельца) |
+| `unified_optimizer/**` | **read-only** (продакшн; правка ломает базовую линию — спросить владельца). Единственное исключение с 2026-08-08: **B по разовой санкции владельца на конкретный дефект**. Санкция не переносится на следующий дефект — запрашивается заново |
 | `coordination/BOARD.md`, `sessions/<ID>.md`, `ACTIVITY.md` | каждая сессия пишет СВОЮ строку/файл/добавляет запись |
 
 ## Per-session state (не общий state.json!)
