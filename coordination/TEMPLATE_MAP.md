@@ -72,7 +72,7 @@ CHARTER/OWNERSHIP/NICKS, как любой другой координацион
 ## Не заполнено (не смотрел, не угадываю)
 
 - `coordination/HANDOFFS.md`, `coordination/LAUNCH_PROMPTS.md`, `coordination/ORCHESTRATOR.md`,
-  `coordination/ORCH_BRIEF.md`, `coordination/DEBUG_SESSION_2026-08-03.md` — `?`.
+  `coordination/ORCH_BRIEF.md`, `coordination/reports/DEBUG_SESSION_2026-08-03.md` — `?`.
 - `CLAUDE.md` (корень репозитория, не `coordination/`) — вне области этой карты по заданию
   Задачи 5, но явно смешанный на первый взгляд (мультисессионный протокол сверху + вся физика/
   архитектура модели снизу); не картирован здесь намеренно.
