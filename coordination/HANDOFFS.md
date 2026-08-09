@@ -6,6 +6,15 @@
 Формат: `## [ISO] ОТ <ID> К <ID> — заголовок` → что нужно, контекст/ссылки, критерий готовности, статус
 (`open`/`taken`/`done`).
 
+> **⚠ Пути ниже могут быть устаревшими — файл append-only, история не переписывается.**
+> Переименования, случившиеся после написания записей (читать как таблицу подстановки):
+> `research/papers/**` → **`research/literature/**`** (2026-08-09, решение В-3);
+> `docs/literature/*.pdf` → **`research/literature/pdfs/`**; `docs/artifacts/`, `docs/images/`,
+> `docs/legacy_scripts/` и markdown из корня `docs/` → **`archive/docs-legacy-2026-07/`** (В-2);
+> `.agents/AGENTS.md`, `CHANGELOG.md` → **`archive/antigravity-2026-07/`** (В-1);
+> `results/` → **`archive/results-2026-07/`**; `coordination/MIGRATION.md` →
+> **`coordination/reports/MIGRATION_2026-08-07.md`**.
+
 ---
 
 ## [шаблон]

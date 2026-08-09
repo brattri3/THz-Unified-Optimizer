@@ -144,7 +144,7 @@ ASCII-псевдографика). Это сознательное решени�
 
 ## Долги вне зоны C
 
-- `research/papers/INDEX.md` не содержит `JOSA.67.000979.pdf` (Costley 1977) — 20 PDF в
+- `research/literature/INDEX.md` не содержит `JOSA.67.000979.pdf` (Costley 1977) — 20 PDF в
   `litrev/pdfs`, проиндексировано 19. Зона ORCH/D, C не правит.
 
 ## Режим работы (с 2026-07-28 18:40)

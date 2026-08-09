@@ -618,8 +618,8 @@ E4 разрешает минимум только у test_grid: **+89.46°** (5 
 Фукс–Зондхаймер и Маядас–Шацкес — тексты закрыты), проводимость W на ТГц, второй уровень графа по P3,
 P4, P5, проверка Kaltenecker на явную гармоническую структуру (это чтение локального txt).
 
-**Артефакты:** `research/papers/litrev/answers/{D2_P1_blanco1986.md, D2_P2_P3_losses_dense.md,
-A_harmonics_2w_4w.md}`, `research/papers/litrev/tools/doi_audit.py`.
+**Артефакты:** `research/literature/litrev/answers/{D2_P1_blanco1986.md, D2_P2_P3_losses_dense.md,
+A_harmonics_2w_4w.md}`, `research/literature/litrev/tools/doi_audit.py`.
 
 ---
 
@@ -1238,10 +1238,10 @@ A16 по всем кадрам **9.83**, ручной замер владель�
 ### [L] 2026-08-07 — закрытие чата L2, передача роли
 
 Содержательных вычислений в этот заход не велось: чат закрыт владельцем. Зафиксирована передача
-роли — `research/papers/HANDOFF_L_20260807.md` (результаты, ловушки окружения, границы формулировок
-для отрицательных выводов). Зона `research/papers/**` чиста, лок роли L свободен, следующий ник **L3**.
+роли — `research/literature/HANDOFF_L_20260807.md` (результаты, ловушки окружения, границы формулировок
+для отрицательных выводов). Зона `research/literature/**` чиста, лок роли L свободен, следующий ник **L3**.
 
 Числа предыдущего захода (2026-07-29) уже в журнале выше; здесь только незакрытое, чтобы не искать:
 P4, P5, второй уровень графа цитирований, проверка Kaltenecker 2019 на разложение
-$\cos^4\theta$ (файл `research/papers/txt/2019_Kaltenecker-etal_*.txt` локально, сети не нужно),
-`litrev/tools/extract_text.py`. Ожидают владельца — 15 закрытых работ в `research/papers/WANTED.md`.
+$\cos^4\theta$ (файл `research/literature/txt/2019_Kaltenecker-etal_*.txt` локально, сети не нужно),
+`litrev/tools/extract_text.py`. Ожидают владельца — 15 закрытых работ в `research/literature/WANTED.md`.

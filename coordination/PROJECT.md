@@ -25,7 +25,7 @@
 | **B** | `core-b` | **техническая гигиена**: рефакторинг, дубли, инварианты общего кода, работоспособность продакшна + численное ядро и ревью эквивалентности | `research/experiments/model_core.py`, `fit_lib.py`, `verify_model_core.py`, `refactor_ab_check.py` — ЕДИНСТВЕННЫЙ владелец, правки от других ролей только через `QUESTIONS.md`; `unified_optimizer/**` — **только по разовой санкции владельца на конкретный дефект** | весь `research/` |
 | **C** | `app-c` | приложение-прототип (аттенюатор) | `attenuator_app/**`, `docs/attenuator_app/**` | `model_blanco`, `research/two_wgp/**` |
 | **D** | `paper-d` | статья + образовательный слой | `research/paper/**` (включая `primers/`) | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**` |
-| **L** | `lit-l` | литература/обзор + метапоиск | `research/papers/**` (включая свёрнутый `research/papers/litrev/**`) | `SYNTHESIS.md`, `HYPOTHESES.md`, `RESEARCH_LOG.md` |
+| **L** | `lit-l` | литература/обзор + метапоиск | `research/literature/**` (включая свёрнутый `research/literature/litrev/**`) | `SYNTHESIS.md`, `HYPOTHESES.md`, `RESEARCH_LOG.md` |
 | **P** | `pres-p` | отчётные презентации/доклады владельцу (не для рецензента — это D) | `research/presentations/**` | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**`, `HYPOTHESES.md`, `BOARD.md`, `ACTIVITY.md`, `DRAFT.md` (только цитирование) |
 | **ORCH** | `orch` | контроль/мерж/координация | `coordination/**`, `CLAUDE.md`, `research/state.json` (main) | всё |
 

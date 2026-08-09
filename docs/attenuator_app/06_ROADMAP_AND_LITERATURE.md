@@ -76,7 +76,7 @@
 **Kaltenecker K. J., Kelleher E. J. R., Zhou B., Jepsen P. U.**
 *Attenuation of THz Beams: A "How to" Tutorial.* J. Infrared Millim. Terahertz Waves 40 (2019) 878–904.
 DOI [`10.1007/s10762-019-00608-x`](https://doi.org/10.1007/s10762-019-00608-x).
-PDF: `THz-WGP-Analysis/litrev/pdfs/s10762-019-00608-x.pdf`; текст: `research/papers/txt/s10762-019-00608-x.txt`.
+PDF: `THz-WGP-Analysis/litrev/pdfs/s10762-019-00608-x.pdf`; текст: `research/literature/txt/s10762-019-00608-x.txt`.
 
 Что из неё уже заложено в проект:
 
@@ -108,7 +108,7 @@ PDF: `THz-WGP-Analysis/litrev/pdfs/s10762-019-00608-x.pdf`; текст: `researc
 | **THz WGP Al 2009; Nanoimprint 2011; Inkjet 2016** | `10.1364/OL.34.000274` и др. | эталонные значения ER для витрины |
 | **Grischkowsky 1990; Auston 1975; Duvillaret 1996** | | метод THz-TDS, обратная задача |
 
-Полные заметки «что применимо к модели» — `research/papers/INDEX.md`.
+Полные заметки «что применимо к модели» — `research/literature/INDEX.md`.
 
 ### 2.3. Учебники (нужны как основа для документации пользователя, в репозитории нет)
 
@@ -164,8 +164,8 @@ PDF: `THz-WGP-Analysis/litrev/pdfs/s10762-019-00608-x.pdf`; текст: `researc
 Приоритет по убыванию:
 
 1. **Costley et al. 1977**, `10.1364/JOSA.67.000979` — PDF уже лежит в `litrev/pdfs/`, но
-   **не проиндексирован**: нет строки в `research/papers/INDEX.md` и нет извлечённого текста
-   в `research/papers/txt/`. Это единственная неучтённая статья из двадцати. Нужно
+   **не проиндексирован**: нет строки в `research/literature/INDEX.md` и нет извлечённого текста
+   в `research/literature/txt/`. Это единственная неучтённая статья из двадцати. Нужно
    `pdftotext` + строка в индексе.
 2. **Marcuvitz, Waveguide Handbook (1951)**, разделы по индуктивным/ёмкостным решёткам —
    первоисточник эквивалентных схем. Есть в открытом доступе (IET reprint / archive.org).
@@ -198,7 +198,7 @@ PDF: `THz-WGP-Analysis/litrev/pdfs/s10762-019-00608-x.pdf`; текст: `researc
 |---|---|---|
 | `p_max_um` не определён → `NameError` | `unified_optimizer/optimizer_2d.py:122` | `optimize_2d_spectral()` падает при любом вызове; `run_pipeline --method both` (дефолт) нерабочий |
 | `model_blanco` не импортирован → `NameError` | `unified_optimizer/optimizer_lmfit.py:92` | `run_lmfit_2d()` падает при любом вызове |
-| `JOSA.67.000979.pdf` не проиндексирован | `research/papers/INDEX.md`, `research/papers/txt/` | 20 PDF, 19 в индексе — Costley 1977 выпал из работы |
+| `JOSA.67.000979.pdf` не проиндексирован | `research/literature/INDEX.md`, `research/literature/txt/` | 20 PDF, 19 в индексе — Costley 1977 выпал из работы |
 
 Первые два продублированы в `THz-WGP-Analysis/code/` (байт-в-байт копия). Исследовательский
 слой не задет: он импортирует только исправные модуль-уровневые функции. Правка меняет

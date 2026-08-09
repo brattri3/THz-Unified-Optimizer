@@ -37,7 +37,7 @@
 | **B** | техническая гигиена: рефакторинг, дубли, инварианты, работоспособность кода + численное ядро | `research/experiments/model_core.py`, `verify_*`, рефактор `research/experiments/*.py`; `unified_optimizer/**` — только по разовой санкции владельца (переопределение роли 2026-08-08, `PROJECT.md`) | всё research |
 | **C** | приложение-прототип | `attenuator_app/`, `docs/attenuator_app/` | model_blanco, research/two_wgp |
 | **D** | статья | `research/paper/` | SYNTHESIS, RESEARCH_LOG, results |
-| **L** | литература/обзор + метапоиск | `research/papers/` (включает свёрнутый `research/papers/litrev/`) | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |
+| **L** | литература/обзор + метапоиск | `research/literature/` (включает свёрнутый `research/literature/litrev/`) | SYNTHESIS, HYPOTHESES, RESEARCH_LOG |
 | **P** | отчётные презентации/доклады | `research/presentations/` | всё research (SYNTHESIS, HYPOTHESES, RESEARCH_LOG, results/**, paper/DRAFT.md) — только чтение |
 | **ORCH** | контроль/мерж/координация | `coordination/`, `CLAUDE.md`, main `research/state.json`, ветки/мержи | всё |
 **Правило shared-кода:** общие модули (`fit_lib.py`, `model_core.py`, `model_blanco`) правит ТОЛЬКО
@@ -62,11 +62,11 @@
 > сессии-прародителя (bootstrap). Питает D (статью) и A (гипотезы) источниками через HANDOFFS.
 >
 > **[2026-07-28, РЕШЕНИЕ ORCH — санкция владельца]** Зона L **свёрнута из соседнего репо в наш**:
-> `../THz-WGP-Analysis/litrev/**` (был не под git) → `research/papers/litrev/**`. Причина: соседний
+> `../THz-WGP-Analysis/litrev/**` (был не под git) → `research/literature/litrev/**`. Причина: соседний
 > каталог не был git-репозиторием ⇒ обзор и единственная копия литературы не версионировались.
-> Теперь зона L на запись = `research/papers/**` целиком. PDF первоисточников (`litrev/pdfs/`, ~22МБ,
-> чужой copyright) в git НЕ трекаются (`.gitignore`) — извлечённый текст в `research/papers/txt/`.
-> Инструмент `metasearch.py` теперь в `research/papers/litrev/`. Исходник в `THz-WGP-Analysis/litrev/`
+> Теперь зона L на запись = `research/literature/**` целиком. PDF первоисточников (`litrev/pdfs/`, ~22МБ,
+> чужой copyright) в git НЕ трекаются (`.gitignore`) — извлечённый текст в `research/literature/txt/`.
+> Инструмент `metasearch.py` теперь в `research/literature/litrev/`. Исходник в `THz-WGP-Analysis/litrev/`
 > оставлен до проверки владельцем, затем удаляется владельцем.
 
 > **[2026-08-04, санкция владельца, §8]** Создана зона **P (отчётные презентации/доклады)** — по

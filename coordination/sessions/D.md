@@ -57,7 +57,7 @@
 - Первичный литературный поиск НЕ веду — заказываю у **L** через `HANDOFFS.md`
   (OWNERSHIP «Граница D↔L»: L = поиск/извлечение и обзор ПОЛЯ, D = синтез и обзор ДЛЯ СТАТЬИ).
 - Новые расчёты/фиты НЕ делаю — запрос к **A** (физика/гипотезы) или **B** (численное ядро).
-- Пишу только в `research/paper/**`; `research/papers/**`, `research/results/**`,
+- Пишу только в `research/paper/**`; `research/literature/**`, `research/results/**`,
   `research/two_wgp/**`, `research/SYNTHESIS.md`, `research/logs/RESEARCH_LOG.md` — только чтение.
 
 ## История намерений (append)
@@ -67,11 +67,11 @@
   LAUNCH_PROMPTS.md. В зону D положен seed `problem_statement.tex` (постановка задачи). D пока не
   запущена — стартует владельцем готовой строкой.
 - [2026-07-29 13:19, D] **Старт.** Прочитаны CHARTER (вкл. §11), ORCH_BRIEF, OWNERSHIP, BOARD,
-  HANDOFFS, SYNTHESIS, seed `problem_statement.tex`, а также источники L: `research/papers/INDEX.md`,
+  HANDOFFS, SYNTHESIS, seed `problem_statement.tex`, а также источники L: `research/literature/INDEX.md`,
   `litrev/RETROSPECTIVE_REVIEW.md`, `litrev/LITERATURE_REVIEW.md` (перечень corpus/*.json и txt/*.txt).
   Заведены `research/paper/STATE.md`, `RELATED_WORK.md` (D1), `GLOSSARY.md`. Оформлен запрос
   `ОТ D К L` (D2). Конфликтов зон нет: A работает в `research/two_wgp/**` (A0/A6), L — в
-  `research/papers/**`; я пишу только в `research/paper/**`.
+  `research/literature/**`; я пишу только в `research/paper/**`.
 - [2026-07-29 14:05, D] **Итерация 2.** Написаны `research/paper/DRAFT.md` v0.1 (двухрегистровый:
   статейный текст + врезки `> 💡` образовательного слоя, вырезаемые при экспорте) и
   `research/paper/primers/01_jones_polarization.md`. В DRAFT сразу интегрированы свежие результаты

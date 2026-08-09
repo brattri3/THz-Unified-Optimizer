@@ -173,7 +173,7 @@
 
 - **Скачано (litrev/pdfs/)**: Karimi/Arbab 2026 (`10.21203/rs.3.rs-8474834/v1`); нанопечать-WGP 2011 (arXiv-версия, `10.1364/ol.36.002665`).
 - **За пейволом (получены только аннотации/тезисы, см. §7)**: Wait 1955, Larsen 1962, Yasumoto 1999, THz-WGP 2009, extraction 2009 и др. — по ним есть DOI и ключевые тезисы; при необходимости — заказать через легальный доступ (библиотека/institutional).
-- Manabe & Murk 2005 и Castro-Camus 2012 — **PDF уже были** в `docs/literature/`.
+- Manabe & Murk 2005 и Castro-Camus 2012 — **PDF уже были** в `research/literature/pdfs/`.
 
 ---
 

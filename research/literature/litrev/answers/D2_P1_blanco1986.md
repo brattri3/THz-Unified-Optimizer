@@ -2,7 +2,7 @@
 
 **Дата:** 2026-07-29 · **Сессия:** L · **Запрос:** `coordination/HANDOFFS.md`, «[2026-07-29] ОТ D К L», P1
 **Инструменты:** Crossref REST API (авторитетный источник метаданных), OpenAlex; локальный
-`research/papers/txt/blanco1986.txt`. Все запросы — по заглавию и по перечням выпусков журналов,
+`research/literature/txt/blanco1986.txt`. Все запросы — по заглавию и по перечням выпусков журналов,
 не по названию журнала, как и просила D.
 
 ---
@@ -71,7 +71,7 @@
 - `research/paper/RELATED_WORK.md`, `DRAFT.md` — везде заменить на запись из §1 (это D);
 - `litrev/RETROSPECTIVE_REVIEW.md` §11 п.3 и `LITERATURE_REVIEW.md` §0 — исправлено Сессией L
   в этом же проходе;
-- `research/papers/INDEX.md` — DOI Бланко был `—`, проставлен (Сессия L).
+- `research/literature/INDEX.md` — DOI Бланко был `—`, проставлен (Сессия L).
 
 ---
 

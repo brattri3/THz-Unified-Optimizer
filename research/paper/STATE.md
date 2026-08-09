@@ -6,7 +6,7 @@
 - **Сессия:** D — статья + образовательный слой (CHARTER §3, §11)
 - **Зона на запись:** `research/paper/**`
 - **Источники (только чтение):** `research/SYNTHESIS.md`, `research/logs/RESEARCH_LOG.md`,
-  `research/results/**`, `research/two_wgp/**`, `research/papers/**` (зона L)
+  `research/results/**`, `research/two_wgp/**`, `research/literature/**` (зона L)
 - **Запущена:** 2026-07-29 13:19 (чат D1) · **Текущий чат:** D2, с 2026-08-05
 - **Последнее обновление:** 2026-08-05
 

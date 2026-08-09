@@ -3,9 +3,9 @@ from pathlib import Path
 
 UA = {"User-Agent": "thz-metasearch/1.0 (mailto:brattri3@gmail.com)"}
 REPO = Path(r"C:\Users\pop\Antigravity IDE\THz-Unified-Optimizer")
-FILES = [REPO / "research/papers/INDEX.md",
-         REPO / "research/papers/litrev/RETROSPECTIVE_REVIEW.md",
-         REPO / "research/papers/litrev/LITERATURE_REVIEW.md"]
+FILES = [REPO / "research/literature/INDEX.md",
+         REPO / "research/literature/litrev/RETROSPECTIVE_REVIEW.md",
+         REPO / "research/literature/litrev/LITERATURE_REVIEW.md"]
 
 DOI_RE = re.compile(r"10\.\d{4,9}/[^\s\)\]\|,;\"'<>`]+", re.I)
 
