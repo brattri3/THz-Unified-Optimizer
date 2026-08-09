@@ -21,13 +21,28 @@
 
 | Роль | Имя сессии | Специализация | Пишет (зона) | Читает |
 |---|---|---|---|---|
-| **A** | `phys-a` | прямая модель, идентифицируемость, проверка гипотез + софт затухания | `research/two_wgp/**`, `research/results/two_wgp/**`, `research/hypotheses/**`, скрипты-гипотезы `research/experiments/tN_*.py`/`model_m5.py` (без хэндоффа) | `model_core`, `fit_lib`, весь остальной `research/` |
-| **B** | `core-b` | **техническая гигиена**: рефакторинг, дубли, инварианты общего кода, работоспособность продакшна + численное ядро и ревью эквивалентности | `research/experiments/model_core.py`, `fit_lib.py`, `verify_model_core.py`, `refactor_ab_check.py` — ЕДИНСТВЕННЫЙ владелец, правки от других ролей только через `QUESTIONS.md`; `unified_optimizer/**` — **только по разовой санкции владельца на конкретный дефект** | весь `research/` |
-| **C** | `app-c` | приложение-прототип (аттенюатор) | `attenuator_app/**`, `docs/attenuator_app/**` | `model_blanco`, `research/two_wgp/**` |
-| **D** | `paper-d` | статья + образовательный слой | `research/paper/**` (включая `primers/`) | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**` |
-| **L** | `lit-l` | литература/обзор + метапоиск | `research/literature/**` (включая свёрнутый `research/literature/litrev/**`) | `SYNTHESIS.md`, `HYPOTHESES.md`, `RESEARCH_LOG.md` |
-| **P** | `pres-p` | отчётные презентации/доклады владельцу (не для рецензента — это D) | `research/presentations/**` | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**`, `HYPOTHESES.md`, `BOARD.md`, `ACTIVITY.md`, `DRAFT.md` (только цитирование) |
+| **A** | `a-model` | прямая модель, идентифицируемость, проверка гипотез + софт затухания | `research/two_wgp/**`, `research/results/two_wgp/**`, `research/hypotheses/**`, скрипты-гипотезы `research/experiments/tN_*.py`/`model_m5.py` (без хэндоффа) | `model_core`, `fit_lib`, весь остальной `research/` |
+| **B** | `b-core` | **техническая гигиена**: рефакторинг, дубли, инварианты общего кода, работоспособность продакшна + численное ядро и ревью эквивалентности | `research/experiments/model_core.py`, `fit_lib.py`, `verify_model_core.py`, `refactor_ab_check.py` — ЕДИНСТВЕННЫЙ владелец, правки от других ролей только через `QUESTIONS.md`; `unified_optimizer/**` — **только по разовой санкции владельца на конкретный дефект** | весь `research/` |
+| **C** | `c-app` | приложение-прототип (аттенюатор) | `attenuator_app/**`, `docs/attenuator_app/**` | `model_blanco`, `research/two_wgp/**` |
+| **D** | `d-paper` | статья + образовательный слой | `research/paper/**` (включая `primers/`) | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**` |
+| **L** | `l-lit` | литература/обзор + метапоиск | `research/literature/**` (включая свёрнутый `research/literature/litrev/**`) | `SYNTHESIS.md`, `HYPOTHESES.md`, `RESEARCH_LOG.md` |
+| **P** | `p-report` | отчётные презентации/доклады владельцу (не для рецензента — это D) | `research/presentations/**` | `SYNTHESIS.md`, `RESEARCH_LOG.md`, `research/results/**`, `HYPOTHESES.md`, `BOARD.md`, `ACTIVITY.md`, `DRAFT.md` (только цитирование) |
 | **ORCH** | `orch` | контроль/мерж/координация | `coordination/**`, `CLAUDE.md`, `research/state.json` (main) | всё |
+
+**Конвенция имён (решение владельца 2026-08-09): `<буква роли>-<роль в проекте>`.** Буква впереди
+не для красоты: список `claude agents` сортируется по алфавиту, и при таком порядке он сам
+выстраивается по ролям — `a-model`, `b-core`, `c-app`, `d-paper`, `l-lit`, `orch`, `p-report`.
+Связь с префиксом коммита (`[A]`, трейлер `Session: A`) видна прямо в имени, гадать не нужно.
+`orch` без буквы — у оркестратора идентификатор роли и есть `ORCH`.
+
+⚠ **Старые имена `phys-a`, `core-b`, `app-c`, `paper-d`, `lit-l`, `pres-p` не использовать.** Они
+встречаются в append-only истории (`ACTIVITY.md`, `HANDOFFS.md`, `NICKS.md`,
+`reports/MIGRATION_2026-08-07.md`) — там оставлены намеренно, историю не переписываем.
+
+**Буквы ролей (A/B/C/D/L/P) — не имена, а идентификаторы протокола** и не меняются: на них стоят
+префиксы коммитов, трейлер `Session:`, файлы-замки `sessions/<ID>.md`, таблицы владения и все
+передачи «ОТ D К L». Переименовать имя сессии стоит две правки; переименовать букву — сотни
+записей, которые нельзя переписывать.
 
 Роль **B** переопределена владельцем **2026-08-08** (было: «численное ядро + ревьюер
 эквивалентности»). Профиль одной фразой: **B отвечает за «до = после», A — за «а верно ли вообще».**

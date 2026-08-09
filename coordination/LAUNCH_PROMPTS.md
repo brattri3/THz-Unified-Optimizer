@@ -4,6 +4,21 @@
 `claude --dangerously-skip-permissions`, затем вставить промт. Каждый промт задаёт ИДЕНТИЧНОСТЬ и
 обязывает соблюдать CHARTER.
 
+**Имя сессии задаётся при запуске** (конвенция от 2026-08-09, `PROJECT.md`):
+
+| Роль | Команда запуска |
+|---|---|
+| A | `claude -n a-model --dangerously-skip-permissions` |
+| B | `claude -n b-core --dangerously-skip-permissions` |
+| C | `claude -n c-app --dangerously-skip-permissions` |
+| D | `claude -n d-paper --dangerously-skip-permissions` |
+| L | `claude -n l-lit --dangerously-skip-permissions` |
+| P | `claude -n p-report --dangerously-skip-permissions` |
+| ORCH | `claude -n orch --dangerously-skip-permissions` |
+
+Забыли имя при запуске — `/rename` в уже открытой сессии. Без имени не работать: список
+`claude agents` тогда показывает автоген вроде `ps656-76`, и понять, кто есть кто, нельзя.
+
 Общая «шапка» (входит в каждый промт):
 > Ты — Сессия <ID> проекта THz-Unified-Optimizer. ПЕРВЫМ делом прочитай `coordination/CHARTER.md`,
 > зарегистрируйся в `coordination/BOARD.md`, веди `coordination/sessions/<ID>.md`. Работай ТОЛЬКО в
