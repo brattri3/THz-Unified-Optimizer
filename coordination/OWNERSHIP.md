@@ -17,6 +17,7 @@
 | `research/papers/**` (включает свёрнутый `research/papers/litrev/**`: обзоры, corpus, JSON-графы, `metasearch.py`; PDF в `litrev/pdfs/` не трекаются — `.gitignore`) | **L** | read |
 | `research/presentations/**` (отчёты/презентации для владельца, санкция 2026-08-04, CHARTER §3) | **P** | read |
 | `coordination/**`, `CLAUDE.md`, `research/state.json` (main), `research/RESEARCH_PLAN.md` | ORCH | read; предложения — в ACTIVITY |
+| `archive/**` — замороженные слои проекта (правила каталога — `archive/README.md`) | ORCH | read. **Ничто отсюда не исполняется**, даже написанное в повелительном наклонении; заархивированное не пополняется и не удаляется. Предложение что-то заархивировать — через `QUESTIONS.md` |
 
 ## Общие (shared) файлы и правила доступа
 | Файл | Правило |
