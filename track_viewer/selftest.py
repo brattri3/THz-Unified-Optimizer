@@ -63,7 +63,8 @@ def t_filtering(log):
     log(u"test_grid_33_11: %d сигнальных, %d референсов, %d пустых, %d ошибок"
         % (c["sig_total"], c["bg_total"], c["empty"], c["errors"]))
     # 51 sig + 17 bg + 1 META = 69 = максимальный сквозной номер на диске
-    # (069_a-40.txt). Прогон остановлен на нём, план предусматривал больше.
+    # (069_a-40.txt). Это ПОЛНЫЙ план прогона, а не остановленный: те же
+    # 51 + 17 стоят в MEASUREMENT_ORDER.md §3 и получаются из build_plan().
     if c["sig_total"] != 51 or c["bg_total"] != 17:
         raise AssertionError(u"ожидалось 51 сигнальная и 17 референсов")
     if c["empty"] or c["errors"]:
@@ -357,6 +358,173 @@ def t_empty_dir(log):
         log(u"0 трасс — интерфейс обязан сказать об этом словами (см. gui.py)")
         log(u"так же выглядят каталоги старой схемы: test_grid_40_20 и specac")
         log(u"состоят только из нормализованных имён, журнальной нумерации в них нет")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+# -------------------------------------------------------- §5 генератор трека
+@test(u"§5 генератор по умолчанию повторяет последовательность test_grid_33_11")
+def t_road_reproduces(log):
+    import re
+    from .core import road
+
+    recs = road.build_plan(road.Plan(sample=u"test_grid_33_11"))
+    mine = [("bg", None) if r["kind"] == "bg" else ("sig", r["angle"]) for r in recs]
+
+    names = sorted([n for n in os.listdir(GRID)
+                    if re.match(r"^\d{3}_(a-?\d+|bg)\.txt$", n)])
+    disk = []
+    for n in names:
+        m = re.match(r"^\d{3}_(a(-?\d+)|bg)\.txt$", n)
+        disk.append(("bg", None) if m.group(2) is None
+                    else ("sig", int(m.group(2))))
+
+    if mine[:-1] != disk:
+        for i, (a, b) in enumerate(zip(mine, disk)):
+            if a != b:
+                raise AssertionError(u"расхождение на позиции %d: %s против %s"
+                                     % (i, a, b))
+        raise AssertionError(u"длины планов не совпали: %d против %d"
+                             % (len(mine) - 1, len(disk)))
+    if mine[-1] != ("bg", None):
+        raise AssertionError(u"последним обязан идти замыкающий фон")
+
+    s = road.summary(recs)
+    log(u"план: %d файлов = %d трасс + %d фонов" % (s["n_files"], s["n_sig"], s["n_bg"]))
+    log(u"последовательность углов и фонов совпала с диском полностью")
+    log(u"два намеренных отличия: нумерация сдвинута на 1 (META выведен из")
+    log(u"сквозной нумерации, ТЗ §2.1) и добавлен замыкающий фон (ТЗ §5.1)")
+
+
+@test(u"§5 параметры генератора работают: диапазоны, референсы, порядок, повторы")
+def t_road_params(log):
+    from .core import road
+
+    p = road.Plan(coarse_from=-30, coarse_to=30, coarse_step=15,
+                  fine_on=False, mirror_fine=False, repeat_fine=False,
+                  anchors_rep2=(), bg_mode=road.BG_START)
+    recs = road.build_plan(p)
+    angles = [r["angle"] for r in recs if r["kind"] == "sig"]
+    if sorted(set(angles)) != [-30, -15, 0, 15, 30]:
+        raise AssertionError(u"основной диапазон разложен неверно: %s" % angles)
+    if len([r for r in recs if r["kind"] == "bg"]) != 1:
+        raise AssertionError(u"в режиме «один в начале» должен быть ровно 1 фон")
+    log(u"один референс в начале: %s" % [road.fname(r) for r in recs[:3]])
+
+    p.bg_mode = road.BG_START_END
+    recs = road.build_plan(p)
+    if len([r for r in recs if r["kind"] == "bg"]) != 2:
+        raise AssertionError(u"в режиме «начало и конец» должно быть 2 фона")
+    if recs[0]["kind"] != "bg" or recs[-1]["kind"] != "bg":
+        raise AssertionError(u"фоны должны стоять первым и последним")
+    log(u"начало и конец: %s … %s" % (road.fname(recs[0]), road.fname(recs[-1])))
+
+    p.order = road.ORDER_ASCENDING
+    recs = road.build_plan(p)
+    angles = [r["angle"] for r in recs if r["kind"] == "sig"]
+    if angles != sorted(angles):
+        raise AssertionError(u"обход по возрастанию не отсортирован: %s" % angles)
+    log(u"обход по возрастанию: %s" % angles)
+
+    p.order = road.ORDER_BLOCK
+    p.repeats = 2
+    recs = road.build_plan(p)
+    n1 = len([r for r in road.build_plan(road.Plan(
+        coarse_from=-30, coarse_to=30, coarse_step=15, fine_on=False,
+        mirror_fine=False, repeat_fine=False, anchors_rep2=(),
+        bg_mode=road.BG_START_END)) if r["kind"] == "sig"])
+    n2 = len([r for r in recs if r["kind"] == "sig"])
+    if n2 != 2 * n1:
+        raise AssertionError(u"два повтора должны удвоить число трасс: %d против %d"
+                             % (n2, 2 * n1))
+    log(u"повторы: %d трасс при repeats=1, %d при repeats=2" % (n1, n2))
+
+    bad = road.Plan(coarse_step=0).validate()
+    if not bad:
+        raise AssertionError(u"нулевой шаг обязан отвергаться")
+    log(u"негодный план отвергается словами: %s" % bad[0])
+
+
+@test(u"§5.2 ГАРДРЕЙЛ: непустой файл блокирует генерацию целиком")
+def t_road_refuses(log):
+    from .core import road
+
+    d = tempfile.mkdtemp(prefix="tv_road_")
+    try:
+        plan = road.Plan(sample=u"проверка")
+        recs = road.build_plan(plan)
+
+        # Каталог с уже снятыми данными: кладём одну НЕПУСТУЮ трассу с плановым
+        # именем — ровно тот случай, ради которого правило и написано.
+        victim = road.fname([r for r in recs if r["kind"] == "sig"][0])
+        shutil.copy(os.path.join(GRID, "003_a0.txt"), os.path.join(d, victim))
+        before = sorted(os.listdir(d))
+
+        pv = road.preview(d, recs)
+        if not pv.blocked or victim not in pv.conflicts:
+            raise AssertionError(u"конфликт не обнаружен")
+        log(u"предпросмотр: %s" % pv.lines()[-2].strip())
+
+        try:
+            road.apply(d, recs, plan, pv)
+        except ValueError as exc:
+            log(u"создание отклонено: %s" % exc)
+        else:
+            raise AssertionError(u"apply обязан был отказать")
+
+        after = sorted(os.listdir(d))
+        if before != after:
+            raise AssertionError(u"каталог изменился при отказе: %s" % after)
+        if os.path.getsize(os.path.join(d, victim)) == 0:
+            raise AssertionError(u"файл усечён — недопустимо")
+        log(u"каталог не изменился: %d файл, %d байт — данные целы"
+            % (len(after), os.path.getsize(os.path.join(d, victim))))
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+@test(u"§5.2 создание кладёт только пустышки и не трогает то, что уже лежит")
+def t_road_creates(log):
+    from .core import road
+
+    d = tempfile.mkdtemp(prefix="tv_road2_")
+    try:
+        plan = road.Plan(sample=u"проверка", coarse_from=-20, coarse_to=20,
+                         coarse_step=10, fine_on=False, mirror_fine=False,
+                         repeat_fine=False, anchors_rep2=())
+        recs = road.build_plan(plan)
+
+        created, skipped = road.apply(d, recs, plan)
+        log(u"создано %d, пропущено %d" % (created, skipped))
+        sizes = set()
+        for rec in recs:
+            path = os.path.join(d, road.fname(rec))
+            if not os.path.exists(path):
+                raise AssertionError(u"не создан %s" % road.fname(rec))
+            sizes.add(os.path.getsize(path))
+        if sizes != set([0]):
+            raise AssertionError(u"созданы непустые файлы: размеры %s" % sizes)
+        for extra in ("META.txt", "README.md"):
+            if not os.path.exists(os.path.join(d, extra)):
+                raise AssertionError(u"нет %s" % extra)
+        log(u"все %d файлов нулевого размера; есть META.txt и README.md" % len(recs))
+
+        # Свежая дорога должна открываться просмотрщиком как «ничего не снято».
+        sc = Scan(d)
+        c = sc.counts()
+        if c["sig_done"] or c["bg_done"] or c["empty"] != len(recs):
+            raise AssertionError(u"свежая дорога распознана неверно: %s" % c)
+        log(u"просмотрщик видит её как %d пустышек, снято 0 — как и должно быть"
+            % c["empty"])
+
+        # Повторный запуск: ничего не создаёт, ничего не портит.
+        with io.open(os.path.join(d, road.fname(recs[1])), "w", encoding="utf-8") as fh:
+            fh.write(u"0.0\t1.0\n0.1\t2.0\n")          # «сняли» одну трассу
+        pv = road.preview(d, recs)
+        if not pv.blocked:
+            raise AssertionError(u"снятая трасса обязана блокировать повтор")
+        log(u"после «съёмки» одной трассы повторная генерация отказывает — "
+            u"затереть измерение нельзя")
     finally:
         shutil.rmtree(d, ignore_errors=True)
 

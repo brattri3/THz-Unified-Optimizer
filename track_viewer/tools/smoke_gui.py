@@ -106,7 +106,46 @@ def main():
     print(u"пустой каталог: %d точек, показано сообщение" % len(app.points))
     shot("08_empty_dir")
 
-    app.export_csv_path = None
+    # --- окно генерации дороги: параметры → предпросмотр → создание
+    print(u"")
+    print(u"окно генерации трека:")
+    from track_viewer.gui import RoadDialog
+    dlg = RoadDialog(root, app)
+    root.update()
+
+    target = tempfile.mkdtemp(prefix="tv_road_gui_")
+    dlg.v["dir"].set(target)
+    dlg.v["sample"].set(u"проверка_gui")
+    dlg.do_preview()
+    root.update()
+    print(u"  предпросмотр на пустом каталоге: кнопка создания %s"
+          % (u"активна" if str(dlg.btn_create["state"]) == "normal" else u"ЗАБЛОКИРОВАНА"))
+
+    dlg.v["coarse_step"].set("20")
+    print(u"  после правки параметра кнопка создания %s"
+          % (u"активна" if str(dlg.btn_create["state"]) == "normal" else u"погасла"))
+
+    dlg.do_preview()
+    dlg.pv = dlg.pv
+    from track_viewer.core import road
+    created, skipped = road.apply(target, dlg.records, dlg.plan, dlg.pv)
+    print(u"  создано %d пустышек, README.md и META.txt на месте: %s"
+          % (created, os.path.isfile(os.path.join(target, "META.txt"))))
+
+    dlg.do_preview()
+    root.update()
+    print(u"  повторный предпросмотр по тем же файлам: блокировка %s"
+          % (u"есть" if dlg.pv.blocked else u"нет (все пустые — так и должно быть)"))
+
+    with open(os.path.join(target, sorted(os.listdir(target))[1]), "w") as fh:
+        fh.write("0.0\t1.0\n0.1\t2.0\n")
+    dlg.do_preview()
+    root.update()
+    print(u"  после «съёмки» одной трассы: блокировка %s, кнопка %s"
+          % (u"есть" if dlg.pv.blocked else u"НЕТ",
+             u"погашена" if str(dlg.btn_create["state"]) == "disabled" else u"АКТИВНА"))
+    dlg.win.destroy()
+
     root.destroy()
     print(u"")
     print(u"снимков: %d, каталог %s" % (len(shots), args.out))

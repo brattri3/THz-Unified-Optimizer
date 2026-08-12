@@ -155,7 +155,13 @@ class TrackViewer(object):
         ttk.Label(g, text=u"для вёрстки в Origin Pro", foreground="#777").pack(anchor=tk.W)
 
         g = self._group(parent, u"ГЕНЕРАЦИЯ ТРЕКА")
-        ttk.Label(g, text=u"появится на этапе 2", foreground="#777").pack(anchor=tk.W)
+        ttk.Button(g, text=u"разложить дорогу…",
+                   command=self.open_road_dialog).pack(fill=tk.X)
+        ttk.Label(g, text=u"пустые файлы под будущий прогон",
+                  foreground="#777").pack(anchor=tk.W)
+
+    def open_road_dialog(self):
+        RoadDialog(self.root, self)
 
     def _build_plots(self, parent):
         self.fig = Figure(figsize=(10.5, 6.6), dpi=100)
@@ -486,6 +492,273 @@ class TrackViewer(object):
             messagebox.showerror(u"Не сохранилось", u"%s" % exc)
             return
         messagebox.showinfo(u"Сохранено", u"%d точек:\n%s" % (len(self.points), path))
+
+
+class RoadDialog(object):
+    """Окно генерации дороги: параметры → предпросмотр → создание.
+
+    Создание физически невозможно до предпросмотра: кнопка «СОЗДАТЬ ФАЙЛЫ»
+    включается только после успешного просмотра и гаснет обратно при любом
+    изменении параметров. Это пункт 4 гардрейлов ТЗ §5.2, вынесенный в
+    состояние виджета, а не оставленный на дисциплину оператора.
+    """
+
+    def __init__(self, parent, app):
+        self.app = app
+        self.records = None
+        self.plan = None
+        self.pv = None
+
+        self.win = tk.Toplevel(parent)
+        self.win.title(u"Генерация трека — пустые файлы будущего прогона")
+        self.win.transient(parent)
+        self.win.geometry("880x680")
+
+        self.v = {}
+        for name, value in (
+                ("sample", u"образец"), ("dir", u""),
+                ("coarse_from", "-70"), ("coarse_to", "70"), ("coarse_step", "10"),
+                ("fine_from", "80"), ("fine_to", "100"), ("fine_step", "2"),
+                ("anchor", "0"), ("anchors_rep2", "40, 0, -40"),
+                ("bg_every", "3"), ("repeats", "1")):
+            self.v[name] = tk.StringVar(value=value)
+        self.v_fine = tk.BooleanVar(value=True)
+        self.v_mirror = tk.BooleanVar(value=True)
+        self.v_repeat = tk.BooleanVar(value=True)
+        self.v_bg = tk.StringVar(value=u"в начале, каждые n и в конце")
+        self.v_order = tk.StringVar(value=u"блочный")
+
+        self._build()
+
+        # Гардрейл «сначала предпросмотр» держится на изменении САМИХ переменных,
+        # а не на событии клавиатуры: вставка мышью, выбор из списка и правка из
+        # кода тоже обязаны гасить кнопку создания. Привязка к <KeyRelease> это
+        # пропускала.
+        for var in list(self.v.values()) + [self.v_fine, self.v_mirror,
+                                            self.v_repeat, self.v_bg, self.v_order]:
+            var.trace_add("write", lambda *a: self._invalidate())
+
+    def _build(self):
+        top = ttk.Frame(self.win, padding=8)
+        top.pack(fill=tk.BOTH, expand=True)
+
+        left = ttk.Frame(top, width=330)
+        left.pack(side=tk.LEFT, fill=tk.Y, padx=(0, 8))
+        left.pack_propagate(False)
+        right = ttk.Frame(top)
+        right.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        def row(parent, label, key, width=7):
+            f = ttk.Frame(parent)
+            f.pack(fill=tk.X, pady=1)
+            ttk.Label(f, text=label).pack(side=tk.LEFT)
+            e = ttk.Entry(f, textvariable=self.v[key], width=width)
+            e.pack(side=tk.RIGHT)
+            return e
+
+        g = ttk.LabelFrame(left, text=u"КУДА", padding=6)
+        g.pack(fill=tk.X, pady=(0, 6))
+        ttk.Button(g, text=u"выбрать каталог…",
+                   command=self._choose).pack(fill=tk.X)
+        ttk.Label(g, textvariable=self.v["dir"], wraplength=300,
+                  foreground="#444").pack(fill=tk.X, pady=(3, 0))
+        row(g, u"имя образца:", "sample", 18)
+
+        g = ttk.LabelFrame(left, text=u"ОСНОВНОЙ ДИАПАЗОН", padding=6)
+        g.pack(fill=tk.X, pady=(0, 6))
+        row(g, u"от, °:", "coarse_from")
+        row(g, u"до, °:", "coarse_to")
+        row(g, u"шаг, °:", "coarse_step")
+        row(g, u"яркий якорь, °:", "anchor")
+
+        g = ttk.LabelFrame(left, text=u"ВТОРОЙ ДИАПАЗОН (зона гашения)", padding=6)
+        g.pack(fill=tk.X, pady=(0, 6))
+        ttk.Checkbutton(g, text=u"включить", variable=self.v_fine,
+                        command=self._invalidate).pack(anchor=tk.W)
+        row(g, u"от, °:", "fine_from")
+        row(g, u"до, °:", "fine_to")
+        row(g, u"шаг, °:", "fine_step")
+        ttk.Checkbutton(g, text=u"зеркальная тень (контроль π-периодичности)",
+                        variable=self.v_mirror,
+                        command=self._invalidate).pack(anchor=tk.W)
+        ttk.Checkbutton(g, text=u"повтор обратным ходом (мера дрейфа)",
+                        variable=self.v_repeat,
+                        command=self._invalidate).pack(anchor=tk.W)
+
+        g = ttk.LabelFrame(left, text=u"РЕФЕРЕНСЫ И ПОРЯДОК", padding=6)
+        g.pack(fill=tk.X, pady=(0, 6))
+        cb = ttk.Combobox(g, textvariable=self.v_bg, state="readonly", width=30,
+                          values=[u"один в начале", u"в начале и в конце",
+                                  u"в начале, каждые n и в конце"])
+        cb.pack(fill=tk.X)
+        cb.bind("<<ComboboxSelected>>", lambda e: self._invalidate())
+        row(g, u"n =", "bg_every")
+        cb = ttk.Combobox(g, textvariable=self.v_order, state="readonly", width=30,
+                          values=[u"блочный", u"по возрастанию"])
+        cb.pack(fill=tk.X, pady=(4, 0))
+        cb.bind("<<ComboboxSelected>>", lambda e: self._invalidate())
+        row(g, u"якоря rep2, °:", "anchors_rep2", 14)
+        row(g, u"повторов плана:", "repeats")
+
+        bar = ttk.Frame(left)
+        bar.pack(fill=tk.X, pady=(4, 0))
+        ttk.Button(bar, text=u"ПРЕДПРОСМОТР",
+                   command=self.do_preview).pack(fill=tk.X)
+        self.btn_create = ttk.Button(bar, text=u"СОЗДАТЬ ФАЙЛЫ",
+                                     command=self.do_create, state=tk.DISABLED)
+        self.btn_create.pack(fill=tk.X, pady=(4, 0))
+        ttk.Label(bar, text=u"создаются только пустые файлы;\n"
+                            u"существующие не перезаписываются никогда",
+                  foreground="#777", justify=tk.LEFT).pack(anchor=tk.W, pady=(4, 0))
+
+        self.text = tk.Text(right, wrap=tk.NONE, relief=tk.FLAT,
+                            background="#f7f7f7")
+        sb = ttk.Scrollbar(right, orient=tk.VERTICAL, command=self.text.yview)
+        self.text.configure(yscrollcommand=sb.set)
+        sb.pack(side=tk.RIGHT, fill=tk.Y)
+        self.text.pack(fill=tk.BOTH, expand=True)
+        self.text.tag_configure("warn", foreground=COLOR_WARN)
+        self._show([u"Задайте параметры и нажмите ПРЕДПРОСМОТР.",
+                    u"",
+                    u"Значения по умолчанию повторяют проверенный план",
+                    u"test_grid_33_11: яркий якорь, тень 80…100° с шагом 2°,",
+                    u"яркая зона ±70° с шагом 10°, зеркальная тень и её повтор",
+                    u"обратным ходом, референс каждые 3 трассы."], 99)
+
+    def _choose(self):
+        d = filedialog.askdirectory(title=u"каталог будущего прогона")
+        if d:
+            self.v["dir"].set(d)
+            self._invalidate()
+
+    def _invalidate(self):
+        """Любая правка параметров гасит кнопку создания — предпросмотр устарел."""
+        self.btn_create.configure(state=tk.DISABLED)
+        self.pv = None
+
+    def _show(self, lines, warn_from):
+        self.text.configure(state=tk.NORMAL)
+        self.text.delete("1.0", tk.END)
+        for i, line in enumerate(lines):
+            self.text.insert(tk.END, line + u"\n",
+                             ("warn",) if i >= warn_from else ())
+        self.text.configure(state=tk.DISABLED)
+
+    def _int(self, key, default):
+        try:
+            return int(float(str(self.v[key].get()).replace(",", ".")))
+        except (TypeError, ValueError):
+            self.v[key].set(str(default))
+            return default
+
+    def build(self):
+        from .core import road
+        anchors = []
+        for chunk in str(self.v["anchors_rep2"].get()).replace(";", ",").split(","):
+            chunk = chunk.strip()
+            if chunk:
+                try:
+                    anchors.append(int(float(chunk)))
+                except ValueError:
+                    pass
+        plan = road.Plan(
+            sample=str(self.v["sample"].get()).strip() or u"образец",
+            coarse_from=self._int("coarse_from", -70),
+            coarse_to=self._int("coarse_to", 70),
+            coarse_step=self._int("coarse_step", 10),
+            fine_on=self.v_fine.get(),
+            fine_from=self._int("fine_from", 80),
+            fine_to=self._int("fine_to", 100),
+            fine_step=self._int("fine_step", 2),
+            mirror_fine=self.v_mirror.get(),
+            repeat_fine=self.v_repeat.get(),
+            anchor=self._int("anchor", 0),
+            anchors_rep2=tuple(anchors),
+            bg_mode={u"один в начале": road.BG_START,
+                     u"в начале и в конце": road.BG_START_END,
+                     u"в начале, каждые n и в конце": road.BG_EVERY_N}[self.v_bg.get()],
+            bg_every=self._int("bg_every", 3),
+            order=(road.ORDER_BLOCK if self.v_order.get() == u"блочный"
+                   else road.ORDER_ASCENDING),
+            repeats=self._int("repeats", 1),
+        )
+        return plan, road.build_plan(plan)
+
+    def do_preview(self):
+        from .core import road
+        directory = str(self.v["dir"].get()).strip()
+        if not directory:
+            messagebox.showinfo(u"Нужен каталог", u"Выберите каталог будущего прогона.")
+            return
+        try:
+            self.plan, self.records = self.build()
+        except ValueError as exc:
+            self._show([u"План неисполним:", u"", u"%s" % exc], 0)
+            self._invalidate()
+            return
+
+        self.pv = road.preview(directory, self.records)
+        lines = list(self.pv.lines())
+        warn_from = len(lines)
+        if self.pv.blocked:
+            warn_from = next(i for i, s in enumerate(lines) if s.startswith(u"ОТКАЗ"))
+        else:
+            lines.append(u"")
+            lines.append(u"Порядок съёмки (следующий пустой файл = следующее действие):")
+            lines.append(u"")
+            for rec in self.records:
+                what = (u"фон (пустой пучок)" if rec["kind"] == "bg"
+                        else u"угол %+d°%s" % (rec["angle"],
+                                               u"   повтор %d" % rec["rep"]
+                                               if rec["rep"] and rec["rep"] > 1
+                                               else u""))
+                lines.append(u"  %-16s %s" % (road.fname(rec), what))
+            warn_from = len(lines)
+        self._show(lines, warn_from)
+        self.btn_create.configure(
+            state=tk.DISABLED if self.pv.blocked else tk.NORMAL)
+
+    def do_create(self):
+        from .core import road
+        if self.pv is None or self.pv.blocked or not self.records:
+            return
+        directory = str(self.v["dir"].get()).strip()
+        n = len(self.pv.to_create)
+        if not messagebox.askyesno(
+                u"Создать файлы?",
+                u"Будет создано %d пустых файлов в\n%s\n\n"
+                u"Существующие файлы не изменяются." % (n, directory)):
+            return
+
+        # Свежий предпросмотр прямо перед записью: между показом и нажатием
+        # прибор мог дописать трассу в этот каталог. Правило «непустой файл
+        # отменяет операцию целиком» обязано действовать и в этом окне.
+        fresh = road.preview(directory, self.records)
+        if fresh.blocked:
+            self.pv = fresh
+            self._show(fresh.lines(),
+                       next(i for i, s in enumerate(fresh.lines())
+                            if s.startswith(u"ОТКАЗ")))
+            self.btn_create.configure(state=tk.DISABLED)
+            messagebox.showerror(
+                u"Не создано",
+                u"Каталог изменился с момента предпросмотра: появилось %d непустых "
+                u"файлов с плановыми именами. Не создано ничего."
+                % len(fresh.conflicts))
+            return
+
+        try:
+            created, skipped = road.apply(directory, self.records, self.plan, fresh)
+        except (ValueError, IOError, OSError) as exc:
+            messagebox.showerror(u"Не создано", u"%s" % exc)
+            return
+        messagebox.showinfo(
+            u"Дорога разложена",
+            u"создано пустых файлов: %d\nуже были: %d\n\nв каталоге также META.txt "
+            u"и README.md с планом" % (created, skipped))
+        self._invalidate()
+        self.app.open_directory(directory)
+        self.win.destroy()
 
 
 def main(argv=None):
