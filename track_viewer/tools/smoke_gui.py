@@ -147,6 +147,21 @@ def main():
     root.update()
     print(u"выключение Парсеваля: панелей снова %d" % len(app.fig.axes))
 
+    # --- три источника шумового пола
+    from track_viewer.gui import NOISE_LABELS
+    from track_viewer.core import physics as ph
+    for key in (ph.NOISE_PRE_PULSE, ph.NOISE_DARK, ph.NOISE_HF_TAIL):
+        app.var_noise.set(NOISE_LABELS[key])
+        app._noise_changed()
+        root.update()
+        p = app.points[app.index]
+        note = [w for w in p.warnings if u"шумовой пол" in w or u"перекрытого" in w]
+        print(u"  %-26s поле границы %s%s"
+              % (NOISE_LABELS[key],
+                 u"активно" if str(app.entry_hf["state"]) == "normal" else u"погашено",
+                 u"; " + note[0][:60] if note else u""))
+    shot("13_noise_hf_tail")
+
     app.open_directory(PUREWAVE)
     root.update()
     print(u"каталог %s: %d точек" % (PUREWAVE, len(app.points)))
@@ -172,6 +187,15 @@ def main():
     root.update()
     print(u"  предпросмотр на пустом каталоге: кнопка создания %s"
           % (u"активна" if str(dlg.btn_create["state"]) == "normal" else u"ЗАБЛОКИРОВАНА"))
+
+    from track_viewer.core import road as _road
+    print(u"  план по умолчанию: %d файлов, из них перекрытых пучков %d"
+          % (len(dlg.records), _road.summary(dlg.records)["n_dark"]))
+    dlg.v_dark.set(u"не снимать")
+    dlg.do_preview()
+    print(u"  режим «не снимать»: перекрытых пучков %d"
+          % _road.summary(dlg.records)["n_dark"])
+    dlg.v_dark.set(u"в начале и в конце")
 
     dlg.v["coarse_step"].set("20")
     print(u"  после правки параметра кнопка создания %s"

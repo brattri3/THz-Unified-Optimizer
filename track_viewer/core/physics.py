@@ -43,6 +43,12 @@ REF_AVERAGE = "average"
 CENTER_OWN = "own_peak"
 CENTER_REF = "ref_peak"
 
+# Источники оценки шумового пола. По умолчанию — ВЧ-хвост (метод Нафтали,
+# решение владельца 2026-08-12): предымпульсная оценка измеренно завышена.
+NOISE_HF_TAIL = "hf_tail"
+NOISE_PRE_PULSE = "pre_pulse"
+NOISE_DARK = "dark"
+
 # FWHM, при которой окно шире любой реальной трассы ⇒ фактическое выключение (ТЗ §3.3).
 WINDOW_OFF_PS = 1000.0
 
@@ -52,12 +58,14 @@ class Settings(object):
 
     __slots__ = ("dc_mode", "dc_fraction", "window_on", "window_fwhm_ps",
                  "window_center", "ref_mode", "band_lo", "band_hi", "dyn_range_db",
-                 "parseval_on", "int_lo", "int_hi", "window_in_time")
+                 "parseval_on", "int_lo", "int_hi", "window_in_time",
+                 "noise_source", "noise_hf_from")
 
     def __init__(self, dc_mode=DC_PRE_PULSE, dc_fraction=0.15,
                  window_on=False, window_fwhm_ps=20.0, window_center=CENTER_OWN,
                  ref_mode=REF_EARLIER, band_lo=0.2, band_hi=3.0, dyn_range_db=40.0,
-                 parseval_on=False, int_lo=0.2, int_hi=3.0, window_in_time=False):
+                 parseval_on=False, int_lo=0.2, int_hi=3.0, window_in_time=False,
+                 noise_source=NOISE_HF_TAIL, noise_hf_from=3.0):
         self.dc_mode = dc_mode
         self.dc_fraction = dc_fraction
         self.window_on = window_on
@@ -72,6 +80,8 @@ class Settings(object):
         self.int_lo = int_lo                # полоса ИНТЕГРИРОВАНИЯ — отдельная от
         self.int_hi = int_hi                # полосы отображения band_lo/band_hi
         self.window_in_time = window_in_time
+        self.noise_source = noise_source
+        self.noise_hf_from = noise_hf_from      # граница ВЧ-хвоста, ТГц
 
     def copy(self):
         s = Settings()
@@ -100,7 +110,10 @@ class Settings(object):
             out += u"; окно учтено и во ВРЕМЕННОМ интеграле"
         if self.parseval_on:
             out += u"; полоса интегрирования %.3g…%.3g ТГц" % (self.int_lo, self.int_hi)
-        return out
+        noise = {NOISE_HF_TAIL: u"ВЧ-хвост выше %.2f ТГц (Нафтали)" % self.noise_hf_from,
+                 NOISE_PRE_PULSE: u"предымпульс (завышает)",
+                 NOISE_DARK: u"перекрытый пучок"}[self.noise_source]
+        return out + u"; шумовой пол — " + noise
 
 
 # --------------------------------------------------------------------- базовые
@@ -264,26 +277,86 @@ def band_energy(t, E, settings, centre_ps, lo, hi):
 
 
 def noise_power(t, E, settings, centre_ps, fraction=0.15):
-    """Оценка шумового пола спектра трассы, одно число на всю полосу.
+    """Оценка шумового пола по **предымпульсному** участку: σ²·N.
 
-    Берётся **предымпульсный** участок — там сигнала заведомо нет, только шум
-    приёмного тракта. Для белого шума с дисперсией σ² математическое ожидание
-    `|FFT|²` от N отсчётов равно σ²·N, что и возвращается.
+    Там сигнала заведомо нет, только шум приёмного тракта; для белого шума с
+    дисперсией σ² математическое ожидание `|FFT|²` от N отсчётов равно σ²·N.
 
-    Зачем это нужно: выше примерно 1.6 ТГц отношение `T(ν)` на наших прогонах
-    состоит из шума, делённого на сигнал, и скачет от нуля до единиц. Без
-    отрисованного пола оператор не отличает «образец так пропускает» от «здесь
-    уже нечего измерять», а по одному виду кривой это неразличимо.
-
-    Оценка сознательно грубая (белый шум, один уровень на полосу): её задача —
-    показать порядок величины на графике, а не служить метрологией. Окно, если
-    включено, домножает шум так же, как сигнал, поэтому берётся от той же
-    подготовленной трассы.
+    ⚠ **Оценка завышена, и это измерено.** Предымпульсный участок содержит не
+    только белый шум, но и низкочастотный дрейф базовой линии. На `002_bg.txt`
+    она даёт 3.4·10⁻³ против 1.7·10⁻⁴ по высокочастотному хвосту спектра —
+    линия пола оказывается примерно на **13 дБ выше** реального шума. Режим
+    сохранён для сверки и как запасной, по умолчанию используется `hf_tail`.
     """
     Ew = _prepared(t, E, settings, centre_ps)
     n = max(4, int(round(fraction * len(Ew))))
     sigma2 = float(np.var(Ew[:n]))
     return sigma2 * len(Ew)
+
+
+def noise_power_hf(t, E, settings, centre_ps, from_thz):
+    """Шумовой пол по высокочастотному хвосту спектра — метод Mira Naftaly.
+
+    (*Terahertz Metrology*): выше некоторой частоты спектр перестаёт спадать и
+    выходит на полку — это и есть шум измерения. Берётся среднее `|FFT|²` выше
+    `from_thz`. Измерено на наших прогонах: полка начинается около **3.0 ТГц**,
+    где `⟨P⟩` = 1…3·10⁻⁴ и дальше не падает.
+
+    Метод честнее предымпульсного тем, что оценивает шум там же, где он мешает —
+    в частотной области, — и не подмешивает низкочастотный дрейф.
+    """
+    freqs, P = power_spectrum(t, E, settings, centre_ps)
+    sel = freqs >= float(from_thz)
+    if not np.any(sel):
+        # Полоса прибора уже границы оценки: хвоста нет вовсе.
+        return None
+    return float(np.mean(P[sel]))
+
+
+def noise_power_dark(t_dark, E_dark, settings, centre_ps):
+    """Шумовой пол по трассе перекрытого пучка: среднее `|FFT|²` по всей полосе.
+
+    Прямое измерение шума закрытого тракта — альтернатива методу Нафтали,
+    не опирающаяся на предположение о том, где кончается сигнал.
+
+    ⚠ **Dark НЕ вычитается из трасс ни при каких настройках.** Шум некогерентен,
+    вычитание его из поля не уменьшило бы шум, а добавило второй независимый
+    экземпляр. Трасса перекрытого пучка используется только как оценка уровня.
+    """
+    P = power_spectrum(t_dark, E_dark, settings, centre_ps)[1]
+    return float(np.mean(P))
+
+
+def resolve_noise(scan, trace, settings, t_s, E_s, centre_s, n):
+    """Шумовой пол выбранным источником. -> (уровень, пометка или None).
+
+    Откат на `hf_tail` делается всегда с пометкой: молча подменённый источник
+    выглядел бы на графике как штатный результат.
+    """
+    src = getattr(settings, "noise_source", NOISE_HF_TAIL)
+    hf_from = getattr(settings, "noise_hf_from", 3.0)
+
+    if src == NOISE_DARK:
+        dk = scan.nearest_dark(trace.seq) if scan is not None else None
+        if dk is not None:
+            centre = peak_position(dk.t, dk.E, settings.dc_fraction)[0]
+            m = min(n, len(dk.E))
+            return (noise_power_dark(dk.t[:m], dk.E[:m], settings, centre),
+                    u"шумовой пол по %s (перекрытый пучок)" % dk.name)
+        src = NOISE_HF_TAIL
+        note = (u"трасс перекрытого пучка в каталоге нет — шумовой пол взят "
+                u"по ВЧ-хвосту выше %.2f ТГц" % hf_from)
+    else:
+        note = None
+
+    if src == NOISE_HF_TAIL:
+        val = noise_power_hf(t_s, E_s, settings, centre_s, hf_from)
+        if val is None:
+            return (noise_power(t_s, E_s, settings, centre_s, settings.dc_fraction),
+                    u"полоса прогона не достаёт до %.2f ТГц — шумовой пол взят "
+                    u"по предымпульсу (оценка завышена)" % hf_from)
+        return val, note
+    return noise_power(t_s, E_s, settings, centre_s, settings.dc_fraction), note
 
 
 # ------------------------------------------------------------------- результат
@@ -473,10 +546,38 @@ def compute_point(scan, trace, settings):
             u"и не сместился ли образец между трассой и фоном" % (100.0 * res.T))
 
     # ---- спектральная область
-    _spectral(res, t_s, E_s, refs, settings, centre_s, centres_r)
+    _spectral(res, scan, t_s, E_s, refs, settings, centre_s, centres_r)
     if settings.parseval_on:
         _band(res, t_s, E_s, refs, settings, centre_s, centres_r)
+    _dark_divergence(res, scan, settings)
     return res
+
+
+def _dark_divergence(res, scan, settings):
+    """Расхождение двух трасс перекрытого пучка, если их снято две и больше.
+
+    Шум за прогон может измениться, и тогда оценка динамического диапазона по
+    одной из трасс неверна. Молчать об этом нельзя: обе выглядят одинаково
+    правдоподобно.
+    """
+    darks = scan.darks if scan is not None else []
+    if len(darks) < 2:
+        return
+    levels = []
+    for dk in darks:
+        centre = peak_position(dk.t, dk.E, settings.dc_fraction)[0]
+        levels.append(noise_power_dark(dk.t, dk.E, settings, centre))
+    lo, hi = min(levels), max(levels)
+    if lo <= 0:
+        return
+    ratio_db = 10.0 * math.log10(hi / lo)
+    # 3 дБ — двукратное изменение мощности шума; ниже этого разброс укладывается
+    # в собственную статистику оценки по одной трассе.
+    if ratio_db > 3.0:
+        res.warnings.append(
+            u"трассы перекрытого пучка расходятся на %.1f дБ (%d шт.) — шум за "
+            u"прогон изменился, оценка динамического диапазона по одной из них "
+            u"неверна" % (ratio_db, len(darks)))
 
 
 def _band(res, t_s, E_s, refs, settings, centre_s, centres_r):
@@ -518,7 +619,7 @@ def _band(res, t_s, E_s, refs, settings, centre_s, centres_r):
         res.delta_db = 10.0 * math.log10(res.T / res.T_freq)
 
 
-def _spectral(res, t_s, E_s, refs, settings, centre_s, centres_r):
+def _spectral(res, scan, t_s, E_s, refs, settings, centre_s, centres_r):
     """T(ν) = |FFT(E_s)|² / ⟨|FFT(E_r)|²⟩, обрезанный по полосе и динамике."""
     lengths = [len(E_s)] + [len(r.E) for r in refs]
     n = min(lengths)
@@ -551,8 +652,11 @@ def _spectral(res, t_s, E_s, refs, settings, centre_s, centres_r):
     res.T_nu = P_s[good] / P_r[good]
     # Шумовой пол образца, приведённый к тем же единицам, что и T(ν): выше него
     # кривая — измерение, на нём — шум, делённый на сигнал референса.
-    res.T_noise = noise_power(t_s[:n], E_s[:n], settings, centre_s,
-                              settings.dc_fraction) / P_r[good]
+    level, note = resolve_noise(scan, res.trace, settings,
+                                t_s[:n], E_s[:n], centre_s, n)
+    res.T_noise = level / P_r[good]
+    if note:
+        res.warnings.append(note)
     if res.freqs.size == 0:
         res.warnings.append(u"в полосе %.2f…%.2f ТГц нет точек выше порога динамического "
                             u"диапазона %.0f дБ" % (settings.band_lo, settings.band_hi,

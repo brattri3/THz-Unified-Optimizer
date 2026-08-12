@@ -39,7 +39,10 @@ from collections import OrderedDict
 import numpy as np
 
 # Сквозной номер + вид. Знак угла — часть имени (`047_a-94.txt`).
-TRACE_RE = re.compile(r"^(\d{3})_(?:a(-?\d+)|bg)\.txt$")
+# `dark` — трасса при перекрытом пучке (непрозрачная преграда на пути), нужна
+# для оценки шума закрытого тракта. Проверено: ни в одном существующем каталоге
+# файлов с таким именем нет, поэтому расширение правила архивы не задевает.
+TRACE_RE = re.compile(r"^(\d{3})_(?:a(-?\d+)|(bg|dark))\.txt$")
 
 EMPTY = "empty"
 OK = "ok"
@@ -60,7 +63,7 @@ class Trace(object):
         self.seq = seq
         self.name = name
         self.path = path
-        self.kind = kind            # 'sig' | 'bg'
+        self.kind = kind            # 'sig' | 'bg' | 'dark'
         self.angle = angle          # int для 'sig', None для 'bg'
         self.rep = 1                # проставляется в Scan после сортировки
         self.size = size
@@ -79,6 +82,8 @@ class Trace(object):
     def label(self):
         if self.kind == "bg":
             return u"%s (референс)" % self.name
+        if self.kind == "dark":
+            return u"%s (перекрытый пучок)" % self.name
         if self.rep > 1:
             return u"%s  %+d°  rep%d" % (self.name, self.angle, self.rep)
         return u"%s  %+d°" % (self.name, self.angle)
@@ -169,7 +174,8 @@ class Scan(object):
             st = os.stat(path)
             seq = int(m.group(1))
             if m.group(2) is None:
-                found.append(Trace(seq, name, path, "bg", None, st.st_size, st.st_mtime))
+                found.append(Trace(seq, name, path, m.group(3), None,
+                                   st.st_size, st.st_mtime))
             else:
                 found.append(Trace(seq, name, path, "sig", int(m.group(2)),
                                    st.st_size, st.st_mtime))
@@ -221,6 +227,14 @@ class Scan(object):
         return [tr for tr in self.traces if tr.kind == "bg" and tr.state == OK]
 
     @property
+    def darks(self):
+        """Трассы при перекрытом пучке — шум закрытого тракта.
+
+        Как и референсы, в слайдер не попадают: это не измерение образца.
+        """
+        return [tr for tr in self.traces if tr.kind == "dark" and tr.state == OK]
+
+    @property
     def errors(self):
         return [tr for tr in self.traces if tr.state == ERROR]
 
@@ -228,11 +242,14 @@ class Scan(object):
         """Сводка для панели «N/M снято»."""
         sig = [tr for tr in self.traces if tr.kind == "sig"]
         bg = [tr for tr in self.traces if tr.kind == "bg"]
+        dark = [tr for tr in self.traces if tr.kind == "dark"]
         return {
             "sig_total": len(sig),
             "sig_done": len([tr for tr in sig if tr.state == OK]),
             "bg_total": len(bg),
             "bg_done": len([tr for tr in bg if tr.state == OK]),
+            "dark_total": len(dark),
+            "dark_done": len([tr for tr in dark if tr.state == OK]),
             "empty": len([tr for tr in self.traces if tr.state == EMPTY]),
             "errors": len(self.errors),
         }
@@ -253,6 +270,19 @@ class Scan(object):
                 if later is None or tr.seq < later.seq:
                     later = tr
         return earlier, later
+
+    def nearest_dark(self, seq):
+        """Ближайшая по номеру трасса перекрытого пучка, либо None.
+
+        В отличие от референсов сторона не важна: шум тракта не привязан к
+        положению образца, и делить его на «ранний/поздний» смысла нет.
+        Если dark сняли дважды (в начале и в конце), расхождение между ними —
+        самостоятельная величина, её показывает панель данных.
+        """
+        darks = self.darks
+        if not darks:
+            return None
+        return min(darks, key=lambda tr: (abs(tr.seq - seq), tr.seq))
 
     def next_unmeasured(self):
         """Первый по порядку файл нулевого размера — «следующее действие» оператора."""

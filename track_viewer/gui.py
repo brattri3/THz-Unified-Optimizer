@@ -47,6 +47,15 @@ REP_MARKERS = ["o", "s", "^", "D", "v"]
 
 FLOOR_DB = -60.0        # нижняя граница дБ-панелей: ниже уже шум установки
 
+# Порядок в списке — порядок предпочтения: первым стоит метод по умолчанию.
+NOISE_ORDER = [ph.NOISE_HF_TAIL, ph.NOISE_PRE_PULSE, ph.NOISE_DARK]
+NOISE_LABELS = {
+    ph.NOISE_HF_TAIL: u"ВЧ-хвост (Нафтали)",
+    ph.NOISE_PRE_PULSE: u"предымпульс (завышает)",
+    ph.NOISE_DARK: u"перекрытый пучок (dark)",
+}
+NOISE_BY_LABEL = dict((v, k) for k, v in NOISE_LABELS.items())
+
 
 class TrackViewer(object):
 
@@ -70,6 +79,8 @@ class TrackViewer(object):
         self.var_int_lo = tk.StringVar(value="0.2")
         self.var_int_hi = tk.StringVar(value="3.0")
         self.var_win_time = tk.BooleanVar(value=False)
+        self.var_noise = tk.StringVar(value=NOISE_LABELS[ph.NOISE_HF_TAIL])
+        self.var_noise_hf = tk.StringVar(value="3.0")
         self.var_status = tk.StringVar(value=u"")
         self.var_pos = tk.StringVar(value="0")
 
@@ -162,6 +173,18 @@ class TrackViewer(object):
         e1.pack(side=tk.RIGHT, padx=(0, 3))
         for w in (e1, e2):
             w.bind("<Return>", lambda ev: self.recompute())
+
+        ttk.Label(g, text=u"шумовой пол:").pack(anchor=tk.W, pady=(6, 0))
+        cb = ttk.Combobox(g, textvariable=self.var_noise, state="readonly", width=24,
+                          values=[NOISE_LABELS[k] for k in NOISE_ORDER])
+        cb.pack(fill=tk.X)
+        cb.bind("<<ComboboxSelected>>", lambda e: self._noise_changed())
+        row = ttk.Frame(g)
+        row.pack(fill=tk.X, pady=(2, 0))
+        ttk.Label(row, text=u"шум по полосе выше, ТГц:").pack(side=tk.LEFT)
+        self.entry_hf = ttk.Entry(row, textvariable=self.var_noise_hf, width=5)
+        self.entry_hf.pack(side=tk.RIGHT)
+        self.entry_hf.bind("<Return>", lambda ev: self.recompute())
 
         g = self._group(parent, u"ПРОПУСКАНИЕ ПО ПОЛОСЕ")
         ttk.Checkbutton(g, text=u"считать T по полосе (Парсеваль)",
@@ -298,7 +321,15 @@ class TrackViewer(object):
             int_lo=self._num(self.var_int_lo, 0.2, 0.0, 1000.0),
             int_hi=self._num(self.var_int_hi, 3.0, 0.01, 1000.0),
             window_in_time=self.var_win_time.get(),
+            noise_source=NOISE_BY_LABEL[self.var_noise.get()],
+            noise_hf_from=self._num(self.var_noise_hf, 3.0, 0.05, 1000.0),
         )
+
+    def _noise_changed(self):
+        """Поле границы ВЧ-хвоста имеет смысл только для метода Нафтали."""
+        active = NOISE_BY_LABEL[self.var_noise.get()] == ph.NOISE_HF_TAIL
+        self.entry_hf.configure(state=(tk.NORMAL if active else tk.DISABLED))
+        self.recompute()
 
     def nyquist(self):
         """Частота Найквиста текущего прогона: 1/(2·Δt), Δt читается из файла."""
@@ -370,6 +401,9 @@ class TrackViewer(object):
         c = self.scan.counts()
         status = u"снято %d из %d трасс, референсов %d из %d" % (
             c["sig_done"], c["sig_total"], c["bg_done"], c["bg_total"])
+        if c["dark_total"]:
+            status += u", перекрытый пучок %d из %d" % (c["dark_done"],
+                                                        c["dark_total"])
         if c["errors"]:
             status += u"\n⚠ файлов с ошибкой: %d" % c["errors"]
         nxt = self.scan.next_unmeasured()
@@ -677,13 +711,14 @@ class RoadDialog(object):
                 ("coarse_from", "-70"), ("coarse_to", "70"), ("coarse_step", "10"),
                 ("fine_from", "80"), ("fine_to", "100"), ("fine_step", "2"),
                 ("anchor", "0"), ("anchors_rep2", "40, 0, -40"),
-                ("bg_every", "3"), ("repeats", "1")):
+                ("bg_every", "3"), ("repeats", "1"), ("dark_every", "20")):
             self.v[name] = tk.StringVar(value=value)
         self.v_fine = tk.BooleanVar(value=True)
         self.v_mirror = tk.BooleanVar(value=True)
         self.v_repeat = tk.BooleanVar(value=True)
         self.v_bg = tk.StringVar(value=u"в начале, каждые n и в конце")
         self.v_order = tk.StringVar(value=u"блочный")
+        self.v_dark = tk.StringVar(value=u"в начале и в конце")
 
         self._build()
 
@@ -692,7 +727,8 @@ class RoadDialog(object):
         # кода тоже обязаны гасить кнопку создания. Привязка к <KeyRelease> это
         # пропускала.
         for var in list(self.v.values()) + [self.v_fine, self.v_mirror,
-                                            self.v_repeat, self.v_bg, self.v_order]:
+                                            self.v_repeat, self.v_bg, self.v_order,
+                                            self.v_dark]:
             var.trace_add("write", lambda *a: self._invalidate())
 
     def _build(self):
@@ -756,6 +792,21 @@ class RoadDialog(object):
         cb.bind("<<ComboboxSelected>>", lambda e: self._invalidate())
         row(g, u"якоря rep2, °:", "anchors_rep2", 14)
         row(g, u"повторов плана:", "repeats")
+
+        g = ttk.LabelFrame(left, text=u"ПЕРЕКРЫТЫЙ ПУЧОК (dark)", padding=6)
+        g.pack(fill=tk.X, pady=(0, 6))
+        cb = ttk.Combobox(g, textvariable=self.v_dark, state="readonly", width=30,
+                          values=[u"не снимать", u"один в начале",
+                                  u"в начале и в конце",
+                                  u"в начале, каждые n и в конце"])
+        cb.pack(fill=tk.X)
+        cb.bind("<<ComboboxSelected>>", lambda e: self._invalidate())
+        row(g, u"n =", "dark_every")
+        ttk.Label(g, text=u"NNN_dark.txt — непрозрачная преграда в пучке.\n"
+                          u"Шум закрытого тракта: даёт динамический\n"
+                          u"диапазон независимо от метода Нафтали.\n"
+                          u"Из трасс НЕ вычитается.",
+                  foreground="#777", justify=tk.LEFT).pack(anchor=tk.W, pady=(3, 0))
 
         bar = ttk.Frame(left)
         bar.pack(fill=tk.X, pady=(4, 0))
@@ -838,6 +889,12 @@ class RoadDialog(object):
             order=(road.ORDER_BLOCK if self.v_order.get() == u"блочный"
                    else road.ORDER_ASCENDING),
             repeats=self._int("repeats", 1),
+            dark_mode={u"не снимать": road.DARK_NONE,
+                       u"один в начале": road.DARK_START,
+                       u"в начале и в конце": road.DARK_START_END,
+                       u"в начале, каждые n и в конце": road.DARK_EVERY_N}[
+                           self.v_dark.get()],
+            dark_every=self._int("dark_every", 20),
         )
         return plan, road.build_plan(plan)
 
@@ -864,11 +921,15 @@ class RoadDialog(object):
             lines.append(u"Порядок съёмки (следующий пустой файл = следующее действие):")
             lines.append(u"")
             for rec in self.records:
-                what = (u"фон (пустой пучок)" if rec["kind"] == "bg"
-                        else u"угол %+d°%s" % (rec["angle"],
-                                               u"   повтор %d" % rec["rep"]
-                                               if rec["rep"] and rec["rep"] > 1
-                                               else u""))
+                if rec["kind"] == "bg":
+                    what = u"фон (пустой пучок)"
+                elif rec["kind"] == "dark":
+                    what = u"ПЕРЕКРЫТЬ ПУЧОК непрозрачной преградой"
+                else:
+                    what = u"угол %+d°%s" % (rec["angle"],
+                                             u"   повтор %d" % rec["rep"]
+                                             if rec["rep"] and rec["rep"] > 1
+                                             else u"")
                 lines.append(u"  %-16s %s" % (road.fname(rec), what))
             warn_from = len(lines)
         self._show(lines, warn_from)

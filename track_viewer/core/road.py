@@ -61,6 +61,14 @@ BG_START = "start"                  # один референс в начале
 BG_START_END = "start_end"          # в начале и в конце
 BG_EVERY_N = "every_n"              # в начале, каждые n трасс и в конце
 
+# Трассы перекрытого пучка: шум закрытого тракта, альтернативная оценка
+# динамического диапазона. По умолчанию — в начале и в конце прогона: две точки
+# показывают, изменился ли шум за время съёмки.
+DARK_NONE = "none"
+DARK_START = "start"
+DARK_START_END = "start_end"
+DARK_EVERY_N = "every_n"
+
 ORDER_BLOCK = "block"
 ORDER_ASCENDING = "ascending"
 
@@ -86,6 +94,11 @@ PEC реальная T в моменте, C:
 образец переставлялся с прошлой сессии (да/нет; если да — что менялось):
 окно сканирования, пс:
 длительность одной трассы, мин:
+# --- ПЕРЕКРЫТЫЙ ПУЧОК (файлы NNN_dark.txt) ---
+# Шум закрытого тракта. Материал преграды важен: металл отражает излучение
+# обратно в тракт, поглотитель — нет, и уровни выйдут разными.
+чем перекрывался пучок (материал, толщина):
+где стояла преграда (до образца / после / в фокусе):
 комментарий:
 """
 
@@ -96,7 +109,8 @@ class Plan(object):
     __slots__ = ("sample", "coarse_from", "coarse_to", "coarse_step",
                  "fine_from", "fine_to", "fine_step", "fine_on",
                  "mirror_fine", "repeat_fine", "anchor", "anchors_rep2",
-                 "bg_mode", "bg_every", "order", "repeats")
+                 "bg_mode", "bg_every", "order", "repeats",
+                 "dark_mode", "dark_every")
 
     def __init__(self, sample=u"образец",
                  coarse_from=-70, coarse_to=70, coarse_step=10,
@@ -104,7 +118,8 @@ class Plan(object):
                  mirror_fine=True, repeat_fine=True,
                  anchor=0, anchors_rep2=(40, 0, -40),
                  bg_mode=BG_EVERY_N, bg_every=3,
-                 order=ORDER_BLOCK, repeats=1):
+                 order=ORDER_BLOCK, repeats=1,
+                 dark_mode=DARK_START_END, dark_every=20):
         self.sample = sample
         self.coarse_from = int(coarse_from)
         self.coarse_to = int(coarse_to)
@@ -121,6 +136,8 @@ class Plan(object):
         self.bg_every = int(bg_every)
         self.order = order
         self.repeats = int(repeats)
+        self.dark_mode = dark_mode
+        self.dark_every = int(dark_every)
 
     def validate(self):
         """-> список текстовых претензий; пустой список = план исполним."""
@@ -136,6 +153,8 @@ class Plan(object):
                 bad.append(u"второй диапазон уже одного шага")
         if self.bg_mode == BG_EVERY_N and self.bg_every < 1:
             bad.append(u"референс не может ставиться реже чем через 1 трассу")
+        if self.dark_mode == DARK_EVERY_N and self.dark_every < 1:
+            bad.append(u"перекрытый пучок не может сниматься реже чем через 1 трассу")
         if self.repeats < 1:
             bad.append(u"число повторов должно быть не меньше 1")
         if not str(self.sample).strip():
@@ -239,34 +258,65 @@ def _lay_out(items, plan):
             i += k
         positions.add(n)                                    # и в конце
 
+    # Перекрытый пучок ставится ПЕРЕД фоном в начале и ПОСЛЕ него в конце —
+    # так это делают руками: сперва преграда в пучке, потом её убирают и
+    # снимают открытый пучок; на выходе из прогона порядок обратный.
+    darks = set()
+    if n and plan.dark_mode != DARK_NONE:
+        darks.add(0)
+        if plan.dark_mode == DARK_START_END:
+            darks.add(n)
+        elif plan.dark_mode == DARK_EVERY_N:
+            i = plan.dark_every
+            while i < n:
+                darks.add(i)
+                i += plan.dark_every
+            darks.add(n)
+
+    def _bg(seq, note):
+        return {"seq": u"%03d" % seq, "kind": "bg", "angle": None, "rep": None,
+                "note": note}
+
+    def _dark(seq, note):
+        return {"seq": u"%03d" % seq, "kind": "dark", "angle": None, "rep": None,
+                "note": note}
+
     out = []
     seq = 1
     for i, it in enumerate(items):
+        if i in darks:
+            out.append(_dark(seq, u"перекрытый пучок: поставить непрозрачную "
+                                  u"преграду, снять шум закрытого тракта"))
+            seq += 1
         if i in positions:
-            out.append({"seq": u"%03d" % seq, "kind": "bg", "angle": None, "rep": None,
-                        "note": u"фон (пустой пучок); покрывает следующие трассы "
-                                u"до нового фона"})
+            out.append(_bg(seq, u"фон (пустой пучок); покрывает следующие трассы "
+                                u"до нового фона"))
             seq += 1
         rec = dict(it)
         rec["seq"] = u"%03d" % seq
         out.append(rec)
         seq += 1
     if n in positions:
-        out.append({"seq": u"%03d" % seq, "kind": "bg", "angle": None, "rep": None,
-                    "note": u"замыкающий фон — контроль дрейфа за прогон"})
+        out.append(_bg(seq, u"замыкающий фон — контроль дрейфа за прогон"))
+        seq += 1
+    if n in darks:
+        out.append(_dark(seq, u"замыкающий перекрытый пучок — изменился ли шум "
+                              u"за прогон"))
     return out
 
 
 def fname(rec):
-    if rec["kind"] == "bg":
-        return u"%s_bg.txt" % rec["seq"]
+    if rec["kind"] in ("bg", "dark"):
+        return u"%s_%s.txt" % (rec["seq"], rec["kind"])
     return u"%s_a%d.txt" % (rec["seq"], rec["angle"])
 
 
 def summary(records):
     n_sig = len([r for r in records if r["kind"] == "sig"])
     n_bg = len([r for r in records if r["kind"] == "bg"])
-    return {"n_sig": n_sig, "n_bg": n_bg, "n_files": n_sig + n_bg}
+    n_dark = len([r for r in records if r["kind"] == "dark"])
+    return {"n_sig": n_sig, "n_bg": n_bg, "n_dark": n_dark,
+            "n_files": n_sig + n_bg + n_dark}
 
 
 # ------------------------------------------------------------------ файлы
@@ -289,11 +339,11 @@ class Preview(object):
         return bool(self.conflicts)
 
     def lines(self):
+        s = summary(self.records)
         out = [u"каталог: %s" % self.directory,
-               u"план: %d файлов (%d трасс + %d фонов) + META.txt + README.md"
-               % (len(self.records),
-                  len([r for r in self.records if r["kind"] == "sig"]),
-                  len([r for r in self.records if r["kind"] == "bg"]))]
+               u"план: %d файлов (%d трасс + %d фонов%s) + META.txt + README.md"
+               % (len(self.records), s["n_sig"], s["n_bg"],
+                  u" + %d перекрытых пучков" % s["n_dark"] if s["n_dark"] else u"")]
         out.append(u"будет создано пустых файлов: %d" % len(self.to_create))
         if self.already_empty:
             out.append(u"уже лежат пустыми, останутся как есть: %d"
@@ -420,8 +470,14 @@ def readme_text(plan, records):
             BG_START_END: u"в начале и в конце",
             BG_EVERY_N: u"в начале, каждые %d трасс и в конце" % plan.bg_every,
         }[plan.bg_mode],
-        u"| всего файлов | %d = %d трасс + %d фонов |" % (
-            s["n_files"], s["n_sig"], s["n_bg"]),
+        u"| перекрытый пучок (`dark`) | %s |" % {
+            DARK_NONE: u"не снимается",
+            DARK_START: u"один в начале",
+            DARK_START_END: u"в начале и в конце",
+            DARK_EVERY_N: u"в начале, каждые %d трасс и в конце" % plan.dark_every,
+        }[plan.dark_mode],
+        u"| всего файлов | %d = %d трасс + %d фонов + %d перекрытых |" % (
+            s["n_files"], s["n_sig"], s["n_bg"], s["n_dark"]),
         u"",
         u"## Порядок съёмки",
         u"",
@@ -431,10 +487,14 @@ def readme_text(plan, records):
         u"|---|---|",
     ]
     for rec in records:
-        what = (u"фон (пустой пучок)" if rec["kind"] == "bg"
-                else u"угол %+d°%s" % (rec["angle"],
-                                       u", повтор %d" % rec["rep"]
-                                       if rec["rep"] and rec["rep"] > 1 else u""))
+        if rec["kind"] == "bg":
+            what = u"фон (пустой пучок)"
+        elif rec["kind"] == "dark":
+            what = u"**перекрыть пучок непрозрачной преградой**"
+        else:
+            what = u"угол %+d°%s" % (rec["angle"],
+                                     u", повтор %d" % rec["rep"]
+                                     if rec["rep"] and rec["rep"] > 1 else u"")
         lines.append(u"| `%s` | %s |" % (fname(rec), what))
     lines += [
         u"",
@@ -445,4 +505,18 @@ def readme_text(plan, records):
         u"и не менять в течение прогона.",
         u"",
     ]
+    if s["n_dark"]:
+        lines += [
+            u"## Про `dark`",
+            u"",
+            u"Файлы `NNN_dark.txt` снимаются при **перекрытом пучке** — непрозрачная",
+            u"преграда на пути излучения. Это шум закрытого тракта: по нему оценивается",
+            u"шумовой пол и динамический диапазон, независимо от метода Нафтали по",
+            u"высокочастотному хвосту спектра.",
+            u"",
+            u"**Из трасс dark НЕ вычитается ни при каких настройках.** Шум некогерентен:",
+            u"вычитание его из поля не убрало бы шум, а добавило второй независимый",
+            u"экземпляр. Записать в `META.txt`, чем именно перекрывался пучок.",
+            u"",
+        ]
     return u"\n".join(lines)

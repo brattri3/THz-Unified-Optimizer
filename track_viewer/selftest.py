@@ -403,6 +403,153 @@ def t_window_in_time(log):
     log(u"при выключенном окне галочка ничего не меняет — T тот же до 1e-15")
 
 
+# ------------------------------------------- шумовой пол и перекрытый пучок
+@test(u"три источника шумового пола; предымпульсная оценка измеренно завышена")
+def t_noise_sources(log):
+    sc = Scan(GRID)
+    tr = [t for t in sc.signals if t.name == "003_a0.txt"][0]
+    bg = [t for t in sc.backgrounds if t.name == "002_bg.txt"][0]
+    s = ph.Settings()
+
+    centre = ph.peak_position(bg.t, bg.E, s.dc_fraction)[0]
+    pre = ph.noise_power(bg.t, bg.E, s, centre, s.dc_fraction)
+    hf = ph.noise_power_hf(bg.t, bg.E, s, centre, 3.0)
+    if not (pre > 0 and hf > 0):
+        raise AssertionError(u"обе оценки обязаны быть положительными")
+    if hf >= pre:
+        raise AssertionError(u"ВЧ-хвост обязан быть НИЖЕ предымпульсной оценки")
+    log(u"002_bg: предымпульс %.3g, ВЧ-хвост выше 3.0 ТГц %.3g — "
+        u"разница %.1f дБ" % (pre, hf, 10 * math.log10(pre / hf)))
+    log(u"предымпульсный участок содержит низкочастотный дрейф, а не только")
+    log(u"белый шум, поэтому линия пола по нему нарисована заведомо выше реальной")
+
+    # Каждый источник обязан дать конечный положительный пол и быть виден в панели.
+    for src in (ph.NOISE_HF_TAIL, ph.NOISE_PRE_PULSE):
+        r = ph.compute_point(sc, tr, ph.Settings(noise_source=src))
+        if r.T_noise is None or not np.all(np.isfinite(r.T_noise)):
+            raise AssertionError(u"источник %s дал неконечный пол" % src)
+        if u"шумовой пол" not in r.settings.describe():
+            raise AssertionError(u"источник обязан быть виден в панели данных")
+    log(u"панель показывает источник: «%s»"
+        % ph.Settings(noise_source=ph.NOISE_HF_TAIL).describe().split(u"; ")[-1])
+
+
+@test(u"dark: парсер видит трассу перекрытого пучка и не пускает её в слайдер")
+def t_dark_parse(log):
+    from .core import road
+    d = tempfile.mkdtemp(prefix="tv_dark_")
+    try:
+        for src, dst in (("002_bg.txt", "001_dark.txt"),
+                         ("002_bg.txt", "002_bg.txt"),
+                         ("003_a0.txt", "003_a0.txt"),
+                         ("011_a90.txt", "004_a90.txt")):
+            shutil.copy(os.path.join(GRID, src), os.path.join(d, dst))
+        sc = Scan(d)
+        if len(sc.darks) != 1 or sc.darks[0].name != "001_dark.txt":
+            raise AssertionError(u"трасса перекрытого пучка не опознана")
+        if any(t.name == "001_dark.txt" for t in sc.signals):
+            raise AssertionError(u"dark не должен попадать в слайдер")
+        if any(t.name == "001_dark.txt" for t in sc.backgrounds):
+            raise AssertionError(u"dark не должен считаться референсом")
+        c = sc.counts()
+        log(u"каталог: %d сигнальных, %d фонов, %d перекрытых пучков"
+            % (c["sig_done"], c["bg_done"], c["dark_done"]))
+        log(u"ближайший dark к трассе №4: %s" % sc.nearest_dark(4).name)
+
+        r = ph.compute_point(sc, sc.signals[0], ph.Settings(noise_source=ph.NOISE_DARK))
+        if r.T_noise is None or not np.all(np.isfinite(r.T_noise)):
+            raise AssertionError(u"пол по dark не посчитался")
+        log(u"пол по dark посчитан, T = %.4f %% не изменилось — dark в трассы "
+            u"не вмешивается" % (100 * r.T))
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+    # Прежние каталоги обязаны дать прежние числа: расширение правила отбора
+    # не должно ничего добавить и ничего не потерять.
+    sc = Scan(GRID)
+    c = sc.counts()
+    if (c["sig_done"], c["bg_done"], c["dark_total"]) != (51, 17, 0):
+        raise AssertionError(u"регрессия на test_grid_33_11: %s" % c)
+    c2 = Scan(os.path.join(DATA, "purewave")).counts()
+    if (c2["sig_done"], c2["dark_total"]) != (30, 0):
+        raise AssertionError(u"регрессия на purewave: %s" % c2)
+    log(u"регрессии нет: test_grid_33_11 те же 51/17, purewave те же 30, "
+        u"файлов dark ни в одном каталоге нет")
+
+
+@test(u"dark: выбор источника без dark-файлов откатывается на ВЧ-хвост с пометкой")
+def t_dark_fallback(log):
+    sc = Scan(GRID)
+    tr = [t for t in sc.signals if t.name == "003_a0.txt"][0]
+    r = ph.compute_point(sc, tr, ph.Settings(noise_source=ph.NOISE_DARK))
+    notes = [w for w in r.warnings if u"перекрытого пучка" in w]
+    if not notes:
+        raise AssertionError(u"откат обязан быть помечен явно, а не молча")
+    log(u"пометка: %s" % notes[0])
+
+    ref = ph.compute_point(sc, tr, ph.Settings(noise_source=ph.NOISE_HF_TAIL))
+    if float(np.max(np.abs(r.T_noise - ref.T_noise))) > 1e-12:
+        raise AssertionError(u"откат обязан давать ровно тот же пол, что hf_tail")
+    log(u"уровень совпал с ВЧ-хвостом до 1e-12 — откат, а не тихая замена")
+
+
+@test(u"§5 генератор кладёт dark по настройке; гардрейл действует и на него")
+def t_road_dark(log):
+    from .core import road
+    p = road.Plan(coarse_from=-30, coarse_to=30, coarse_step=15, fine_on=False,
+                  mirror_fine=False, repeat_fine=False, anchors_rep2=(),
+                  bg_mode=road.BG_START_END, dark_mode=road.DARK_START_END)
+    recs = road.build_plan(p)
+    names = [road.fname(r) for r in recs]
+    if names[0] != "001_dark.txt" or names[-1] != "009_dark.txt":
+        raise AssertionError(u"dark обязан открывать и замыкать прогон: %s" % names)
+    # Порядок «сперва преграда, потом открытый пучок» — как это делается руками.
+    if names[1] != "002_bg.txt":
+        raise AssertionError(u"в начале dark идёт ПЕРЕД фоном: %s" % names[:3])
+    if names[-2] != "008_bg.txt":
+        raise AssertionError(u"в конце фон идёт ПЕРЕД dark: %s" % names[-3:])
+    log(u"раскладка: %s … %s" % (u" ".join(names[:3]), u" ".join(names[-3:])))
+
+    for mode, want in ((road.DARK_NONE, 0), (road.DARK_START, 1),
+                       (road.DARK_START_END, 2)):
+        p.dark_mode = mode
+        got = road.summary(road.build_plan(p))["n_dark"]
+        if got != want:
+            raise AssertionError(u"режим %s дал %d dark вместо %d" % (mode, got, want))
+    log(u"режимы «не снимать / один / начало-конец» дают 0, 1, 2 файла")
+
+    p.dark_mode = road.DARK_EVERY_N
+    p.dark_every = 2
+    n_dark = road.summary(road.build_plan(p))["n_dark"]
+    if n_dark < 3:
+        raise AssertionError(u"каждые 2 трассы должно выйти больше двух dark")
+    log(u"каждые 2 трассы: %d файлов перекрытого пучка" % n_dark)
+
+    # Гардрейл §5.2 обязан действовать на новые имена без отдельного кода:
+    # проверка идёт по списку плановых имён, а не по видам файлов.
+    d = tempfile.mkdtemp(prefix="tv_dark_road_")
+    try:
+        p.dark_mode = road.DARK_START_END
+        recs = road.build_plan(p)
+        with io.open(os.path.join(d, "001_dark.txt"), "w") as fh:
+            fh.write(u"0.0\t1.0\n0.1\t2.0\n")
+        pv = road.preview(d, recs)
+        if not pv.blocked:
+            raise AssertionError(u"непустой dark обязан блокировать генерацию")
+        log(u"непустой 001_dark.txt блокирует генерацию так же, как трасса: %d "
+            u"конфликтов, не создано ничего" % len(pv.conflicts))
+        if len(os.listdir(d)) != 1:
+            raise AssertionError(u"каталог не должен измениться")
+
+        # README прогона обязан объяснить, что dark не вычитается.
+        text = road.readme_text(p, recs)
+        if u"НЕ вычитается" not in text:
+            raise AssertionError(u"README обязан предупредить о невычитании dark")
+        log(u"README прогона содержит предупреждение о невычитании dark")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
 # --------------------------------------------------- §4.1 предупреждение T > 1
 @test(u"§4.1 перепутанные образец и референс дают T > 1 и явное предупреждение")
 def t_over_unity(log):
@@ -471,7 +618,12 @@ def t_road_reproduces(log):
     import re
     from .core import road
 
-    recs = road.build_plan(road.Plan(sample=u"test_grid_33_11"))
+    # Историческая сверка идёт БЕЗ перекрытого пучка: в 2026 году его не снимали,
+    # и файлов `NNN_dark.txt` в каталоге нет. Само значение по умолчанию с тех пор
+    # изменилось (dark в начале и в конце, решение владельца 2026-08-12) — это
+    # проверяется отдельно ниже, чтобы сдвиг нумерации не выдавался за регрессию.
+    recs = road.build_plan(road.Plan(sample=u"test_grid_33_11",
+                                     dark_mode=road.DARK_NONE))
     mine = [("bg", None) if r["kind"] == "bg" else ("sig", r["angle"]) for r in recs]
 
     names = sorted([n for n in os.listdir(GRID)
@@ -498,6 +650,20 @@ def t_road_reproduces(log):
     log(u"два намеренных отличия: нумерация сдвинута на 1 (META выведен из")
     log(u"сквозной нумерации, ТЗ §2.1) и добавлен замыкающий фон (ТЗ §5.1)")
 
+    # Нынешнее умолчание: те же трассы плюс ровно два перекрытых пучка.
+    now = road.build_plan(road.Plan(sample=u"test_grid_33_11"))
+    s2 = road.summary(now)
+    if s2["n_dark"] != 2:
+        raise AssertionError(u"по умолчанию ожидались 2 перекрытых пучка, вышло %d"
+                             % s2["n_dark"])
+    if s2["n_sig"] != s["n_sig"] or s2["n_bg"] != s["n_bg"]:
+        raise AssertionError(u"dark не должен менять состав трасс и фонов")
+    if now[0]["kind"] != "dark" or now[-1]["kind"] != "dark":
+        raise AssertionError(u"перекрытый пучок обязан открывать и замыкать прогон")
+    log(u"нынешнее умолчание: те же %d трасс и %d фонов + 2 перекрытых пучка "
+        u"(%s первым, %s последним)"
+        % (s2["n_sig"], s2["n_bg"], road.fname(now[0]), road.fname(now[-1])))
+
 
 @test(u"§5 параметры генератора работают: диапазоны, референсы, порядок, повторы")
 def t_road_params(log):
@@ -505,7 +671,8 @@ def t_road_params(log):
 
     p = road.Plan(coarse_from=-30, coarse_to=30, coarse_step=15,
                   fine_on=False, mirror_fine=False, repeat_fine=False,
-                  anchors_rep2=(), bg_mode=road.BG_START)
+                  anchors_rep2=(), bg_mode=road.BG_START,
+                  dark_mode=road.DARK_NONE)
     recs = road.build_plan(p)
     angles = [r["angle"] for r in recs if r["kind"] == "sig"]
     if sorted(set(angles)) != [-30, -15, 0, 15, 30]:
@@ -535,7 +702,8 @@ def t_road_params(log):
     n1 = len([r for r in road.build_plan(road.Plan(
         coarse_from=-30, coarse_to=30, coarse_step=15, fine_on=False,
         mirror_fine=False, repeat_fine=False, anchors_rep2=(),
-        bg_mode=road.BG_START_END)) if r["kind"] == "sig"])
+        bg_mode=road.BG_START_END,
+        dark_mode=road.DARK_NONE)) if r["kind"] == "sig"])
     n2 = len([r for r in recs if r["kind"] == "sig"])
     if n2 != 2 * n1:
         raise AssertionError(u"два повтора должны удвоить число трасс: %d против %d"

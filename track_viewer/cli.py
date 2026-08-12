@@ -69,6 +69,9 @@ def build_settings(args):
         int_lo=args.int_band[0] if args.int_band else 0.2,
         int_hi=args.int_band[1] if args.int_band else 3.0,
         window_in_time=args.window_in_time,
+        noise_source={"hf": ph.NOISE_HF_TAIL, "pre": ph.NOISE_PRE_PULSE,
+                      "dark": ph.NOISE_DARK}[args.noise],
+        noise_hf_from=args.noise_from,
     )
 
 
@@ -89,6 +92,12 @@ def main(argv=None):
                     help=u"общий центр окна по пику референса")
     ap.add_argument("--band", type=float, nargs=2, default=[0.2, 3.0],
                     metavar=("НИЗ", "ВЕРХ"), help=u"полоса спектра, ТГц")
+    ap.add_argument("--noise", choices=["hf", "pre", "dark"], default="hf",
+                    help=u"источник шумового пола: hf — ВЧ-хвост спектра по "
+                         u"Нафтали (по умолчанию), pre — предымпульс (завышает "
+                         u"на ~13 дБ), dark — трасса перекрытого пучка")
+    ap.add_argument("--noise-from", type=float, default=3.0, metavar=u"ТГц",
+                    help=u"граница ВЧ-хвоста для --noise hf (по умолчанию 3.0)")
     ap.add_argument("--parseval", action="store_true",
                     help=u"считать пропускание и по полосе частот, показать Δ")
     ap.add_argument("--int-band", type=float, nargs=2, default=None,
@@ -120,6 +129,9 @@ def main(argv=None):
     print(u"снято %d из %d сигнальных, %d из %d референсов, пустых %d, ошибок %d"
           % (c["sig_done"], c["sig_total"], c["bg_done"], c["bg_total"],
              c["empty"], c["errors"]))
+    if c["dark_total"]:
+        print(u"трасс перекрытого пучка: %d из %d"
+              % (c["dark_done"], c["dark_total"]))
     for tr in scan.errors:
         print(u"  ОШИБКА %s: %s" % (tr.name, tr.error))
     nxt = scan.next_unmeasured()
