@@ -23,21 +23,31 @@ from .core import physics as ph
 from .core.scan import Scan
 
 CSV_HEADER = (u"seq;file;angle_deg;rep;reference;energy_sig;energy_ref;"
-              u"T;T_dB;peak_sig_ps;peak_ref_ps;warnings")
+              u"T;T_dB;T_freq;T_freq_dB;delta;delta_dB;"
+              u"frac_in_band_sig;frac_in_band_ref;peak_sig_ps;peak_ref_ps;warnings")
 
 
 def export_csv(points, path):
-    """Выгрузка трека. Разделитель — `;`: Origin и Excel в русской локали ждут его."""
+    """Выгрузка трека. Разделитель — `;`: Origin и Excel в русской локали ждут его.
+
+    Колонки полосового пропускания присутствуют всегда; при выключенном
+    Парсевале они пусты — а не заполнены нулями, которые Origin отложил бы
+    на график как настоящие точки.
+    """
     with io.open(path, "w", encoding="utf-8") as fh:
         fh.write(CSV_HEADER + u"\n")
         for p in points:
             tr = p.trace
-            fh.write(u"%d;%s;%d;%d;%s;%.10g;%.10g;%.10g;%.6f;%.6f;%s;%s\n" % (
+            band = (u"%.10g;%.6f;%.10g;%.6f;%.8f;%.8f" % (
+                p.T_freq, p.T_freq_db, p.delta, p.delta_db,
+                p.frac_in_band_s, p.frac_in_band_r)
+                if p.settings.parseval_on else u";;;;;")
+            fh.write(u"%d;%s;%d;%d;%s;%.10g;%.10g;%.10g;%.6f;%s;%.6f;%s;%s\n" % (
                 tr.seq, tr.name, tr.angle, tr.rep,
                 u"+".join([r.name for r in p.refs]),
                 p.energy_s,
                 sum(p.energy_r) / float(len(p.energy_r)) if p.energy_r else float("nan"),
-                p.T, p.T_db, p.peak_s,
+                p.T, p.T_db, band, p.peak_s,
                 u"+".join([u"%.6f" % x for x in p.peak_r]),
                 u" | ".join(p.warnings),
             ))
@@ -55,6 +65,10 @@ def build_settings(args):
         ref_mode={"earlier": ph.REF_EARLIER, "later": ph.REF_LATER,
                   "average": ph.REF_AVERAGE}[args.ref],
         band_lo=args.band[0], band_hi=args.band[1],
+        parseval_on=bool(args.parseval or args.int_band is not None),
+        int_lo=args.int_band[0] if args.int_band else 0.2,
+        int_hi=args.int_band[1] if args.int_band else 3.0,
+        window_in_time=args.window_in_time,
     )
 
 
@@ -75,6 +89,15 @@ def main(argv=None):
                     help=u"общий центр окна по пику референса")
     ap.add_argument("--band", type=float, nargs=2, default=[0.2, 3.0],
                     metavar=("НИЗ", "ВЕРХ"), help=u"полоса спектра, ТГц")
+    ap.add_argument("--parseval", action="store_true",
+                    help=u"считать пропускание и по полосе частот, показать Δ")
+    ap.add_argument("--int-band", type=float, nargs=2, default=None,
+                    metavar=("НИЗ", "ВЕРХ"),
+                    help=u"полоса ИНТЕГРИРОВАНИЯ, ТГц (включает --parseval); "
+                         u"отдельна от --band, которая задаёт полосу показа")
+    ap.add_argument("--window-in-time", action="store_true",
+                    help=u"учитывать гауссово окно и во временно́м интеграле — "
+                         u"без этого сравнение с полосой несимметрично")
     ap.add_argument("--csv", default=None, help=u"выгрузить трек в CSV")
     ap.add_argument("--seq", type=int, default=None,
                     help=u"подробности по одной трассе (сквозной номер)")
@@ -124,12 +147,15 @@ def main(argv=None):
             print(line)
         return 0
 
-    print(u"%-4s %-16s %7s %4s  %-22s %9s %9s" %
-          (u"№", u"файл", u"угол", u"rep", u"референс", u"T, %", u"T, дБ"))
+    extra = u" %11s %9s" % (u"T полоса, %", u"Δ, дБ") if settings.parseval_on else u""
+    print(u"%-4s %-16s %7s %4s  %-22s %9s %9s%s" %
+          (u"№", u"файл", u"угол", u"rep", u"референс", u"T, %", u"T, дБ", extra))
     for p in points:
-        print(u"%-4d %-16s %+7d %4d  %-22s %9.4f %9.3f%s" % (
+        cols = (u" %11.4f %+9.3f" % (100 * p.T_freq, p.delta_db)
+                if settings.parseval_on else u"")
+        print(u"%-4d %-16s %+7d %4d  %-22s %9.4f %9.3f%s%s" % (
             p.trace.seq, p.trace.name, p.trace.angle, p.trace.rep,
-            p.ref_names, 100 * p.T, p.T_db,
+            p.ref_names, 100 * p.T, p.T_db, cols,
             u"  ⚠" if p.warnings else u""))
 
     warned = [p for p in points if p.warnings]

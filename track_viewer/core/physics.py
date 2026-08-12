@@ -51,11 +51,13 @@ class Settings(object):
     """Настройки расчёта. Значения по умолчанию — решения владельца 2026-08-12."""
 
     __slots__ = ("dc_mode", "dc_fraction", "window_on", "window_fwhm_ps",
-                 "window_center", "ref_mode", "band_lo", "band_hi", "dyn_range_db")
+                 "window_center", "ref_mode", "band_lo", "band_hi", "dyn_range_db",
+                 "parseval_on", "int_lo", "int_hi", "window_in_time")
 
     def __init__(self, dc_mode=DC_PRE_PULSE, dc_fraction=0.15,
                  window_on=False, window_fwhm_ps=20.0, window_center=CENTER_OWN,
-                 ref_mode=REF_EARLIER, band_lo=0.2, band_hi=3.0, dyn_range_db=40.0):
+                 ref_mode=REF_EARLIER, band_lo=0.2, band_hi=3.0, dyn_range_db=40.0,
+                 parseval_on=False, int_lo=0.2, int_hi=3.0, window_in_time=False):
         self.dc_mode = dc_mode
         self.dc_fraction = dc_fraction
         self.window_on = window_on
@@ -65,6 +67,11 @@ class Settings(object):
         self.band_lo = band_lo
         self.band_hi = band_hi
         self.dyn_range_db = dyn_range_db
+        # --- пропускание по полосе (Парсеваль), решения владельца 2026-08-12
+        self.parseval_on = parseval_on      # считать ли T по полосе и дельту
+        self.int_lo = int_lo                # полоса ИНТЕГРИРОВАНИЯ — отдельная от
+        self.int_hi = int_hi                # полосы отображения band_lo/band_hi
+        self.window_in_time = window_in_time
 
     def copy(self):
         s = Settings()
@@ -86,7 +93,14 @@ class Settings(object):
         ref = {REF_EARLIER: u"ближайший ранний",
                REF_LATER: u"ближайший поздний",
                REF_AVERAGE: u"среднее двух"}[self.ref_mode]
-        return u"%s; DC — %s; референс — %s" % (win, dc, ref)
+        out = u"%s; DC — %s; референс — %s" % (win, dc, ref)
+        # Учёт окна во времени МЕНЯЕТ главное число T на угловом графике, поэтому
+        # обязан быть виден всегда, а не только при включённом Парсевале.
+        if self.window_in_time and self.window_on and self.window_fwhm_ps < WINDOW_OFF_PS:
+            out += u"; окно учтено и во ВРЕМЕННОМ интеграле"
+        if self.parseval_on:
+            out += u"; полоса интегрирования %.3g…%.3g ТГц" % (self.int_lo, self.int_hi)
+        return out
 
 
 # --------------------------------------------------------------------- базовые
@@ -148,10 +162,25 @@ def gaussian_window(t, center_ps, fwhm_ps):
     return np.exp(-0.5 * z * z)
 
 
-def energy(t, E, settings):
-    """∫ (E − DC)² dt — числитель и знаменатель пропускания во времени."""
-    d = dc_level(E, settings.dc_mode, settings.dc_fraction)
-    return trapezoid((np.asarray(E, dtype=np.float64) - d) ** 2, t)
+def energy(t, E, settings, centre_ps=None):
+    """∫ (E − DC)² dt — числитель и знаменатель пропускания во времени.
+
+    Окно по умолчанию **не применяется**: величина задумана как не имеющая
+    свободных параметров. Но при сравнении с пропусканием по полосе это
+    становится дефектом — справа трасса взвешена окном, слева нет, и разность
+    двух `T` набирается не только за счёт полосы. Флажок
+    `settings.window_in_time` (плюс включённое окно) переводит интеграл на ту же
+    подготовленную трассу, что уходит в БПФ, и делает сравнение честным.
+
+    Измерено на `011_a90.txt` (FWHM 20 пс): 0.15114 % → 0.14574 %, то есть
+    −0.16 дБ. В ярком положении разница неразличима.
+    """
+    if centre_ps is not None and getattr(settings, "window_in_time", False):
+        y = _prepared(t, E, settings, centre_ps)
+    else:
+        y = np.asarray(E, dtype=np.float64) - dc_level(E, settings.dc_mode,
+                                                       settings.dc_fraction)
+    return trapezoid(y ** 2, t)
 
 
 def dc_share(t, E, fraction=0.15):
@@ -200,6 +229,40 @@ def power_spectrum(t, E, settings, centre_ps):
     return rfft_freqs(len(Ew), dt), np.abs(spec) ** 2
 
 
+def parseval_weights(n_time, n_freq):
+    """Веса бинов rfft, при которых `Σ wₖ|FFTₖ|²/N` равна `Σ Eₙ²` точно.
+
+    `w₀ = 1` (постоянная составляющая не имеет зеркального двойника),
+    интерьер = 2 (каждый бин представляет пару ±ν), Найквист = 1 и только при
+    чётном числе отсчётов — при нечётном такого бина нет вовсе.
+    """
+    w = np.full(int(n_freq), 2.0)
+    w[0] = 1.0
+    if int(n_time) % 2 == 0:
+        w[-1] = 1.0
+    return w
+
+
+def band_energy(t, E, settings, centre_ps, lo, hi):
+    """Энергия трассы в полосе `lo…hi` ТГц: `Σ wₖ|FFTₖ|²/N`.
+
+    Нормировка и веса выбраны так, чтобы при полной полосе (0…Найквист)
+    результат совпадал с `Σ Eₙ²` **до машинной точности**. Для самого отношения
+    `T_freq` нормировка сократилась бы, но тогда пропала бы возможность проверить
+    реализацию: с весами кнопка «полная полоса» превращает равенство Парсеваля в
+    живую проверку, а без них — в приблизительное совпадение.
+
+    Измерено: расхождение с прямоугольной суммой 5.6·10⁻¹⁶. Трапеция из
+    `energy()` отличается на 3.8·10⁻⁶ (вклад концов трассы) и на 8·10⁻¹⁰ при
+    включённом окне — окно гасит концы, и различие способов суммирования исчезает.
+    """
+    freqs, P = power_spectrum(t, E, settings, centre_ps)
+    n = len(np.asarray(E))
+    w = parseval_weights(n, len(freqs))
+    sel = (freqs >= float(lo)) & (freqs <= float(hi))
+    return float(np.sum(w[sel] * P[sel]) / float(n))
+
+
 def noise_power(t, E, settings, centre_ps, fraction=0.15):
     """Оценка шумового пола спектра трассы, одно число на всю полосу.
 
@@ -229,7 +292,9 @@ class PointResult(object):
 
     __slots__ = ("trace", "refs", "T", "T_db", "energy_s", "energy_r",
                  "peak_s", "peak_r", "freqs", "T_nu", "T_noise", "warnings",
-                 "settings", "ref_divergence")
+                 "settings", "ref_divergence",
+                 "T_freq", "T_freq_db", "delta", "delta_db",
+                 "frac_in_band_s", "frac_in_band_r")
 
     def __init__(self):
         self.trace = None
@@ -246,6 +311,13 @@ class PointResult(object):
         self.warnings = []
         self.settings = None
         self.ref_divergence = None   # dict для режима усреднения, иначе None
+        # --- пропускание по полосе; заполняется только при settings.parseval_on
+        self.T_freq = float("nan")
+        self.T_freq_db = float("nan")
+        self.delta = float("nan")       # T_время − T_полоса, отн. ед.
+        self.delta_db = float("nan")    # 10·lg(T_время / T_полоса)
+        self.frac_in_band_s = float("nan")   # доля энергии образца в полосе
+        self.frac_in_band_r = float("nan")   # то же для референса
 
     @property
     def ref_names(self):
@@ -268,7 +340,15 @@ class PointResult(object):
                        % (self.peak_s, peaks, dpk))
         ens = u" / ".join([u"%.4g" % e for e in self.energy_r])
         out.append(u"∫E² образец %.4g · референс %s" % (self.energy_s, ens))
-        out.append(u"T = %.2f %%  (%+.3f дБ)" % (100.0 * self.T, self.T_db))
+        out.append(u"T во времени = %.4g %%  (%+.3f дБ)" % (100.0 * self.T, self.T_db))
+        if self.settings.parseval_on:
+            out.append(u"T по полосе %.3g…%.3g ТГц = %.4g %%  (%+.3f дБ)"
+                       % (self.settings.int_lo, self.settings.int_hi,
+                          100.0 * self.T_freq, self.T_freq_db))
+            out.append(u"Δ = %+.4g п.п.  (%+.3f дБ)"
+                       % (100.0 * self.delta, self.delta_db))
+            out.append(u"доля энергии в полосе: образец %.3f %%, референс %.3f %%"
+                       % (100.0 * self.frac_in_band_s, 100.0 * self.frac_in_band_r))
         if self.ref_divergence is not None:
             d = self.ref_divergence
             out.append(u"расхождение референсов: энергии %.3f, пики %+.3f пс"
@@ -344,8 +424,15 @@ def compute_point(scan, trace, settings):
     res.peak_r = [peak_position(r.t, r.E, settings.dc_fraction)[0] for r in refs]
 
     # ---- временная область
-    res.energy_s = energy(t_s, E_s, settings)
-    res.energy_r = [energy(r.t, r.E, settings) for r in refs]
+    # Центр окна нужен уже здесь: при window_in_time интеграл берётся от той же
+    # подготовленной трассы, что уходит в БПФ.
+    if settings.window_center == CENTER_REF:
+        centre_s, centres_r = res.peak_r[0], [res.peak_r[0]] * len(refs)
+    else:
+        centre_s, centres_r = res.peak_s, list(res.peak_r)
+
+    res.energy_s = energy(t_s, E_s, settings, centre_s)
+    res.energy_r = [energy(r.t, r.E, settings, c) for r, c in zip(refs, centres_r)]
     denom = sum(res.energy_r) / float(len(res.energy_r))
     if denom > 0:
         res.T = res.energy_s / denom
@@ -386,11 +473,52 @@ def compute_point(scan, trace, settings):
             u"и не сместился ли образец между трассой и фоном" % (100.0 * res.T))
 
     # ---- спектральная область
-    _spectral(res, t_s, E_s, refs, settings)
+    _spectral(res, t_s, E_s, refs, settings, centre_s, centres_r)
+    if settings.parseval_on:
+        _band(res, t_s, E_s, refs, settings, centre_s, centres_r)
     return res
 
 
-def _spectral(res, t_s, E_s, refs, settings):
+def _band(res, t_s, E_s, refs, settings, centre_s, centres_r):
+    """Пропускание по полосе частот и его расхождение с временным.
+
+    Обе величины — отношения энергий; отличаются только областью суммирования.
+    По Парсевалю при полной полосе они обязаны совпасть, и разность `Δ`
+    показывает ровно одно: сколько «пропускания» набрано за пределами полосы.
+    В ярком положении измерено ±0.000 дБ, в зоне гашения (`011_a90`) −0.365 дБ
+    на 0.2…3.0 ТГц и −0.863 дБ на 0.3…1.2 ТГц — там вклад шумовой части спектра
+    перестаёт быть пренебрежимым.
+    """
+    n = min([len(E_s)] + [len(r.E) for r in refs])
+    lo, hi = settings.int_lo, settings.int_hi
+
+    e_s = band_energy(t_s[:n], E_s[:n], settings, centre_s, lo, hi)
+    e_r = [band_energy(r.t[:n], r.E[:n], settings, c, lo, hi)
+           for r, c in zip(refs, centres_r)]
+    # Полная полоса — для доли энергии; верхняя граница заведомо выше Найквиста.
+    full_s = band_energy(t_s[:n], E_s[:n], settings, centre_s, 0.0, float("inf"))
+    full_r = [band_energy(r.t[:n], r.E[:n], settings, c, 0.0, float("inf"))
+              for r, c in zip(refs, centres_r)]
+
+    res.frac_in_band_s = (e_s / full_s) if full_s > 0 else float("nan")
+    mean_full_r = sum(full_r) / float(len(full_r))
+    res.frac_in_band_r = ((sum(e_r) / float(len(e_r))) / mean_full_r
+                          if mean_full_r > 0 else float("nan"))
+
+    denom = sum(e_r) / float(len(e_r))     # усреднение по мощности (O-3)
+    if denom <= 0:
+        res.warnings.append(u"в полосе интегрирования %.3g…%.3g ТГц энергия референса "
+                            u"равна нулю — пропускание по полосе не определено"
+                            % (lo, hi))
+        return
+    res.T_freq = e_s / denom
+    res.T_freq_db = 10.0 * math.log10(res.T_freq) if res.T_freq > 0 else float("-inf")
+    res.delta = res.T - res.T_freq
+    if res.T > 0 and res.T_freq > 0:
+        res.delta_db = 10.0 * math.log10(res.T / res.T_freq)
+
+
+def _spectral(res, t_s, E_s, refs, settings, centre_s, centres_r):
     """T(ν) = |FFT(E_s)|² / ⟨|FFT(E_r)|²⟩, обрезанный по полосе и динамике."""
     lengths = [len(E_s)] + [len(r.E) for r in refs]
     n = min(lengths)
@@ -405,14 +533,7 @@ def _spectral(res, t_s, E_s, refs, settings):
                             u"(%s пс) — спектры несопоставимы" % u"/".join(
                                 [u"%.6f" % x for x in dts]))
 
-    # Центр окна: свой пик у каждой трассы либо общий по пику первого референса.
-    if settings.window_center == CENTER_REF:
-        centre_s = res.peak_r[0]
-        centres_r = [res.peak_r[0]] * len(refs)
-    else:
-        centre_s = res.peak_s
-        centres_r = list(res.peak_r)
-
+    # Центр окна (свой пик либо общий по референсу) вычислен в compute_point.
     freqs, P_s = power_spectrum(t_s[:n], E_s[:n], settings, centre_s)
     P_r = None
     for r, c in zip(refs, centres_r):

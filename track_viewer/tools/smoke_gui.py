@@ -14,10 +14,19 @@
 from __future__ import annotations
 
 import argparse
+import io
 import os
 import sys
 import tempfile
 import tkinter as tk
+
+# Консоль Windows отдаёт cp1251, а в отчёте есть «Δ» и «⚠» — без перевода потока
+# в UTF-8 прогон падает на печати, хотя сам интерфейс исправен.
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    except Exception:                                            # noqa: BLE001
+        pass
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(HERE)
@@ -95,6 +104,49 @@ def main():
           % (app.var_fwhm.get(), app.var_dc_frac.get()))
 
     app.var_band_hi.set("3.0")
+
+    # --- пропускание по полосе: раскладка 3×2 со средним рядом дельты
+    app.var_parseval.set(True)
+    app.recompute()
+    root.update()
+    print(u"полоса счёта 0.2…3.0: панелей на фигуре %d" % len(app.fig.axes))
+    shot("09_parseval_0p2_3p0")
+
+    app.var_int_lo.set("0.3")
+    app.var_int_hi.set("1.2")
+    app.recompute()
+    root.update()
+    bright = [p for p in app.points if p.trace.angle == 10]
+    dark = [p for p in app.points if p.trace.angle == 90]
+    if bright and dark:
+        print(u"  Δ на 0.3…1.2 ТГц: яркое %+0.3f дБ, гашение %+0.3f дБ"
+              % (bright[0].delta_db, dark[0].delta_db))
+    shot("10_parseval_0p3_1p2")
+
+    app.var_window.set(True)
+    app.var_fwhm.set("20")
+    app.var_win_time.set(True)
+    app.recompute()
+    root.update()
+    shot("11_window_in_time")
+    app.var_window.set(False)
+    app.var_win_time.set(False)
+
+    app.full_band()
+    root.update()
+    if dark:
+        d2 = [p for p in app.points if p.trace.angle == 90]
+        print(u"  полная полоса 0…%s: Δ гашения %+.2e дБ — Парсеваль на экране"
+              % (app.var_int_hi.get(), d2[0].delta_db))
+    shot("12_full_band_parseval")
+
+    app.var_parseval.set(False)
+    app.var_int_lo.set("0.2")
+    app.var_int_hi.set("3.0")
+    app.recompute()
+    root.update()
+    print(u"выключение Парсеваля: панелей снова %d" % len(app.fig.axes))
+
     app.open_directory(PUREWAVE)
     root.update()
     print(u"каталог %s: %d точек" % (PUREWAVE, len(app.points)))

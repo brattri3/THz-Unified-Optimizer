@@ -17,6 +17,7 @@ Python 3.8 с numpy и matplotlib, и приёмка обязана проход
 from __future__ import annotations
 
 import io
+import math
 import os
 import shutil
 import sys
@@ -298,6 +299,108 @@ def t_window(log):
         u"эхо и водяные линии срезаны" % (100 * float(np.median(dev)),
                                           100 * float(np.max(dev))))
     log(u"режим окна виден в панели: «%s»" % narrow.settings.describe())
+
+
+# ------------------------------------------- пропускание по полосе (Парсеваль)
+@test(u"Парсеваль: энергия по полной полосе совпадает с суммой квадратов точно")
+def t_parseval_exact(log):
+    sc = Scan(GRID)
+    tr = [t for t in sc.signals if t.name == "003_a0.txt"][0]
+    s = ph.Settings(dc_mode=ph.DC_NONE)
+    full = ph.band_energy(tr.t, tr.E, s, 0.0, 0.0, float("inf"))
+    direct = float(np.sum(np.asarray(tr.E, dtype=float) ** 2))
+    rel = abs(full - direct) / direct
+    if rel > 1e-12:
+        raise AssertionError(u"Σwₖ|FFT|²/N разошлась с ΣEₙ² на %.2e" % rel)
+    log(u"Σ Eₙ² = %.12f, Σwₖ|FFTₖ|²/N = %.12f, расхождение %.1e"
+        % (direct, full, rel))
+
+    # Веса — не украшение: без них равенство ломается примерно вдвое.
+    freqs, P = ph.power_spectrum(tr.t, tr.E, s, 0.0)
+    naive = float(np.sum(P) / len(tr.E))
+    log(u"без весов вышло бы %.6f вместо %.6f — ошибка в %.2f раза"
+        % (naive, direct, direct / naive))
+
+
+@test(u"Парсеваль на полной полосе схлопывает Δ; трапеция даёт остаток на концах")
+def t_parseval_collapse(log):
+    sc = Scan(GRID)
+    tr = [t for t in sc.signals if t.name == "003_a0.txt"][0]
+    wide = ph.Settings(parseval_on=True, int_lo=0.0, int_hi=1e9)
+    r = ph.compute_point(sc, tr, wide)
+    if abs(r.delta) > 4e-6:
+        raise AssertionError(u"на полной полосе Δ должна быть ~10⁻⁶, вышло %.2e" % r.delta)
+    log(u"полная полоса: T время %.10f, T полоса %.10f, Δ = %.2e"
+        % (r.T, r.T_freq, r.delta))
+    log(u"остаток — это разница трапеции и прямоугольной суммы, вклад дают концы трассы")
+
+    # С окном концы трассы погашены, и способы суммирования сходятся.
+    wide_w = ph.Settings(parseval_on=True, int_lo=0.0, int_hi=1e9,
+                         window_on=True, window_fwhm_ps=20.0, window_in_time=True)
+    rw = ph.compute_point(sc, tr, wide_w)
+    if abs(rw.delta) >= abs(r.delta):
+        raise AssertionError(u"окно обязано уменьшать остаток, стало %.2e" % rw.delta)
+    log(u"с окном FWHM 20 пс остаток падает до %.2e — окно гасит концы" % rw.delta)
+
+
+@test(u"Δ: в ярком положении ноль, в зоне гашения растёт при сужении полосы")
+def t_delta_band(log):
+    sc = Scan(GRID)
+    bright = [t for t in sc.signals if t.name == "019_a10.txt"][0]
+    dark = [t for t in sc.signals if t.name == "011_a90.txt"][0]
+
+    r = ph.compute_point(sc, bright, ph.Settings(parseval_on=True,
+                                                 int_lo=0.2, int_hi=3.0))
+    if abs(r.delta_db) > 0.01:
+        raise AssertionError(u"в ярком положении Δ обязана быть нулевой, вышло %+.3f дБ"
+                             % r.delta_db)
+    log(u"яркое 019_a10 (T = %.1f %%): Δ = %+.3f дБ — вся энергия в полосе"
+        % (100 * r.T, r.delta_db))
+
+    # Сужение полосы обязано УВЕЛИЧИВАТЬ расхождение по модулю: чем у́же полоса,
+    # тем больше «пропускания» остаётся за её пределами. Проверяется монотонность,
+    # а не совпадение с одним числом.
+    seq = []
+    for lo, hi in ((0.2, 3.0), (0.3, 1.2), (0.4, 1.0)):
+        d = ph.compute_point(sc, dark, ph.Settings(parseval_on=True,
+                                                   int_lo=lo, int_hi=hi))
+        seq.append((lo, hi, d.delta_db, d.frac_in_band_s, d.frac_in_band_r))
+    for (lo, hi, db, fs, fr) in seq:
+        log(u"гашение 011_a90, полоса %.1f…%.1f: Δ = %+.3f дБ, "
+            u"доля энергии в полосе образец %.1f %% референс %.1f %%"
+            % (lo, hi, db, 100 * fs, 100 * fr))
+    mags = [abs(x[2]) for x in seq]
+    if not (mags[0] < mags[1] < mags[2]):
+        raise AssertionError(u"сужение полосы обязано увеличивать |Δ|, вышло %s"
+                             % [u"%.3f" % m for m in mags])
+    if not (-0.9 < seq[0][2] < -0.3):
+        raise AssertionError(u"на 0.2…3.0 ТГц ожидалось −0.3…−0.9 дБ, вышло %+.3f"
+                             % seq[0][2])
+    log(u"|Δ| растёт монотонно при сужении полосы — вклад набирается вне неё")
+
+
+@test(u"учёт окна во временно́м интеграле меняет T и виден в описании режима")
+def t_window_in_time(log):
+    sc = Scan(GRID)
+    dark = [t for t in sc.signals if t.name == "011_a90.txt"][0]
+    base = ph.Settings(window_on=True, window_fwhm_ps=20.0, window_in_time=False)
+    with_w = ph.Settings(window_on=True, window_fwhm_ps=20.0, window_in_time=True)
+    a = ph.compute_point(sc, dark, base)
+    b = ph.compute_point(sc, dark, with_w)
+    if abs(a.T - b.T) < 1e-9:
+        raise AssertionError(u"галочка обязана менять временно́е T")
+    log(u"011_a90: без учёта окна T = %.5f %%, с учётом %.5f %% (%+.3f дБ)"
+        % (100 * a.T, 100 * b.T, 10 * math.log10(b.T / a.T)))
+    if u"окно учтено" not in b.settings.describe():
+        raise AssertionError(u"режим обязан быть виден в панели данных")
+    log(u"панель показывает: «%s»" % b.settings.describe())
+
+    # Выключенное окно не должно давать эффекта, даже если галочка стоит.
+    off = ph.compute_point(sc, dark, ph.Settings(window_on=False, window_in_time=True))
+    plain = ph.compute_point(sc, dark, ph.Settings(window_on=False))
+    if abs(off.T - plain.T) > 1e-15:
+        raise AssertionError(u"без окна галочка не должна ни на что влиять")
+    log(u"при выключенном окне галочка ничего не меняет — T тот же до 1e-15")
 
 
 # --------------------------------------------------- §4.1 предупреждение T > 1

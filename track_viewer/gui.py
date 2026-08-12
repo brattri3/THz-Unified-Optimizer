@@ -31,6 +31,7 @@ matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import (         # noqa: E402
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.figure import Figure                    # noqa: E402
+from matplotlib.gridspec import GridSpec                # noqa: E402
 
 from .core import physics as ph                         # noqa: E402
 from .core.scan import Scan                             # noqa: E402
@@ -41,6 +42,7 @@ COLOR_TRACK = "#1f77b4"
 COLOR_WARN = "#d62728"
 COLOR_SEL = "#ff7f0e"
 COLOR_SPEC = "#2ca02c"
+COLOR_FREQ = "#9467bd"      # пропускание по полосе — отдельный цвет И форма маркера
 REP_MARKERS = ["o", "s", "^", "D", "v"]
 
 FLOOR_DB = -60.0        # нижняя граница дБ-панелей: ниже уже шум установки
@@ -64,8 +66,16 @@ class TrackViewer(object):
         self.var_ref = tk.StringVar(value=u"ближайший ранний")
         self.var_band_lo = tk.StringVar(value="0.2")
         self.var_band_hi = tk.StringVar(value="3.0")
+        self.var_parseval = tk.BooleanVar(value=False)
+        self.var_int_lo = tk.StringVar(value="0.2")
+        self.var_int_hi = tk.StringVar(value="3.0")
+        self.var_win_time = tk.BooleanVar(value=False)
         self.var_status = tk.StringVar(value=u"")
         self.var_pos = tk.StringVar(value="0")
+
+        # Средний ряд панелей существует только при включённом Парсевале;
+        # флаг помнит текущую раскладку, чтобы не пересоздавать оси зря.
+        self._delta_layout = None
 
         self._build()
         if directory:
@@ -97,8 +107,12 @@ class TrackViewer(object):
         ttk.Button(g, text=u"выбрать…", command=self.choose_directory).pack(fill=tk.X)
         ttk.Label(g, textvariable=self.var_dir, wraplength=230,
                   foreground="#444").pack(fill=tk.X, pady=(4, 4))
+        # Обе кнопки пересчитывают физику целиком. Разница ТОЛЬКО в том, берётся
+        # ли содержимое файлов из кэша (ключ: имя, размер, mtime) или читается с
+        # диска заново. Прежнее название «полный пересчёт» вводило в заблуждение:
+        # звучало так, будто первая кнопка считает не всё.
         ttk.Button(g, text=u"ОБНОВИТЬ", command=self.refresh).pack(fill=tk.X)
-        ttk.Button(g, text=u"полный пересчёт",
+        ttk.Button(g, text=u"перечитать все файлы с диска",
                    command=lambda: self.refresh(drop_cache=True)).pack(fill=tk.X, pady=(3, 0))
         ttk.Label(g, textvariable=self.var_status, wraplength=230).pack(fill=tk.X, pady=(4, 0))
 
@@ -141,13 +155,39 @@ class TrackViewer(object):
 
         row = ttk.Frame(g)
         row.pack(fill=tk.X, pady=(6, 0))
-        ttk.Label(row, text=u"полоса, ТГц:").pack(side=tk.LEFT)
+        ttk.Label(row, text=u"полоса показа, ТГц:").pack(side=tk.LEFT)
         e2 = ttk.Entry(row, textvariable=self.var_band_hi, width=5)
         e2.pack(side=tk.RIGHT)
         e1 = ttk.Entry(row, textvariable=self.var_band_lo, width=5)
         e1.pack(side=tk.RIGHT, padx=(0, 3))
         for w in (e1, e2):
             w.bind("<Return>", lambda ev: self.recompute())
+
+        g = self._group(parent, u"ПРОПУСКАНИЕ ПО ПОЛОСЕ")
+        ttk.Checkbutton(g, text=u"считать T по полосе (Парсеваль)",
+                        variable=self.var_parseval,
+                        command=self.recompute).pack(anchor=tk.W)
+        row = ttk.Frame(g)
+        row.pack(fill=tk.X, pady=(2, 0))
+        # Полоса ИНТЕГРИРОВАНИЯ намеренно отдельна от полосы показа (решение
+        # владельца): менять границы счёта, не трогая масштаб спектра, — это и
+        # есть рабочий приём для отслеживания вклада шумовой части.
+        ttk.Label(row, text=u"полоса счёта, ТГц:").pack(side=tk.LEFT)
+        e2 = ttk.Entry(row, textvariable=self.var_int_hi, width=5)
+        e2.pack(side=tk.RIGHT)
+        e1 = ttk.Entry(row, textvariable=self.var_int_lo, width=5)
+        e1.pack(side=tk.RIGHT, padx=(0, 3))
+        for w in (e1, e2):
+            w.bind("<Return>", lambda ev: self.recompute())
+        ttk.Button(g, text=u"полная полоса — проверка Парсеваля",
+                   command=self.full_band).pack(fill=tk.X, pady=(4, 0))
+        ttk.Checkbutton(g, text=u"учитывать окно во временно́м T",
+                        variable=self.var_win_time,
+                        command=self.recompute).pack(anchor=tk.W, pady=(4, 0))
+        ttk.Label(g, text=u"без этой галочки слева трасса не взвешена\n"
+                          u"окном, а справа взвешена — Δ наберётся не\n"
+                          u"только за счёт полосы",
+                  foreground="#777", justify=tk.LEFT).pack(anchor=tk.W)
 
         g = self._group(parent, u"ВЫГРУЗКА")
         ttk.Button(g, text=u"сохранить трек в CSV",
@@ -165,12 +205,7 @@ class TrackViewer(object):
 
     def _build_plots(self, parent):
         self.fig = Figure(figsize=(10.5, 6.6), dpi=100)
-        self.fig.subplots_adjust(left=0.07, right=0.985, top=0.94, bottom=0.09,
-                                 hspace=0.42, wspace=0.20)
-        self.ax_tr_lin = self.fig.add_subplot(2, 2, 1)
-        self.ax_tr_db = self.fig.add_subplot(2, 2, 2)
-        self.ax_sp_lin = self.fig.add_subplot(2, 2, 3)
-        self.ax_sp_db = self.fig.add_subplot(2, 2, 4)
+        self._layout_axes(False)
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=parent)
         self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
@@ -191,10 +226,44 @@ class TrackViewer(object):
         entry.pack(side=tk.LEFT, padx=(6, 0))
         entry.bind("<Return>", self._on_entry)
 
+    def _layout_axes(self, with_delta):
+        """Пересобрать сетку панелей: 2×2 либо 3×2 со средним узким рядом.
+
+        Средний ряд не прячется, а именно не создаётся: пустая полоса между
+        угловой зависимостью и спектром съедала бы высоту на машине у прибора,
+        где экран невелик.
+        """
+        if self._delta_layout == bool(with_delta):
+            return
+        self._delta_layout = bool(with_delta)
+        self.fig.clear()
+        if with_delta:
+            gs = GridSpec(3, 2, figure=self.fig, height_ratios=[1.0, 0.55, 1.0],
+                          left=0.07, right=0.985, top=0.95, bottom=0.07,
+                          hspace=0.55, wspace=0.20)
+            self.ax_d_lin = self.fig.add_subplot(gs[1, 0])
+            self.ax_d_db = self.fig.add_subplot(gs[1, 1])
+            sp_row = 2
+        else:
+            gs = GridSpec(2, 2, figure=self.fig,
+                          left=0.07, right=0.985, top=0.94, bottom=0.09,
+                          hspace=0.42, wspace=0.20)
+            self.ax_d_lin = None
+            self.ax_d_db = None
+            sp_row = 1
+        self.ax_tr_lin = self.fig.add_subplot(gs[0, 0])
+        self.ax_tr_db = self.fig.add_subplot(gs[0, 1])
+        self.ax_sp_lin = self.fig.add_subplot(gs[sp_row, 0])
+        self.ax_sp_db = self.fig.add_subplot(gs[sp_row, 1])
+
+    def _all_axes(self):
+        axes = [self.ax_tr_lin, self.ax_tr_db, self.ax_sp_lin, self.ax_sp_db]
+        return axes + [ax for ax in (self.ax_d_lin, self.ax_d_db) if ax is not None]
+
     def _build_databar(self, parent):
         f = ttk.LabelFrame(parent, text=u"измерение", padding=6)
         f.pack(fill=tk.X, pady=(6, 0))
-        self.data_text = tk.Text(f, height=8, wrap=tk.WORD, relief=tk.FLAT,
+        self.data_text = tk.Text(f, height=11, wrap=tk.WORD, relief=tk.FLAT,
                                  background="#f7f7f7")
         self.data_text.pack(fill=tk.X)
         self.data_text.configure(state=tk.DISABLED)
@@ -225,7 +294,32 @@ class TrackViewer(object):
             ref_mode=ref,
             band_lo=self._num(self.var_band_lo, 0.2, 0.0, 100.0),
             band_hi=self._num(self.var_band_hi, 3.0, 0.01, 100.0),
+            parseval_on=self.var_parseval.get(),
+            int_lo=self._num(self.var_int_lo, 0.2, 0.0, 1000.0),
+            int_hi=self._num(self.var_int_hi, 3.0, 0.01, 1000.0),
+            window_in_time=self.var_win_time.get(),
         )
+
+    def nyquist(self):
+        """Частота Найквиста текущего прогона: 1/(2·Δt), Δt читается из файла."""
+        for p in self.points:
+            t = p.trace.t
+            if t is not None and len(t) > 1:
+                return 0.5 / float(t[1] - t[0])
+        return 100.0
+
+    def full_band(self):
+        """Полоса счёта → 0…Найквист. Тогда Δ обязана схлопнуться к ~10⁻⁶.
+
+        Это не удобство, а живая проверка: равенство Парсеваля превращается из
+        утверждения в наблюдаемое на экране число. Расхождение остаётся ровно
+        потому, что временной интеграл берётся трапецией, а спектральный —
+        прямоугольной суммой; вклад дают концы трассы.
+        """
+        self.var_parseval.set(True)
+        self.var_int_lo.set("0")
+        self.var_int_hi.set("%.4g" % (self.nyquist() * 1.001))
+        self.recompute()
 
     def _num(self, var, default, lo, hi):
         """Числовое поле с откатом: неверный ввод не должен ронять пересчёт."""
@@ -338,7 +432,8 @@ class TrackViewer(object):
 
     # ---------------------------------------------------------------- графики
     def _draw_empty(self):
-        for ax in (self.ax_tr_lin, self.ax_tr_db, self.ax_sp_lin, self.ax_sp_db):
+        self._layout_axes(False)
+        for ax in self._all_axes():
             ax.clear()
         self.ax_tr_lin.text(
             0.5, 0.5,
@@ -349,14 +444,17 @@ class TrackViewer(object):
             u"<набор>_<угол>deg_repN_sig.txt) он не открывает.",
             ha="center", va="center", fontsize=10, color="#666",
             transform=self.ax_tr_lin.transAxes)
-        for ax in (self.ax_tr_lin, self.ax_tr_db, self.ax_sp_lin, self.ax_sp_db):
+        for ax in self._all_axes():
             ax.set_xticks([])
             ax.set_yticks([])
         self.canvas.draw_idle()
         self._set_databar([u"каталог открыт, но трасс в нём нет"], warn_from=0)
 
     def _draw(self):
+        self._layout_axes(self.points[0].settings.parseval_on)
         self._draw_track()
+        if self.ax_d_lin is not None:
+            self._draw_delta()
         self._draw_spectrum()
         self.canvas.draw_idle()
 
@@ -393,6 +491,21 @@ class TrackViewer(object):
             ax2.plot(ang, db, marker, color=COLOR_TRACK, markersize=5,
                      linestyle="none", label=label)
 
+            if sel.settings.parseval_on:
+                # Второй ряд точек: то же пропускание, но набранное только в
+                # полосе счёта. Форма маркера та же (это тот же повтор), цвет
+                # другой — различается величина, а не серия.
+                Tf = np.array([p.T_freq for p in grp], dtype=float)
+                lab_f = (u"по полосе %.3g…%.3g ТГц"
+                         % (sel.settings.int_lo, sel.settings.int_hi)) if rep == 1 else None
+                ax1.plot(ang, np.minimum(Tf, 1.0), marker, color=COLOR_FREQ,
+                         markersize=5, linestyle="none", markerfacecolor="none",
+                         label=lab_f)
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    dbf = 10.0 * np.log10(np.where(Tf > 0, Tf, np.nan))
+                ax2.plot(ang, dbf, marker, color=COLOR_FREQ, markersize=5,
+                         linestyle="none", markerfacecolor="none", label=lab_f)
+
         ax1.plot([sel.trace.angle], [min(sel.T, 1.0)], "o", markersize=12,
                  markerfacecolor="none", markeredgecolor=COLOR_SEL,
                  markeredgewidth=2, label=u"выбрано")
@@ -412,6 +525,42 @@ class TrackViewer(object):
         for ax in (ax1, ax2):
             ax.grid(True, alpha=0.3)
             ax.legend(loc="best", fontsize=8, framealpha=0.9)
+
+    def _draw_delta(self):
+        """Средний ряд: расхождение временно́го пропускания с полосовым.
+
+        Обе панели идут с **автомасштабом**, а не с фиксированной шкалой 0…1,
+        как угловые. Это осознанное отступление: разность на шкале пропускания
+        легла бы плоской линией у нуля и не показывала бы ровно ничего, ради
+        чего панель и заводилась. Линия нуля нарисована явно, чтобы автомасштаб
+        не выдавал шум за сигнал.
+        """
+        ax1, ax2 = self.ax_d_lin, self.ax_d_db
+        ax1.clear()
+        ax2.clear()
+        sel = self.points[self.index]
+        max_rep = max([p.trace.rep for p in self.points])
+
+        for rep in range(1, max_rep + 1):
+            grp = [p for p in self.points if p.trace.rep == rep]
+            if not grp:
+                continue
+            marker = REP_MARKERS[(rep - 1) % len(REP_MARKERS)]
+            ang = np.array([p.trace.angle for p in grp], dtype=float)
+            ax1.plot(ang, [100.0 * p.delta for p in grp], marker,
+                     color=COLOR_FREQ, markersize=4, linestyle="none")
+            ax2.plot(ang, [p.delta_db for p in grp], marker,
+                     color=COLOR_FREQ, markersize=4, linestyle="none")
+
+        for ax in (ax1, ax2):
+            ax.axhline(0.0, color="#888", linewidth=0.8)
+            ax.axvline(sel.trace.angle, color=COLOR_SEL, linewidth=1.0, alpha=0.6)
+            ax.grid(True, alpha=0.3)
+            ax.set_xlabel(u"угол, °")
+        ax1.set_ylabel(u"Δ, п.п.")
+        ax2.set_ylabel(u"Δ, дБ")
+        ax1.set_title(u"Δ = T во времени − T по полосе", fontsize=9)
+        ax2.set_title(u"то же в дБ: 10·lg(T время / T полоса)", fontsize=9)
 
     def _draw_spectrum(self):
         """Нижняя пара: спектральное пропускание выбранного измерения."""
@@ -442,6 +591,14 @@ class TrackViewer(object):
                          label=u"шумовой пол")
                 ax2.plot(p.freqs, ndb, "--", color="#888", linewidth=1.0,
                          label=u"шумовой пол")
+            if p.settings.parseval_on:
+                # Полоса счёта показана заливкой прямо на спектре: иначе её
+                # границы существуют только в полях ввода, и связь между
+                # числом Δ и участком кривой приходится держать в голове.
+                for ax in (ax1, ax2):
+                    ax.axvspan(p.settings.int_lo, p.settings.int_hi,
+                               color=COLOR_FREQ, alpha=0.10, zorder=0,
+                               label=u"полоса счёта")
             for ax in (ax1, ax2):
                 ax.legend(loc="best", fontsize=8, framealpha=0.9)
 
