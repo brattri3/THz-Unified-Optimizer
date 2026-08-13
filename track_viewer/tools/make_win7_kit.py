@@ -76,6 +76,7 @@ README = u"""\
   start.bat                      запуск программы
   selftest.bat                   самопроверка
   console.bat                    консольный режим и выгрузка CSV
+  _findpy.bat                    служебный: находит Python 3.8, не трогать
 
 -----------------------------------------------------------------------------
  УСТАНОВКА (один раз, примерно 5 минут)
@@ -91,6 +92,26 @@ README = u"""\
 
  3. Двойной щелчок по install.bat — он сам определит разрядность и поставит
     библиотеки из папки wheels. Интернет не потребуется.
+
+-----------------------------------------------------------------------------
+ ОБКАТКА НА WINDOWS 10 ИЛИ 11 (перед походом к прибору)
+-----------------------------------------------------------------------------
+  Комплект работает и на Windows 10/11 — порядок тот же. Смысл обкатки в том,
+  чтобы у прибора не выяснять, читаются ли данные и открывается ли окно.
+
+  ОДНА ОСОБЕННОСТЬ. На рабочем ПК Python обычно уже стоит, другой версии.
+  Библиотеки в папке wheels собраны ТОЛЬКО под 3.8 и в другую версию не
+  поставятся. Поэтому:
+
+    * python-3.8.10 всё равно нужно поставить. Он встанет РЯДОМ с уже
+      имеющимся Python и ничего в нём не сломает;
+    * .bat-файлы сами найдут именно 3.8 через лаунчер py -3.8, даже если
+      в PATH первым стоит другой Python;
+    * если 3.8 не найден, install.bat скажет об этом прямо и назовёт версию,
+      которую нашёл, вместо невнятной ошибки pip.
+
+  Различий в расчётах между Windows 7 и 10 нет: числа даёт один и тот же код
+  на одном и том же Python 3.8, а самопроверка сверяет их с эталоном.
 
 -----------------------------------------------------------------------------
  ПРОВЕРКА ПОСЛЕ УСТАНОВКИ
@@ -144,37 +165,89 @@ README = u"""\
   его вывод целиком.
 """
 
+# Общий поиск интерпретатора. Отдельным файлом, потому что нужен всем четырём
+# .bat, а расхождение между ними означало бы, что установка идёт одним Python,
+# а запуск другим.
+#
+# Зачем вообще искать. На целевой машине у прибора Python один, и хватило бы
+# простого `python`. Но комплект пробуют и на обычном рабочем ПК, где Python уже
+# стоит — другой версии. Тогда `python -m pip install` из wheels\\* положил бы
+# колёса cp38 в чужой интерпретатор и упал бы с невнятным «не найден пакет»,
+# а start.bat запустился бы под ним же. Поэтому 3.8 ищется явно и по версии.
+FINDPY_BAT = """\
+@echo off
+rem Ищет Python 3.8 и кладёт команду запуска в переменную TVPY.
+rem Вызывать через call; setlocal здесь нельзя — переменная нужна снаружи.
+set "TVPY="
+
+rem 1) Штатный лаунчер: работает и когда 3.8 не в PATH.
+py -3.8 -c "import sys" >nul 2>nul
+if not errorlevel 1 set "TVPY=py -3.8"
+if defined TVPY goto tvok
+
+rem 2) Голый python — но только если это ИМЕННО 3.8.
+python -c "import sys; sys.exit(0 if sys.version_info[:2]==(3,8) else 1)" >nul 2>nul
+if not errorlevel 1 set "TVPY=python"
+if defined TVPY goto tvok
+
+rem 3) Разобраться, чего не хватает, и сказать это словами.
+python -c "import sys" >nul 2>nul
+if errorlevel 1 goto tvnone
+goto tvwrong
+
+:tvok
+exit /b 0
+
+:tvnone
+echo.
+echo ОШИБКА: Python не найден вообще.
+echo Поставьте python-3.8.10-*.exe из этой папки и обязательно отметьте
+echo галочку "Add Python 3.8 to PATH".
+exit /b 1
+
+:tvwrong
+for /f "delims=" %%v in ('python -c "import sys;print(sys.version.split()[0])"') do set "TVVER=%%v"
+echo.
+echo ОШИБКА: в PATH найден Python %TVVER%, а комплект собран под 3.8.
+echo.
+echo Это обычная ситуация на рабочем ПК, где Python уже стоит. Библиотеки в
+echo папке wheels собраны только под 3.8 и в другой версии не поставятся.
+echo.
+echo Поставьте python-3.8.10-*.exe из этой папки. Другие версии Python при
+echo этом никуда не денутся: запускать 3.8 будет лаунчер py -3.8, и остальное
+echo на машине не изменится.
+exit /b 1
+"""
+
 INSTALL_BAT = """\
 @echo off
 chcp 1251 >nul
 cd /d "%~dp0"
+call "%~dp0_findpy.bat"
+if errorlevel 1 goto stop
 echo.
-echo Определяю разрядность Python...
-python -c "import struct,sys; sys.stdout.write('win_amd64' if struct.calcsize('P')==8 else 'win32')" > "%TEMP%\\tv_arch.txt" 2>nul
-if errorlevel 1 goto nopython
+echo Интерпретатор: %TVPY%
+echo Определяю разрядность...
+%TVPY% -c "import struct,sys; sys.stdout.write('win_amd64' if struct.calcsize('P')==8 else 'win32')" > "%TEMP%\\tv_arch.txt"
 set /p ARCH=<"%TEMP%\\tv_arch.txt"
 del "%TEMP%\\tv_arch.txt"
-echo Python: %ARCH%
+echo Разрядность: %ARCH%
 echo.
 echo Ставлю библиотеки из wheels\\%ARCH% ...
-python -m pip install --no-index --find-links "wheels\\%ARCH%" numpy matplotlib
+%TVPY% -m pip install --no-index --find-links "wheels\\%ARCH%" numpy matplotlib
 if errorlevel 1 goto failed
 echo.
 echo Готово. Теперь запустите selftest.bat
 pause
 exit /b 0
 
-:nopython
-echo.
-echo ОШИБКА: python не найден.
-echo При установке Python нужно было поставить галочку "Add Python 3.8 to PATH".
-echo Переустановите Python 3.8.10 из этой папки с этой галочкой.
-pause
-exit /b 1
-
 :failed
 echo.
 echo ОШИБКА при установке библиотек. Вывод выше.
+pause
+exit /b 1
+
+:stop
 pause
 exit /b 1
 """
@@ -182,33 +255,55 @@ exit /b 1
 START_BAT = """\
 @echo off
 chcp 1251 >nul
+call "%~dp0_findpy.bat"
+if errorlevel 1 goto stop
 cd /d "%~dp0app"
-python -m track_viewer.gui
+%TVPY% -m track_viewer.gui
 if errorlevel 1 pause
+exit /b 0
+
+:stop
+pause
+exit /b 1
 """
 
 SELFTEST_BAT = """\
 @echo off
 chcp 1251 >nul
+call "%~dp0_findpy.bat"
+if errorlevel 1 goto stop
 cd /d "%~dp0app"
 set PYTHONIOENCODING=utf-8
-python -m track_viewer.selftest
+%TVPY% -m track_viewer.selftest
 echo.
 pause
+exit /b 0
+
+:stop
+pause
+exit /b 1
 """
 
 CONSOLE_BAT = """\
 @echo off
 chcp 1251 >nul
+call "%~dp0_findpy.bat"
+if errorlevel 1 goto stop
 cd /d "%~dp0app"
 set PYTHONIOENCODING=utf-8
-echo Консольный режим track_viewer.
+echo Консольный режим track_viewer. Интерпретатор: %TVPY%
 echo.
-echo   python -m track_viewer.cli data_pool\\test_grid_33_11
-echo   python -m track_viewer.cli ПУТЬ --csv трек.csv
-echo   python -m track_viewer.cli ПУТЬ --dc none --ref average
+echo   %TVPY% -m track_viewer.cli data_pool\\test_grid_33_11
+echo   %TVPY% -m track_viewer.cli ПУТЬ --csv трек.csv
+echo   %TVPY% -m track_viewer.cli ПУТЬ --parseval --int-band 0.3 1.2
+echo   %TVPY% -m track_viewer.cli ПУТЬ --noise dark
 echo.
 cmd /k
+exit /b 0
+
+:stop
+pause
+exit /b 1
 """
 
 
@@ -331,6 +426,7 @@ def main():
     # Тексты для Windows 7: cp1251 и CRLF — «Блокнот» там не понимает UTF-8
     # без BOM и склеивает строки с одними LF.
     write_text(os.path.join(out, "README_WIN7.txt"), README)
+    write_text(os.path.join(out, "_findpy.bat"), FINDPY_BAT)
     write_text(os.path.join(out, "install.bat"), INSTALL_BAT)
     write_text(os.path.join(out, "start.bat"), START_BAT)
     write_text(os.path.join(out, "selftest.bat"), SELFTEST_BAT)
