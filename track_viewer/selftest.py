@@ -26,6 +26,7 @@ import traceback
 
 import numpy as np
 
+from .core import fit_malus as fm
 from .core import physics as ph
 from .core.compat import Tee, setup_console, trapezoid
 from .core.scan import Scan
@@ -798,6 +799,208 @@ def t_road_creates(log):
             u"затереть измерение нельзя")
     finally:
         shutil.rmtree(d, ignore_errors=True)
+
+
+# ------------------------------------------------- линеаризованный фит Малюса
+def _synth_malus(theta_deg, t_perp, t_par, theta0_deg):
+    """Когерентная модель: складываются ПОЛЯ, и лишь потом берётся квадрат."""
+    t = (np.asarray(theta_deg, dtype=float) - theta0_deg) * (np.pi / 180.0)
+    E = t_perp * np.cos(t) ** 2 + t_par * np.sin(t) ** 2
+    return np.abs(E) ** 2
+
+
+def _fit_points(**kw):
+    """Трек test_grid_33_11 и его подгонка при заданных настройках."""
+    sc = Scan(GRID)
+    st = ph.Settings(**kw)
+    pts = ph.compute_track(sc, st)
+    return pts, fm.fit_track(pts, st)
+
+
+@test(u"фит: order=4 точен для когерентной модели, order=2 — нет")
+def t_fit_exact(log):
+    th = np.arange(-90.0, 91.0, 10.0)
+    t_perp, t_par, t0 = 0.93 + 0.11j, 0.031 * np.exp(1j * 0.7), 1.35
+    U = _synth_malus(th, t_perp, t_par, t0)
+
+    f4 = fm.fit_angular(th, U, fm.WEIGHT_UNIFORM, 4)
+    if f4.info["resid_rms"] > 1e-14:
+        raise AssertionError(u"order=4 обязан быть тождеством, rms = %.2e"
+                             % f4.info["resid_rms"])
+    pr = f4.params
+    close(pr["theta0_deg_from_h2"], t0, 1e-9, u"theta0")
+    close(pr["eta_amplitude"], abs(t_par) / abs(t_perp), 1e-12, u"утечка eta")
+    close(pr["cos_dphi"], float(np.cos(np.angle(t_perp) - np.angle(t_par))),
+          1e-10, u"cos относительной фазы")
+
+    f2 = fm.fit_angular(th, U, fm.WEIGHT_UNIFORM, 2)
+    if not f2.info["resid_rms"] > 1e3 * max(f4.info["resid_rms"], 1e-16):
+        raise AssertionError(u"order=2 обязан оставить структурную невязку")
+    log(u"rms: order=4 = %.2e (машинный нуль), order=2 = %.3e"
+        % (f4.info["resid_rms"], f2.info["resid_rms"]))
+    log(u"параметры восстановлены точно: eta = %.10f, cos(dphi) = %+.10f"
+        % (pr["eta_amplitude"], pr["cos_dphi"]))
+
+
+@test(u"фит: частотная зависимость не требует модели — сумма по частотам "
+      u"остаётся многочленом 4-го порядка")
+def t_fit_frequency_sum(log):
+    th = np.arange(-90.0, 91.0, 10.0)
+    Usum = np.zeros_like(th)
+    for f in np.linspace(0.2, 1.5, 40):
+        # eta(nu) и фаза(nu) взяты произвольными: суть в том, что их вид неважен
+        tp = (0.95 - 0.1 * f) * np.exp(1j * 0.3 * f)
+        tl = 0.02 * (1 + 0.5 * f) * np.exp(1j * (0.4 + 2 * np.pi * f * 0.19))
+        Usum += _synth_malus(th, tp, tl, 1.35)
+    fit = fm.fit_angular(th, Usum, fm.WEIGHT_UNIFORM, 4)
+    rel = fit.info["resid_rms"] / Usum.max()
+    if rel > 1e-14:
+        raise AssertionError(u"сумма по частотам сломала базис: относит. rms = %.2e"
+                             % rel)
+    log(u"40 частот с произвольными eta(nu) и фазой(nu): относит. rms = %.2e" % rel)
+
+
+@test(u"фит: широкополосный == спектрально-взвешенное среднее побинных")
+def t_fit_identity(log):
+    pts, _ = _fit_points()
+    idx = [i for i, p in enumerate(pts) if p.freqs is not None and len(p.freqs)]
+    grid = fm._common_grid(pts, idx)
+    theta = np.array([pts[i].trace.angle for i in idx], dtype=float)
+    Y = np.array([np.asarray(pts[i].T_nu, dtype=float)[
+        np.searchsorted(pts[i].freqs, grid)] for i in idx])
+
+    W = np.ones(len(grid)) / float(len(grid))       # любой вес; берём равномерный
+    T_band = np.dot(Y, W)                            # та же величина во «времени»
+    sigma = np.maximum(T_band, T_band.max() * 1e-6)  # ОДИН вектор весов на все бины
+
+    wide = fm.fit_angular(theta, T_band, fm.WEIGHT_RELATIVE, 4)
+    fine = fm.fit_spectral(theta, Y, grid, common_sigma=sigma)
+    avg = np.dot(fine.coef, W)
+    rel = np.max(np.abs(wide.p - avg) / np.maximum(np.abs(wide.p), 1e-30))
+    if rel > 1e-9:
+        raise AssertionError(u"тождество нарушено: относит. расхождение %.2e" % rel)
+    log(u"5 коэффициентов совпали до %.1e — модель частотной зависимости не нужна"
+        % rel)
+    log(u"бинов %d, углов %d" % (len(grid), len(theta)))
+
+
+@test(u"фит: два независимых угла столика согласованы, A4/A2 близко к 0.25")
+def t_fit_two_offsets(log):
+    _, fit = _fit_points(fit_on=True)
+    pr = fit.time.params
+    d = abs(pr["theta0_h4_minus_h2_deg"])
+    if d > 0.05:
+        raise AssertionError(u"офсеты из 2-й и 4-й гармоник разошлись на %.4f град" % d)
+    ratio = pr["harmonic4_over_harmonic2"]
+    if not (0.245 <= ratio <= 0.255):
+        raise AssertionError(u"A4/A2 = %.5f вне 0.245…0.255" % ratio)
+    log(u"theta0: %+.4f (2-я гармоника) и %+.4f (4-я), расхождение %+.4f град"
+        % (pr["theta0_deg_from_h2"], pr["theta0_deg_from_h4_mod45"],
+           pr["theta0_h4_minus_h2_deg"]))
+    log(u"A4/A2 = %.5f при идеальных 0.25 для cos^4 — 4-я гармоника реальна"
+        % ratio)
+
+
+@test(u"фит: числа сходятся с сессией A (A13, модельно-независимый разбор)")
+def t_fit_vs_session_a(log):
+    _, fit = _fit_points(fit_on=True)
+    pr = fit.time.params
+    # research/results/two_wgp/a13_test_grid_33_11.json, блок harmonics:
+    # theta0 = -1.2770 +- 0.0354 град, A4/A2 = 0.25183. Разбор гармонический,
+    # то есть не затронут отзывом вывода A13 по закону H5 (см. A14).
+    A13_THETA0, A13_RATIO = -1.2770, 0.25183
+    for got, want, tol, what in (
+            (pr["theta0_deg_from_h2"], A13_THETA0, 0.05, u"theta0 из 2-й гармоники"),
+            (pr["theta0_deg_from_h4_mod45"], A13_THETA0, 0.05, u"theta0 из 4-й"),
+            (pr["harmonic4_over_harmonic2"], A13_RATIO, 0.01, u"A4/A2")):
+        close(got, want, tol, what)
+    log(u"theta0 = %+.4f против %+.4f у A13; A4/A2 = %.5f против %.5f"
+        % (pr["theta0_deg_from_h2"], A13_THETA0,
+           pr["harmonic4_over_harmonic2"], A13_RATIO))
+    log(u"расчёт независимый: у нас своя предобработка DC и свой выбор референса")
+
+
+@test(u"фит: выбор весов меняет результат — равные веса слепы к зоне гашения")
+def t_fit_weights(log):
+    out = {}
+    for mode in (fm.WEIGHT_UNIFORM, fm.WEIGHT_RELATIVE, fm.WEIGHT_NOISE):
+        _, fit = _fit_points(fit_on=True, fit_weights=mode)
+        out[mode] = fit.time.params
+    rel = out[fm.WEIGHT_RELATIVE]["eta_amplitude"]
+    uni = out[fm.WEIGHT_UNIFORM]["eta_amplitude"]
+    if not abs(uni - rel) / rel > 0.01:
+        raise AssertionError(u"веса обязаны влиять на утечку, вышло %.6f против %.6f"
+                             % (uni, rel))
+    for mode in out:
+        if not np.isfinite(out[mode]["eta_amplitude"]):
+            raise AssertionError(u"режим весов %s не дал утечки" % mode)
+    log(u"eta: равные %.5f, относительные %.5f, по шумовому полу %.5f"
+        % (uni, rel, out[fm.WEIGHT_NOISE]["eta_amplitude"]))
+    log(u"cos(dphi): равные %+.4f против относительных %+.4f — разница не косметическая"
+        % (out[fm.WEIGHT_UNIFORM]["cos_dphi"], out[fm.WEIGHT_RELATIVE]["cos_dphi"]))
+    log(u"у сессии A равные веса на series1 дали |t_par|^2 < 0 — физически невозможное")
+
+
+@test(u"фит: на неполном треке отказывается считать, а не выдаёт мусор")
+def t_fit_guardrail(log):
+    pts, _ = _fit_points()
+    st = ph.Settings(fit_on=True)
+    short = pts[:4]
+    fit = fm.fit_track(short, st)
+    if fit.ok:
+        raise AssertionError(u"фит по %d точкам обязан быть отклонён" % len(short))
+    if not fit.notes:
+        raise AssertionError(u"отказ обязан быть объяснён, а не молчалив")
+    log(u"%d точек: %s" % (len(short), fit.notes[0]))
+    full = fm.fit_track(pts, st)
+    if not full.ok:
+        raise AssertionError(u"полный трек обязан фитироваться")
+    log(u"%d точек: фит выполнен, cond = %.2f"
+        % (len(pts), full.time.diag["cond_XtX"]))
+
+
+@test(u"фит: обрезка углового диапазона портит обусловленность плана")
+def t_fit_conditioning(log):
+    sc = Scan(GRID)
+    ang = np.array([tr.angle for tr in sc.signals], dtype=float)
+    full = fm.design_diagnostics(ang, 4)
+    half = fm.design_diagnostics(ang[(ang >= 0) & (ang <= 90)], 4)
+    if not (full["cond_XtX"] < half["cond_XtX"]):
+        raise AssertionError(u"обрезка обязана ухудшать обусловленность: %.2f и %.2f"
+                             % (full["cond_XtX"], half["cond_XtX"]))
+    gain = half["sigma_theta0_deg"] / full["sigma_theta0_deg"]
+    log(u"cond: %.2f на %d углах против %.2f на %d — хуже в %.1f раза"
+        % (full["cond_XtX"], full["n_angles"], half["cond_XtX"], half["n_angles"],
+           half["cond_XtX"] / full["cond_XtX"]))
+    log(u"предсказанная sigma(theta0) хуже в %.2f раза только из-за плана углов"
+        % gain)
+
+
+@test(u"фит: побинный разбор даёт спектры каналов и считает нарушения "
+      u"неравенства Коши-Буняковского")
+def t_fit_spectral(log):
+    _, fit = _fit_points(fit_on=True, fit_spectral_on=True, band_hi=2.0)
+    sp = fit.spectral
+    if sp is None:
+        raise AssertionError(u"побинный фит не выполнен")
+    ch = sp.ch
+    if sp.n_bins < 50:
+        raise AssertionError(u"бинов слишком мало: %d" % sp.n_bins)
+    if sp.n_neg > 0.1 * sp.n_bins:
+        raise AssertionError(u"|t_par|^2 < 0 в %d бинах из %d — фит не физичен"
+                             % (sp.n_neg, sp.n_bins))
+    # восстановленная кривая обязана лечь на измеренную в ярком положении
+    Tfit = sp.transmission(0.0)
+    if not np.all(np.isfinite(Tfit)):
+        raise AssertionError(u"восстановленная T(nu) содержит не-числа")
+    lo = sp.freqs < 1.0
+    log(u"бинов %d, |t_par|^2 < 0 в %d, нарушений |cos| <= 1 в %d"
+        % (sp.n_bins, sp.n_neg, sp.n_cs_violations))
+    log(u"утечка растёт с частотой: eta = %.4f ниже 1 ТГц и %.4f выше"
+        % (float(np.nanmedian(ch["eta_amplitude"][lo])),
+           float(np.nanmedian(ch["eta_amplitude"][~lo]))))
+    log(u"восстановленная T(nu) при 0 град: от %.4f до %.4f"
+        % (Tfit.min(), Tfit.max()))
 
 
 # ------------------------------------------------------------- инварианты кода

@@ -30,6 +30,7 @@ import math
 
 import numpy as np
 
+from . import fit_malus
 from .compat import rfft_freqs, trapezoid
 
 DC_NONE = "none"
@@ -49,6 +50,13 @@ NOISE_HF_TAIL = "hf_tail"
 NOISE_PRE_PULSE = "pre_pulse"
 NOISE_DARK = "dark"
 
+# Режимы весов фита живут в fit_malus (там же и обоснование), но повторно
+# экспортируются отсюда: интерфейс и консоль настраивают весь расчёт через
+# Settings и не должны знать про два модуля вместо одного.
+FIT_RELATIVE = fit_malus.WEIGHT_RELATIVE
+FIT_NOISE = fit_malus.WEIGHT_NOISE
+FIT_UNIFORM = fit_malus.WEIGHT_UNIFORM
+
 # FWHM, при которой окно шире любой реальной трассы ⇒ фактическое выключение (ТЗ §3.3).
 WINDOW_OFF_PS = 1000.0
 
@@ -59,13 +67,17 @@ class Settings(object):
     __slots__ = ("dc_mode", "dc_fraction", "window_on", "window_fwhm_ps",
                  "window_center", "ref_mode", "band_lo", "band_hi", "dyn_range_db",
                  "parseval_on", "int_lo", "int_hi", "window_in_time",
-                 "noise_source", "noise_hf_from")
+                 "noise_source", "noise_hf_from",
+                 "fit_on", "fit_order", "fit_weights", "fit_spectral_on",
+                 "fit_drop_warned")
 
     def __init__(self, dc_mode=DC_PRE_PULSE, dc_fraction=0.15,
                  window_on=False, window_fwhm_ps=20.0, window_center=CENTER_OWN,
                  ref_mode=REF_EARLIER, band_lo=0.2, band_hi=3.0, dyn_range_db=40.0,
                  parseval_on=False, int_lo=0.2, int_hi=3.0, window_in_time=False,
-                 noise_source=NOISE_HF_TAIL, noise_hf_from=3.0):
+                 noise_source=NOISE_HF_TAIL, noise_hf_from=3.0,
+                 fit_on=False, fit_order=4, fit_weights=FIT_RELATIVE,
+                 fit_spectral_on=False, fit_drop_warned=False):
         self.dc_mode = dc_mode
         self.dc_fraction = dc_fraction
         self.window_on = window_on
@@ -82,6 +94,12 @@ class Settings(object):
         self.window_in_time = window_in_time
         self.noise_source = noise_source
         self.noise_hf_from = noise_hf_from      # граница ВЧ-хвоста, ТГц
+        # --- линеаризованный фит закона Малюса, решения владельца 2026-08-13
+        self.fit_on = fit_on
+        self.fit_order = fit_order          # 4 — точный; 2 — учебный, для сверки
+        self.fit_weights = fit_weights
+        self.fit_spectral_on = fit_spectral_on
+        self.fit_drop_warned = fit_drop_warned
 
     def copy(self):
         s = Settings()
@@ -113,7 +131,15 @@ class Settings(object):
         noise = {NOISE_HF_TAIL: u"ВЧ-хвост выше %.2f ТГц (Нафтали)" % self.noise_hf_from,
                  NOISE_PRE_PULSE: u"предымпульс (завышает)",
                  NOISE_DARK: u"перекрытый пучок"}[self.noise_source]
-        return out + u"; шумовой пол — " + noise
+        out += u"; шумовой пол — " + noise
+        if getattr(self, "fit_on", False):
+            w = {FIT_RELATIVE: u"относительные",
+                 FIT_NOISE: u"по шумовому полу",
+                 FIT_UNIFORM: u"равные"}.get(self.fit_weights, self.fit_weights)
+            out += u"; фит Малюса порядка %d, веса %s" % (self.fit_order, w)
+            if self.fit_spectral_on:
+                out += u", побинно"
+        return out
 
 
 # --------------------------------------------------------------------- базовые

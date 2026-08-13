@@ -19,40 +19,63 @@ import sys
 
 import numpy as np
 
+from .core import fit_malus as fm
 from .core import physics as ph
 from .core.compat import Tee, setup_console
 from .core.scan import Scan
 
 CSV_HEADER = (u"seq;file;angle_deg;rep;reference;energy_sig;energy_ref;"
               u"T;T_dB;T_freq;T_freq_dB;delta;delta_dB;"
-              u"frac_in_band_sig;frac_in_band_ref;peak_sig_ps;peak_ref_ps;warnings")
+              u"frac_in_band_sig;frac_in_band_ref;"
+              u"T_fit_time;T_fit_band;resid_time;"
+              u"peak_sig_ps;peak_ref_ps;warnings")
 
 
-def export_csv(points, path):
+def _fit_columns(points, fit):
+    """Значения подогнанных кривых в узлах измерения. -> список строк CSV.
+
+    Считаются в тех же углах, что и точки: так в Origin кривую и данные можно
+    положить на один график без интерполяции на стороне Origin.
+    """
+    n = len(points)
+    if fit is None or not fit.ok:
+        return [u";;"] * n
+    theta = np.array([p.trace.angle for p in points], dtype=float)
+    ft = fit.time.curve(theta)
+    fb = fit.band.curve(theta) if fit.band is not None else None
+    out = []
+    for i, p in enumerate(points):
+        band = u"%.10g" % fb[i] if fb is not None else u""
+        out.append(u"%.10g;%s;%.10g" % (ft[i], band, p.T - ft[i]))
+    return out
+
+
+def export_csv(points, path, fit=None):
     """Выгрузка трека. Разделитель — `;`: Origin и Excel в русской локали ждут его.
 
-    Колонки полосового пропускания присутствуют всегда; при выключенном
-    Парсевале они пусты — а не заполнены нулями, которые Origin отложил бы
+    Колонки полосового пропускания и фита присутствуют всегда; при выключенном
+    режиме они пусты — а не заполнены нулями, которые Origin отложил бы
     на график как настоящие точки.
 
     Кодировка — **UTF-8 с BOM** (`utf-8-sig`). Без BOM Excel и Origin на
     русской Windows открывают файл как cp1251, и колонка предупреждений
     превращается в мусор; BOM снимает догадки о кодировке.
     """
+    fits = _fit_columns(points, fit)
     with io.open(path, "w", encoding="utf-8-sig") as fh:
         fh.write(CSV_HEADER + u"\n")
-        for p in points:
+        for p, fitcols in zip(points, fits):
             tr = p.trace
             band = (u"%.10g;%.6f;%.10g;%.6f;%.8f;%.8f" % (
                 p.T_freq, p.T_freq_db, p.delta, p.delta_db,
                 p.frac_in_band_s, p.frac_in_band_r)
                 if p.settings.parseval_on else u";;;;;")
-            fh.write(u"%d;%s;%d;%d;%s;%.10g;%.10g;%.10g;%.6f;%s;%.6f;%s;%s\n" % (
+            fh.write(u"%d;%s;%d;%d;%s;%.10g;%.10g;%.10g;%.6f;%s;%s;%.6f;%s;%s\n" % (
                 tr.seq, tr.name, tr.angle, tr.rep,
                 u"+".join([r.name for r in p.refs]),
                 p.energy_s,
                 sum(p.energy_r) / float(len(p.energy_r)) if p.energy_r else float("nan"),
-                p.T, p.T_db, band, p.peak_s,
+                p.T, p.T_db, band, fitcols, p.peak_s,
                 u"+".join([u"%.6f" % x for x in p.peak_r]),
                 u" | ".join(p.warnings),
             ))
@@ -77,6 +100,12 @@ def build_settings(args):
         noise_source={"hf": ph.NOISE_HF_TAIL, "pre": ph.NOISE_PRE_PULSE,
                       "dark": ph.NOISE_DARK}[args.noise],
         noise_hf_from=args.noise_from,
+        fit_on=bool(args.fit or args.fit_spectral),
+        fit_order=args.fit_order,
+        fit_weights={"relative": ph.FIT_RELATIVE, "noise": ph.FIT_NOISE,
+                     "uniform": ph.FIT_UNIFORM}[args.fit_weights],
+        fit_spectral_on=bool(args.fit_spectral),
+        fit_drop_warned=bool(args.fit_drop_warned),
     )
 
 
@@ -112,6 +141,22 @@ def main(argv=None):
     ap.add_argument("--window-in-time", action="store_true",
                     help=u"учитывать гауссово окно и во временно́м интеграле — "
                          u"без этого сравнение с полосой несимметрично")
+    ap.add_argument("--fit", action="store_true",
+                    help=u"подогнать угловую зависимость линеаризованным законом "
+                         u"Малюса и напечатать параметры каналов")
+    ap.add_argument("--fit-order", type=int, choices=[2, 4], default=4,
+                    help=u"порядок гармонического базиса: 4 — точный для "
+                         u"когерентной схемы (по умолчанию), 2 — учебный, теряет "
+                         u"четверть сигнала и фазу утечки")
+    ap.add_argument("--fit-weights", choices=["relative", "noise", "uniform"],
+                    default="relative",
+                    help=u"веса МНК: relative — sigma ~ U (по умолчанию), "
+                         u"noise — по измеренному шумовому полу, uniform — равные "
+                         u"(слепы к зоне гашения)")
+    ap.add_argument("--fit-spectral", action="store_true",
+                    help=u"фитировать каждый частотный бин отдельно; включает --fit")
+    ap.add_argument("--fit-drop-warned", action="store_true",
+                    help=u"не брать в фит точки с предупреждениями")
     ap.add_argument("--csv", default=None, help=u"выгрузить трек в CSV")
     ap.add_argument("--log", default=None, metavar=u"ФАЙЛ",
                     help=u"записать весь вывод в файл (UTF-8). Консоль Windows "
@@ -173,6 +218,7 @@ def _run(args):
     print(u"")
 
     points = ph.compute_track(scan, settings)
+    fit = fm.fit_track(points, settings) if settings.fit_on else None
 
     if args.seq is not None:
         sel = [p for p in points if p.trace.seq == args.seq]
@@ -181,6 +227,12 @@ def _run(args):
             return 1
         for line in sel[0].summary_lines():
             print(line)
+        if fit is not None:
+            line = fit.point_line(points.index(sel[0]))
+            if line:
+                print(line)
+            for line in fit.summary_lines():
+                print(line)
         return 0
 
     extra = u" %11s %9s" % (u"T полоса, %", u"разн., дБ") if settings.parseval_on else u""
@@ -208,8 +260,13 @@ def _run(args):
           % (100 * Ts.min(), points[int(np.argmin(Ts))].trace.name,
              100 * Ts.max(), points[int(np.argmax(Ts))].trace.name))
 
+    if fit is not None:
+        print(u"")
+        for line in fit.summary_lines():
+            print(line)
+
     if args.csv:
-        export_csv(points, args.csv)
+        export_csv(points, args.csv, fit)
         print(u"CSV: %s" % os.path.abspath(args.csv))
     return 0
 
