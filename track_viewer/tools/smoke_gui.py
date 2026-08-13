@@ -34,7 +34,8 @@ if REPO not in sys.path:
     sys.path.insert(0, REPO)
 
 from track_viewer.core import fit_malus as fm                # noqa: E402
-from track_viewer.gui import TrackViewer                     # noqa: E402
+from track_viewer.gui import (                               # noqa: E402
+    COLLAPSED_AT_START, PLOT_ROW_MIN_PX, TrackViewer)
 
 GRID = os.path.join(REPO, "data_pool", "test_grid_33_11")
 PUREWAVE = os.path.join(REPO, "data_pool", "purewave")
@@ -63,6 +64,81 @@ def main():
 
     print(u"каталог %s: %d точек" % (GRID, len(app.points)))
     shot("01_track_default")
+
+    # --- колонка настроек обязана помещаться на экране прибора (1024x768).
+    # Окно приходится показать: у скрытого окна Tk не выполняет раскладку, и
+    # winfo_height даёт 1 px — проверка выродилась бы в тождество.
+    root.deiconify()
+    root.geometry("1024x768")
+    root.update()
+    root.update_idletasks()
+    canvas = app._panel_canvas
+    inner = canvas.nametowidget(canvas.itemcget(canvas.find_all()[0], "window"))
+    at_start = inner.winfo_reqheight()
+    print(u"колонка настроек на 1024x768: холст %d px, при старте %d px — %s"
+          % (canvas.winfo_height(), at_start,
+             u"помещается" if at_start <= canvas.winfo_height()
+             else u"НЕ ПОМЕЩАЕТСЯ, спасает прокрутка"))
+    for title in sorted(app._groups):
+        state, toggle = app._groups[title]
+        was = state["open"]
+        toggle()
+        root.update_idletasks()
+        if state["open"] == was:
+            raise SystemExit(u"блок %s не переключился" % title)
+        toggle()
+        root.update_idletasks()
+    for title in sorted(app._groups):
+        state, toggle = app._groups[title]
+        if not state["open"]:
+            toggle()
+    root.update_idletasks()
+    full = inner.winfo_reqheight()
+    canvas.yview_moveto(1.0)
+    root.update_idletasks()
+    first, last = canvas.yview()
+    print(u"  все %d блоков развёрнуты: %d px, прокрутка до конца даёт %.2f…%.2f"
+          % (len(app._groups), full, first, last))
+    if last < 0.999:
+        raise SystemExit(u"прокрутка не доходит до низа колонки")
+    for title in COLLAPSED_AT_START:
+        state, toggle = app._groups[title]
+        if state["open"]:
+            toggle()
+    canvas.yview_moveto(0.0)
+
+    # --- графики не должны ужиматься: ряд не ниже PLOT_ROW_MIN_PX, дальше прокрутка
+    holder = app._plot_holder
+    for label, tune in ((u"4 панели", None),
+                        (u"6 панелей", lambda: app.var_parseval.set(True)),
+                        (u"8 панелей", lambda: (app.var_fit.set(True),
+                                                app.var_fit_spectral.set(True)))):
+        if tune:
+            tune()
+            app.recompute()
+        root.update()
+        root.update_idletasks()
+        rows, fig_h = app._plot_rows, app._plot_size[1]
+        per_row = fig_h // rows
+        if per_row < PLOT_ROW_MIN_PX:
+            raise SystemExit(u"ряд ужат до %d px при минимуме %d"
+                             % (per_row, PLOT_ROW_MIN_PX))
+        holder.yview_moveto(1.0)
+        root.update_idletasks()
+        if holder.yview()[1] < 0.999:
+            raise SystemExit(u"область графиков не прокручивается до низа")
+        holder.yview_moveto(0.0)
+        print(u"  %-10s рядов %d, фигура %d px (%d px на ряд), окно %d px — %s"
+              % (label, rows, fig_h, per_row, holder.winfo_height(),
+                 u"помещается" if fig_h <= holder.winfo_height() else u"прокрутка"))
+    app.var_parseval.set(False)
+    app.var_fit.set(False)
+    app.var_fit_spectral.set(False)
+    app.recompute()
+
+    root.geometry("1320x900")
+    root.update()
+    root.withdraw()
 
     app.select(len(app.points) // 2)
     root.update()

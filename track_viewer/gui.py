@@ -72,6 +72,15 @@ WEIGHT_BY_LABEL = dict((v, k) for k, v in WEIGHT_LABELS.items())
 ORDER_LABELS = {4: u"4 — точный (когерентный)", 2: u"2 — учебный, теряет фазу"}
 ORDER_BY_LABEL = dict((v, k) for k, v in ORDER_LABELS.items())
 
+PANEL_W = 258           # ширина колонки настроек без полосы прокрутки
+PLOT_ROW_MIN_PX = 215   # ниже этого ряд панелей нечитаем: подписи наезжают
+
+# Блоки, свёрнутые при запуске. Открыты те, без которых не начать работу: папка,
+# базовый расчёт, выгрузка и генерация дороги. Полосовое пропускание и фит —
+# режимы разбора, их включают осознанно, и в свёрнутом виде они не отнимают
+# высоту у кнопок ниже.
+COLLAPSED_AT_START = (u"СПЕКТР И ШУМ", u"ПРОПУСКАНИЕ ПО ПОЛОСЕ", u"ФИТИРОВАНИЕ")
+
 
 class TrackViewer(object):
 
@@ -82,6 +91,11 @@ class TrackViewer(object):
         self.points = []
         self.index = 0
         self.fit = None
+        self._groups = {}
+        self._panel_canvas = None
+        self._plot_holder = None
+        self._plot_rows = 2
+        self._plot_size = None
 
         self.var_dir = tk.StringVar(value=u"каталог не выбран")
         self.var_dc = tk.StringVar(value=u"предымпульс")
@@ -111,6 +125,12 @@ class TrackViewer(object):
         # оси зря — пересборка сетки стоит дороже перерисовки.
         self._layout_key = None
 
+        style = ttk.Style()
+        # Заголовок блока — кнопка, но выглядеть должна заголовком: текст влево,
+        # без рамки. Иначе колонка настроек читается как ряд кнопок.
+        style.configure("Group.TButton", anchor="w", relief=tk.FLAT,
+                        padding=(4, 3), font=("TkDefaultFont", 9, "bold"))
+
         self._build()
         if directory:
             self.open_directory(directory)
@@ -120,21 +140,95 @@ class TrackViewer(object):
         outer = ttk.Frame(self.root, padding=6)
         outer.pack(fill=tk.BOTH, expand=True)
 
-        left = ttk.Frame(outer, width=260)
+        left = ttk.Frame(outer, width=PANEL_W + 18)
         left.pack(side=tk.LEFT, fill=tk.Y, padx=(0, 8))
         left.pack_propagate(False)
         right = ttk.Frame(outer)
         right.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        self._build_controls(left)
-        self._build_plots(right)
+        self._build_controls(self._scrollable(left))
+        # Панель данных упаковывается ДО графиков и снизу. Иначе холст фигуры,
+        # упакованный первым с expand=True, забирает всю высоту, и на экране
+        # 1024×768 панель уезжает за нижний край вместе с числами фита.
         self._build_databar(right)
+        self._build_plots(right)
         self._bind_keys()
 
-    def _group(self, parent, title):
-        f = ttk.LabelFrame(parent, text=title, padding=6)
-        f.pack(fill=tk.X, pady=(0, 8))
-        return f
+    def _scrollable(self, parent):
+        """Прокручиваемая колонка настроек. -> фрейм, куда класть содержимое.
+
+        У прибора экран 1024×768, а групп настроек шесть. Без прокрутки нижние
+        кнопки — выгрузка CSV и генерация дороги — оказываются за краем экрана и
+        недостижимы вовсе. Сворачивание блоков (см. `_group`) эту нужду обычно
+        снимает, но полагаться только на него нельзя: развернув всё, оператор
+        снова упёрся бы в край.
+        """
+        canvas = tk.Canvas(parent, borderwidth=0, highlightthickness=0,
+                           width=PANEL_W)
+        bar = ttk.Scrollbar(parent, orient=tk.VERTICAL, command=canvas.yview)
+        canvas.configure(yscrollcommand=bar.set)
+        bar.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        inner = ttk.Frame(canvas)
+        window = canvas.create_window((0, 0), window=inner, anchor="nw")
+
+        def on_inner(_event=None):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        def on_canvas(event):
+            # Содержимое тянется по ширине холста, иначе поля ввода, упакованные
+            # вправо, разъезжаются при появлении полосы прокрутки.
+            canvas.itemconfigure(window, width=event.width)
+
+        inner.bind("<Configure>", on_inner)
+        canvas.bind("<Configure>", on_canvas)
+
+        def wheel(event):
+            if canvas.bbox("all") is None:
+                return
+            first, last = canvas.yview()
+            if first <= 0.0 and last >= 1.0:
+                return              # всё помещается — колесо не перехватываем
+            canvas.yview_scroll(-1 if event.delta > 0 else 1, "units")
+
+        # Привязка на время наведения, а не bind_all навсегда: иначе колесо
+        # перестало бы работать над графиками, где им пользуется matplotlib.
+        canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", wheel))
+        canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
+
+        self._panel_canvas = canvas
+        return inner
+
+    def _group(self, parent, title, collapsed=False):
+        """Сворачиваемый блок настроек. -> фрейм тела блока.
+
+        Свёрнутый блок не уничтожается, а лишь снимается с раскладки: виджеты
+        живы, переменные читаются, расчёт от состояния блока не зависит.
+        """
+        box = ttk.Frame(parent)
+        box.pack(fill=tk.X, pady=(0, 3))
+        body = ttk.Frame(box, padding=(6, 2, 6, 6))
+        state = {"open": not collapsed}
+
+        def label():
+            return (u"▾ " if state["open"] else u"▸ ") + title
+
+        def toggle():
+            state["open"] = not state["open"]
+            if state["open"]:
+                body.pack(fill=tk.X)
+            else:
+                body.pack_forget()
+            head.configure(text=label())
+
+        head = ttk.Button(box, style="Group.TButton", command=toggle)
+        head.pack(fill=tk.X)
+        head.configure(text=label())
+        if state["open"]:
+            body.pack(fill=tk.X)
+        self._groups[title] = (state, toggle)
+        return body
 
     def _build_controls(self, parent):
         g = self._group(parent, u"ПАПКА")
@@ -174,7 +268,8 @@ class TrackViewer(object):
         e = ttk.Entry(row, textvariable=self.var_fwhm, width=6)
         e.pack(side=tk.RIGHT)
         e.bind("<Return>", lambda ev: self.recompute())
-        ttk.Label(g, text=u"1000 пс = окно выключено", foreground="#777").pack(anchor=tk.W)
+        # Подсказка про 1000 пс убрана как избыточная: галочка выше выключает
+        # окно прямо, а высота колонки на экране прибора дороже напоминания.
 
         ttk.Label(g, text=u"центр окна:").pack(anchor=tk.W, pady=(4, 0))
         cb = ttk.Combobox(g, textvariable=self.var_centre, state="readonly", width=24,
@@ -187,8 +282,13 @@ class TrackViewer(object):
             ttk.Radiobutton(g, text=text, value=text, variable=self.var_ref,
                             command=self.recompute).pack(anchor=tk.W)
 
+        # Полоса показа и шумовой пол вынесены из РАСЧЁТА в свой блок: они
+        # относятся к спектральным панелям, а не к вычислению T, и вместе
+        # занимали четверть колонки. Свёрнуты при запуске.
+        g = self._group(parent, u"СПЕКТР И ШУМ",
+                        collapsed=u"СПЕКТР И ШУМ" in COLLAPSED_AT_START)
         row = ttk.Frame(g)
-        row.pack(fill=tk.X, pady=(6, 0))
+        row.pack(fill=tk.X)
         ttk.Label(row, text=u"полоса показа, ТГц:").pack(side=tk.LEFT)
         e2 = ttk.Entry(row, textvariable=self.var_band_hi, width=5)
         e2.pack(side=tk.RIGHT)
@@ -209,7 +309,8 @@ class TrackViewer(object):
         self.entry_hf.pack(side=tk.RIGHT)
         self.entry_hf.bind("<Return>", lambda ev: self.recompute())
 
-        g = self._group(parent, u"ПРОПУСКАНИЕ ПО ПОЛОСЕ")
+        g = self._group(parent, u"ПРОПУСКАНИЕ ПО ПОЛОСЕ",
+                        collapsed=u"ПРОПУСКАНИЕ ПО ПОЛОСЕ" in COLLAPSED_AT_START)
         ttk.Checkbutton(g, text=u"считать T по полосе (Парсеваль)",
                         variable=self.var_parseval,
                         command=self.recompute).pack(anchor=tk.W)
@@ -235,7 +336,8 @@ class TrackViewer(object):
                           u"только за счёт полосы",
                   foreground="#777", justify=tk.LEFT).pack(anchor=tk.W)
 
-        g = self._group(parent, u"ФИТИРОВАНИЕ")
+        g = self._group(parent, u"ФИТИРОВАНИЕ",
+                        collapsed=u"ФИТИРОВАНИЕ" in COLLAPSED_AT_START)
         ttk.Checkbutton(g, text=u"подгонять закон Малюса",
                         variable=self.var_fit,
                         command=self.recompute).pack(anchor=tk.W)
@@ -280,13 +382,31 @@ class TrackViewer(object):
         self.fig = Figure(figsize=(10.5, 6.6), dpi=100)
         self._layout_axes(False)
 
-        self.canvas = FigureCanvasTkAgg(self.fig, master=parent)
-        self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-        NavigationToolbar2Tk(self.canvas, parent).update()
+        # Область графиков прокручивается. Без этого включение обоих
+        # необязательных рядов на экране прибора сжимало восемь панелей до сотни
+        # точек каждая, и подписи наезжали на данные. Теперь ряд не может стать
+        # ниже PLOT_ROW_MIN_PX: если рядов больше, чем помещается, фигура растёт
+        # вниз и прокручивается, а не ужимается.
+        #
+        # Холст фигуры обязан быть РЕБЁНКОМ контейнера прокрутки: вложенный
+        # виджет-сосед Tk не обрезает по границам холста, и высокая фигура
+        # рисуется поверх слайдера и панели данных.
+        holder = tk.Canvas(parent, borderwidth=0, highlightthickness=0)
+        vsb = ttk.Scrollbar(parent, orient=tk.VERTICAL, command=holder.yview)
+        holder.configure(yscrollcommand=vsb.set)
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=holder)
         self.canvas.mpl_connect("button_press_event", self._on_click)
 
+        # ПОРЯДОК УПАКОВКИ ЗНАЧИМ. Область графиков идёт с expand=True и
+        # забирает всё, что осталось, поэтому упаковывается ПОСЛЕДНЕЙ. Всё, что
+        # должно быть видно всегда — слайдер, панель инструментов, панель
+        # данных, — прижимается к низу заранее, иначе на экране 1024×768 оно
+        # уезжает за край. Панель инструментов matplotlib пакует себя сама
+        # (side=BOTTOM), поэтому создаётся уже после слайдера: так снизу вверх
+        # получается панель данных, слайдер, инструменты, графики.
         bar = ttk.Frame(parent)
-        bar.pack(fill=tk.X, pady=(4, 0))
+        bar.pack(side=tk.BOTTOM, fill=tk.X, pady=(4, 0))
         ttk.Label(bar, text=u"измерение №").pack(side=tk.LEFT)
         self.slider = ttk.Scale(bar, from_=0, to=0, orient=tk.HORIZONTAL,
                                 command=self._on_slider)
@@ -298,6 +418,41 @@ class TrackViewer(object):
         entry = ttk.Entry(bar, textvariable=self.var_pos, width=6)
         entry.pack(side=tk.LEFT, padx=(6, 0))
         entry.bind("<Return>", self._on_entry)
+
+        NavigationToolbar2Tk(self.canvas, parent).update()
+
+        vsb.pack(side=tk.RIGHT, fill=tk.Y)
+        holder.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+        widget = self.canvas.get_tk_widget()
+        self._plot_window = holder.create_window((0, 0), window=widget, anchor="nw")
+        self._plot_holder = holder
+        holder.bind("<Configure>", lambda e: self._fit_plot_area())
+
+        def wheel(event):
+            first, last = holder.yview()
+            if first <= 0.0 and last >= 1.0:
+                return
+            holder.yview_scroll(-1 if event.delta > 0 else 1, "units")
+
+        holder.bind("<Enter>", lambda e: holder.bind_all("<MouseWheel>", wheel))
+        holder.bind("<Leave>", lambda e: holder.unbind_all("<MouseWheel>"))
+
+    def _fit_plot_area(self):
+        """Подогнать размер фигуры под окно, но не ниже минимума на ряд."""
+        holder = getattr(self, "_plot_holder", None)
+        if holder is None:
+            return
+        w = holder.winfo_width()
+        h = holder.winfo_height()
+        if w < 2 or h < 2:
+            return
+        want_h = max(h, self._plot_rows * PLOT_ROW_MIN_PX)
+        if (w, want_h) == getattr(self, "_plot_size", None):
+            return
+        self._plot_size = (w, want_h)
+        holder.itemconfigure(self._plot_window, width=w, height=want_h)
+        holder.configure(scrollregion=(0, 0, w, want_h))
 
     def _layout_axes(self, with_delta, with_channels=False):
         """Пересобрать сетку панелей: угловые, дельта, спектр, каналы фита.
@@ -324,11 +479,10 @@ class TrackViewer(object):
             ch_row = len(rows)
             rows.append(0.85)
 
-        tight = len(rows) >= 4
         gs = GridSpec(len(rows), 2, figure=self.fig, height_ratios=rows,
                       left=0.07, right=0.985, top=0.95 if len(rows) > 2 else 0.94,
-                      bottom=0.06 if tight else (0.07 if len(rows) > 2 else 0.09),
-                      hspace=0.60 if tight else (0.55 if len(rows) > 2 else 0.42),
+                      bottom=0.06 if len(rows) > 2 else 0.09,
+                      hspace=0.55 if len(rows) > 2 else 0.42,
                       wspace=0.20)
         self.ax_tr_lin = self.fig.add_subplot(gs[0, 0])
         self.ax_tr_db = self.fig.add_subplot(gs[0, 1])
@@ -339,6 +493,17 @@ class TrackViewer(object):
         self.ax_ch_lin = self.fig.add_subplot(gs[ch_row, 0]) if ch_row else None
         self.ax_ch_db = self.fig.add_subplot(gs[ch_row, 1]) if ch_row else None
 
+        # Высота ряда гарантирована прокруткой области графиков, поэтому шрифты
+        # уменьшаются только при переходе от двух рядов к трём и более — там
+        # панели действительно ниже, но не критично.
+        self._fs_title = 9 if len(rows) > 2 else 11
+        self._fs_label = 8 if len(rows) > 2 else 9
+        self._fs_legend = 7 if len(rows) > 2 else 8
+        for ax in self.fig.axes:
+            ax.tick_params(labelsize=self._fs_label)
+        self._plot_rows = len(rows)
+        self._fit_plot_area()
+
     def _all_axes(self):
         axes = [self.ax_tr_lin, self.ax_tr_db, self.ax_sp_lin, self.ax_sp_db]
         return axes + [ax for ax in (self.ax_d_lin, self.ax_d_db,
@@ -347,11 +512,11 @@ class TrackViewer(object):
 
     def _build_databar(self, parent):
         f = ttk.LabelFrame(parent, text=u"измерение", padding=6)
-        f.pack(fill=tk.X, pady=(6, 0))
+        f.pack(side=tk.BOTTOM, fill=tk.X, pady=(6, 0))
         # Высота выросла с 11 строк: блок фита добавляет до семи. Полосы
         # прокрутки хватает, растягивать панель дальше нельзя — она отъедала бы
         # высоту у графиков.
-        self.data_text = tk.Text(f, height=15, wrap=tk.WORD, relief=tk.FLAT,
+        self.data_text = tk.Text(f, height=12, wrap=tk.WORD, relief=tk.FLAT,
                                  background="#f7f7f7")
         sb = ttk.Scrollbar(f, orient=tk.VERTICAL, command=self.data_text.yview)
         self.data_text.configure(yscrollcommand=sb.set)
@@ -650,16 +815,16 @@ class TrackViewer(object):
                      markeredgewidth=2, label=u"выбрано")
 
         ax1.set_ylim(0.0, 1.0)          # шкала зафиксирована по требованию владельца
-        ax1.set_xlabel(u"угол, °")
-        ax1.set_ylabel(u"T, отн. ед.")
-        ax1.set_title(u"пропускание по углу")
-        ax2.set_xlabel(u"угол, °")
-        ax2.set_ylabel(u"T, дБ")
-        ax2.set_title(u"то же в логарифмической шкале")
+        ax1.set_xlabel(u"угол, °", fontsize=self._fs_label)
+        ax1.set_ylabel(u"T, отн. ед.", fontsize=self._fs_label)
+        ax1.set_title(u"пропускание по углу", fontsize=self._fs_title)
+        ax2.set_xlabel(u"угол, °", fontsize=self._fs_label)
+        ax2.set_ylabel(u"T, дБ", fontsize=self._fs_label)
+        ax2.set_title(u"то же в логарифмической шкале", fontsize=self._fs_title)
         ax2.set_ylim(FLOOR_DB, 3.0)
         for ax in (ax1, ax2):
             ax.grid(True, alpha=0.3)
-            ax.legend(loc="best", fontsize=8, framealpha=0.9)
+            ax.legend(loc="best", fontsize=self._fs_legend, framealpha=0.9)
 
     def _draw_delta(self):
         """Средний ряд: расхождение временно́го пропускания с полосовым.
@@ -702,17 +867,17 @@ class TrackViewer(object):
                 ax2.plot(grid, 10.0 * np.log10(ratio), "-", color=COLOR_FIT,
                          linewidth=1.4, label=u"разность фитов")
             for ax in (ax1, ax2):
-                ax.legend(loc="best", fontsize=7, framealpha=0.9)
+                ax.legend(loc="best", fontsize=self._fs_legend, framealpha=0.9)
 
         for ax in (ax1, ax2):
             ax.axhline(0.0, color="#888", linewidth=0.8)
             ax.axvline(sel.trace.angle, color=COLOR_SEL, linewidth=1.0, alpha=0.6)
             ax.grid(True, alpha=0.3)
-            ax.set_xlabel(u"угол, °")
-        ax1.set_ylabel(u"Δ, п.п.")
-        ax2.set_ylabel(u"Δ, дБ")
-        ax1.set_title(u"Δ = T во времени − T по полосе", fontsize=9)
-        ax2.set_title(u"то же в дБ: 10·lg(T время / T полоса)", fontsize=9)
+            ax.set_xlabel(u"угол, °", fontsize=self._fs_label)
+        ax1.set_ylabel(u"Δ, п.п.", fontsize=self._fs_label)
+        ax2.set_ylabel(u"Δ, дБ", fontsize=self._fs_label)
+        ax1.set_title(u"Δ = T во времени − T по полосе", fontsize=self._fs_title)
+        ax2.set_title(u"то же в дБ: 10·lg(T время / T полоса)", fontsize=self._fs_title)
 
     def _draw_spectrum(self):
         """Нижняя пара: спектральное пропускание выбранного измерения."""
@@ -766,15 +931,15 @@ class TrackViewer(object):
                                color=COLOR_FREQ, alpha=0.10, zorder=0,
                                label=u"полоса счёта")
             for ax in (ax1, ax2):
-                ax.legend(loc="best", fontsize=8, framealpha=0.9)
+                ax.legend(loc="best", fontsize=self._fs_legend, framealpha=0.9)
 
         ax1.set_ylim(0.0, 1.0)
-        ax1.set_xlabel(u"частота, ТГц")
-        ax1.set_ylabel(u"T(ν), отн. ед.")
-        ax1.set_title(u"спектр: %s" % p.trace.name)
-        ax2.set_xlabel(u"частота, ТГц")
-        ax2.set_ylabel(u"T(ν), дБ")
-        ax2.set_title(u"то же в логарифмической шкале")
+        ax1.set_xlabel(u"частота, ТГц", fontsize=self._fs_label)
+        ax1.set_ylabel(u"T(ν), отн. ед.", fontsize=self._fs_label)
+        ax1.set_title(u"спектр: %s" % p.trace.name, fontsize=self._fs_title)
+        ax2.set_xlabel(u"частота, ТГц", fontsize=self._fs_label)
+        ax2.set_ylabel(u"T(ν), дБ", fontsize=self._fs_label)
+        ax2.set_title(u"то же в логарифмической шкале", fontsize=self._fs_title)
         for ax in (ax1, ax2):
             ax.grid(True, alpha=0.3)
 
@@ -812,14 +977,14 @@ class TrackViewer(object):
 
         ax1.set_ylim(0.0, 1.0)
         ax2.set_ylim(FLOOR_DB, 3.0)
-        ax1.set_ylabel(u"каналы, отн. ед.")
-        ax2.set_ylabel(u"каналы, дБ")
-        ax1.set_title(u"каналы по частоте (фит по всем углам)", fontsize=9)
-        ax2.set_title(u"расстояние между кривыми = экстинкция(ν)", fontsize=9)
+        ax1.set_ylabel(u"каналы, отн. ед.", fontsize=self._fs_label)
+        ax2.set_ylabel(u"каналы, дБ", fontsize=self._fs_label)
+        ax1.set_title(u"каналы по частоте (фит по всем углам)", fontsize=self._fs_title)
+        ax2.set_title(u"расстояние между кривыми = экстинкция(ν)", fontsize=self._fs_title)
         for ax in (ax1, ax2):
-            ax.set_xlabel(u"частота, ТГц")
+            ax.set_xlabel(u"частота, ТГц", fontsize=self._fs_label)
             ax.grid(True, alpha=0.3)
-            ax.legend(loc="best", fontsize=7, framealpha=0.9)
+            ax.legend(loc="best", fontsize=self._fs_legend, framealpha=0.9)
 
     # ------------------------------------------------------------ панель данных
     def _fill_databar(self):
