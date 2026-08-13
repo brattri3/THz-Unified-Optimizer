@@ -262,26 +262,50 @@ def design_diagnostics(theta_deg, order=4, sigma_rel=0.01, U_scale=1.0, A2_rel=1
     }
 
 
-def high_harmonic_share(theta_deg, resid):
-    u"""Доля мощности невязки, объяснимая гармониками 6 и 8.
+def high_harmonic_share(theta_deg, resid, sigma=None, order=4):
+    u"""Доля мощности невязки, объяснимая гармониками 6 и 8. -> (доля, случайный уровень).
 
     Тест на выход за пределы модели: Фабри-Перо и нелинейность детектора рождают
-    гармоники выше 4-й, которых у ``|E|²`` быть не может. Возвращает NaN, когда
-    углов меньше, чем параметров расширенного базиса.
+    гармоники выше 4-й, которых у ``|E|²`` быть не может.
+
+    Считается **в той же метрике, в которой минимизировался сам фит**, и по
+    базису, ортогонализованному к базису фита. Оба условия обязательны, иначе
+    статистика бессмысленна:
+
+    * без весов доля считается там, где невязка не минимизировалась, и яркая
+      зона (где абсолютная невязка велика) накачивает число. На эталонном
+      прогоне невзвешенный счёт даёт 24.2 % против 6.1 % в метрике весов —
+      разница между «есть выход за модель» и «нет»;
+    * без ортогонализации гармоники 6 и 8 подбирают то, что уже описано
+      базисом порядка 4, и доля завышается ещё раз.
+
+    Вторым числом возвращается уровень, ожидаемый по чистой случайности:
+    четыре параметра на ``dof`` степеней свободы. Без него доля не читается —
+    сама по себе она не отвечает на вопрос «много это или мало».
     """
     t = np.asarray(theta_deg, dtype=np.float64) * D2R
     r = np.asarray(resid, dtype=np.float64)
+    n = len(t)
+    k = 5 if order >= 4 else 3
     X = np.column_stack([np.cos(6 * t), np.sin(6 * t), np.cos(8 * t), np.sin(8 * t)])
-    if len(t) <= X.shape[1]:
-        return float("nan")
-    tot = float(np.sum(r ** 2))
+    dof = n - k
+    if dof <= X.shape[1]:
+        return float("nan"), float("nan")
+
+    sw = np.ones(n) if sigma is None else 1.0 / np.asarray(sigma, dtype=np.float64)
+    Xw = X * sw[:, None]
+    X0 = harmonic_design(theta_deg, order) * sw[:, None]
+    rw = r * sw
+    tot = float(np.sum(rw ** 2))
+    chance = float(X.shape[1]) / float(dof)
     if tot <= 0:
-        return 0.0
+        return 0.0, chance
     try:
-        c = np.linalg.lstsq(X, r, rcond=None)[0]
+        Xw = Xw - np.dot(X0, np.linalg.lstsq(X0, Xw, rcond=None)[0])
+        c = np.linalg.lstsq(Xw, rw, rcond=None)[0]
     except np.linalg.LinAlgError:
-        return float("nan")
-    return float(np.sum(np.dot(X, c) ** 2) / tot)
+        return float("nan"), chance
+    return float(np.sum(np.dot(Xw, c) ** 2) / tot), chance
 
 
 # ------------------------------------------------------------------ веса
@@ -323,7 +347,7 @@ class AngularFit(object):
 
     __slots__ = ("which", "order", "weight_mode", "theta", "U", "sigma",
                  "p", "cov", "info", "params", "theta0_err", "diag",
-                 "used", "n_excluded", "hh_share", "notes")
+                 "used", "n_excluded", "hh_share", "hh_chance", "notes")
 
     def __init__(self):
         self.which = WHICH_TIME
@@ -341,6 +365,7 @@ class AngularFit(object):
         self.used = None         # индексы точек трека, попавших в фит
         self.n_excluded = 0
         self.hh_share = float("nan")
+        self.hh_chance = float("nan")
         self.notes = []
 
     def curve(self, theta_grid):
@@ -384,7 +409,8 @@ def fit_angular(theta_deg, U, weight_mode=WEIGHT_RELATIVE, order=4, noise=None,
     res.params = channel_params(p, cov) if order >= 4 else malus_params(p, cov)
     res.theta0_err = theta0_error(p, cov, info["chi2_red"])
     res.diag = design_diagnostics(theta_deg, order)
-    res.hh_share = high_harmonic_share(theta_deg, info["resid"])
+    res.hh_share, res.hh_chance = high_harmonic_share(
+        theta_deg, info["resid"], sigma, order)
     return res
 
 
@@ -556,10 +582,10 @@ class TrackFit(object):
                        u"(из 4-й гармоники %+.4f, расхождение %+.4f)"
                        % (pr["theta0_deg_from_h2"], f.theta0_err,
                           pr["theta0_deg_from_h4_mod45"], pr["theta0_h4_minus_h2_deg"]))
-            out.append(u"  A4/A2 = %.4f (идеал cos^4 даёт 0.25); "
-                       u"невязка %.3g; гармоники 6-8 несут %.1f %% невязки"
+            out.append(u"  A4/A2 = %.4f (идеал cos^4 даёт 0.25); невязка %.3g; "
+                       u"гармоники 6-8 несут %.1f %% невязки при случайных %.1f %%"
                        % (pr["harmonic4_over_harmonic2"], f.info["resid_rms"],
-                          100.0 * f.hh_share))
+                          100.0 * f.hh_share, 100.0 * f.hh_chance))
         else:
             out.append(u"  экстинкция %.2f дБ   утечка eta = %.5g   theta0 = %+.4f град"
                        % (pr["extinction_db"], pr["eta_amplitude"], pr["theta0_deg"]))

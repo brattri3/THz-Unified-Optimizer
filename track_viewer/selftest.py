@@ -976,6 +976,41 @@ def t_fit_conditioning(log):
         % gain)
 
 
+@test(u"фит: гармоники 6-8 считаются в метрике весов и ловят выход за модель")
+def t_fit_high_harmonics(log):
+    th = np.arange(-90.0, 91.0, 5.0)
+    U = _synth_malus(th, 0.95 + 0.0j, 0.03 * np.exp(1j * 0.7), 1.35)
+
+    # Без чужих гармоник доля обязана держаться на случайном уровне.
+    f0 = fm.fit_angular(th, U, fm.WEIGHT_RELATIVE, 4)
+    if not (f0.hh_share <= f0.hh_chance * 1.5):
+        raise AssertionError(u"на чистых данных доля %.4f превысила случайный "
+                             u"уровень %.4f" % (f0.hh_share, f0.hh_chance))
+
+    # С подмешанной 6-й гармоникой — обязана вырасти на порядок.
+    U6 = U + 0.01 * U.max() * np.cos(6 * np.radians(th - 1.35))
+    f6 = fm.fit_angular(th, U6, fm.WEIGHT_RELATIVE, 4)
+    if not (f6.hh_share > 10 * max(f0.hh_share, 1e-6)):
+        raise AssertionError(u"подмешанная 6-я гармоника не замечена: %.4f против %.4f"
+                             % (f6.hh_share, f0.hh_share))
+    log(u"чистые данные %.2f %% при случайных %.2f %%; с 6-й гармоникой %.2f %%"
+        % (100 * f0.hh_share, 100 * f0.hh_chance, 100 * f6.hh_share))
+
+    # Метрика обязана быть той же, в которой минимизировался фит. Невзвешенный
+    # счёт на реальных данных завышает долю вчетверо — так и была допущена
+    # ошибка, из-за которой в отчёт едва не ушёл несуществующий выход за модель.
+    _, fit = _fit_points(fit_on=True)
+    f = fit.time
+    naive = fm.high_harmonic_share(f.theta, f.info["resid"])[0]
+    if not (naive > 2 * f.hh_share):
+        raise AssertionError(u"тест метрики выродился: %.4f против %.4f"
+                             % (naive, f.hh_share))
+    log(u"на реальных данных: в метрике весов %.1f %% при случайных %.1f %%, "
+        u"невзвешенно было бы %.1f %%"
+        % (100 * f.hh_share, 100 * f.hh_chance, 100 * naive))
+    log(u"выхода за модель на test_grid_33_11 НЕТ — доля ниже случайного уровня")
+
+
 @test(u"фит: побинный разбор даёт спектры каналов и считает нарушения "
       u"неравенства Коши-Буняковского")
 def t_fit_spectral(log):

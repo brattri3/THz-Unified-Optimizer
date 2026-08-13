@@ -36,7 +36,7 @@
 .venv\Scripts\python.exe -m track_viewer.cli <каталог> --noise dark
 .venv\Scripts\python.exe -m track_viewer.cli <каталог> --fit --fit-spectral
 .venv\Scripts\python.exe -m track_viewer.cli <каталог> --fit --fit-weights uniform
-.venv\Scripts\python.exe -m track_viewer.selftest                  # приёмка, 36 проверок
+.venv\Scripts\python.exe -m track_viewer.selftest                  # приёмка, 37 проверок
 ```
 
 Инструменты разработчика (в поставку не входят):
@@ -58,7 +58,7 @@
 | `core/road.py` | генератор дороги пустых файлов и гардрейлы §5.2 |
 | `gui.py` | Tkinter + matplotlib: 4, 6 или 8 панелей, слайдер, панель данных, окно генерации |
 | `cli.py` | то же ядро без окна: печать трека, выгрузка CSV |
-| `selftest.py` | приёмка §7 ТЗ, 36 проверок |
+| `selftest.py` | приёмка §7 ТЗ, 37 проверок |
 
 **Инвариант: в `core/` нет ни `tkinter`, ни `matplotlib`.** Благодаря этому вся приёмка
 проходит без графического окружения. Проверяется машинно, тестом, а не договорённостью.
@@ -126,7 +126,7 @@ A (`research/two_wgp/NOTE_malus_linearization.md`), в `core/fit_malus.py` он
 
 ## Проверка
 
-`python -m track_viewer.selftest` — 36 проверок, из них главная сверяет число с ядром:
+`python -m track_viewer.selftest` — 37 проверок, из них главная сверяет число с ядром:
 
 ```
 без DC          T = 98.9089 %  ← число ТЗ §7.2
