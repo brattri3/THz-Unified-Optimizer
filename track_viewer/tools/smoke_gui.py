@@ -33,6 +33,7 @@ REPO = os.path.dirname(HERE)
 if REPO not in sys.path:
     sys.path.insert(0, REPO)
 
+from track_viewer.core import fit_malus as fm                # noqa: E402
 from track_viewer.gui import TrackViewer                     # noqa: E402
 
 GRID = os.path.join(REPO, "data_pool", "test_grid_33_11")
@@ -161,6 +162,63 @@ def main():
                  u"активно" if str(app.entry_hf["state"]) == "normal" else u"погашено",
                  u"; " + note[0][:60] if note else u""))
     shot("13_noise_hf_tail")
+
+    # --- фит: кривые на угловых панелях, разность фитов, каналы по частоте
+    from track_viewer.gui import ORDER_LABELS, WEIGHT_LABELS
+    app.var_fit.set(True)
+    app.recompute()
+    root.update()
+    print(u"")
+    print(u"фит включён: панелей %d" % len(app.fig.axes))
+    for line in app.fit.summary_lines():
+        print(u"  " + line)
+    shot("14_fit_time_only")
+
+    app.var_parseval.set(True)
+    app.var_int_lo.set("0.3")
+    app.var_int_hi.set("2.0")
+    app.recompute()
+    root.update()
+    print(u"фит + Парсеваль: панелей %d (ожидается 6)" % len(app.fig.axes))
+    shot("15_fit_delta_curve")
+
+    app.var_fit_spectral.set(True)
+    app.recompute()
+    root.update()
+    sp = app.fit.spectral
+    print(u"фит побинно: панелей %d (ожидается 8), бинов %d, |t_par|^2<0 в %d, "
+          u"нарушений Коши-Буняковского %d"
+          % (len(app.fig.axes), sp.n_bins, sp.n_neg, sp.n_cs_violations))
+    shot("16_fit_channels")
+
+    for key in (ph.FIT_UNIFORM, ph.FIT_NOISE, ph.FIT_RELATIVE):
+        app.var_fit_weights.set(WEIGHT_LABELS[key])
+        app.recompute()
+        root.update()
+        pr = app.fit.time.params
+        print(u"  веса %-28s eta = %.5f, theta0 = %+.4f"
+              % (WEIGHT_LABELS[key], pr["eta_amplitude"],
+                 pr["theta0_deg_from_h2"]))
+
+    app.var_fit_order.set(ORDER_LABELS[2])
+    app.recompute()
+    root.update()
+    print(u"  порядок 2 (учебный): %s"
+          % app.fit.summary_lines()[1].strip())
+    shot("17_fit_order2")
+    app.var_fit_order.set(ORDER_LABELS[4])
+
+    # Неполный трек: фит обязан отказаться, а не выдать уверенный мусор.
+    saved = app.points
+    app.points = saved[:4]
+    app.fit = fm.fit_track(app.points, app.settings())
+    print(u"  на %d точках: %s" % (len(app.points), app.fit.notes[0]))
+    app.points = saved
+    app.var_fit.set(False)
+    app.var_fit_spectral.set(False)
+    app.var_parseval.set(False)
+    app.recompute()
+    root.update()
 
     app.open_directory(PUREWAVE)
     root.update()

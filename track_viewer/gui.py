@@ -33,6 +33,7 @@ from matplotlib.backends.backend_tkagg import (         # noqa: E402
 from matplotlib.figure import Figure                    # noqa: E402
 from matplotlib.gridspec import GridSpec                # noqa: E402
 
+from .core import fit_malus as fm                        # noqa: E402
 from .core import physics as ph                         # noqa: E402
 from .core.scan import Scan                             # noqa: E402
 
@@ -56,6 +57,21 @@ NOISE_LABELS = {
 }
 NOISE_BY_LABEL = dict((v, k) for k, v in NOISE_LABELS.items())
 
+COLOR_FIT = "#8c564b"        # кривая фита T во времени
+COLOR_FIT_BAND = "#e377c2"   # кривая фита T по полосе
+COLOR_PAR = "#7f7f7f"        # тёмный канал |t_par|^2 на панелях каналов
+
+WEIGHT_ORDER = [ph.FIT_RELATIVE, ph.FIT_NOISE, ph.FIT_UNIFORM]
+WEIGHT_LABELS = {
+    ph.FIT_RELATIVE: u"относительные (sigma ~ U)",
+    ph.FIT_NOISE: u"по шумовому полу",
+    ph.FIT_UNIFORM: u"равные (слепы к тени)",
+}
+WEIGHT_BY_LABEL = dict((v, k) for k, v in WEIGHT_LABELS.items())
+
+ORDER_LABELS = {4: u"4 — точный (когерентный)", 2: u"2 — учебный, теряет фазу"}
+ORDER_BY_LABEL = dict((v, k) for k, v in ORDER_LABELS.items())
+
 
 class TrackViewer(object):
 
@@ -65,6 +81,7 @@ class TrackViewer(object):
         self.scan = None
         self.points = []
         self.index = 0
+        self.fit = None
 
         self.var_dir = tk.StringVar(value=u"каталог не выбран")
         self.var_dc = tk.StringVar(value=u"предымпульс")
@@ -81,12 +98,18 @@ class TrackViewer(object):
         self.var_win_time = tk.BooleanVar(value=False)
         self.var_noise = tk.StringVar(value=NOISE_LABELS[ph.NOISE_HF_TAIL])
         self.var_noise_hf = tk.StringVar(value="3.0")
+        self.var_fit = tk.BooleanVar(value=False)
+        self.var_fit_order = tk.StringVar(value=u"4 — точный (когерентный)")
+        self.var_fit_weights = tk.StringVar(value=WEIGHT_LABELS[ph.FIT_RELATIVE])
+        self.var_fit_spectral = tk.BooleanVar(value=False)
+        self.var_fit_drop = tk.BooleanVar(value=False)
         self.var_status = tk.StringVar(value=u"")
         self.var_pos = tk.StringVar(value="0")
 
-        # Средний ряд панелей существует только при включённом Парсевале;
-        # флаг помнит текущую раскладку, чтобы не пересоздавать оси зря.
-        self._delta_layout = None
+        # Опциональные ряды панелей (дельта и каналы фита) создаются по
+        # необходимости; ключ помнит текущую раскладку, чтобы не пересоздавать
+        # оси зря — пересборка сетки стоит дороже перерисовки.
+        self._layout_key = None
 
         self._build()
         if directory:
@@ -212,6 +235,33 @@ class TrackViewer(object):
                           u"только за счёт полосы",
                   foreground="#777", justify=tk.LEFT).pack(anchor=tk.W)
 
+        g = self._group(parent, u"ФИТИРОВАНИЕ")
+        ttk.Checkbutton(g, text=u"подгонять закон Малюса",
+                        variable=self.var_fit,
+                        command=self.recompute).pack(anchor=tk.W)
+        ttk.Label(g, text=u"порядок базиса:").pack(anchor=tk.W, pady=(4, 0))
+        cb = ttk.Combobox(g, textvariable=self.var_fit_order, state="readonly",
+                          width=24, values=[ORDER_LABELS[4], ORDER_LABELS[2]])
+        cb.pack(fill=tk.X)
+        cb.bind("<<ComboboxSelected>>", lambda e: self.recompute())
+        ttk.Label(g, text=u"веса МНК:").pack(anchor=tk.W, pady=(4, 0))
+        cb = ttk.Combobox(g, textvariable=self.var_fit_weights, state="readonly",
+                          width=24, values=[WEIGHT_LABELS[k] for k in WEIGHT_ORDER])
+        cb.pack(fill=tk.X)
+        cb.bind("<<ComboboxSelected>>", lambda e: self.recompute())
+        # Предупреждение вынесено в интерфейс, а не только в гайд: равные веса
+        # взвешивают точку как U², и зона гашения — единственное место, где
+        # видна утечка, — просто не влияет на результат.
+        ttk.Label(g, text=u"равные веса делают фит слепым к зоне\n"
+                          u"гашения: у сессии A они дали |t_прод|²<0",
+                  foreground="#777", justify=tk.LEFT).pack(anchor=tk.W)
+        ttk.Checkbutton(g, text=u"фитировать каждую частоту",
+                        variable=self.var_fit_spectral,
+                        command=self.recompute).pack(anchor=tk.W, pady=(4, 0))
+        ttk.Checkbutton(g, text=u"не брать точки с предупреждениями",
+                        variable=self.var_fit_drop,
+                        command=self.recompute).pack(anchor=tk.W)
+
         g = self._group(parent, u"ВЫГРУЗКА")
         ttk.Button(g, text=u"сохранить трек в CSV",
                    command=self.export_csv).pack(fill=tk.X)
@@ -249,45 +299,63 @@ class TrackViewer(object):
         entry.pack(side=tk.LEFT, padx=(6, 0))
         entry.bind("<Return>", self._on_entry)
 
-    def _layout_axes(self, with_delta):
-        """Пересобрать сетку панелей: 2×2 либо 3×2 со средним узким рядом.
+    def _layout_axes(self, with_delta, with_channels=False):
+        """Пересобрать сетку панелей: угловые, дельта, спектр, каналы фита.
 
-        Средний ряд не прячется, а именно не создаётся: пустая полоса между
-        угловой зависимостью и спектром съедала бы высоту на машине у прибора,
-        где экран невелик.
+        Опциональные ряды не прячутся, а именно не создаются: пустая полоса
+        съедала бы высоту на машине у прибора, где экран невелик. По той же
+        причине оба ряда включаются независимо — при всём включённом на экране
+        восемь панелей, и это уже предел читаемости.
         """
-        if self._delta_layout == bool(with_delta):
+        key = (bool(with_delta), bool(with_channels))
+        if self._layout_key == key:
             return
-        self._delta_layout = bool(with_delta)
+        self._layout_key = key
         self.fig.clear()
+
+        rows = [1.0]                                   # угловые панели
+        d_row = ch_row = None
         if with_delta:
-            gs = GridSpec(3, 2, figure=self.fig, height_ratios=[1.0, 0.55, 1.0],
-                          left=0.07, right=0.985, top=0.95, bottom=0.07,
-                          hspace=0.55, wspace=0.20)
-            self.ax_d_lin = self.fig.add_subplot(gs[1, 0])
-            self.ax_d_db = self.fig.add_subplot(gs[1, 1])
-            sp_row = 2
-        else:
-            gs = GridSpec(2, 2, figure=self.fig,
-                          left=0.07, right=0.985, top=0.94, bottom=0.09,
-                          hspace=0.42, wspace=0.20)
-            self.ax_d_lin = None
-            self.ax_d_db = None
-            sp_row = 1
+            d_row = len(rows)
+            rows.append(0.55)
+        sp_row = len(rows)
+        rows.append(1.0)
+        if with_channels:
+            ch_row = len(rows)
+            rows.append(0.85)
+
+        tight = len(rows) >= 4
+        gs = GridSpec(len(rows), 2, figure=self.fig, height_ratios=rows,
+                      left=0.07, right=0.985, top=0.95 if len(rows) > 2 else 0.94,
+                      bottom=0.06 if tight else (0.07 if len(rows) > 2 else 0.09),
+                      hspace=0.60 if tight else (0.55 if len(rows) > 2 else 0.42),
+                      wspace=0.20)
         self.ax_tr_lin = self.fig.add_subplot(gs[0, 0])
         self.ax_tr_db = self.fig.add_subplot(gs[0, 1])
+        self.ax_d_lin = self.fig.add_subplot(gs[d_row, 0]) if d_row else None
+        self.ax_d_db = self.fig.add_subplot(gs[d_row, 1]) if d_row else None
         self.ax_sp_lin = self.fig.add_subplot(gs[sp_row, 0])
         self.ax_sp_db = self.fig.add_subplot(gs[sp_row, 1])
+        self.ax_ch_lin = self.fig.add_subplot(gs[ch_row, 0]) if ch_row else None
+        self.ax_ch_db = self.fig.add_subplot(gs[ch_row, 1]) if ch_row else None
 
     def _all_axes(self):
         axes = [self.ax_tr_lin, self.ax_tr_db, self.ax_sp_lin, self.ax_sp_db]
-        return axes + [ax for ax in (self.ax_d_lin, self.ax_d_db) if ax is not None]
+        return axes + [ax for ax in (self.ax_d_lin, self.ax_d_db,
+                                     self.ax_ch_lin, self.ax_ch_db)
+                       if ax is not None]
 
     def _build_databar(self, parent):
         f = ttk.LabelFrame(parent, text=u"измерение", padding=6)
         f.pack(fill=tk.X, pady=(6, 0))
-        self.data_text = tk.Text(f, height=11, wrap=tk.WORD, relief=tk.FLAT,
+        # Высота выросла с 11 строк: блок фита добавляет до семи. Полосы
+        # прокрутки хватает, растягивать панель дальше нельзя — она отъедала бы
+        # высоту у графиков.
+        self.data_text = tk.Text(f, height=15, wrap=tk.WORD, relief=tk.FLAT,
                                  background="#f7f7f7")
+        sb = ttk.Scrollbar(f, orient=tk.VERTICAL, command=self.data_text.yview)
+        self.data_text.configure(yscrollcommand=sb.set)
+        sb.pack(side=tk.RIGHT, fill=tk.Y)
         self.data_text.pack(fill=tk.X)
         self.data_text.configure(state=tk.DISABLED)
         self.data_text.tag_configure("warn", foreground=COLOR_WARN)
@@ -323,6 +391,11 @@ class TrackViewer(object):
             window_in_time=self.var_win_time.get(),
             noise_source=NOISE_BY_LABEL[self.var_noise.get()],
             noise_hf_from=self._num(self.var_noise_hf, 3.0, 0.05, 1000.0),
+            fit_on=self.var_fit.get(),
+            fit_order=ORDER_BY_LABEL[self.var_fit_order.get()],
+            fit_weights=WEIGHT_BY_LABEL[self.var_fit_weights.get()],
+            fit_spectral_on=self.var_fit_spectral.get(),
+            fit_drop_warned=self.var_fit_drop.get(),
         )
 
     def _noise_changed(self):
@@ -397,6 +470,11 @@ class TrackViewer(object):
             return
         s = self.settings()
         self.points = ph.compute_track(self.scan, s)
+        # Фит считается ЗДЕСЬ, один раз на пересчёт, а не в отрисовке: `select`
+        # вызывается на каждый шаг слайдера, и подгонка по треку там была бы
+        # лишней работой на каждое нажатие стрелки.
+        self.fit = (fm.fit_track(self.points, s)
+                    if s.fit_on and self.points else None)
 
         c = self.scan.counts()
         status = u"снято %d из %d трасс, референсов %d из %d" % (
@@ -485,12 +563,21 @@ class TrackViewer(object):
         self._set_databar([u"каталог открыт, но трасс в нём нет"], warn_from=0)
 
     def _draw(self):
-        self._layout_axes(self.points[0].settings.parseval_on)
+        sp = (self.fit is not None and self.fit.spectral is not None
+              and self.fit.spectral.ch is not None)
+        self._layout_axes(self.points[0].settings.parseval_on, sp)
         self._draw_track()
         if self.ax_d_lin is not None:
             self._draw_delta()
         self._draw_spectrum()
+        if self.ax_ch_lin is not None:
+            self._draw_channels()
         self.canvas.draw_idle()
+
+    def _fit_grid(self):
+        """Плотная сетка углов для непрерывной кривой фита."""
+        ang = [p.trace.angle for p in self.points]
+        return np.linspace(min(ang), max(ang), 721)
 
     def _draw_track(self):
         """Верхняя пара: угловая зависимость в линейной шкале и в дБ."""
@@ -540,6 +627,20 @@ class TrackViewer(object):
                 ax2.plot(ang, dbf, marker, color=COLOR_FREQ, markersize=5,
                          linestyle="none", markerfacecolor="none", label=lab_f)
 
+        # Кривые фита: линией, а не маркером — различается величина, а не серия.
+        if self.fit is not None and self.fit.ok:
+            grid = self._fit_grid()
+            curves = [(self.fit.time, COLOR_FIT, u"фит T во времени")]
+            if self.fit.band is not None:
+                curves.append((self.fit.band, COLOR_FIT_BAND, u"фит T по полосе"))
+            for f, color, label in curves:
+                y = f.curve(grid)
+                ax1.plot(grid, np.minimum(y, 1.0), "-", color=color, linewidth=1.6,
+                         label=label)
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    ax2.plot(grid, 10.0 * np.log10(np.where(y > 0, y, np.nan)),
+                             "-", color=color, linewidth=1.6, label=label)
+
         ax1.plot([sel.trace.angle], [min(sel.T, 1.0)], "o", markersize=12,
                  markerfacecolor="none", markeredgecolor=COLOR_SEL,
                  markeredgewidth=2, label=u"выбрано")
@@ -586,6 +687,23 @@ class TrackViewer(object):
             ax2.plot(ang, [p.delta_db for p in grp], marker,
                      color=COLOR_FREQ, markersize=4, linestyle="none")
 
+        # Непрерывная Δ — именно РАЗНОСТЬ ДВУХ ПОДОГНАННЫХ ФУНКЦИЙ, а не
+        # подгонка к точкам Δ (решение владельца 2026-08-13). Разница
+        # существенна: фит каждой величины делается по своим весам, и их
+        # разность честнее, чем подгонка к уже вычтенной разности.
+        if self.fit is not None and self.fit.ok and self.fit.band is not None:
+            grid = self._fit_grid()
+            d = self.fit.delta_curve(grid)
+            ax1.plot(grid, 100.0 * d, "-", color=COLOR_FIT, linewidth=1.4,
+                     label=u"разность фитов")
+            ft, fb = self.fit.time.curve(grid), self.fit.band.curve(grid)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                ratio = np.where((ft > 0) & (fb > 0), ft / fb, np.nan)
+                ax2.plot(grid, 10.0 * np.log10(ratio), "-", color=COLOR_FIT,
+                         linewidth=1.4, label=u"разность фитов")
+            for ax in (ax1, ax2):
+                ax.legend(loc="best", fontsize=7, framealpha=0.9)
+
         for ax in (ax1, ax2):
             ax.axhline(0.0, color="#888", linewidth=0.8)
             ax.axvline(sel.trace.angle, color=COLOR_SEL, linewidth=1.0, alpha=0.6)
@@ -625,6 +743,20 @@ class TrackViewer(object):
                          label=u"шумовой пол")
                 ax2.plot(p.freqs, ndb, "--", color="#888", linewidth=1.0,
                          label=u"шумовой пол")
+            sp = self.fit.spectral if self.fit is not None else None
+            if sp is not None:
+                # Восстановленная фитом кривая СГЛАЖЕНА по построению: каждая её
+                # точка получена по всем трассам трека сразу, а не по одной паре
+                # образец/референс. Расхождение с измеренной — мера шума, а не
+                # признак ошибки.
+                Tfit = sp.transmission(p.trace.angle)
+                ax1.plot(sp.freqs, Tfit, "-", color=COLOR_FIT, linewidth=1.4,
+                         label=u"восстановлено фитом")
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    ax2.plot(sp.freqs,
+                             10.0 * np.log10(np.where(Tfit > 0, Tfit, np.nan)),
+                             "-", color=COLOR_FIT, linewidth=1.4,
+                             label=u"восстановлено фитом")
             if p.settings.parseval_on:
                 # Полоса счёта показана заливкой прямо на спектре: иначе её
                 # границы существуют только в полях ввода, и связь между
@@ -646,12 +778,64 @@ class TrackViewer(object):
         for ax in (ax1, ax2):
             ax.grid(True, alpha=0.3)
 
+    def _draw_channels(self):
+        """Свой ряд: спектры каналов |t⊥|²(ν) и |t∥|²(ν) из побинного фита.
+
+        Это и есть тот график пропускания, который из одной трассы получить
+        нельзя: каждая точка кривой — результат подгонки по всем углам на
+        данной частоте. Никакой модели частотной зависимости при этом не
+        используется, бины независимы. Расстояние между кривыми — экстинкция.
+        """
+        ax1, ax2 = self.ax_ch_lin, self.ax_ch_db
+        ax1.clear()
+        ax2.clear()
+        sp = self.fit.spectral
+        ch = sp.ch
+        perp, par = ch["I_perp"], ch["I_par"]
+
+        ax1.plot(sp.freqs, perp, "-", color=COLOR_SPEC, linewidth=1.4,
+                 label=u"|t⊥|² — яркий канал")
+        # Отрицательные значения тёмного канала физически невозможны и означают,
+        # что в тени фит упёрся в шум. Их не прячем — иначе кривая соврёт.
+        neg = par <= 0
+        ax1.plot(sp.freqs[~neg], par[~neg], "-", color=COLOR_PAR, linewidth=1.4,
+                 label=u"|t∥|² — утечка")
+        if np.any(neg):
+            ax1.plot(sp.freqs[neg], np.zeros(int(neg.sum())), "x",
+                     color=COLOR_WARN, markersize=5, linestyle="none",
+                     label=u"|t∥|² < 0 (%d)" % int(neg.sum()))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            for y, color, label in ((perp, COLOR_SPEC, u"|t⊥|²"),
+                                    (par, COLOR_PAR, u"|t∥|²")):
+                ax2.plot(sp.freqs, 10.0 * np.log10(np.where(y > 0, y, np.nan)),
+                         "-", color=color, linewidth=1.4, label=label)
+
+        ax1.set_ylim(0.0, 1.0)
+        ax2.set_ylim(FLOOR_DB, 3.0)
+        ax1.set_ylabel(u"каналы, отн. ед.")
+        ax2.set_ylabel(u"каналы, дБ")
+        ax1.set_title(u"каналы по частоте (фит по всем углам)", fontsize=9)
+        ax2.set_title(u"расстояние между кривыми = экстинкция(ν)", fontsize=9)
+        for ax in (ax1, ax2):
+            ax.set_xlabel(u"частота, ТГц")
+            ax.grid(True, alpha=0.3)
+            ax.legend(loc="best", fontsize=7, framealpha=0.9)
+
     # ------------------------------------------------------------ панель данных
     def _fill_databar(self):
         p = self.points[self.index]
         lines = list(p.summary_lines())
         lines.insert(1, u"измерение %d из %d в этом треке"
                      % (self.index + 1, len(self.points)))
+        if self.fit is not None:
+            # Строки фита вставляются ДО расчёта warn_from: иначе они попали бы
+            # в красный хвост предупреждений, которым не являются.
+            extra = list(self.fit.summary_lines())
+            if self.fit.ok:
+                line = self.fit.point_line(self.index)
+                if line:
+                    extra.insert(1, u"  " + line)
+            lines[len(lines) - len(p.warnings):len(lines) - len(p.warnings)] = extra
         warn_from = len(lines) - len(p.warnings)
         for tr in self.scan.errors:
             lines.append(u"⚠ файл %s не разобран: %s" % (tr.name, tr.error))
@@ -678,7 +862,7 @@ class TrackViewer(object):
         if not path:
             return
         try:
-            export_csv(self.points, path)
+            export_csv(self.points, path, self.fit)
         except (IOError, OSError) as exc:
             messagebox.showerror(u"Не сохранилось", u"%s" % exc)
             return
