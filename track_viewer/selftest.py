@@ -831,10 +831,12 @@ def main(argv=None):
     setup_console()
     log_fh = None
     if log_path:
-        # Лог всегда UTF-8: его открывают Блокнотом. Если файл не создался —
-        # это не повод не прогонять приёмку, поэтому только предупреждение.
+        # Лог — UTF-8 С BOM (`utf-8-sig`): его открывают Блокнотом, а Блокнот
+        # Windows 7 распознаёт UTF-8 без BOM ненадёжно и показал бы ровно те
+        # кракозябры, ради избавления от которых лог и заведён.
+        # Если файл не создался — это не повод не прогонять приёмку.
         try:
-            log_fh = io.open(log_path, "w", encoding="utf-8")
+            log_fh = io.open(log_path, "w", encoding="utf-8-sig")
             sys.stdout = Tee(sys.stdout, log_fh)
         except (IOError, OSError) as exc:
             print(u"не удалось открыть лог %s: %s" % (log_path, exc))

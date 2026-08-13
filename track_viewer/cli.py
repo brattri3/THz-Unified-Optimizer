@@ -34,8 +34,12 @@ def export_csv(points, path):
     Колонки полосового пропускания присутствуют всегда; при выключенном
     Парсевале они пусты — а не заполнены нулями, которые Origin отложил бы
     на график как настоящие точки.
+
+    Кодировка — **UTF-8 с BOM** (`utf-8-sig`). Без BOM Excel и Origin на
+    русской Windows открывают файл как cp1251, и колонка предупреждений
+    превращается в мусор; BOM снимает догадки о кодировке.
     """
-    with io.open(path, "w", encoding="utf-8") as fh:
+    with io.open(path, "w", encoding="utf-8-sig") as fh:
         fh.write(CSV_HEADER + u"\n")
         for p in points:
             tr = p.trace
@@ -120,9 +124,11 @@ def main(argv=None):
     console = sys.stdout
     log_fh = None
     if args.log:
-        # Лог в UTF-8 — его открывают Блокнотом, а не консолью.
+        # Лог в UTF-8 С BOM: его открывают Блокнотом, а Блокнот Windows 7
+        # распознаёт UTF-8 без BOM ненадёжно — как раз тот случай, ради
+        # которого лог и заводился.
         try:
-            log_fh = io.open(args.log, "w", encoding="utf-8")
+            log_fh = io.open(args.log, "w", encoding="utf-8-sig")
             sys.stdout = Tee(sys.stdout, log_fh)
         except (IOError, OSError) as exc:
             print(u"не удалось открыть лог %s: %s" % (args.log, exc))
