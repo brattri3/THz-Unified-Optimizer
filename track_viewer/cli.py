@@ -20,6 +20,7 @@ import sys
 import numpy as np
 
 from .core import physics as ph
+from .core.compat import Tee, setup_console
 from .core.scan import Scan
 
 CSV_HEADER = (u"seq;file;angle_deg;rep;reference;energy_sig;energy_ref;"
@@ -99,7 +100,7 @@ def main(argv=None):
     ap.add_argument("--noise-from", type=float, default=3.0, metavar=u"ТГц",
                     help=u"граница ВЧ-хвоста для --noise hf (по умолчанию 3.0)")
     ap.add_argument("--parseval", action="store_true",
-                    help=u"считать пропускание и по полосе частот, показать Δ")
+                    help=u"считать пропускание и по полосе частот, показать разность")
     ap.add_argument("--int-band", type=float, nargs=2, default=None,
                     metavar=("НИЗ", "ВЕРХ"),
                     help=u"полоса ИНТЕГРИРОВАНИЯ, ТГц (включает --parseval); "
@@ -108,16 +109,33 @@ def main(argv=None):
                     help=u"учитывать гауссово окно и во временно́м интеграле — "
                          u"без этого сравнение с полосой несимметрично")
     ap.add_argument("--csv", default=None, help=u"выгрузить трек в CSV")
+    ap.add_argument("--log", default=None, metavar=u"ФАЙЛ",
+                    help=u"записать весь вывод в файл (UTF-8). Консоль Windows "
+                         u"не показывает часть символов, лог показывает всё")
     ap.add_argument("--seq", type=int, default=None,
                     help=u"подробности по одной трассе (сквозной номер)")
     args = ap.parse_args(argv)
 
-    if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+    setup_console()
+    console = sys.stdout
+    log_fh = None
+    if args.log:
+        # Лог в UTF-8 — его открывают Блокнотом, а не консолью.
         try:
-            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-        except Exception:                                       # noqa: BLE001
-            pass
+            log_fh = io.open(args.log, "w", encoding="utf-8")
+            sys.stdout = Tee(sys.stdout, log_fh)
+        except (IOError, OSError) as exc:
+            print(u"не удалось открыть лог %s: %s" % (args.log, exc))
+    try:
+        return _run(args)
+    finally:
+        if log_fh is not None:
+            sys.stdout = console
+            log_fh.close()
+            print(u"полный вывод записан в %s" % os.path.abspath(args.log))
 
+
+def _run(args):
     try:
         scan = Scan(args.directory)
     except ValueError as exc:
@@ -159,7 +177,7 @@ def main(argv=None):
             print(line)
         return 0
 
-    extra = u" %11s %9s" % (u"T полоса, %", u"Δ, дБ") if settings.parseval_on else u""
+    extra = u" %11s %9s" % (u"T полоса, %", u"разн., дБ") if settings.parseval_on else u""
     print(u"%-4s %-16s %7s %4s  %-22s %9s %9s%s" %
           (u"№", u"файл", u"угол", u"rep", u"референс", u"T, %", u"T, дБ", extra))
     for p in points:
@@ -168,7 +186,7 @@ def main(argv=None):
         print(u"%-4d %-16s %+7d %4d  %-22s %9.4f %9.3f%s%s" % (
             p.trace.seq, p.trace.name, p.trace.angle, p.trace.rep,
             p.ref_names, 100 * p.T, p.T_db, cols,
-            u"  ⚠" if p.warnings else u""))
+            u"  [!]" if p.warnings else u""))
 
     warned = [p for p in points if p.warnings]
     if warned:

@@ -176,16 +176,24 @@ README = u"""\
 # а start.bat запустился бы под ним же. Поэтому 3.8 ищется явно и по версии.
 FINDPY_BAT = """\
 @echo off
-rem Ищет Python 3.8 и кладёт команду запуска в переменную TVPY.
-rem Вызывать через call; setlocal здесь нельзя — переменная нужна снаружи.
+rem Готовит запуск: кодировка консоли, проверка сетевого пути, поиск Python 3.8.
+rem Кладёт команду запуска в переменную TVPY. Вызывать через call;
+rem setlocal здесь нельзя - переменная нужна снаружи.
+chcp 866 >nul
 set "TVPY="
+
+rem Сетевой путь. cmd не умеет делать текущим каталог вида \\\\сервер\\папка:
+rem он молча остаётся в C:\\Windows, и дальше всё падает на "модуль не найден".
+rem Это и выглядит как "по двойному щелчку ничего не выполняется".
+set "TVDIR=%~dp0"
+if "%TVDIR:~0,2%"=="\\\\" goto tvunc
 
 rem 1) Штатный лаунчер: работает и когда 3.8 не в PATH.
 py -3.8 -c "import sys" >nul 2>nul
 if not errorlevel 1 set "TVPY=py -3.8"
 if defined TVPY goto tvok
 
-rem 2) Голый python — но только если это ИМЕННО 3.8.
+rem 2) Голый python, но только если это ИМЕННО 3.8.
 python -c "import sys; sys.exit(0 if sys.version_info[:2]==(3,8) else 1)" >nul 2>nul
 if not errorlevel 1 set "TVPY=python"
 if defined TVPY goto tvok
@@ -197,6 +205,15 @@ goto tvwrong
 
 :tvok
 exit /b 0
+
+:tvunc
+echo.
+echo ОШИБКА: комплект лежит на сетевом пути
+echo   %TVDIR%
+echo Windows не умеет делать такой путь текущим каталогом, и запуск по
+echo двойному щелчку молча уходит в C:\\Windows. Скопируйте папку комплекта
+echo на локальный диск (например в C:\\track_viewer) и запускайте оттуда.
+exit /b 1
 
 :tvnone
 echo.
@@ -221,7 +238,6 @@ exit /b 1
 
 INSTALL_BAT = """\
 @echo off
-chcp 1251 >nul
 cd /d "%~dp0"
 call "%~dp0_findpy.bat"
 if errorlevel 1 goto stop
@@ -254,7 +270,6 @@ exit /b 1
 
 START_BAT = """\
 @echo off
-chcp 1251 >nul
 call "%~dp0_findpy.bat"
 if errorlevel 1 goto stop
 cd /d "%~dp0app"
@@ -267,17 +282,31 @@ pause
 exit /b 1
 """
 
+# PYTHONIOENCODING=utf-8 здесь БЫЛА и была ошибкой: она заставляла Python
+# писать UTF-8 в консоль cp866, отчего весь русский текст превращался в мусор,
+# и его приходилось копировать в Блокнот. Теперь кодировку выбирает сам код
+# (core/compat.setup_console), а полный вывод пишется в лог рядом с .bat.
 SELFTEST_BAT = """\
 @echo off
-chcp 1251 >nul
 call "%~dp0_findpy.bat"
 if errorlevel 1 goto stop
 cd /d "%~dp0app"
-set PYTHONIOENCODING=utf-8
-%TVPY% -m track_viewer.selftest
+echo Приёмка track_viewer. Интерпретатор: %TVPY%
+echo Полный вывод будет записан в log_selftest.txt рядом с этим файлом.
 echo.
+%TVPY% -m track_viewer.selftest --log "%~dp0log_selftest.txt"
+if errorlevel 1 goto bad
+echo.
+echo Приёмка пройдена.
 pause
 exit /b 0
+
+:bad
+echo.
+echo ПРИЁМКА НЕ ПРОЙДЕНА. Открываю лог - его и присылайте целиком.
+start "" notepad "%~dp0log_selftest.txt"
+pause
+exit /b 1
 
 :stop
 pause
@@ -286,17 +315,18 @@ exit /b 1
 
 CONSOLE_BAT = """\
 @echo off
-chcp 1251 >nul
 call "%~dp0_findpy.bat"
 if errorlevel 1 goto stop
 cd /d "%~dp0app"
-set PYTHONIOENCODING=utf-8
 echo Консольный режим track_viewer. Интерпретатор: %TVPY%
 echo.
 echo   %TVPY% -m track_viewer.cli data_pool\\test_grid_33_11
 echo   %TVPY% -m track_viewer.cli ПУТЬ --csv трек.csv
 echo   %TVPY% -m track_viewer.cli ПУТЬ --parseval --int-band 0.3 1.2
 echo   %TVPY% -m track_viewer.cli ПУТЬ --noise dark
+echo.
+echo Если текст в окне читается плохо - добавьте --log вывод.txt,
+echo этот файл открывается Блокнотом без искажений.
 echo.
 cmd /k
 exit /b 0
@@ -387,8 +417,21 @@ def copy_python_installers(dst):
     return found
 
 
-def write_text(path, text):
-    with io.open(path, "w", encoding="cp1251", errors="replace",
+def write_text(path, text, encoding="cp1251"):
+    """Пишет файл в кодировке, которую ожидает та программа, что его откроет.
+
+    Разделение не косметическое:
+
+    * `.bat` -> **cp866**. Его читает консоль, а у русской Windows консоль
+      работает в cp866. Файл в cp1251 выводил бы `echo`-строки мусором;
+    * `README_WIN7.txt` -> **cp1251**. Его открывает Блокнот, а тот на русской
+      Windows читает ANSI, то есть cp1251.
+
+    `errors="replace"` оставлен намеренно: длинное тире и подобная типографика
+    в cp866 не существуют, и лучше получить `?` в одном символе, чем исключение
+    при сборке комплекта.
+    """
+    with io.open(path, "w", encoding=encoding, errors="replace",
                  newline="\r\n") as fh:
         fh.write(text)
 
@@ -426,11 +469,11 @@ def main():
     # Тексты для Windows 7: cp1251 и CRLF — «Блокнот» там не понимает UTF-8
     # без BOM и склеивает строки с одними LF.
     write_text(os.path.join(out, "README_WIN7.txt"), README)
-    write_text(os.path.join(out, "_findpy.bat"), FINDPY_BAT)
-    write_text(os.path.join(out, "install.bat"), INSTALL_BAT)
-    write_text(os.path.join(out, "start.bat"), START_BAT)
-    write_text(os.path.join(out, "selftest.bat"), SELFTEST_BAT)
-    write_text(os.path.join(out, "console.bat"), CONSOLE_BAT)
+    # .bat -> cp866 (кодировка консоли), README -> cp1251 (кодировка Блокнота).
+    for name, text in (("_findpy.bat", FINDPY_BAT), ("install.bat", INSTALL_BAT),
+                       ("start.bat", START_BAT), ("selftest.bat", SELFTEST_BAT),
+                       ("console.bat", CONSOLE_BAT)):
+        write_text(os.path.join(out, name), text, encoding="cp866")
     print(u"запускалки и README_WIN7.txt: записаны (cp1251, CRLF)")
 
     # Кэш байт-кода мог остаться от прогона приёмки внутри комплекта: он собран

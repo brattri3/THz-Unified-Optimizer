@@ -27,7 +27,7 @@ import traceback
 import numpy as np
 
 from .core import physics as ph
-from .core.compat import trapezoid
+from .core.compat import Tee, setup_console, trapezoid
 from .core.scan import Scan
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -820,13 +820,41 @@ def t_core_headless(log):
         % len([n for n in os.listdir(core) if n.endswith(".py")]))
 
 
-def main():
-    if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
-        try:
-            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-        except Exception:                                       # noqa: BLE001
-            pass
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    log_path = None
+    if "--log" in argv:
+        i = argv.index("--log")
+        if i + 1 < len(argv):
+            log_path = argv[i + 1]
 
+    setup_console()
+    log_fh = None
+    if log_path:
+        # Лог всегда UTF-8: его открывают Блокнотом. Если файл не создался —
+        # это не повод не прогонять приёмку, поэтому только предупреждение.
+        try:
+            log_fh = io.open(log_path, "w", encoding="utf-8")
+            sys.stdout = Tee(sys.stdout, log_fh)
+        except (IOError, OSError) as exc:
+            print(u"не удалось открыть лог %s: %s" % (log_path, exc))
+
+    console = sys.stdout
+    try:
+        code = _run()
+    finally:
+        if log_fh is not None:
+            # Сначала вернуть консоль, потом закрыть файл: иначе последние
+            # строки ушли бы в закрытый поток.
+            sys.stdout = console._s if isinstance(console, Tee) else console
+            log_fh.close()
+            print(u"")
+            print(u"полный вывод записан в %s" % os.path.abspath(log_path))
+            print(u"этот файл открывается Блокнотом без искажений — его и присылать")
+    return code
+
+
+def _run():
     print(u"track_viewer — приёмка по §7 ТЗ")
     print(u"данные: %s" % DATA)
     print(u"python %s, numpy %s" % (sys.version.split()[0], np.__version__))

@@ -418,7 +418,9 @@ class PointResult(object):
             out.append(u"T по полосе %.3g…%.3g ТГц = %.4g %%  (%+.3f дБ)"
                        % (self.settings.int_lo, self.settings.int_hi,
                           100.0 * self.T_freq, self.T_freq_db))
-            out.append(u"Δ = %+.4g п.п.  (%+.3f дБ)"
+            # Без «Δ»: в консоли Windows этот символ не отображается и
+            # вырождается в «?», а строка «? = +0.1 п.п.» ничего не значит.
+            out.append(u"разность (время − полоса) = %+.4g п.п.  (%+.3f дБ)"
                        % (100.0 * self.delta, self.delta_db))
             out.append(u"доля энергии в полосе: образец %.3f %%, референс %.3f %%"
                        % (100.0 * self.frac_in_band_s, 100.0 * self.frac_in_band_r))
@@ -428,7 +430,9 @@ class PointResult(object):
                        % (d["energy_ratio"], d["peak_diff_ps"]))
         out.append(self.settings.describe())
         for w in self.warnings:
-            out.append(u"⚠ " + w)
+            # «[!]», а не «⚠»: пиктограммы нет в кодировке консоли Windows,
+            # и признак предупреждения потерялся бы именно там, где он нужен.
+            out.append(u"[!] " + w)
         return out
 
 
