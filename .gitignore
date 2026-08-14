@@ -6,6 +6,9 @@ venv/
 
 
 # large uncompressed microscope images (keep local; use git-LFS if needed)
+# 2026-08-10: поставка микрофото владельца легла в data_pool/<набор>/microscopy/raw/
+# (~630 МБ BMP на 4 образца). Снимки НЕ версионируются, CSV-обмеры из ПО микроскопа —
+# версионируются (data_pool/<набор>/microscopy/measurements/, единицы КБ).
 *.bmp
 
 # литература: PDF первоисточников (чужой copyright, ~22МБ; извлечённый текст — в research/literature/txt/)
