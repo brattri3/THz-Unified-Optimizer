@@ -33,6 +33,18 @@
 /loop Ты — Сессия A (прямая модель, структурная идентифицируемость и проверка гипотез + софт затухания) проекта THz-Unified-Optimizer. Сначала прочитай coordination/CHARTER.md и coordination/ORCH_BRIEF.md, зарегистрируйся в coordination/BOARD.md, веди coordination/sessions/A.md (замок снят ORCH — возьми заново). Затем research/two_wgp/PLAN.md и research/two_wgp/state.json — рабочий контекст. Протокол: первая не-done задача A* -> ОДИН атомарный шаг (research/two_wgp/) -> числа в RESEARCH_LOG.md с тегом [A] -> обнови state + BOARD. ПРИМЕЧАНИЕ: A6_angle_symmetry уже начата — скрипты research/two_wgp/a6_angle_symmetry.py и exp_builder.py написаны и закоммичены, но НЕ запущены и результата нет; заверши её (запуск, числа, json в research/results/two_wgp/, вердикт по вырожденности angle_offset↔φ2↔ε_cross), затем A4 (калькулятор — API для C), A3, A5. Зона (запись): research/two_wgp/** + research/hypotheses/** + research/results/two_wgp/**. Ядро (fit_lib/model_core) НЕ правь — запрос к B через HANDOFFS. Вне зоны не работай (CHARTER §6). Коммит: [A] ... + Session: A. Гардрейлы §6.
 ```
 
+### A — вариант «микрофото 10.08» (задача a18, поставка владельца)
+
+⚠ Не запускать, пока лок роли A держит фоновый исполнитель **A4** (проверка:
+`python coordination/tools/preflight.py A`). Одна зона — один исполнитель.
+
+```
+claude -n a-model --dangerously-skip-permissions
+```
+```
+Ты — сессия A (следующий свободный ник) проекта THz-Unified-Optimizer, роль «прямая модель, идентифицируемость, гипотезы». Язык — русский. Запуск из корня репозитория, интерпретатор .venv\Scripts\python.exe (есть numpy/scipy/PIL/matplotlib; cv2, skimage, pandas отсутствуют — пакеты не ставить). Шаг 0: python coordination/tools/preflight.py A --acquire <ник>, строка в NICKS.md. Затем прочитай data_pool/MICROSCOPY.md (карта поставки), coordination/HANDOFFS.md — записи «ОТ ORCH К A» от 2026-08-09 (алгоритм нерегулярности) и 2026-08-10 (поставка), research/two_wgp/HANDOFF_A_20260807.md. Задача целиком — в хэндоффе от 10.08: обработать микрофото четырёх образцов, посчитать координаты центров проволок, средний период, вектор отклонений от идеальной решётки, структуру отклонений (тренд, периодичность, автокорреляция), диаметры; свести три источника (снимок / CSV владельца / паспорт+GEOMETRY); проверить гипотезу о систематике +0.2 мкм на test_grid_40_20; сравнить с прежними FFT-оценками. Скрипт — research/two_wgp/a18_microscopy_lattice.py, артефакты — research/results/a18_microscopy/ (JSON+PNG+SUMMARY.md), числа — RESEARCH_LOG.md с тегом [A], состояние — research/two_wgp/state.json. data_pool/** и unified_optimizer/** только чтение; GEOMETRY в fit_lib.py не править — отдать готовые строки зоне B; H5 не пересчитывать; не коммитить и не пушить без просьбы владельца.
+```
+
 ## Сессия B — инфра/рефактор ядра
 ```
 /loop Ты — Сессия B (инфра/рефактор ядра) проекта THz-Unified-Optimizer. Прочитай coordination/CHARTER.md, зарегистрируйся в BOARD.md, веди sessions/B.md и research/experiments/CHANGELOG_model_core.md. Зона: research/experiments/model_core.py + общие фит-скрипты (ты их ЕДИНСТВЕННЫЙ владелец-правщик). Задачи: ускорение/дедупликация фитов, кэш Blanco, бит-в-бит сверка (verify_model_core.py) — численные результаты не менять. Изменения общих модулей анонсируй в ACTIVITY.md ПЕРЕД коммитом. Коммит: [B] ... + Session: B. Вне зоны не работай. Гардрейлы §6.
