@@ -13,7 +13,10 @@
 > `docs/legacy_scripts/` и markdown из корня `docs/` → **`archive/docs-legacy-2026-07/`** (В-2);
 > `.agents/AGENTS.md`, `CHANGELOG.md` → **`archive/antigravity-2026-07/`** (В-1);
 > `results/` → **`archive/results-2026-07/`**; `coordination/MIGRATION.md` →
-> **`coordination/reports/MIGRATION_2026-08-07.md`**.
+> **`coordination/reports/MIGRATION_2026-08-07.md`**; `coordination/tools/**` и
+> `coordination/NICKS.md` → **`archive/coordination-locks-2026-08/`** (2026-08-15, решение В-27;
+> механизм `.lock` отменён — упоминания «занять лок», «heartbeat», «preflight» в записях ниже
+> исторические, **не исполнять**).
 
 ---
 
