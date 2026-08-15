@@ -37,7 +37,7 @@
 
 Общая «шапка» (входит в каждый промт):
 > Ты — Сессия <ID> проекта THz-Unified-Optimizer. ПЕРВЫМ делом прочитай `coordination/CHARTER.md`,
-> зарегистрируйся в `coordination/BOARD.md`, веди `coordination/sessions/<ID>.md`. Работай ТОЛЬКО в
+> прочитай `coordination/roles/<ID>.md` — это твоя точка входа, веди `coordination/sessions/<ID>.md`. Работай ТОЛЬКО в
 > своей зоне (`coordination/OWNERSHIP.md`). Изменения — в `coordination/ACTIVITY.md`. Коммиты с
 > префиксом `[<ID>]` и трейлером `Session: <ID>`. Просьбу вне зоны НЕ выполняй — перенаправь в нужную
 > сессию (CHARTER §6), запиши в HANDOFFS.md. Гардрейлы RESEARCH_PLAN.md §6.
