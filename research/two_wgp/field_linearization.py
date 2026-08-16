@@ -502,6 +502,11 @@ def logratio_regression(freqs, r, var_lnr, valid=None):
     out["eta_exp"] = float(pa[1])
     out["sigma_eta_exp"] = float(np.sqrt(max(Ca[1, 1], 0.0)))
     out["chi2_red_amp"] = rss_a / max(len(f) - 2, 1)
+    # Полная 2x2 ковариация в координатах (ln eta0, a) — она нужна для тестов
+    # однородности между датасетами: ln eta0 и a скоррелированы сильно
+    # (общий рычаг ln nu), и по одним диагоналям тест построить нельзя.
+    out["cov_amp"] = Ca
+    out["p_amp"] = pa
 
     # --- фаза: dphi = -arg r; наклон = 2*pi*tau_dphi (см. докстринг)
     pp, Cp, rss_p, res_p = _wls(f, -ph[valid], w)
@@ -510,7 +515,9 @@ def logratio_regression(freqs, r, var_lnr, valid=None):
     out["sigma_tau_dphi_ps"] = float(np.sqrt(max(Cp[1, 1], 0.0)) / (2 * np.pi))
     out["tau_leak_m5_ps"] = -out["tau_dphi_ps"]        # конвенция model_core
     out["chi2_red_phase"] = rss_p / max(len(f) - 2, 1)
+    out["cov_phase"] = Cp
     out["resid_amp"], out["resid_phase"] = res_a, res_p
+    out["weights_used"] = w
     out["freqs_used"] = f
     return out
 
