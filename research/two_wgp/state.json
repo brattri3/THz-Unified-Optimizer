@@ -4,7 +4,7 @@
  "read_first": "research/two_wgp/PLAN.md (full self-contained context) | research/two_wgp/HANDOFF_A_20260807.md (передача роли A от чата A3, 2026-08-07)",
  "protocol": "read this state -> first non-done task -> ONE atomic step (scripts in research/two_wgp/ or research/experiments/, run via .venv from THz-Unified-Optimizer root) -> numbers to research/logs/RESEARCH_LOG.md -> update this file. Guardrails RESEARCH_PLAN.md sec.6.",
  "run_mode": "bypass_permissions + /loop self-paced (auto-continuation unreliable -> manual re-invoke; state.json resumes)",
- "current_task": "A19_microscopy_lattice ЗАКРЫТА (чат A4, 2026-08-10): геометрия и нерегулярность по четырём образцам посчитаны, числа в RESEARCH_LOG [A] 2026-08-10 и research/results/a18_microscopy/. ДАЛЬШЕ ЖДЁМ ВЛАДЕЛЬЦА: он утверждает таблицу (паспорт / измерение / конвенция границы), после чего — строки к B (структура на три диаметра + новое поле sigma_pos_um), перезапуск фитов purewave и test_grid_40_20 (период уехал на 4.2 %) и ОДИН пересчёт H5. До утверждения НЕ править fit_lib.GEOMETRY и НЕ трогать H5. Открыто: att-11-16 (новых микрофото нет, прибор уехал), A15_profile_P_from_thz, A5_synthesis, проверка HN13 на test_grid_33_11.",
+ "current_task": "A22_field_linearization (done) -> этап 2 (фит Бланко к восстановленным спектрам)",
  "A1_verdict": {
   "status": "hypothesis A FALSIFIED analytically + numerically (2026-07-25)",
   "alignment_theorem": "If WGP2's transmission axis coincides with the detector axis, d^T J_WGP2(phi2) == t_perp2(nu) * d^T IDENTICALLY (J2 diagonal in that basis) -> a REAL WGP2 is mathematically indistinguishable from an IDEAL analyser times the scalar t_perp2(nu), for ANY E_in/theta/geometry. Verified to 4.4e-16 over 9 (psi,delta) combos; non-vacuous (10deg misalignment -> 6.1e-3 deviation).",
@@ -161,6 +161,33 @@
    "artifact": "research/results/a18_microscopy/ (a18_<набор>.json/png, a18_csv_measurements.json, a18_test_grid_40_20_focus.json/png); скрипт research/two_wgp/a18_microscopy_lattice.py",
    "result": "Геометрия (граница = полувысота f=0.50, cal=0.126739 мкм/px): purewave P=24.44±0.19 D=10.279±0.014; specac P=24.73±0.22 D=9.720±0.051; test_grid_33_11 P=31.71±0.47 D=10.474±0.039; test_grid_40_20 P=37.18±1.83 D=20.302±0.106 (проверка по 19 пригодным кадрам фокус-серий из 46: P=37.04±1.09). D/P = 0.421/0.393/0.330/0.546. НЕРЕГУЛЯРНОСТЬ: σ_откл/P = 13.1/19.0/16.1/11.4 %, макс. отклонение 6.2/10.5/11.5/7.2 мкм; σ_P/P по снимкам 19.7/27.0/23.0/20.5 % против 23.3/27.6/20.4/24.9 % по ручным обмерам владельца — два независимых метода совпадают, разброс в _P_stat.csv реален. СТРУКТУРА: ACF1(периодов) = -0.346/-0.447/-0.176/-0.414 и σ_P/σ_откл = 1.49/1.48/1.42/1.82 внутри 95 % нуль-модели независимого джиттера (Монте-Карло, то же N); значимого тренда нет ни в одном из 18 надёжных кадров => средний шаг сохраняется, положения проволок независимы, σ_pos = 0.13..0.19 P. ОГОВОРКА ORCH ПОДТВЕРЖДЕНА: скан порога границы f=0.2..0.8 двигает P на 0.005-0.057 % и D на 6-20 % (в 110-3400 раз слабее); по фокус-серии (19 кадров) P vs размытие r=+0.151 (p=0.54), D(f=0.5) r=+0.284 (p=0.24), D(f=0.2) r=+0.580 (p=0.009, значимо). ГИПОТЕЗА «+0.2» ОТВЕРГНУТА: по 14 записям wgp-20-40_D.csv среднее 20.921, Δ=+0.921 [+0.646,+1.196]; H0 «+0.2» p=0.0002, H0 «пропорциональный +0.4» p=0.0026. Механизм: граница владельца соответствует f≈0.1-0.33 (0.33 specac, 0.24 33_11, ниже 0.2 у 40_20), а не 0.50 (+0.3 мкм на границу), у некомпланарного test_grid_40_20 усилено расфокусировкой. FFT: автокорреляционная оценка периода ошибается в 1.5-2 раза на 10 кадрах из 24 (42 %) — цепляется за 2P; причина — тот же беспорядок σ_P/P≈0.2, а не плотность D/P. ЗАКРЫТО: двузначность периода purewave (24.72 против 26.10) — в пользу 24.72 (1.4σ против 8.6σ); подозрение по масштабу кадров specac снято (D=9.72±0.05 согласуется с 10.25 владельца и паспортом 10). HN4 остаётся rejected: σ_pos/P = 0.13-0.19 внутри уже просканированного в T6 диапазона. H5 НЕ пересчитывался, fit_lib.GEOMETRY НЕ правился. Период сдвинулся на 4.2 % у purewave и test_grid_40_20 => им понадобится перезапуск фита (HANDOFF §3); specac и test_grid_33_11 — нет.",
    "date": "2026-08-10"
+  },
+  {
+   "id": "A22_field_linearization",
+   "status": "done",
+   "date": "2026-08-16",
+   "what": "Этап 1 двухэтапной схемы владельца: линеаризация закона Малюса в КОМПЛЕКСНОМ ПОЛЕ (базис 2-го порядка) вместо мощности (4-го). Восстанавливает T_perp(nu), T_par(nu) с фазами, модельно-независимо.",
+   "code": [
+    "research/two_wgp/field_linearization.py (selftest 23/23)",
+    "research/two_wgp/scan_loader.py (загрузчик журнального формата, В-24, сверка 0.000e+00)",
+    "research/two_wgp/a22_field_vs_power.py"
+   ],
+   "note": "research/two_wgp/NOTE_field_linearization.md",
+   "key_results": [
+    "Коши-Буняковский выполняется ТОЖДЕСТВЕННО: поле 0/151 и 0/94 против 12/151 и 43/94 у мощности (A0 воспроизведён бит-в-бит). Закрыт открытый вопрос NOTE_malus_linearization §8: нарушения = шумовой пол.",
+    "tau_leak = +0.1871 +- 0.0053 пс на att-11-16-356 (эталон 0.195/0.19) БЕЗ закрепления D_eff — снимает условие HN8.",
+    "theta0 = -1.2723 +- 0.0063 на test_grid_33_11 против A13 -1.2770 +- 0.0354: 0.13 sigma при ошибке в 5.6 раза меньшей.",
+    "Модель шума смешанная: sigma^2 = (4/pi)*tnoise*(1+|t|^2) + (eps*|t|)^2, eps калибруется из chi2/dof=1. Проверена по повторам specac-2: аддитивная занижена в 28.7 раза, откалиброванная 0.63.",
+    "Модельно-независимый тест HN13: lambda2/lambda1 = 1.85e-05 (чистый) против 2.11e-03 (356att, где HN13 провален).",
+    "HN2 без модели: eta(nu) = eta0*nu^a, a = 1.016 +- 0.002 (33_11), 1.093 +- 0.005 (specac-2)."
+   ],
+   "open": [
+    "4-я гармоника в поле 3.3 на dof на test_grid_33_11 (после снятия дрейфа 0.7); на specac-2 нормально 0.9",
+    "Остатки ненормальны (эксцесс +2.2 и +4.7) — согласуется с HN6",
+    "Минимум |E| внутренний в 82-84 % бинов, сдвиг 3.08-3.89 град; перекликается с 'необъяснёнными ~3 град' у 33_11, но сверка конвенций углов НЕ сделана"
+   ],
+   "not_claimed": "Вырождение D_eff <-> eta НЕ снято (структурное); стоит отрицательным контролем в selftest.",
+   "next": "Этап 2: фит Бланко к восстановленным спектрам, chi2_2 = sum 2*dT^H Cov2^-1 dT, с мультистартом по сетке."
   }
  ],
  "owner_questions_open": [
