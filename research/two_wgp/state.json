@@ -4,7 +4,7 @@
  "read_first": "research/two_wgp/PLAN.md (full self-contained context) | research/two_wgp/HANDOFF_A_20260807.md (передача роли A от чата A3, 2026-08-07)",
  "protocol": "read this state -> first non-done task -> ONE atomic step (scripts in research/two_wgp/ or research/experiments/, run via .venv from THz-Unified-Optimizer root) -> numbers to research/logs/RESEARCH_LOG.md -> update this file. Guardrails RESEARCH_PLAN.md sec.6.",
  "run_mode": "bypass_permissions + /loop self-paced (auto-continuation unreliable -> manual re-invoke; state.json resumes)",
- "current_task": "A22_field_linearization (done) -> этап 2 (фит Бланко к восстановленным спектрам)",
+ "current_task": "Этап 2: фит Бланко к восстановленным спектрам. Читать research/two_wgp/NOTE_field_linearization.md §9 — там весь контекст для холодного старта.",
  "A1_verdict": {
   "status": "hypothesis A FALSIFIED analytically + numerically (2026-07-25)",
   "alignment_theorem": "If WGP2's transmission axis coincides with the detector axis, d^T J_WGP2(phi2) == t_perp2(nu) * d^T IDENTICALLY (J2 diagonal in that basis) -> a REAL WGP2 is mathematically indistinguishable from an IDEAL analyser times the scalar t_perp2(nu), for ANY E_in/theta/geometry. Verified to 4.4e-16 over 9 (psi,delta) combos; non-vacuous (10deg misalignment -> 6.1e-3 deviation).",
@@ -187,7 +187,7 @@
     "Минимум |E| внутренний в 82-84 % бинов, сдвиг 3.08-3.89 град; перекликается с 'необъяснёнными ~3 град' у 33_11, но сверка конвенций углов НЕ сделана"
    ],
    "not_claimed": "Вырождение D_eff <-> eta НЕ снято (структурное); стоит отрицательным контролем в selftest.",
-   "next": "Этап 2: фит Бланко к восстановленным спектрам, chi2_2 = sum 2*dT^H Cov2^-1 dT, с мультистартом по сетке."
+   "next": "Этап 2 (решение владельца 2026-08-16): фит Бланко к восстановленным спектрам. ОПОРНАЯ ЗАПИСКА СО ВСЕМИ ДЕТАЛЯМИ — research/two_wgp/NOTE_field_linearization.md §9: целевая функция, как брать модель из model_core без правки зоны B, состав параметров (angle_offset изъят), сетка мультистарта, три проверки эквивалентности, отрицательный контроль."
   }
  ],
  "owner_questions_open": [
