@@ -521,9 +521,60 @@ class TrackViewer(object):
         sb = ttk.Scrollbar(f, orient=tk.VERTICAL, command=self.data_text.yview)
         self.data_text.configure(yscrollcommand=sb.set)
         sb.pack(side=tk.RIGHT, fill=tk.Y)
+        ttk.Button(f, text=u"копировать", width=12,
+                   command=self.copy_databar).pack(side=tk.RIGHT, anchor=tk.N,
+                                                   padx=(4, 0))
         self.data_text.pack(fill=tk.X)
-        self.data_text.configure(state=tk.DISABLED)
+        # Виджет остаётся NORMAL, а ввод запрещается биндингом: у DISABLED-Text
+        # нет фокуса, поэтому Ctrl+C до него не доходит и числа из панели нельзя
+        # было ни выделить, ни скопировать (жалоба владельца 2026-08-14).
+        self.data_text.bind("<Key>", self._databar_key)
+        self.data_text.bind("<<Paste>>", lambda e: "break")
+        self.data_text.bind("<Button-2>", lambda e: "break")   # вставка средней кнопкой
+        self.data_text.bind("<Control-a>", self._databar_select_all)
+        self.data_text.bind("<Control-A>", self._databar_select_all)
         self.data_text.tag_configure("warn", foreground=COLOR_WARN)
+        menu = tk.Menu(self.data_text, tearoff=0)
+        menu.add_command(label=u"копировать всё", command=self.copy_databar)
+        menu.add_command(label=u"копировать выделенное",
+                         command=self._copy_databar_selection)
+        self.data_text.bind("<Button-3>",
+                            lambda e: menu.tk_popup(e.x_root, e.y_root))
+
+    @staticmethod
+    def _databar_key(event):
+        u"""Пропускает только копирование и навигацию, всё остальное глотает."""
+        if event.state & 0x4:            # зажат Control: Ctrl+C, Ctrl+A, Ctrl+Insert
+            return None
+        if event.keysym in ("Left", "Right", "Up", "Down", "Prior", "Next",
+                            "Home", "End", "Shift_L", "Shift_R",
+                            "Control_L", "Control_R"):
+            return None
+        return "break"
+
+    def _databar_select_all(self, event=None):
+        self.data_text.tag_add(tk.SEL, "1.0", tk.END)
+        self.data_text.mark_set(tk.INSERT, "1.0")
+        return "break"
+
+    def _copy_databar_selection(self):
+        u"""Только выделенный кусок; при пустом выделении — вся сводка."""
+        try:
+            text = self.data_text.get(tk.SEL_FIRST, tk.SEL_LAST)
+        except tk.TclError:
+            self.copy_databar()
+            return
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+        self.var_status.set(u"выделенное скопировано в буфер")
+
+    def copy_databar(self):
+        u"""Вся сводка в буфер обмена одним щелчком — без выделения мышью."""
+        text = self.data_text.get("1.0", tk.END).rstrip(u"\n")
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+        self.var_status.set(u"сводка скопирована в буфер (%d строк)"
+                            % len(text.splitlines()))
 
     def _bind_keys(self):
         self.root.bind("<Left>", lambda e: self.select(self.index - 1))
@@ -1007,12 +1058,10 @@ class TrackViewer(object):
         self._set_databar(lines, warn_from)
 
     def _set_databar(self, lines, warn_from):
-        self.data_text.configure(state=tk.NORMAL)
         self.data_text.delete("1.0", tk.END)
         for i, line in enumerate(lines):
             self.data_text.insert(tk.END, line + u"\n",
                                   ("warn",) if i >= warn_from else ())
-        self.data_text.configure(state=tk.DISABLED)
 
     # ---------------------------------------------------------------- выгрузка
     def export_csv(self):
