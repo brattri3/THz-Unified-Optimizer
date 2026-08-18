@@ -1,7 +1,7 @@
 """tkinter GUI поверх `service_calc.py` -- обслуживание аттенюатора в THz-TDS
 спектрометре (задача C9, санкция владельца 2026-08-19). Один сценарий:
-двунаправленный калькулятор (дБ<->угол), относительный/абсолютный режим,
-выбираемая метрика полосы, без доверительного интервала.
+двунаправленный калькулятор (дБ<->угол), три опорные мощности, выбираемая
+метрика полосы, без доверительного интервала.
 
 Соглашения (владелец 2026-08-18) -- подробности в docstring `service_calc`:
   * затухание -- ОТРИЦАТЕЛЬНЫЕ децибелы по мощности (10*log10 T);
@@ -9,14 +9,19 @@
     калибровку, подгоночный параметр модели; автокалибровка -- следующая версия;
   * SET ZERO -- рабочая точка отсчёта на кривой, от которой оператор считает
     добавочное затухание/усиление; по умолчанию = SET OFFSET;
-  * P_0 -- мощность на входе аттенюатора (знаменатель T в режиме absolute).
+  * опора T: `P_0` (вход аттенюатора) / `P_max` (совмещённое положение) /
+    `P_zero` (рабочая точка). Первые две от SET ZERO не зависят, третья на неё
+    нормирует -- именно она даёт выход в усиление (>100 %, >0 дБ).
 
-График: две панели с ЖЁСТКИМИ шкалами -- пропускание 0-100 %, затухание
-0...-45 дБ (автоскейл выключен; верх раздвигается только если сдвинутый SET ZERO
-уводит кривую в усиление, иначе часть данных была бы просто не видна). Блёклая
-серая кривая -- всегда полная мощность по всей полосе, яркая -- выбранная
-метрика. Точки запроса отмечены отрезками до осей с подписями угла, пропускания
-и затухания.
+Работа со сдвинутой рабочей точкой показывается в трёх местах сразу:
+  * окно результатов -- таблица «SET ZERO / запрос» во ВСЕХ трёх опорах плюс
+    строка добавочной величины (дБ, во сколько раз по мощности и по полю);
+  * график -- рабочая точка отмечена своим цветом (вертикаль + горизонталь на
+    её уровне), область выше её уровня подсвечена как зона усиления, а между
+    уровнем рабочей точки и уровнем запроса рисуется двусторонняя стрелка с
+    подписью добавочной величины;
+  * переключатель шкалы -- «затухание» держит жёсткие 0-100 % и 0...-45 дБ,
+    «с усилением» раздвигает верх, чтобы кривая выше рабочей точки поместилась.
 
 НЕ клиентский `attenuator_app.gui`/`cli` (v0.2/v0.3, отдельный трек, не
 трогается) -- самостоятельный инструмент поверх модели C8
@@ -45,9 +50,8 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from attenuator_app.tools.service_calc import (            # noqa: E402
-    FULL, MODE_LABEL, MODES, Metric, REF_POWER_SHORT,
-    angle_for_db, attenuation_db, attenuation_db_array, load_calibration,
-    power_field_ratios)
+    FULL, REF_LABEL, REF_SHORT, REFS, Metric,
+    angle_for_db, attenuation_db_array, describe_point, load_calibration)
 
 #: (kind, подпись в списке, [(подпись поля, значение по умолчанию), ...])
 METRIC_ITEMS: list[tuple[str, str, list[tuple[str, str]]]] = [
@@ -58,13 +62,23 @@ METRIC_ITEMS: list[tuple[str, str, list[tuple[str, str]]]] = [
 ]
 METRIC_BY_LABEL = {label: (kind, fields) for kind, label, fields in METRIC_ITEMS}
 
+#: режимы шкалы графика (переключатель, автоскейла нет ни в одном)
+SCALE_ITEMS = [
+    ("clamp", "затухание: 0-100 %, 0...-45 дБ (жёстко)"),
+    ("gain", "с усилением: верх по кривой (>100 %, >0 дБ)"),
+]
+#: допуск сравнения углов: шкала ротатора точнее 0.0001 град не читается,
+#: а поля ввода округляют -- без него «= SET OFFSET» считался бы сдвигом
+ANGLE_ATOL = 1e-4
 PCT_LIM = (0.0, 100.0)      # жёсткая шкала пропускания, %
 DB_LIM = (-45.0, 0.0)       # жёсткая шкала затухания, дБ
 
-C_BRIGHT = "#2a78d6"        # выбранная метрика
-C_BRIGHT_DB = "#eb6834"
+C_BRIGHT = "#2a78d6"        # выбранная метрика, панель %
+C_BRIGHT_DB = "#eb6834"     # выбранная метрика, панель дБ
 C_DIM = "#c2c2c2"           # полная мощность, фоном
-C_MARK = "#12996a"
+C_MARK = "#12996a"          # точка запроса
+C_ZERO = "#8e44ad"          # рабочая точка SET ZERO
+C_GAIN = "#eaf7ef"          # заливка зоны усиления
 
 
 def _annotate_point(ax, x: float, y: float, x_text: str, y_text: str,
@@ -100,12 +114,29 @@ def _annotate_point(ax, x: float, y: float, x_text: str, y_text: str,
                 fontsize=8, color=color, bbox=box, zorder=6)
 
 
+def _delta_arrow(ax, x: float, y_from: float, y_to: float, text: str) -> None:
+    """Двусторонняя стрелка между уровнем рабочей точки и уровнем запроса --
+    визуальная «добавочная величина». Рисуется, только если оба уровня в поле."""
+    xlo, xhi = ax.get_xlim()
+    ylo, yhi = ax.get_ylim()
+    if not (ylo <= y_from <= yhi and ylo <= y_to <= yhi):
+        return
+    if abs(y_to - y_from) < 0.015 * (yhi - ylo):
+        return
+    ax.annotate("", xy=(x, y_to), xytext=(x, y_from), zorder=7,
+                arrowprops=dict(arrowstyle="<->", color=C_ZERO, lw=1.3,
+                                shrinkA=0, shrinkB=0))
+    ax.text(x + 0.012 * (xhi - xlo), (y_from + y_to) / 2.0, text,
+            ha="left", va="center", fontsize=8, color=C_ZERO, zorder=8,
+            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=C_ZERO, lw=0.6, alpha=0.9))
+
+
 class ServiceGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Аттенюатор -- обслуживание THz-TDS спектрометра")
-        self.geometry("1240x820")
-        self.minsize(980, 640)
+        self.geometry("1320x860")
+        self.minsize(1040, 660)
 
         self.cal = load_calibration()
         self.offset: float = self.cal.theta0_calibration_deg   # SET OFFSET (физика)
@@ -138,7 +169,7 @@ class ServiceGUI(tk.Tk):
         ).pack(anchor="w")
         r1 = ttk.Frame(offf)
         r1.pack(fill="x", pady=(4, 0))
-        self.offset_var = tk.StringVar(value=f"{self.offset:.3f}")
+        self.offset_var = tk.StringVar(value=f"{self.offset:.4f}")
         ttk.Entry(r1, textvariable=self.offset_var, width=10).pack(side="left")
         ttk.Button(r1, text="применить", command=self._apply_offset).pack(side="left", padx=(6, 0))
         ttk.Button(r1, text="из калибровки", command=self._restore_offset).pack(side="left", padx=(4, 0))
@@ -150,25 +181,34 @@ class ServiceGUI(tk.Tk):
         zerf.pack(side="left", fill="both", expand=True, padx=(4, 0))
         ttk.Label(zerf, justify="left", font=("TkDefaultFont", 8), text=(
             "от неё считается ДОБАВОЧНОЕ затухание (или усиление, если идти\n"
-            "к совмещению); в режиме relative она же точка нормировки (0 дБ)")
+            "к совмещению); опора P_zero дополнительно на неё нормирует")
         ).pack(anchor="w")
         r2 = ttk.Frame(zerf)
         r2.pack(fill="x", pady=(4, 0))
-        self.zero_var = tk.StringVar(value=f"{self.zero:.3f}")
+        self.zero_var = tk.StringVar(value=f"{self.zero:.4f}")
         ttk.Entry(r2, textvariable=self.zero_var, width=10).pack(side="left")
         ttk.Button(r2, text="SET ZERO", command=self._apply_zero).pack(side="left", padx=(6, 0))
         ttk.Button(r2, text="= SET OFFSET", command=self._reset_zero).pack(side="left", padx=(4, 0))
+        ttk.Button(r2, text="сюда текущий угол", command=self._zero_from_angle).pack(side="left", padx=(4, 0))
         self.zero_status = tk.StringVar()
         ttk.Label(r2, textvariable=self.zero_status, foreground="#357").pack(side="left", padx=(10, 0))
 
-        # --- режим и метрика -------------------------------------------
-        opts = ttk.Frame(controls, padding=(0, 6, 0, 0))
-        opts.pack(fill="x")
-        ttk.Label(opts, text="режим:").pack(side="left")
-        self.mode_var = tk.StringVar(value="relative")
-        for value in MODES:
-            ttk.Radiobutton(opts, text=MODE_LABEL[value], value=value, variable=self.mode_var,
-                            command=self._redraw_plot).pack(side="left", padx=(4, 10))
+        # --- опора, шкала, метрика -------------------------------------
+        opts = ttk.LabelFrame(controls, text="опора T (что в знаменателе)", padding=6)
+        opts.pack(fill="x", pady=(6, 0))
+        self.ref_var = tk.StringVar(value="pmax")
+        for value in REFS:
+            ttk.Radiobutton(opts, text=f"{REF_SHORT[value]} -- {REF_LABEL[value]}",
+                            value=value, variable=self.ref_var,
+                            command=self._redraw_plot).pack(side="left", padx=(0, 12))
+
+        sc = ttk.Frame(controls, padding=(0, 4, 0, 0))
+        sc.pack(fill="x")
+        ttk.Label(sc, text="шкала:").pack(side="left")
+        self.scale_var = tk.StringVar(value="clamp")
+        for value, label in SCALE_ITEMS:
+            ttk.Radiobutton(sc, text=label, value=value, variable=self.scale_var,
+                            command=self._redraw_plot).pack(side="left", padx=(4, 12))
 
         met = ttk.Frame(controls, padding=(0, 4, 0, 0))
         met.pack(fill="x")
@@ -211,7 +251,7 @@ class ServiceGUI(tk.Tk):
 
         outf = ttk.LabelFrame(body, text="результат", padding=6)
         outf.pack(side="right", fill="y", padx=(8, 0))
-        self.text = tk.Text(outf, wrap="word", font=("Consolas", 9), width=48)
+        self.text = tk.Text(outf, wrap="none", font=("Consolas", 9), width=64)
         self.text.pack(fill="both", expand=True)
 
         self._sync_status()
@@ -222,16 +262,16 @@ class ServiceGUI(tk.Tk):
         self.text.insert("end", msg + "\n")
         self.text.see("end")
 
-    def _mode(self) -> str:
-        return self.mode_var.get()
+    def _ref(self) -> str:
+        return self.ref_var.get()
 
     def _sync_status(self) -> None:
-        same_off = np.isclose(self.offset, self.cal.theta0_calibration_deg, atol=1e-6)
+        same_off = np.isclose(self.offset, self.cal.theta0_calibration_deg, atol=ANGLE_ATOL)
         self.offset_status.set(f"{self.offset:+.3f} град "
                                f"({'из калибровки' if same_off else 'вручную'})")
-        same_zero = np.isclose(self.zero, self.offset, atol=1e-6)
+        same_zero = np.isclose(self.zero, self.offset, atol=ANGLE_ATOL)
         self.zero_status.set(f"{self.zero:+.3f} град "
-                             f"({'= SET OFFSET' if same_zero else 'сдвинут'})")
+                             f"({'= SET OFFSET' if same_zero else 'СДВИНУТА'})")
 
     def _rebuild_metric_fields(self) -> None:
         for w in self.metric_fields.winfo_children():
@@ -261,9 +301,30 @@ class ServiceGUI(tk.Tk):
                 raise ValueError(f"поле «{label}»: ожидается число, получено {s!r}") from None
         return Metric(kind, *(vals + [None, None])[:2])
 
+    def _describe(self, theta: float, metric: Metric, ref: str) -> dict:
+        return describe_point(theta, self.offset, self.zero, self.cal, metric, ref)
+
+    # -- окно результатов: показать работу со сдвинутой точкой ----------
+    def _log_zero_block(self, theta: float, metric: Metric, ref: str) -> None:
+        q = self._describe(theta, metric, ref)
+        z = self._describe(self.zero, metric, ref)
+        shifted = not np.isclose(self.zero, self.offset, atol=ANGLE_ATOL)
+        self._log(f"  {'точка':<9}{'угол':>9}  {'T/P_0':>8} {'T/P_max':>9} {'T/P_zero':>9}"
+                  f"  {'дБ ' + REF_SHORT[ref]:>10}")
+        for name, d in ((f"SET ZERO{'*' if shifted else ' '}", z), ("запрос   ", q)):
+            self._log(f"  {name:<9}{d['theta_deg']:>+8.3f}°  {d['pct_p0']:>7.2f}% "
+                      f"{d['pct_pmax']:>8.2f}% {d['pct_pzero']:>8.2f}%  {d['db_sel']:>+9.2f}")
+        dz = q["delta_zero_db"]
+        kind = "УСИЛЕНИЕ" if dz > 0 else "затухание"
+        self._log(f"  добавочно к рабочей точке: {dz:+.2f} дБ -- {kind}")
+        self._log(f"    мощность x{q['delta_power_ratio']:.4g}, "
+                  f"поле x{q['delta_field_ratio']:.4g}")
+        if shifted:
+            self._log("  * рабочая точка сдвинута относительно SET OFFSET")
+
     # -- график ------------------------------------------------------
     def _redraw_plot(self) -> None:
-        mode = self._mode()
+        ref = self._ref()
         try:
             metric = self._metric()
             metric_err = None
@@ -272,52 +333,76 @@ class ServiceGUI(tk.Tk):
 
         grid = np.linspace(self.offset - 90.0, self.offset + 90.0, 721)
         try:
-            db_sel = attenuation_db_array(grid, self.offset, self.cal, metric, mode, self.zero)
+            db_sel = attenuation_db_array(grid, self.offset, self.cal, metric, ref, self.zero)
         except ValueError as e:                       # напр. пустая полоса
             metric, metric_err = FULL, str(e)
-            db_sel = attenuation_db_array(grid, self.offset, self.cal, FULL, mode, self.zero)
+            db_sel = attenuation_db_array(grid, self.offset, self.cal, FULL, ref, self.zero)
         db_full = (db_sel if metric.kind == "full" else
-                   attenuation_db_array(grid, self.offset, self.cal, FULL, mode, self.zero))
+                   attenuation_db_array(grid, self.offset, self.cal, FULL, ref, self.zero))
         pct_sel, pct_full = 10.0 ** (db_sel / 10.0) * 100.0, 10.0 ** (db_full / 10.0) * 100.0
 
-        fig = Figure(figsize=(6.6, 6.4), dpi=100)
+        z = self._describe(self.zero, metric, ref)
+        shifted = not np.isclose(self.zero, self.offset, atol=ANGLE_ATOL)
+
+        fig = Figure(figsize=(6.8, 6.6), dpi=100)
         ax1 = fig.add_subplot(211)
         ax2 = fig.add_subplot(212, sharex=ax1)
 
         for ax, y_full, y_sel, color in ((ax1, pct_full, pct_sel, C_BRIGHT),
                                          (ax2, db_full, db_sel, C_BRIGHT_DB)):
             if metric.kind != "full":
-                ax.plot(grid, y_full, color=C_DIM, lw=1.4, zorder=1,
-                        label="полная мощность")
+                ax.plot(grid, y_full, color=C_DIM, lw=1.4, zorder=1, label="полная мощность")
             ax.plot(grid, y_sel, color=color, lw=1.8, zorder=2, label=metric.label)
             ax.axvline(self.offset, color="#9aa", ls="--", lw=1, zorder=0)
-            if not np.isclose(self.zero, self.offset, atol=1e-6):
-                ax.axvline(self.zero, color=C_MARK, ls=":", lw=1.2, zorder=0)
             ax.grid(alpha=0.25, lw=0.6)
 
-        # ЖЁСТКИЕ шкалы; верх раздвигаем только при усилении (сдвинутый SET ZERO)
+        # --- шкалы: переключатель, автоскейла нет ни в одном режиме ---
+        gain_mode = self.scale_var.get() == "gain"
+        top_pct = max(PCT_LIM[1], float(np.nanmax(pct_sel)) * 1.06) if gain_mode else PCT_LIM[1]
+        top_db = max(DB_LIM[1], float(np.nanmax(db_sel)) + 1.5) if gain_mode else DB_LIM[1]
         ax1.set_xlim(grid[0], grid[-1])
-        ax1.set_ylim(PCT_LIM[0], max(PCT_LIM[1], float(np.nanmax(pct_sel)) * 1.02))
-        ax2.set_ylim(DB_LIM[0], max(DB_LIM[1], float(np.nanmax(db_sel)) + 0.5))
+        ax1.set_ylim(PCT_LIM[0], top_pct)
+        ax2.set_ylim(DB_LIM[0], top_db)
+        clipped = (not gain_mode) and (float(np.nanmax(pct_sel)) > PCT_LIM[1] + 1e-9)
 
-        ref = REF_POWER_SHORT[mode]
-        ax1.set_ylabel(f"пропускание T = P/{ref}, %")
-        ax1.set_title(f"{MODE_LABEL[mode]}\nSET OFFSET {self.offset:+.2f}°, "
-                      f"SET ZERO {self.zero:+.2f}°", fontsize=8.5)
-        ax1.legend(fontsize=7.5, loc="upper left")
+        # --- рабочая точка: уровень, зона усиления над ним --------------
+        for ax, y_zero in ((ax1, z["pct_sel"]), (ax2, z["db_sel"])):
+            ylo, yhi = ax.get_ylim()
+            if ylo <= y_zero <= yhi:
+                ax.axhspan(y_zero, yhi, color=C_GAIN, zorder=0)
+                ax.axhline(y_zero, color=C_ZERO, ls=":", lw=1.2, zorder=3)
+            if shifted:
+                ax.axvline(self.zero, color=C_ZERO, ls=":", lw=1.4, zorder=3)
+                ax.plot([self.zero], [float(np.clip(y_zero, ylo, yhi))], "s",
+                        color=C_ZERO, ms=5, zorder=6)
+
+        ax1.set_ylabel(f"пропускание T = P/{REF_SHORT[ref]}, %")
+        title = (f"опора {REF_SHORT[ref]} -- {REF_LABEL[ref]}\n"
+                 f"SET OFFSET {self.offset:+.2f}°   SET ZERO {self.zero:+.2f}°"
+                 f"{'  (сдвинута; выше пунктира -- усиление)' if shifted else ''}")
+        if clipped:
+            title += "\n[кривая выходит за шкалу -- переключите на «с усилением»]"
+        ax1.set_title(title, fontsize=8)
+        ax1.legend(fontsize=7.5, loc="best")
         ax2.set_ylabel("затухание, дБ по мощности")
         ax2.set_xlabel("угол WGP1 (показание шкалы ротатора), град")
 
-        # симметричные решения дают одинаковое значение -- горизонтальный
-        # отрезок и его подпись рисуем один раз, иначе подписи наложатся
+        # --- точки запроса + стрелка добавочной величины ---------------
         drawn: list[float] = []
         for theta in self._markers:
-            db = attenuation_db(theta, self.offset, self.cal, metric, mode, self.zero)
-            pct = 10.0 ** (db / 10.0) * 100.0
-            draw_h = not any(abs(db - d) < 1e-3 for d in drawn)
-            drawn.append(db)
-            _annotate_point(ax1, theta, pct, f"{theta:+.2f}°", f"T = {pct:.2f} %", draw_h=draw_h)
-            _annotate_point(ax2, theta, db, f"{theta:+.2f}°", f"{db:+.2f} дБ", draw_h=draw_h)
+            q = self._describe(theta, metric, ref)
+            draw_h = not any(abs(q["db_sel"] - d) < 1e-3 for d in drawn)
+            drawn.append(q["db_sel"])
+            _annotate_point(ax1, theta, q["pct_sel"], f"{theta:+.2f}°",
+                            f"T = {q['pct_sel']:.2f} %", draw_h=draw_h)
+            _annotate_point(ax2, theta, q["db_sel"], f"{theta:+.2f}°",
+                            f"{q['db_sel']:+.2f} дБ", draw_h=draw_h)
+            if draw_h and abs(theta - self.zero) > ANGLE_ATOL:
+                x_arrow = (theta + self.zero) / 2.0
+                dz = q["delta_zero_db"]
+                _delta_arrow(ax1, x_arrow, z["pct_sel"], q["pct_sel"],
+                             f"x{q['delta_power_ratio']:.3g}")
+                _delta_arrow(ax2, x_arrow, z["db_sel"], q["db_sel"], f"{dz:+.2f} дБ")
 
         fig.tight_layout()
         if self.canvas is not None:
@@ -336,13 +421,13 @@ class ServiceGUI(tk.Tk):
         except ValueError:
             messagebox.showerror("Неверное значение", "SET OFFSET должен быть числом")
             return
-        # SET ZERO -- точка на шкале ротатора: если он был привязан к офсету,
-        # едет вместе с ним, иначе остаётся там, где его поставил оператор
-        was_bound = bool(np.isclose(self.zero, self.offset, atol=1e-6))
+        # SET ZERO -- точка на шкале ротатора: если она была привязана к офсету,
+        # едет вместе с ним, иначе остаётся там, где её поставил оператор
+        was_bound = bool(np.isclose(self.zero, self.offset, atol=ANGLE_ATOL))
         self.offset = v
         if was_bound:
             self.zero = v
-            self.zero_var.set(f"{v:.3f}")
+            self.zero_var.set(f"{v:.4f}")
         self._markers.clear()
         self._sync_status()
         self._log(f"SET OFFSET = {self.offset:+.3f} град")
@@ -350,7 +435,7 @@ class ServiceGUI(tk.Tk):
         self._redraw_plot()
 
     def _restore_offset(self) -> None:
-        self.offset_var.set(f"{self.cal.theta0_calibration_deg:.3f}")
+        self.offset_var.set(f"{self.cal.theta0_calibration_deg:.4f}")
         self._apply_offset()
 
     def _apply_zero(self) -> None:
@@ -361,14 +446,31 @@ class ServiceGUI(tk.Tk):
             return
         self.zero = v
         self._sync_status()
-        db_zero_abs = attenuation_db(self.zero, self.offset, self.cal, FULL, "absolute")
+        try:
+            metric = self._metric()
+        except ValueError:
+            metric = FULL
+        z = self._describe(self.zero, metric, self._ref())
         self._log(f"SET ZERO = {self.zero:+.3f} град "
-                  f"(там абсолютное пропускание {10.0 ** (db_zero_abs / 10.0) * 100:.2f} % от P_0)")
+                  f"(от SET OFFSET {self.zero - self.offset:+.3f})")
+        self._log(f"  в этой точке: {z['pct_p0']:.2f} % от P_0, "
+                  f"{z['pct_pmax']:.2f} % от P_max ({z['db_pmax']:+.2f} дБ)")
+        self._log("  дальше отсчёт добавочного затухания/усиления идёт от неё")
         self._log("")
         self._redraw_plot()
 
     def _reset_zero(self) -> None:
-        self.zero_var.set(f"{self.offset:.3f}")
+        self.zero_var.set(f"{self.offset:.4f}")
+        self._apply_zero()
+
+    def _zero_from_angle(self) -> None:
+        """Поставить рабочую точку в угол из поля прямой задачи -- типовой ход:
+        выставили начальное затухание, объявили его нулём, дальше добавляем."""
+        s = self.angle_var.get().strip()
+        if not s:
+            messagebox.showinfo("Пусто", "сначала введите угол в поле «угол WGP1»")
+            return
+        self.zero_var.set(s)
         self._apply_zero()
 
     def _forward(self) -> None:
@@ -382,24 +484,18 @@ class ServiceGUI(tk.Tk):
         except ValueError as e:
             messagebox.showerror("Метрика", str(e))
             return
-        mode = self._mode()
+        ref = self._ref()
         w = metric.warning(self.cal)
         if w:
             self._log(w)
 
-        db = attenuation_db(theta, self.offset, self.cal, metric, mode, self.zero)
-        p_r, f_r = power_field_ratios(db)
-        db_zero = attenuation_db(self.zero, self.offset, self.cal, metric, mode, self.zero)
-        d_zero = db - db_zero
-
-        self._log(f"[{mode}] {metric.label}")
-        self._log(f"  угол WGP1 = {theta:+.3f} град "
-                  f"(от OFFSET {theta - self.offset:+.3f}, от ZERO {theta - self.zero:+.3f})")
-        self._log(f"  затухание = {db:+.2f} дБ по мощности")
-        self._log(f"  T = P/{REF_POWER_SHORT[mode]} = {p_r * 100:.3f} %   "
-                  f"(поле E/E_ref = {f_r:.4g})")
-        self._log(f"  относительно SET ZERO: {d_zero:+.2f} дБ "
-                  f"({'усиление' if d_zero > 0 else 'затухание'})")
+        q = self._describe(theta, metric, ref)
+        self._log(f"[опора {REF_SHORT[ref]}] {metric.label}")
+        self._log(f"  угол WGP1 = {theta:+.3f}°  (от OFFSET {theta - self.offset:+.3f}, "
+                  f"от ZERO {theta - self.zero:+.3f})")
+        self._log(f"  затухание = {q['db_sel']:+.2f} дБ, "
+                  f"T = P/{REF_SHORT[ref]} = {q['pct_sel']:.3f} %")
+        self._log_zero_block(theta, metric, ref)
         self._log("")
 
         self._markers = [theta]
@@ -416,22 +512,23 @@ class ServiceGUI(tk.Tk):
         except ValueError as e:
             messagebox.showerror("Метрика", str(e))
             return
-        mode = self._mode()
+        ref = self._ref()
         w = metric.warning(self.cal)
         if w:
             self._log(w)
         try:
-            sol = angle_for_db(target, self.offset, self.cal, metric, mode, self.zero)
+            sol = angle_for_db(target, self.offset, self.cal, metric, ref, self.zero)
         except ValueError as e:
             messagebox.showerror("Недостижимо", str(e))
             return
 
-        self._log(f"[{mode}] {metric.label}")
-        self._log(f"  желаемое затухание {target:+.2f} дБ по мощности; диапазон "
+        self._log(f"[опора {REF_SHORT[ref]}] {metric.label}")
+        self._log(f"  цель {target:+.2f} дБ; диапазон "
                   f"[{sol['db_min']:.2f}, {sol['db_max']:.2f}] дБ")
-        self._log(f"  угол WGP1 = {sol['theta_plus_deg']:+.3f} град")
-        self._log(f"  или       = {sol['theta_minus_deg']:+.3f} град")
-        self._log("  (два симметричных решения -- выбрать ближе к текущему положению ротатора)")
+        self._log(f"  угол WGP1 = {sol['theta_plus_deg']:+.3f}°  "
+                  f"или {sol['theta_minus_deg']:+.3f}°")
+        self._log("  (два симметричных решения -- выбрать ближе к текущему положению)")
+        self._log_zero_block(sol["theta_plus_deg"], metric, ref)
         self._log("")
 
         self._markers = [sol["theta_plus_deg"], sol["theta_minus_deg"]]

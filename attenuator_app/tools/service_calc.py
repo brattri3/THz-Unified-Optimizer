@@ -11,8 +11,8 @@
 
 ЗНАК. Затухание -- ОТРИЦАТЕЛЬНЫЕ децибелы (владелец 2026-08-18):
 `attenuation_db = 10*log10(T)`, т.е. T=1 -> 0 дБ, T=0.5 -> -3.01 дБ. Величина
-положительна только в режиме усиления относительно рабочей точки (см. SET ZERO
-ниже). Децибелы -- ПО МОЩНОСТИ (10*log10), не по амплитуде поля (20*log10);
+положительна только при усилении относительно опорной точки (см. `pzero` ниже).
+Децибелы -- ПО МОЩНОСТИ (10*log10), не по амплитуде поля (20*log10);
 `power_field_ratios()` возвращает обе величины сразу.
 
 ДВА РАЗНЫХ НУЛЯ -- не путать (владелец 2026-08-18):
@@ -22,23 +22,29 @@
       модели и ЗАШИТ в калибровку (`theta0_calibration_deg` в JSON). Оператор
       его обычно не трогает; алгоритм автоматической калибровки офсета -- задача
       следующей версии.
-  SET ZERO (`zero_deg`) -- РАБОЧАЯ ТОЧКА ОТСЧЁТА: просто точка на угловой
-      кривой, относительно которой оператор считает ДОБАВОЧНОЕ затухание (или
-      усиление, если двигаться к совмещённому положению). В формулу физики не
-      входит. По умолчанию совпадает с SET OFFSET.
+  SET ZERO (`zero_deg`) -- РАБОЧАЯ ТОЧКА ОТСЧЁТА: точка на угловой кривой, от
+      которой оператор считает ДОБАВОЧНОЕ затухание (или усиление, если идти к
+      совмещённому положению). В физику не входит. По умолчанию = SET OFFSET.
 
-Два режима нормировки `mode`:
-  'relative' (по умолчанию) -- нормировка на пропускание В ТОЧКЕ SET ZERO:
-      T(zero)=1 (0 дБ) тождественно на любой частоте. При zero==offset это в
-      точности прежняя нормировка «на максимум пропускания в совмещённом
-      положении»: общий множитель потерь и |t_perp|^4 сокращаются ТОЧНО,
-      поэтому режим устойчив к экстраполяции (см. `attenuator_app/STATE.md`,
-      «Два ключевых решения»). При сдвинутом SET ZERO кривая может выходить
-      выше 1 (0 дБ) -- это и есть «усиление» относительно рабочей точки.
-  'absolute' -- доля мощности `P_0`, падающей на аттенюатор (до WGP1), которая
-      доходит до детектора. Включает СОБСТВЕННУЮ вносимую потерю пары WGP даже
-      в совмещённом положении (T(offset) < 1, порядка -0.4 дБ), поэтому 0 дБ в
-      этом режиме недостижим.
+ТРИ ОПОРНЫЕ МОЩНОСТИ `ref` -- что стоит в знаменателе T (владелец 2026-08-18:
+переключатель абсолютное/относительное развёрнут в три позиции, потому что
+относительных нормировок на самом деле две -- к максимуму и к рабочей точке):
+  'p0'    -- АБСОЛЮТНАЯ: T = P/P_0, доля мощности, падающей на аттенюатор (до
+      WGP1). Включает СОБСТВЕННУЮ вносимую потерю пары WGP даже в совмещённом
+      положении (T(offset) ~ 92 %, т.е. -0.36 дБ), поэтому 0 дБ недостижим.
+      От SET ZERO не зависит.
+  'pmax'  -- ОТНОСИТЕЛЬНАЯ К МАКСИМУМУ (по умолчанию): T = P/P_max, нормировка
+      на совмещённое положение WGP1||WGP2, там ровно 0 дБ. Прежний режим
+      «relative»: общий множитель потерь и |t_perp|^4 сокращаются ТОЧНО, поэтому
+      режим устойчив к экстраполяции (см. `attenuator_app/STATE.md`, «Два
+      ключевых решения»). От SET ZERO не зависит.
+  'pzero' -- ОТНОСИТЕЛЬНАЯ К РАБОЧЕЙ ТОЧКЕ: T = P/P_zero, нормировка на SET
+      ZERO, там ровно 0 дБ. Движение от рабочей точки к совмещению даёт T > 1
+      (положительные дБ) -- это и есть «выход в усиление». При zero == offset
+      совпадает с 'pmax'.
+Во ВСЕХ трёх режимах добавочная величина относительно рабочей точки считается
+одинаково: `delta = att(theta) - att(zero)` -- она от выбора `ref` не зависит
+(общий знаменатель сокращается), см. `relative_to_zero_db`.
 
 Метрика `Metric` -- по какой полосе усредняется пропускание, 4 варианта:
   full         -- полная мощность: вся записанная полоса с весом |E_ref(nu)|^2
@@ -65,7 +71,7 @@
     .venv\\Scripts\\python.exe -m attenuator_app.tools.service_calc --to-db -12
     .venv\\Scripts\\python.exe -m attenuator_app.tools.service_calc --from-angle 35 --freq 0.8
     .venv\\Scripts\\python.exe -m attenuator_app.tools.service_calc --from-angle 35 --band 0.4 1.2
-    .venv\\Scripts\\python.exe -m attenuator_app.tools.service_calc --from-angle 35 --mode absolute
+    .venv\\Scripts\\python.exe -m attenuator_app.tools.service_calc --from-angle 2 --zero 40 --ref pzero
 """
 from __future__ import annotations
 
@@ -86,17 +92,16 @@ from attenuator_app.core.blanco import dressed_t          # noqa: E402
 
 DEFAULT_CALIBRATION_PATH = HERE / "calibration" / "att_11_16_ca85_02721.json"
 
-MODES = ("relative", "absolute")
-MODE_LABEL = {
-    "relative": "относительный (нормировка на SET ZERO, там 0 дБ)",
-    "absolute": "абсолютный (доля входной мощности P_0)",
+#: опорная мощность в знаменателе T -- см. docstring модуля
+REFS = ("p0", "pmax", "pzero")
+REF_SHORT = {"p0": "P_0", "pmax": "P_max", "pzero": "P_zero"}
+REF_LABEL = {
+    "p0": "абсолютная: T = P/P_0 (мощность на входе аттенюатора)",
+    "pmax": "к максимуму: T = P/P_max (совмещённое положение, 0 дБ)",
+    "pzero": "к рабочей точке: T = P/P_zero (SET ZERO, 0 дБ)",
 }
-#: чему равна опорная мощность в знаменателе T в каждом режиме
-REF_POWER_LABEL = {
-    "relative": "P_zero -- мощность в точке SET ZERO",
-    "absolute": "P_0 -- мощность на входе аттенюатора",
-}
-REF_POWER_SHORT = {"relative": "P_zero", "absolute": "P_0"}
+#: зависит ли кривая от положения SET ZERO
+REF_USES_ZERO = {"p0": False, "pmax": False, "pzero": True}
 
 METRIC_KINDS = ("full", "single", "band_cw", "band_minmax")
 
@@ -205,11 +210,6 @@ class Metric:
 FULL = Metric("full")
 
 
-def band_warning(metric: Metric, cal: Calibration) -> str | None:
-    """Обёртка для совместимости вызова из GUI."""
-    return metric.warning(cal)
-
-
 def power_field_ratios(att_db: float) -> tuple[float, float]:
     """(P/P_ref, E/E_ref) по затуханию в дБ ПО МОЩНОСТИ (отрицательному):
     P/P_ref = 10^(dB/10), E/E_ref = 10^(dB/20) = sqrt(P/P_ref)."""
@@ -218,7 +218,7 @@ def power_field_ratios(att_db: float) -> tuple[float, float]:
 
 # --- физика ------------------------------------------------------------
 def transmission_array(theta_deg, offset_deg: float, cal: Calibration,
-                       metric: Metric = FULL, mode: str = "relative",
+                       metric: Metric = FULL, ref: str = "pmax",
                        zero_deg: float | None = None) -> np.ndarray:
     """Отношение МОЩНОСТЕЙ T(theta) для схемы S1 (два идентичных WGP), см.
     docstring модуля и `FINDINGS_measured_curve_2026-08-19.md` п.1 /
@@ -226,18 +226,19 @@ def transmission_array(theta_deg, offset_deg: float, cal: Calibration,
     минимальном виде, чтобы не тянуть импорт `track_viewer` в рантайм).
 
         E1(theta,nu) = t_perp(nu)*cos^2(d) + t_par(nu)*sin^2(d),  d = theta - offset
-        'relative': T = <|E1(theta)|^2> / <|E1(zero)|^2>     (T(zero) == 1)
-        'absolute': T = <|t_perp|^2 * |E1(theta)|^2>          (доля P_0)
+        'p0':    T = <|t_perp|^2 * |E1(theta)|^2>            (доля P_0)
+        'pmax':  T = <|E1(theta)|^2> / <|E1(offset)|^2>      (T(offset) == 1)
+        'pzero': T = <|E1(theta)|^2> / <|E1(zero)|^2>        (T(zero)   == 1)
 
     `<x>` -- среднее по частоте с весом |E_ref(nu)|^2 по точкам, отобранным
     метрикой (для одной частоты -- само значение).
 
     `offset_deg` -- SET OFFSET (физика), `zero_deg` -- SET ZERO (рабочая точка
-    отсчёта, по умолчанию = offset). `theta_deg` -- массив любой формы, градусы;
-    возвращает массив той же формы.
+    отсчёта, по умолчанию = offset; используется только при ref='pzero').
+    `theta_deg` -- массив любой формы, градусы; возвращает массив той же формы.
     """
-    if mode not in MODES:
-        raise ValueError(f"неизвестный режим {mode!r}, ожидается один из {MODES}")
+    if ref not in REFS:
+        raise ValueError(f"неизвестная опорная мощность {ref!r}, ожидается одна из {REFS}")
     if zero_deg is None:
         zero_deg = offset_deg
     freqs, weight = metric.resolve(cal)
@@ -252,37 +253,50 @@ def transmission_array(theta_deg, offset_deg: float, cal: Calibration,
         return np.mean(x, axis=-1) if weight is None else np.average(x, axis=-1, weights=weight)
 
     e1 = field(theta_deg)
-    if mode == "relative":
-        p_zero = float(wavg(np.abs(field(np.array([zero_deg]))) ** 2)[0])
-        return wavg(np.abs(e1) ** 2) / p_zero
-    return wavg(np.abs(tp[None, :]) ** 2 * np.abs(e1) ** 2)
+    if ref == "p0":
+        return wavg(np.abs(tp[None, :]) ** 2 * np.abs(e1) ** 2)
+    norm_angle = offset_deg if ref == "pmax" else zero_deg
+    p_norm = float(wavg(np.abs(field(np.array([norm_angle]))) ** 2)[0])
+    return wavg(np.abs(e1) ** 2) / p_norm
 
 
 def attenuation_db_array(theta_deg, offset_deg: float, cal: Calibration,
-                         metric: Metric = FULL, mode: str = "relative",
+                         metric: Metric = FULL, ref: str = "pmax",
                          zero_deg: float | None = None) -> np.ndarray:
     """Затухание в ДЕЦИБЕЛАХ ПО МОЩНОСТИ, ОТРИЦАТЕЛЬНЫХ: 10*log10(T)."""
-    T = transmission_array(theta_deg, offset_deg, cal, metric, mode, zero_deg)
+    T = transmission_array(theta_deg, offset_deg, cal, metric, ref, zero_deg)
     return 10.0 * np.log10(np.maximum(T, 1e-300))
 
 
 def transmission(theta_deg: float, offset_deg: float, cal: Calibration,
-                 metric: Metric = FULL, mode: str = "relative",
+                 metric: Metric = FULL, ref: str = "pmax",
                  zero_deg: float | None = None) -> float:
     return float(transmission_array(np.array([theta_deg]), offset_deg, cal,
-                                    metric, mode, zero_deg)[0])
+                                    metric, ref, zero_deg)[0])
 
 
 def attenuation_db(theta_deg: float, offset_deg: float, cal: Calibration,
-                   metric: Metric = FULL, mode: str = "relative",
+                   metric: Metric = FULL, ref: str = "pmax",
                    zero_deg: float | None = None) -> float:
     """Прямая задача: предсказанное затухание (отрицательные дБ по мощности)."""
     return float(attenuation_db_array(np.array([theta_deg]), offset_deg, cal,
-                                      metric, mode, zero_deg)[0])
+                                      metric, ref, zero_deg)[0])
+
+
+def relative_to_zero_db(theta_deg: float, offset_deg: float, zero_deg: float,
+                        cal: Calibration, metric: Metric = FULL) -> float:
+    """ДОБАВОЧНАЯ величина относительно рабочей точки SET ZERO, дБ по мощности.
+
+    `att(theta) - att(zero)` -- от выбора опорной мощности `ref` НЕ зависит
+    (общий знаменатель сокращается), поэтому считается один раз в 'pmax'.
+    Положительна = усиление (идём к совмещению), отрицательна = затухание.
+    """
+    return (attenuation_db(theta_deg, offset_deg, cal, metric, "pmax") -
+            attenuation_db(zero_deg, offset_deg, cal, metric, "pmax"))
 
 
 def angle_for_db(target_db: float, offset_deg: float, cal: Calibration,
-                 metric: Metric = FULL, mode: str = "relative",
+                 metric: Metric = FULL, ref: str = "pmax",
                  zero_deg: float | None = None, n: int = 901) -> dict:
     """Обратная задача: угол(ы) WGP1 для желаемого затухания (отрицательные дБ).
 
@@ -292,16 +306,19 @@ def angle_for_db(target_db: float, offset_deg: float, cal: Calibration,
     решения ДВА: offset+delta и offset-delta, физически равнозначны -- какое
     ближе к текущему положению ротатора, решает оператор (моторизации нет,
     `attenuator_app` C4_motor -- todo).
+
+    В режиме ref='pzero' со сдвинутой рабочей точкой `db_max` > 0: цель можно
+    задать положительной, это запрос усиления относительно SET ZERO.
     """
     delta = np.linspace(0.0, 90.0, n)
-    atten = attenuation_db_array(offset_deg + delta, offset_deg, cal, metric, mode, zero_deg)
+    atten = attenuation_db_array(offset_deg + delta, offset_deg, cal, metric, ref, zero_deg)
     db_max, db_min = float(atten[0]), float(atten[-1])
     if target_db > db_max + 1e-6:
         hint = ""
         if target_db > 0 and db_min - 1e-6 <= -target_db <= db_max + 1e-6:
             hint = f"; затухание задаётся ОТРИЦАТЕЛЬНЫМ числом -- возможно, нужно {-target_db:.2f} дБ"
         raise ValueError(f"выше максимума на этой калибровке: {db_max:.2f} дБ "
-                         f"(совмещённое положение WGP1||WGP2, режим={mode}){hint}")
+                         f"(совмещённое положение WGP1||WGP2, опора={REF_SHORT[ref]}){hint}")
     if target_db < db_min - 1e-6:
         raise ValueError(f"недостижимо на этой калибровке: минимум {db_min:.2f} дБ "
                          f"(скрещенное положение, {offset_deg + 90.0:+.3f} град)")
@@ -312,41 +329,68 @@ def angle_for_db(target_db: float, offset_deg: float, cal: Calibration,
             "delta_deg": delta_sol, "db_max": db_max, "db_min": db_min}
 
 
+def describe_point(theta_deg: float, offset_deg: float, zero_deg: float,
+                   cal: Calibration, metric: Metric = FULL, ref: str = "pmax") -> dict:
+    """Полное описание точки: значения во ВСЕХ трёх опорах сразу + добавочная
+    величина относительно SET ZERO. Нужно, чтобы окно результатов показывало
+    работу со сдвинутой точкой, а не одно число в выбранной шкале."""
+    out = {"theta_deg": theta_deg}
+    for r in REFS:
+        db = attenuation_db(theta_deg, offset_deg, cal, metric, r, zero_deg)
+        out[f"db_{r}"] = db
+        out[f"pct_{r}"] = 10.0 ** (db / 10.0) * 100.0
+    out["db_sel"] = out[f"db_{ref}"]
+    out["pct_sel"] = out[f"pct_{ref}"]
+    out["delta_zero_db"] = relative_to_zero_db(theta_deg, offset_deg, zero_deg, cal, metric)
+    p_r, f_r = power_field_ratios(out["delta_zero_db"])
+    out["delta_power_ratio"], out["delta_field_ratio"] = p_r, f_r
+    return out
+
+
 # --- CLI --------------------------------------------------------------
-def _print_line(prefix: str, db: float, mode: str) -> None:
-    p_r, f_r = power_field_ratios(db)
-    print(f"{prefix} = {db:+.2f} дБ по мощности  "
-          f"(T = P/{REF_POWER_SHORT[mode]} = {p_r * 100:.3f} %, "
-          f"поле E/E_ref = {f_r:.4g})")
+def _print_zero_block(theta_deg: float, offset_deg: float, zero_deg: float,
+                      cal: Calibration, metric: Metric, ref: str) -> None:
+    """Показать работу со сдвинутой рабочей точкой: обе точки во всех опорах."""
+    q = describe_point(theta_deg, offset_deg, zero_deg, cal, metric, ref)
+    z = describe_point(zero_deg, offset_deg, zero_deg, cal, metric, ref)
+    print(f"  {'точка':<10} {'угол':>10} {'T/P_0':>10} {'T/P_max':>10} "
+          f"{'T/P_zero':>10} {'дБ (' + REF_SHORT[ref] + ')':>14}")
+    for name, d in (("SET ZERO", z), ("запрос", q)):
+        print(f"  {name:<10} {d['theta_deg']:>+9.3f}° {d['pct_p0']:>9.2f}% "
+              f"{d['pct_pmax']:>9.2f}% {d['pct_pzero']:>9.2f}% {d['db_sel']:>+13.2f}")
+    dz = q["delta_zero_db"]
+    kind = "УСИЛЕНИЕ" if dz > 0 else "затухание"
+    print(f"  добавочно к рабочей точке: {dz:+.2f} дБ -- {kind}, "
+          f"мощность x{q['delta_power_ratio']:.3g}, поле x{q['delta_field_ratio']:.3g}")
 
 
 def _print_forward(theta_deg: float, offset_deg: float, zero_deg: float,
-                   cal: Calibration, metric: Metric, mode: str) -> None:
+                   cal: Calibration, metric: Metric, ref: str) -> None:
     w = metric.warning(cal)
     if w:
         print(w)
-    db = attenuation_db(theta_deg, offset_deg, cal, metric, mode, zero_deg)
+    q = describe_point(theta_deg, offset_deg, zero_deg, cal, metric, ref)
     print(f"угол WGP1 = {theta_deg:+.3f} град "
-          f"(delta от SET OFFSET = {theta_deg - offset_deg:+.3f}, "
-          f"от SET ZERO = {theta_deg - zero_deg:+.3f})")
-    _print_line(f"  затухание, {metric.label}", db, mode)
-    db_zero = attenuation_db(zero_deg, offset_deg, cal, metric, mode, zero_deg)
-    d_zero = db - db_zero
-    kind = "усиление" if d_zero > 0 else "затухание"
-    print(f"  относительно SET ZERO ({zero_deg:+.3f} град): {d_zero:+.2f} дБ ({kind})")
+          f"(от SET OFFSET {theta_deg - offset_deg:+.3f}, от SET ZERO {theta_deg - zero_deg:+.3f})")
+    print(f"  затухание = {q['db_sel']:+.2f} дБ по мощности, "
+          f"T = P/{REF_SHORT[ref]} = {q['pct_sel']:.3f} %")
+    print()
+    _print_zero_block(theta_deg, offset_deg, zero_deg, cal, metric, ref)
 
 
 def _print_inverse(target_db: float, offset_deg: float, zero_deg: float,
-                   cal: Calibration, metric: Metric, mode: str) -> None:
+                   cal: Calibration, metric: Metric, ref: str) -> None:
     w = metric.warning(cal)
     if w:
         print(w)
-    sol = angle_for_db(target_db, offset_deg, cal, metric, mode, zero_deg)
-    print(f"желаемое затухание {target_db:+.2f} дБ по мощности ({metric.label}), "
-          f"диапазон на этой калибровке [{sol['db_min']:.2f}, {sol['db_max']:.2f}] дБ")
+    sol = angle_for_db(target_db, offset_deg, cal, metric, ref, zero_deg)
+    print(f"желаемое затухание {target_db:+.2f} дБ по мощности (опора {REF_SHORT[ref]}, "
+          f"{metric.label}), диапазон [{sol['db_min']:.2f}, {sol['db_max']:.2f}] дБ")
     print(f"  угол WGP1 = {sol['theta_plus_deg']:+.3f} град  (delta={sol['delta_deg']:+.3f})")
     print(f"  или       = {sol['theta_minus_deg']:+.3f} град  (delta={-sol['delta_deg']:+.3f})")
     print("  -- выбрать вариант ближе к текущему положению ротатора")
+    print()
+    _print_zero_block(sol["theta_plus_deg"], offset_deg, zero_deg, cal, metric, ref)
 
 
 def metric_from_args(args) -> Metric:
@@ -374,12 +418,12 @@ def main() -> int:
                          "берётся из зашитой калибровки прибора")
     ap.add_argument("--zero", type=float, default=None,
                     help="SET ZERO: рабочая точка отсчёта, град. Относительно неё "
-                         "считается добавочное затухание/усиление; в режиме relative "
+                         "считается добавочное затухание/усиление; при --ref pzero "
                          "она же точка нормировки. По умолчанию = SET OFFSET")
-    ap.add_argument("--mode", choices=MODES, default="relative",
-                    help="relative (по умолчанию) -- нормировка на SET ZERO; "
-                         "absolute -- доля входной мощности P_0, включает собственную "
-                         "потерю пары WGP даже в совмещённом положении")
+    ap.add_argument("--ref", choices=REFS, default="pmax",
+                    help="опорная мощность в знаменателе T: p0 -- абсолютная (доля "
+                         "мощности на входе); pmax (по умолчанию) -- к максимуму "
+                         "(совмещённое положение); pzero -- к рабочей точке SET ZERO")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--to-db", type=float,
                    help="желаемое затухание (ОТРИЦАТЕЛЬНЫЕ дБ по мощности) -> угол")
@@ -410,14 +454,14 @@ def main() -> int:
     print(f"SET OFFSET = {offset:+.3f} град "
           f"({'из калибровки' if args.offset is None else 'задан вручную'})")
     print(f"SET ZERO   = {zero:+.3f} град "
-          f"({'= SET OFFSET' if args.zero is None else 'задан вручную'})")
-    print(f"режим: {MODE_LABEL[args.mode]}; метрика: {metric.label}\n")
+          f"({'= SET OFFSET' if args.zero is None else 'сдвинут вручную'})")
+    print(f"опора: {REF_LABEL[args.ref]}; метрика: {metric.label}\n")
 
     try:
         if args.to_db is not None:
-            _print_inverse(args.to_db, offset, zero, cal, metric, args.mode)
+            _print_inverse(args.to_db, offset, zero, cal, metric, args.ref)
         else:
-            _print_forward(args.from_angle, offset, zero, cal, metric, args.mode)
+            _print_forward(args.from_angle, offset, zero, cal, metric, args.ref)
     except ValueError as e:
         print(f"ошибка: {e}")
         return 1
