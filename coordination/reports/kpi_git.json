@@ -1,0 +1,118 @@
+{
+  "generated_at": "2026-08-23T12:32:55.250709+00:00",
+  "excluded_commits": {
+    "a1f69c2537de0172a2d402dddf30cf6d308a7c90": "импорт при пересоздании репозитория 2026-08-13",
+    "91fc814": "первичный импорт 2026-07-14"
+  },
+  "commits_counted": 237,
+  "roles": {
+    "ORCH": {
+      "commits": 69,
+      "added": 14547,
+      "removed": 1304,
+      "data_added": 44280,
+      "files_touched": 396,
+      "active_days": 14,
+      "first": "2026-07-28",
+      "last": "2026-08-23",
+      "lines_per_commit": 211
+    },
+    "C": {
+      "commits": 33,
+      "added": 10010,
+      "removed": 1102,
+      "data_added": 0,
+      "files_touched": 116,
+      "active_days": 6,
+      "first": "2026-07-28",
+      "last": "2026-08-22",
+      "lines_per_commit": 303
+    },
+    "A": {
+      "commits": 31,
+      "added": 20328,
+      "removed": 1183,
+      "data_added": 291548,
+      "files_touched": 819,
+      "active_days": 9,
+      "first": "2026-07-28",
+      "last": "2026-08-17",
+      "lines_per_commit": 656
+    },
+    "B": {
+      "commits": 2,
+      "added": 222,
+      "removed": 6,
+      "data_added": 0,
+      "files_touched": 7,
+      "active_days": 2,
+      "first": "2026-08-07",
+      "last": "2026-08-08",
+      "lines_per_commit": 111
+    },
+    "(merge)": {
+      "commits": 4,
+      "added": 0,
+      "removed": 0,
+      "data_added": 0,
+      "files_touched": 0,
+      "active_days": 2,
+      "first": "2026-08-07",
+      "last": "2026-08-08",
+      "lines_per_commit": 0
+    },
+    "D": {
+      "commits": 21,
+      "added": 8682,
+      "removed": 463,
+      "data_added": 0,
+      "files_touched": 165,
+      "active_days": 5,
+      "first": "2026-07-29",
+      "last": "2026-08-08",
+      "lines_per_commit": 413
+    },
+    "P": {
+      "commits": 3,
+      "added": 2032,
+      "removed": 543,
+      "data_added": 0,
+      "files_touched": 33,
+      "active_days": 2,
+      "first": "2026-08-04",
+      "last": "2026-08-07",
+      "lines_per_commit": 677
+    },
+    "L": {
+      "commits": 4,
+      "added": 1296,
+      "removed": 46,
+      "data_added": 0,
+      "files_touched": 46,
+      "active_days": 2,
+      "first": "2026-07-29",
+      "last": "2026-08-07",
+      "lines_per_commit": 324
+    },
+    "(без тега)": {
+      "commits": 70,
+      "added": 54219,
+      "removed": 10780,
+      "data_added": 129856,
+      "files_touched": 986,
+      "active_days": 10,
+      "first": "2026-07-14",
+      "last": "2026-08-05",
+      "lines_per_commit": 775
+    }
+  },
+  "commits_by_week": {
+    "2026-07-13": 50,
+    "2026-07-20": 8,
+    "2026-07-27": 28,
+    "2026-08-03": 93,
+    "2026-08-10": 34,
+    "2026-08-17": 24
+  },
+  "caveat": "git не содержит стоимости и токенов; выработка и темп — всё, что здесь есть"
+}
