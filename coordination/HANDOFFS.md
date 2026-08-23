@@ -1580,3 +1580,26 @@ measured_curve.py`+`measured_gui.py`), с явным пропуском свер
    весом `|Ê_ref(ν)|²` в самой реконструкции (реализовано).
 
 Ни одна находка не блокирует зону A, статус `open` — на усмотрение, когда обновится лимит.
+
+---
+
+## [2026-08-22] ОТ координатора (Slack-сессия) К C — приём CW-варианта attenuator_app
+
+**Задача как выдана.** CW-вариант `attenuator_app`: неинтерактивная CLI, тумблеры приёмник
+(coherent/power) и источник (linear/depolarized), угловой PNG, design-заметка по калибровке
+без кода.
+
+**Что вернулось.** Ветка `claude/slack-session-vfn2h7`, коммит `ac30389`. Файлы:
+`attenuator_app/cw_curve.py` (new), `attenuator_app/STATE.md`,
+`docs/attenuator_app/09_CW_CURVE.md` (new), `docs/attenuator_app/10_CALIBRATION_DESIGN.md` (new),
+`docs/artifacts/C_cw_attenuator_curve.md` (new), `coordination/QUESTIONS.md` (вопросы C-7..C-10),
+6 демо-PNG в `research/results/cw_attenuator/`. Тесты: selftest 13/13, новый self-check 5/5.
+Вопросы C-7..C-10 — non-blocking.
+
+**Вердикт.** Принято, идёт на PR в `main`. Открытые вопросы C-7..C-10 ждут владельца.
+
+**Изъян задачи (known-caveat).** Подзаголовок графика в `core/plots.angular_curve` захардкожен
+«relative mode» и показывается даже в absolute-режиме. Не чинили, чтобы не трогать общий
+`core/plots.py`; кандидат в follow-up.
+
+- **Статус записи:** done (принято, на PR)
