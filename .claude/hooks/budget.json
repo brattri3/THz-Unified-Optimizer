@@ -1,0 +1,8 @@
+{
+  "_comment": "Бюджет холодного старта (PARADIGM_REVIEW_2026-08-23 §7 п.1). Единица — байты UTF-8 (wc -c), не Unicode-символы и не токены: так фактически измерена вся история проекта (roles/A.md — 9739 байт, что почти точно совпадает с 4870 токенов × 2.0 симв/ток из калибровки COLDSTART_COST_2026-08-15, а не с числом Python-символов len()).",
+  "unit": "bytes",
+  "chars_per_token_calibration": 2.0,
+  "files": [
+    { "glob": "coordination/roles/*.md", "limit_bytes": 2400 }
+  ]
+}

@@ -13,6 +13,18 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/check-context-budget.sh",
+            "timeout": 10,
+            "statusMessage": "Проверка бюджета холодного старта"
+          }
+        ]
+      }
     ]
   }
 }
