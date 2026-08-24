@@ -89,3 +89,14 @@ stitching, coherent leakage subtraction) noted, not auto-applied.
 C-7 (angle convention), C-8 (depolarized source model / partial DOP), C-9 (H/V
 presets and −90..+90 range), C-10 (calibration DR thresholds). All **non-blocking**,
 defaults documented in-line in QUESTIONS.md and in the code/docs.
+
+## Follow-up (2026-08-24)
+
+The known-caveat noted at acceptance (`HANDOFFS.md`, 2026-08-22 entry) is fixed:
+the plot subtitle in `core/plots.angular_curve` was hardcoded to "relative mode"
+and stayed on screen even under `--mode absolute` (only reachable through
+`cw_curve.py`; `cli.py`/`gui.py` always call with `relative=True`). Added an
+optional `mode` parameter, default-preserving for the two other callers.
+`cw_sensitive_linear_V_200GHz.png` (the one demo shot taken in absolute mode)
+regenerated; the other five PNGs are byte-identical. `cw_curve --selftest` 5/5,
+`attenuator_app.selftest` 13/13, no regression.
