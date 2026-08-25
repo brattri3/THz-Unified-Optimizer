@@ -470,6 +470,89 @@ def angle_for_db(target_db: float, offset_deg: float, cal: Calibration,
             "delta_deg": delta_sol, "db_max": db_max, "db_min": db_min}
 
 
+def _wrap180(a: float) -> float:
+    """Свернуть разность азимутов в (-90, +90]: азимут задан по модулю 180."""
+    return (float(a) + 90.0) % 180.0 - 90.0
+
+
+def angles_for_db_and_azimuth(target_db: float, azimuth_deg: float,
+                              cal: Calibration, metric: Metric = FULL,
+                              ref: str = "pmax", zero_pair: tuple | None = None,
+                              n: int = 901, iters: int = 8,
+                              tol_deg: float = 0.01) -> dict:
+    """Обратная задача по ДВУМ углам: заданные ослабление И азимут на выходе.
+
+    «Дай -20 дБ и поляризацию на выходе под 30 градусов». Две неизвестные, два
+    уравнения. Азимут задаёт второй поляризатор, ослабление -- взаимный угол,
+    поэтому решение ищется так: `theta2` ставится по требуемому азимуту, при
+    нём одномерно подбирается `theta1`, затем `theta2` поправляется на
+    невязку азимута. Связь азимута с `theta2` почти тождественна, увод даёт
+    только утечка, поэтому сходимость занимает единицы итераций.
+
+    ДВА ИСТОЧНИКА ОТКАЗА, оба физические, оба называются явно:
+
+    1. При ЛИНЕЙНОМ источнике задачи связаны: пропускание идёт как
+       cos^2(theta1-psi) * cos^2(theta2-theta1), то есть `theta1` работает и на
+       ослабление тоже. Развернув выход на азимут `chi`, оператор уже теряет
+       часть мощности, и слабое ослабление при сильно повёрнутом выходе
+       недостижимо в принципе. При ДЕПОЛЯРИЗОВАННОМ источнике этого нет:
+       после первого WGP интенсивность от `theta1` не зависит, и задача
+       расщепляется точно -- `theta2` задаёт азимут, взаимный угол ослабление.
+
+    2. У самого дна азимутом управлять нельзя. Пара ОДИНАКОВЫХ WGP в скрещении
+       поляризационно нейтральна, и на выходе воспроизводится состояние
+       источника, а не ось WGP2 (см. `service_model`, проверка T7). Поэтому
+       пара «очень глубокое ослабление + заданный азимут» отвергается с
+       указанием достигнутого азимута.
+
+    Возвращает словарь с `theta1_deg`, `theta2_deg`, `delta_deg`, зеркальным
+    решением `theta1_mirror_deg`, достигнутыми `achieved_db` / `achieved_azimuth_deg`
+    и числом итераций. При недостижимости поднимает ValueError с причиной.
+    """
+    delta = np.linspace(0.0, 90.0, n)
+    th2 = cal.off2_deg + float(azimuth_deg)
+    best = None
+
+    for it in range(1, iters + 1):
+        arr2 = np.full_like(delta, th2)
+        db = attenuation_db_pair(th2 - delta, arr2, cal, metric, ref, zero_pair)
+        db_max, db_min = float(db[0]), float(db[-1])
+        if target_db > db_max + 1e-9:
+            raise ValueError(
+                f"при азимуте выхода {azimuth_deg:+.2f}° ослабление не может быть "
+                f"слабее {db_max:.2f} дБ: сам разворот выхода уже забирает мощность "
+                f"(источник {cal.source_kind}). Ближайшее достижимое {db_max:.2f} дБ")
+        if target_db < db_min - 1e-9:
+            raise ValueError(
+                f"недостижимо на этой калибровке: минимум {db_min:.2f} дБ "
+                f"в скрещенном положении. Ближайшее достижимое {db_min:.2f} дБ")
+
+        mono = np.minimum.accumulate(db)                # защита от численного шума
+        d_sol = float(np.interp(target_db, mono[::-1], delta[::-1]))
+        th1 = th2 - d_sol
+        r = pair_response(np.array([th1]), np.array([th2]), cal, metric)
+        chi = float(np.ravel(r["azimuth_deg"])[0])
+        err = _wrap180(float(azimuth_deg) - chi)
+        best = {"theta1_deg": th1, "theta2_deg": th2, "delta_deg": d_sol,
+                "theta1_mirror_deg": th2 + d_sol,
+                "achieved_db": float(np.ravel(
+                    attenuation_db_pair(np.array([th1]), np.array([th2]),
+                                        cal, metric, ref, zero_pair))[0]),
+                "achieved_azimuth_deg": chi, "azimuth_error_deg": err,
+                "iterations": it, "db_max": db_max, "db_min": db_min}
+        if abs(err) <= tol_deg:
+            return best
+        th2 += err
+
+    if best is not None and abs(best["azimuth_error_deg"]) > max(1.0, 10.0 * tol_deg):
+        raise ValueError(
+            f"на глубине {best['achieved_db']:.2f} дБ азимут не удерживается: "
+            f"заказан {azimuth_deg:+.2f}°, достигнут {best['achieved_azimuth_deg']:+.2f}°. "
+            f"Скрещенная пара одинаковых WGP поляризационно нейтральна, у дна на "
+            f"выходе воспроизводится состояние источника, а не ось WGP2")
+    return best
+
+
 def describe_point(theta_deg: float, offset_deg: float, zero_deg: float,
                    cal: Calibration, metric: Metric = FULL, ref: str = "pmax") -> dict:
     """Полное описание точки: значения во ВСЕХ трёх опорах сразу + добавочная
