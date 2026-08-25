@@ -633,6 +633,60 @@ def metric_from_args(args) -> Metric:
     return FULL
 
 
+def _apply_setup_overrides(cal: Calibration, args) -> Calibration:
+    """Переопределить источник и приёмник из командной строки.
+
+    Калибровка описывает стенд, на котором её снимали; сегодняшняя установка
+    может отличаться -- у неё другой приёмник или повёрнутый источник. Поэтому
+    тип источника и приёмника задаётся флагами, а калибровка даёт умолчание.
+    """
+    if args.source is not None:
+        cal.source_kind = args.source
+    if args.psi is not None:
+        cal.source_psi_deg = args.psi
+    if args.dop is not None:
+        cal.source_dop = args.dop
+    if args.detector is not None:
+        cal.detector_kind = args.detector
+    if args.det_axis is not None:
+        cal.detector_axis_deg = args.det_axis
+    return cal
+
+
+def _print_pair_point(theta1: float, theta2: float, cal: Calibration,
+                      metric: Metric, ref: str) -> None:
+    """Точка при двух углах: затухание и СОСТОЯНИЕ ПОЛЯРИЗАЦИИ на выходе."""
+    db = float(np.ravel(attenuation_db_pair(np.array([theta1]), np.array([theta2]),
+                                            cal, metric, ref))[0])
+    r = pair_response(np.array([theta1]), np.array([theta2]), cal, metric)
+    p_r, f_r = power_field_ratios(db)
+    print(f"  WGP1 = {theta1:+.3f}°, WGP2 = {theta2:+.3f}°, "
+          f"взаимный угол {_wrap180(theta2 - theta1 - cal.theta0_calibration_deg):+.3f}°")
+    print(f"  затухание {db:+.2f} дБ ({REF_SHORT[ref]}), "
+          f"мощность x{p_r:.4g}, поле x{f_r:.4g}")
+    print(f"  на выходе: азимут {float(np.ravel(r['azimuth_deg'])[0]):+.3f}°, "
+          f"эллиптичность {float(np.ravel(r['ellipticity_deg'])[0]):+.3f}°, "
+          f"степень поляризации {float(np.ravel(r['dop'])[0]):.4f}")
+    if cal.detector_kind == "power":
+        print("  (приёмник мощностной -- азимут ему безразличен, но важен "
+              "образцу ниже по тракту)")
+
+
+def _print_pair_inverse(target_db: float, azimuth: float, cal: Calibration,
+                        metric: Metric, ref: str) -> None:
+    """Обратная задача по двум углам: заданы и затухание, и азимут выхода."""
+    s = angles_for_db_and_azimuth(target_db, azimuth, cal, metric, ref)
+    print(f"  цель: {target_db:+.2f} дБ при азимуте выхода {azimuth:+.2f}°")
+    print(f"  решение: WGP1 = {s['theta1_deg']:+.3f}°, WGP2 = {s['theta2_deg']:+.3f}° "
+          f"(взаимный угол {s['delta_deg']:.3f}°, итераций {s['iterations']})")
+    print(f"  зеркальное решение по WGP1: {s['theta1_mirror_deg']:+.3f}° "
+          f"-- выбирает оператор по текущему положению ротатора")
+    print(f"  получится: {s['achieved_db']:+.3f} дБ, азимут "
+          f"{s['achieved_azimuth_deg']:+.3f}° (невязка "
+          f"{s['azimuth_error_deg']:+.4f}°)")
+    print(f"  на этом азимуте доступно {s['db_min']:+.2f} … {s['db_max']:+.2f} дБ")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -660,9 +714,28 @@ def main() -> int:
     ap.add_argument("--band-width", type=float, default=None,
                     help="метрика: ширина полосы, ТГц (вместе с --band-center)")
     ap.add_argument("--calibration", default=None, help="путь к JSON калибровки устройства")
+    ap.add_argument("--theta2", type=float, default=None,
+                    help="показание шкалы WGP2, град. Включает режим ДВУХ УГЛОВ: "
+                         "--from-angle тогда задаёт WGP1, и выводится ещё и "
+                         "состояние поляризации на выходе")
+    ap.add_argument("--azimuth", type=float, default=None,
+                    help="желаемый азимут поляризации НА ВЫХОДЕ, град. Вместе с "
+                         "--to-db включает обратную задачу по двум углам")
+    ap.add_argument("--source", choices=tuple(sm.SOURCES), default=None,
+                    help="тип источника (по умолчанию из калибровки)")
+    ap.add_argument("--psi", type=float, default=None,
+                    help="азимут поляризации источника, град")
+    ap.add_argument("--dop", type=float, default=None,
+                    help="степень поляризации источника для --source partial")
+    ap.add_argument("--detector", choices=tuple(sm.DETECTORS), default=None,
+                    help="тип приёмника: coherent -- проекция поля на ось анализатора; "
+                         "power -- полная мощность, оси анализатора нет")
+    ap.add_argument("--det-axis", type=float, default=None,
+                    help="ось анализатора когерентного приёмника, град")
     args = ap.parse_args()
 
     cal = load_calibration(Path(args.calibration)) if args.calibration else load_calibration()
+    cal = _apply_setup_overrides(cal, args)
     offset = args.offset if args.offset is not None else cal.theta0_calibration_deg
     zero = args.zero if args.zero is not None else offset
 
@@ -679,10 +752,22 @@ def main() -> int:
           f"({'из калибровки' if args.offset is None else 'задан вручную'})")
     print(f"SET ZERO   = {zero:+.3f} град "
           f"({'= SET OFFSET' if args.zero is None else 'сдвинут вручную'})")
-    print(f"опора: {REF_LABEL[args.ref]}; метрика: {metric.label}\n")
+    print(f"опора: {REF_LABEL[args.ref]}; метрика: {metric.label}")
+    print(f"{cal.describe_setup()}\n")
 
     try:
-        if args.to_db is not None:
+        if args.azimuth is not None:
+            if args.to_db is None:
+                print("ошибка: --azimuth задаёт цель по азимуту и требует --to-db")
+                return 1
+            _print_pair_inverse(args.to_db, args.azimuth, cal, metric, args.ref)
+        elif args.theta2 is not None:
+            if args.from_angle is None:
+                print("ошибка: --theta2 задаёт второй угол и требует --from-angle "
+                      "(угол WGP1); для обратной задачи по двум углам нужен --azimuth")
+                return 1
+            _print_pair_point(args.from_angle, args.theta2, cal, metric, args.ref)
+        elif args.to_db is not None:
             _print_inverse(args.to_db, offset, zero, cal, metric, args.ref)
         else:
             _print_forward(args.from_angle, offset, zero, cal, metric, args.ref)

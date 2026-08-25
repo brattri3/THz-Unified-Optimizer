@@ -51,7 +51,8 @@ if str(REPO) not in sys.path:
 
 from attenuator_app.tools.service_calc import (            # noqa: E402
     FULL, REF_LABEL, REF_SHORT, REFS, Metric,
-    angle_for_db, attenuation_db_array, describe_point, load_calibration)
+    angle_for_db, attenuation_db_array, describe_point, load_calibration,
+    pair_response)
 
 #: (kind, подпись в списке, [(подпись поля, значение по умолчанию), ...])
 METRIC_ITEMS: list[tuple[str, str, list[tuple[str, str]]]] = [
@@ -153,7 +154,11 @@ class ServiceGUI(tk.Tk):
             f"{self.cal.device_id}  --  калибровка {self.cal.dataset} ({self.cal.generated})\n"
             f"P={self.cal.P_um:.2f} мкм, D={self.cal.D_um:.2f} мкм, "
             f"потери={self.cal.loss_db:.3f} дБ/ТГц^{self.cal.gamma:.2f}, "
-            f"полоса {self.cal.band_thz[0]:.2f}-{self.cal.band_thz[1]:.2f} ТГц")
+            f"полоса {self.cal.band_thz[0]:.2f}-{self.cal.band_thz[1]:.2f} ТГц\n"
+            # схема тракта: до 2026-08-24 она была зашита допущениями (линейный
+            # источник вдоль x, когерентный приёмник вдоль x) и нигде не
+            # показывалась, хотя меняет закон кривой вдвое по децибелам
+            f"{self.cal.describe_setup()}")
         ).pack(anchor="w")
 
         # --- два разных нуля -------------------------------------------
@@ -495,11 +500,29 @@ class ServiceGUI(tk.Tk):
                   f"от ZERO {theta - self.zero:+.3f})")
         self._log(f"  затухание = {q['db_sel']:+.2f} дБ, "
                   f"T = P/{REF_SHORT[ref]} = {q['pct_sel']:.3f} %")
+        self._log_output_state(theta, metric)
         self._log_zero_block(theta, metric, ref)
         self._log("")
-
         self._markers = [theta]
         self._redraw_plot()
+
+    def _log_output_state(self, theta1_deg: float, metric) -> None:
+        """Состояние поляризации НА ВЫХОДЕ аттенюатора.
+
+        Плоскость поляризации задаёт второй поляризатор. Показывается всегда, в
+        том числе при мощностном приёмнике: ему азимут безразличен, а образцу и
+        оптике ниже по тракту -- нет.
+        """
+        try:
+            th2 = np.array([self.cal.off2_deg])
+            r = pair_response(np.array([theta1_deg]), th2, self.cal, metric)
+            self._log(f"  на выходе: азимут {float(np.ravel(r['azimuth_deg'])[0]):+.3f}°, "
+                      f"эллиптичность {float(np.ravel(r['ellipticity_deg'])[0]):+.3f}°, "
+                      f"степень поляризации {float(np.ravel(r['dop'])[0]):.4f}")
+        except Exception as e:                       # noqa: BLE001
+            # состояние на выходе -- справочная величина; её отказ не должен
+            # рушить основной ответ про затухание
+            self._log(f"  (состояние на выходе не посчитано: {e})")
 
     def _inverse(self) -> None:
         try:
