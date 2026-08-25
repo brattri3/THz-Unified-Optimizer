@@ -89,6 +89,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from attenuator_app.core.blanco import dressed_t          # noqa: E402
+from attenuator_app.tools import service_model as sm      # noqa: E402
 
 DEFAULT_CALIBRATION_PATH = HERE / "calibration" / "att_11_16_ca85_02721.json"
 
@@ -107,23 +108,83 @@ METRIC_KINDS = ("full", "single", "band_cw", "band_minmax")
 
 
 class Calibration:
-    """Зашитая конфигурация устройства -- см. `calibration/*.json`."""
+    """Зашитая конфигурация устройства -- см. `calibration/*.json`.
+
+    Формат v2 добавляет к v1 три необязательных блока -- `source`, `detector`,
+    `offsets` -- и не ломает старые файлы: при их отсутствии подставляются
+    ровно те допущения, на которых написан исходный C9 (линейный полностью
+    поляризованный источник вдоль x, когерентный приёмник с осью вдоль x, WGP2
+    в нуле своей шкалы). Поэтому калибровка v1 читается без изменений и даёт
+    прежние числа.
+
+    Соответствие офсетов: в v1 `theta0_calibration_deg` -- показание шкалы WGP1,
+    при котором оси WGP1 и WGP2 совмещены, а WGP2 стоит в нуле своей шкалы.
+    В v2 у каждого ротатора свой механический офсет, и
+    ``theta0_calibration_deg == off1 - off2``.
+    """
 
     def __init__(self, data: dict):
         self.device_id = data["device_id"]
         self.dataset = data["calibration_dataset"]
         self.generated = data.get("generated", "?")
+        self.schema_version = int(data.get("schema_version", 1))
         self.P_um = float(data["P_um"])
         self.D_um = float(data["D_um"])
         self.loss_db = float(data["loss_db_per_thz_gamma"])
         self.gamma = float(data["gamma"])
         self.band_thz = tuple(data["band_thz"])
-        #: SET OFFSET -- физический офсет совмещения WGP1/WGP2, подгоночный
-        #: параметр модели, зашит; НЕ рабочая точка отсчёта (это SET ZERO)
-        self.theta0_calibration_deg = float(data["theta0_calibration_deg"])
         self.at_bound = bool(data["at_bound"])
         self.freqs_ref = np.array(data["freqs_ref_thz"], dtype=float)
         self.power_ref = np.array(data["power_ref"], dtype=float)
+
+        # --- офсеты ротаторов (v2), с приведением из v1 -------------------
+        off = data.get("offsets") or {}
+        if off:
+            self.off1_deg = float(off.get("wgp1_deg", 0.0))
+            self.off2_deg = float(off.get("wgp2_deg", 0.0))
+        else:
+            self.off1_deg = float(data["theta0_calibration_deg"])
+            self.off2_deg = 0.0
+
+        # --- источник и приёмник (v2), с умолчаниями v1 -------------------
+        src = data.get("source") or {}
+        self.source_kind = str(src.get("kind", "linear"))
+        self.source_psi_deg = float(src.get("psi_deg", 0.0))
+        self.source_dop = float(src.get("dop", 1.0))
+        det = data.get("detector") or {}
+        self.detector_kind = str(det.get("kind", "coherent"))
+        self.detector_axis_deg = float(det.get("axis_deg", 0.0))
+
+        # --- приборные пределы (v2, заполняются процедурами П0/П3) --------
+        lim = data.get("limits") or {}
+        self.dark_level = lim.get("dark_level")
+        self.dark_sigma = lim.get("dark_sigma")
+        self.saturation_level = lim.get("saturation_level")
+
+    #: SET OFFSET -- показание, при котором оси WGP1 и WGP2 совмещены.
+    #: НЕ рабочая точка отсчёта (это SET ZERO), см. докстринг модуля.
+    @property
+    def theta0_calibration_deg(self) -> float:
+        return self.off1_deg - self.off2_deg
+
+    def source_state(self) -> "sm.PolState":
+        """Состояние поляризации источника как объект модели."""
+        return sm.PolState.from_source(self.source_kind, self.source_psi_deg,
+                                       self.source_dop)
+
+    def analyzer(self) -> "sm.Analyzer":
+        """Матрица чувствительности приёмника как объект модели."""
+        return sm.Analyzer(self.detector_kind, self.detector_axis_deg)
+
+    def describe_setup(self) -> str:
+        """Одна строка про источник и приёмник -- для CLI и заголовков."""
+        s = {"linear": f"линейный, азимут {self.source_psi_deg:+.1f}°",
+             "unpolarized": "деполяризованный (DOP = 0)",
+             "partial": f"частично поляризованный, DOP {self.source_dop:.2f}, "
+                        f"азимут {self.source_psi_deg:+.1f}°"}[self.source_kind]
+        d = (f"когерентный, ось {self.detector_axis_deg:+.1f}°"
+             if self.detector_kind == "coherent" else "мощностной (оси анализатора нет)")
+        return f"источник: {s} | приёмник: {d}"
 
 
 def load_calibration(path: Path = DEFAULT_CALIBRATION_PATH) -> Calibration:
@@ -265,6 +326,86 @@ def attenuation_db_array(theta_deg, offset_deg: float, cal: Calibration,
                          zero_deg: float | None = None) -> np.ndarray:
     """Затухание в ДЕЦИБЕЛАХ ПО МОЩНОСТИ, ОТРИЦАТЕЛЬНЫХ: 10*log10(T)."""
     T = transmission_array(theta_deg, offset_deg, cal, metric, ref, zero_deg)
+    return 10.0 * np.log10(np.maximum(T, 1e-300))
+
+
+# --- два ротатора ------------------------------------------------------
+def pair_response(theta1_deg, theta2_deg, cal: Calibration,
+                  metric: Metric = FULL) -> dict:
+    """Отклик схемы при ДВУХ произвольных углах ротаторов.
+
+    Возвращает `intensity` (показание приёмника, доля от единичного входа),
+    `intensity_total`, `azimuth_deg`, `ellipticity_deg`, `dop` -- всё формы
+    входных углов после усреднения по полосе метрики.
+
+    Усреднение по частоте делается на уровне МАТРИЦЫ КОГЕРЕНТНОСТИ, а не над
+    готовыми углами: параметры Стокса аддитивны, поэтому средняя матрица даёт
+    правильные азимут и степень поляризации широкополосного пучка. Усреднять
+    сами азимуты нельзя -- это углы по модулю 180 град.
+    """
+    freqs, weight = metric.resolve(cal)
+    M = sm.chain(theta1_deg, theta2_deg, freqs, cal.P_um, cal.D_um,
+                 loss_factor=cal.loss_db, gamma=cal.gamma,
+                 off1_deg=cal.off1_deg, off2_deg=cal.off2_deg)
+    J = sm.propagate(M, cal.source_state())          # (n_ang, n_f, 2, 2)
+    if weight is None:
+        J_avg = J.mean(axis=-3)
+    else:
+        w = np.asarray(weight, dtype=float)
+        J_avg = np.einsum("...fij,f->...ij", J, w / w.sum())
+    out = sm.polarization_of(J_avg)
+    out["intensity_total"] = out.pop("intensity")
+    out["intensity"] = sm.detected(J_avg, cal.analyzer())
+    return out
+
+
+def aligned_pair(cal: Calibration) -> tuple:
+    """Показания обеих шкал в положении максимального пропускания.
+
+    Оси обоих WGP выставлены по азимуту источника: `theta = off + psi`. Для
+    деполяризованного источника азимут безразличен (пара со сцепленными осями
+    вращательно инвариантна), берётся `psi = 0`.
+    """
+    psi = 0.0 if cal.source_kind == "unpolarized" else cal.source_psi_deg
+    return cal.off1_deg + psi, cal.off2_deg + psi
+
+
+def transmission_pair(theta1_deg, theta2_deg, cal: Calibration,
+                      metric: Metric = FULL, ref: str = "pmax",
+                      zero_pair: tuple | None = None) -> np.ndarray:
+    """T(theta1, theta2) для трёх опор -- двухугловой аналог `transmission_array`.
+
+    Отличие от одноуглового пути, сознательное: здесь `pmax`/`pzero` считаются
+    как отношение ПОЛНЫХ интенсивностей, тогда как `transmission_array` в этих
+    режимах выбрасывает общий множитель `|t_perp|^2` из числителя и знаменателя.
+    При взвешенном усреднении по полосе это не тождественные операции.
+    Расхождение измерено на канонической калибровке: ноль на одной частоте,
+    до 0.032 дБ на самом дне (85 град) в полной полосе -- заметно ниже
+    паспортной RMSE. Старый путь оставлен бит-в-бит, чтобы не двигать числа
+    сданного приложения.
+    """
+    if ref not in REFS:
+        raise ValueError(f"неизвестная опорная мощность {ref!r}, ожидается одна из {REFS}")
+    num = pair_response(theta1_deg, theta2_deg, cal, metric)["intensity"]
+    if ref == "p0":
+        return num
+    if ref == "pmax":
+        n1, n2 = aligned_pair(cal)
+    else:
+        if zero_pair is None:
+            n1, n2 = aligned_pair(cal)
+        else:
+            n1, n2 = zero_pair
+    den = float(np.ravel(pair_response(np.array([n1]), np.array([n2]),
+                                       cal, metric)["intensity"])[0])
+    return num / den
+
+
+def attenuation_db_pair(theta1_deg, theta2_deg, cal: Calibration,
+                        metric: Metric = FULL, ref: str = "pmax",
+                        zero_pair: tuple | None = None) -> np.ndarray:
+    """Затухание в ОТРИЦАТЕЛЬНЫХ дБ по мощности при двух углах ротаторов."""
+    T = transmission_pair(theta1_deg, theta2_deg, cal, metric, ref, zero_pair)
     return 10.0 * np.log10(np.maximum(T, 1e-300))
 
 
