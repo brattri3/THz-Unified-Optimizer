@@ -143,7 +143,8 @@ def render(args) -> Path:
         with np.errstate(invalid="ignore"):
             slope = np.gradient(att, theta)
 
-    plots.angular_curve(out, theta, att, ideal, slope=slope, footer=footer)
+    plots.angular_curve(out, theta, att, ideal, slope=slope, footer=footer,
+                        mode=args.mode)
     return out
 
 

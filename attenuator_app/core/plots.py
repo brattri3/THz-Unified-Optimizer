@@ -199,7 +199,7 @@ def spectrum(path, freqs, att_db, *, lo_db=None, hi_db=None, zones=None,
 
 
 def angular_curve(path, theta, att_db, ideal_db, *, lo_db=None, hi_db=None,
-                  slope=None, mark=None, footer=""):
+                  slope=None, mark=None, footer="", mode="relative"):
     """A(theta) против идеальной cos^4; крутизна — ОТДЕЛЬНОЙ панелью, не второй осью."""
     plt = _mpl()
     if slope is not None:
@@ -228,7 +228,8 @@ def angular_curve(path, theta, att_db, ideal_db, *, lo_db=None, hi_db=None,
 
     _finish(ax, "" if ax2 is not None else "angle, deg",
             "attenuation, dB (power)", "Angular characteristic",
-            "relative mode, referenced to zero")
+            "relative mode, referenced to zero" if mode == "relative"
+            else "absolute mode, referenced to unit input")
     _legend(ax, loc="upper left")
 
     if ax2 is not None:
