@@ -176,6 +176,15 @@ class Calibration:
         """Матрица чувствительности приёмника как объект модели."""
         return sm.Analyzer(self.detector_kind, self.detector_axis_deg)
 
+    def describe_source(self) -> str:
+        """Тип источника ПО-РУССКИ -- для сообщений оператору у стенда; голое
+        `source_kind` (`linear`/`unpolarized`/`partial`) латиницей в русской
+        фразе оператор читать не должен."""
+        return {"linear": "источник линейный",
+                "unpolarized": "источник деполяризованный",
+                "partial": "источник частично поляризован"}.get(
+                    self.source_kind, f"источник {self.source_kind}")
+
     def describe_setup(self) -> str:
         """Одна строка про источник и приёмник -- для CLI и заголовков."""
         s = {"linear": f"линейный, азимут {self.source_psi_deg:+.1f}°",
@@ -208,6 +217,13 @@ class Metric:
             raise ValueError(f"неизвестная метрика {self.kind!r}, ожидается одна из {METRIC_KINDS}")
         if self.kind == "single" and self.a is None:
             raise ValueError("для метрики 'одна частота' нужна частота")
+        # частота <= 0 физически бессмысленна и даёт NaN, а не отказ: длина
+        # волны обращается в бесконечность, `nu_eff ** gamma` от отрицательного
+        # числа = nan. Окно тогда печатало «затухание = nan дБ» и рисовало
+        # пустой график без единого слова оператору -- ловим здесь, чтобы
+        # отказ был один и тот же в GUI и в CLI
+        if self.kind == "single" and float(self.a) <= 0:
+            raise ValueError("частота должна быть больше нуля")
         if self.kind in ("band_cw", "band_minmax") and (self.a is None or self.b is None):
             raise ValueError("для полосы нужны оба значения")
         if self.kind == "band_cw" and float(self.b) <= 0:
@@ -436,6 +452,23 @@ def relative_to_zero_db(theta_deg: float, offset_deg: float, zero_deg: float,
             attenuation_db(zero_deg, offset_deg, cal, metric, "pmax"))
 
 
+def fmt_db_bound(value: float, lower: bool) -> str:
+    """Граница достижимого диапазона, округлённая ВНУТРЬ него.
+
+    Обычное `{:.2f}` округляет к ближайшему и печатает НЕДОСТИЖИМОЕ число:
+    дно кривой -40.90804 дБ показывалось как «-40.91», оператор вводил ровно
+    его -- то, что прибор ему же и назвал, -- и получал «недостижимо: минимум
+    -40.91 дБ». У стенда это читается как противоречие в приборе. Нижнюю
+    границу округляем вверх, верхнюю вниз: напечатанное всегда достижимо.
+    """
+    r = round(value, 2)
+    if lower and r < value - 1e-9:
+        r += 0.01
+    elif not lower and r > value + 1e-9:
+        r -= 0.01
+    return f"{r:.2f}"
+
+
 def angle_for_db(target_db: float, offset_deg: float, cal: Calibration,
                  metric: Metric = FULL, ref: str = "pmax",
                  zero_deg: float | None = None, n: int = 901) -> dict:
@@ -458,10 +491,10 @@ def angle_for_db(target_db: float, offset_deg: float, cal: Calibration,
         hint = ""
         if target_db > 0 and db_min - 1e-6 <= -target_db <= db_max + 1e-6:
             hint = f"; затухание задаётся ОТРИЦАТЕЛЬНЫМ числом -- возможно, нужно {-target_db:.2f} дБ"
-        raise ValueError(f"выше максимума на этой калибровке: {db_max:.2f} дБ "
+        raise ValueError(f"выше максимума на этой калибровке: {fmt_db_bound(db_max, False)} дБ "
                          f"(совмещённое положение WGP1||WGP2, опора={REF_SHORT[ref]}){hint}")
     if target_db < db_min - 1e-6:
-        raise ValueError(f"недостижимо на этой калибровке: минимум {db_min:.2f} дБ "
+        raise ValueError(f"недостижимо на этой калибровке: минимум {fmt_db_bound(db_min, True)} дБ "
                          f"(скрещенное положение, {offset_deg + 90.0:+.3f} град)")
     atten_mono = np.minimum.accumulate(atten)      # защита от численного шума
     delta_sol = float(np.interp(target_db, atten_mono[::-1], delta[::-1]))
@@ -520,12 +553,15 @@ def angles_for_db_and_azimuth(target_db: float, azimuth_deg: float,
         if target_db > db_max + 1e-9:
             raise ValueError(
                 f"при азимуте выхода {azimuth_deg:+.2f}° ослабление не может быть "
-                f"слабее {db_max:.2f} дБ: сам разворот выхода уже забирает мощность "
-                f"(источник {cal.source_kind}). Ближайшее достижимое {db_max:.2f} дБ")
+                f"слабее {fmt_db_bound(db_max, False)} дБ: сам разворот выхода уже забирает "
+                f"мощность ({cal.describe_source()}). Ближайшее достижимое "
+                f"{fmt_db_bound(db_max, False)} дБ -- либо уменьшите азимут, либо "
+                f"согласитесь на это ослабление")
         if target_db < db_min - 1e-9:
             raise ValueError(
-                f"недостижимо на этой калибровке: минимум {db_min:.2f} дБ "
-                f"в скрещенном положении. Ближайшее достижимое {db_min:.2f} дБ")
+                f"недостижимо на этой калибровке: минимум {fmt_db_bound(db_min, True)} дБ "
+                f"в скрещенном положении. Ближайшее достижимое "
+                f"{fmt_db_bound(db_min, True)} дБ")
 
         mono = np.minimum.accumulate(db)                # защита от численного шума
         d_sol = float(np.interp(target_db, mono[::-1], delta[::-1]))
@@ -549,7 +585,9 @@ def angles_for_db_and_azimuth(target_db: float, azimuth_deg: float,
             f"на глубине {best['achieved_db']:.2f} дБ азимут не удерживается: "
             f"заказан {azimuth_deg:+.2f}°, достигнут {best['achieved_azimuth_deg']:+.2f}°. "
             f"Скрещенная пара одинаковых WGP поляризационно нейтральна, у дна на "
-            f"выходе воспроизводится состояние источника, а не ось WGP2")
+            f"выходе воспроизводится состояние источника, а не ось WGP2. "
+            f"Отступите от дна (азимут держится лучше 0.4° примерно до -28 дБ) "
+            f"либо откажитесь от контроля азимута на этой глубине")
     return best
 
 
@@ -609,7 +647,8 @@ def _print_inverse(target_db: float, offset_deg: float, zero_deg: float,
         print(w)
     sol = angle_for_db(target_db, offset_deg, cal, metric, ref, zero_deg)
     print(f"желаемое затухание {target_db:+.2f} дБ по мощности (опора {REF_SHORT[ref]}, "
-          f"{metric.label}), диапазон [{sol['db_min']:.2f}, {sol['db_max']:.2f}] дБ")
+          f"{metric.label}), диапазон [{fmt_db_bound(sol['db_min'], True)}, "
+          f"{fmt_db_bound(sol['db_max'], False)}] дБ")
     print(f"  угол WGP1 = {sol['theta_plus_deg']:+.3f} град  (delta={sol['delta_deg']:+.3f})")
     print(f"  или       = {sol['theta_minus_deg']:+.3f} град  (delta={-sol['delta_deg']:+.3f})")
     print("  -- выбрать вариант ближе к текущему положению ротатора")
@@ -684,7 +723,8 @@ def _print_pair_inverse(target_db: float, azimuth: float, cal: Calibration,
     print(f"  получится: {s['achieved_db']:+.3f} дБ, азимут "
           f"{s['achieved_azimuth_deg']:+.3f}° (невязка "
           f"{s['azimuth_error_deg']:+.4f}°)")
-    print(f"  на этом азимуте доступно {s['db_min']:+.2f} … {s['db_max']:+.2f} дБ")
+    print(f"  на этом азимуте доступно {fmt_db_bound(s['db_min'], True)} … "
+          f"{fmt_db_bound(s['db_max'], False)} дБ")
 
 
 def main() -> int:

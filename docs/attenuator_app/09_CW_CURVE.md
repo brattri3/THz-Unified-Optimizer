@@ -6,6 +6,11 @@ source at one frequency. It is a thin assembly layer over the existing client
 core (`attenuator_app/core/*`, `attenuator_app/api.py`) — **no new physics**. The
 interactive `cli.py` is untouched.
 
+Bench-side calibration for the CW application — which of the two rotators to
+sweep, what each sweep reveals about the source azimuth and the mount offsets,
+and where the setup saturates — is in
+[`12_BENCH_CALIBRATION.md`](12_BENCH_CALIBRATION.md).
+
 ## Run
 
 From the repository root:
