@@ -4,3 +4,11 @@ matplotlib>=3.4.0
 lmfit>=1.2.0
 reportlab>=4.0.0
 pytest>=7.0.0
+
+# --- только для attenuator_app.cwapp (CW-приложение, задача C11) ------------
+# Ставить отдельно, не устанавливаются вместе с остальным: PySide6 объявляет
+# потолок Requires-Python <3.15, и в общем списке он сделал бы весь репозиторий
+# неустанавливаемым, когда выйдет 3.15. Остальной код Qt не использует.
+#     pip install PySide6-Essentials==6.11.2 pyqtgraph==0.14.0
+# Essentials, а не полный PySide6: полный тянет QtWebEngine, Qt3D, Charts и
+# раздувает сборку в разы, а нужны только QtCore/QtGui/QtWidgets.
