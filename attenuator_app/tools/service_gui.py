@@ -51,8 +51,8 @@ if str(REPO) not in sys.path:
 
 from attenuator_app.tools.service_calc import (            # noqa: E402
     FULL, REF_LABEL, REF_SHORT, REFS, Metric,
-    angle_for_db, attenuation_db_array, describe_point, load_calibration,
-    pair_response)
+    angle_for_db, attenuation_db_array, describe_point, fmt_db_bound,
+    load_calibration, pair_response)
 
 #: (kind, подпись в списке, [(подпись поля, значение по умолчанию), ...])
 METRIC_ITEMS: list[tuple[str, str, list[tuple[str, str]]]] = [
@@ -494,7 +494,17 @@ class ServiceGUI(tk.Tk):
         if w:
             self._log(w)
 
-        q = self._describe(theta, metric, ref)
+        # метрика может оказаться неразрешимой уже на сетке спектра (полоса
+        # целиком вне записанной) -- `_metric()` этого не видит, там только
+        # разбор чисел. `_redraw_plot` и `_inverse` такой отказ ловят, а здесь
+        # он уходил необработанным исключением из коллбэка кнопки: оператор
+        # жал «Вычислить затухание» и не получал НИЧЕГО -- ни диалога, ни
+        # строки в окне результата
+        try:
+            q = self._describe(theta, metric, ref)
+        except ValueError as e:
+            messagebox.showerror("Метрика", str(e))
+            return
         self._log(f"[опора {REF_SHORT[ref]}] {metric.label}")
         self._log(f"  угол WGP1 = {theta:+.3f}°  (от OFFSET {theta - self.offset:+.3f}, "
                   f"от ZERO {theta - self.zero:+.3f})")
@@ -546,8 +556,12 @@ class ServiceGUI(tk.Tk):
             return
 
         self._log(f"[опора {REF_SHORT[ref]}] {metric.label}")
+        # границы печатаются округлёнными ВНУТРЬ достижимого: иначе окно само
+        # называло недостижимое число (дно -40.908 -> «-40.91»), оператор вводил
+        # его обратно и получал «недостижимо: минимум -40.91»
         self._log(f"  цель {target:+.2f} дБ; диапазон "
-                  f"[{sol['db_min']:.2f}, {sol['db_max']:.2f}] дБ")
+                  f"[{fmt_db_bound(sol['db_min'], True)}, "
+                  f"{fmt_db_bound(sol['db_max'], False)}] дБ")
         self._log(f"  угол WGP1 = {sol['theta_plus_deg']:+.3f}°  "
                   f"или {sol['theta_minus_deg']:+.3f}°")
         self._log("  (два симметричных решения -- выбрать ближе к текущему положению)")
