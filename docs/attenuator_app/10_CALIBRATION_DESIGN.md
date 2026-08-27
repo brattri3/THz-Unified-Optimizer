@@ -1,6 +1,9 @@
 # 10 — Instrument calibration algorithm (DESIGN-ONLY)
 
-**Status: design note / pseudocode. NOT implemented.** Scope: how one would
+**Status: design note / pseudocode. NOT implemented.** The bench-side part of
+this note is developed into a concrete procedure in
+[`12_BENCH_CALIBRATION.md`](12_BENCH_CALIBRATION.md) (owner's own setup as the
+worked example); the dynamic-range reasoning below remains the source. Scope: how one would
 calibrate the CW angular attenuation of the two-WGP attenuator on a real bench,
 how the setup's **dynamic range (DR)** limits deep-extinction measurements, and
 how DR is itself determined during the same procedure. No code is added by this
