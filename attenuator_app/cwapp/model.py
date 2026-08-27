@@ -91,7 +91,11 @@ class CwModel:
         # цены ошибки в 1 градус, а не отдельным параметром модели.
         self.cal.off1_deg = 0.0
         self.cal.off2_deg = 0.0
-        self.params = params or CwParams()
+        # умолчание частоты -- середина откалиброванной полосы: со старым
+        # значением 0.200 ТГц приложение поднималось сразу с предупреждением
+        # об экстраполяции, хотя оператор ещё ничего не ввёл
+        lo, hi = self.cal.band_thz
+        self.params = params or CwParams(freq_thz=round((lo + hi) / 2.0, 3))
         self._result: CwResult | None = None
 
     # -- служебное -----------------------------------------------------

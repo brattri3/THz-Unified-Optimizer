@@ -81,9 +81,12 @@ class SectionPlot(QtWidgets.QWidget):
         shown = ("%+.2f dB" % value) if units == "dB" else ("%.2f %%" % value)
         self.text.setText("θ₁ %+.1f°, θ₂ %+.1f° → %s"
                           % (p.theta1_deg, p.theta2_deg, shown))
-        # подпись уводится влево у правого края, чтобы не уезжать за поле
+        # подпись уводится влево у правого края и вниз от точки, если та стоит у верхней границы
+        # поля: иначе текст срезается рамкой (поймано на снимке)
+        lo, hi = theme.limits(units)
+        near_top = value > lo + 0.86 * (hi - lo)
         near_right = point_th > (THETA_MIN + THETA_MAX) / 2.0 + 25.0
-        self.text.setAnchor((1, 1) if near_right else (0, 1))
+        self.text.setAnchor((1 if near_right else 0, 0 if near_top else 1))
         self.text.setPos(point_th + (-2.0 if near_right else 2.0), value)
 
         fixed = p.theta2_deg if self.which == 1 else p.theta1_deg

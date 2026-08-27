@@ -62,9 +62,11 @@ def shot(window, out: Path, tag: str) -> None:
 
 
 def run(out: Path) -> int:                                 # noqa: C901
+    theme.configure_locale()
     theme.configure_pyqtgraph()
     app = QtWidgets.QApplication(sys.argv[:1])
     app.setStyleSheet(theme.QSS)
+    theme.configure_fonts(app)
     w = CwMainWindow()
     w.show()
     app.processEvents()
@@ -200,6 +202,29 @@ def run(out: Path) -> int:                                 # noqa: C901
           w.plots.top.text.toPlainText())
     check("палитра экрана взята из core.plots",
           theme.pens()["model"].color().name() == theme.MODEL, theme.MODEL)
+    # десятичный разделитель: русская локаль Windows превращала «0.200 THz» в
+    # «0,200 THz», и скопированное в протокол число переставало разбираться
+    shown = w.params.freq.text()
+    check("числа с десятичной точкой, а не с запятой", "," not in shown, shown)
+    # умолчание не должно поднимать окно сразу с предупреждением
+    fresh = CwMainWindow()
+    check("стартовая частота лежит в полосе калибровки",
+          fresh.model.band_warning() is None,
+          "%.3f THz" % fresh.model.params.freq_thz)
+    fresh.close()
+
+    # Выбранная радиокнопка обязана ОТЛИЧАТЬСЯ от невыбранной на пикселях.
+    # Проверка появилась после реального дефекта: правило `QWidget {...}` в
+    # таблице стилей отключало нативную отрисовку индикатора, и выбранный
+    # пункт становился неотличим от невыбранного. Числа этого не видят.
+    w.params.det_buttons["coherent"].setChecked(True)
+    app.processEvents()
+    off = w.params.det_buttons["power"].grab().toImage()
+    w.params.det_buttons["power"].setChecked(True)
+    app.processEvents()
+    on = w.params.det_buttons["power"].grab().toImage()
+    check("выбранная радиокнопка видна на пикселях", off != on,
+          "одинаковы — индикатор не рисуется" if off == on else "отличается")
 
     print("\n########## ИТОГ ##########")
     print("  снимков: %d, каталог %s" % (n + 2, out))

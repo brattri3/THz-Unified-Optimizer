@@ -43,26 +43,55 @@ PCT_LIMITS = (0.0, 105.0)
 FONT_UI = "Segoe UI"
 FONT_MONO = "Cascadia Mono"
 
+# ВАЖНО: общего правила `QWidget { ... }` здесь нет и быть не должно. Любое
+# правило таблицы стилей, задевающее QRadioButton (в том числе через QWidget),
+# отключает нативную отрисовку индикатора, и ВЫБРАННЫЙ пункт становится
+# неотличим от невыбранного -- кружок просто пропадает. Поймано на снимке
+# дымового прогона 2026-08-27. Шрифт задаётся объектом приложения
+# (`configure_fonts`), а фон -- поимённо тем контейнерам, которым он нужен.
 QSS = """
-QWidget { background: %(panel)s; color: %(ink)s; font-family: '%(font)s'; font-size: 12px; }
+QMainWindow, QScrollArea, QScrollArea > QWidget > QWidget, QStatusBar {
+    background: %(panel)s; }
 QGroupBox { border: 1px solid %(line)s; border-radius: 3px; margin-top: 14px;
             padding: 6px 6px 8px 6px; background: %(surface)s; }
 QGroupBox::title { subcontrol-origin: margin; left: 8px; padding: 0 3px;
                    color: %(ink2)s; font-size: 11px; font-weight: 600; }
 QLabel#hint { color: %(muted)s; font-size: 11px; }
 QLabel#warn { color: %(warn)s; font-size: 11px; }
-QDoubleSpinBox, QLineEdit { background: #ffffff; border: 1px solid %(axis)s;
-                            border-radius: 2px; padding: 3px 4px;
-                            font-family: '%(mono)s'; }
-QDoubleSpinBox:disabled, QLabel:disabled, QRadioButton:disabled { color: %(muted)s; }
+QLabel:disabled { color: %(muted)s; }
+QDoubleSpinBox, QLineEdit, QComboBox { background: #ffffff; border: 1px solid %(axis)s;
+                                       border-radius: 2px; padding: 3px 4px; }
+QDoubleSpinBox:disabled { color: %(muted)s; background: %(panel)s; }
 QPushButton { background: %(panel)s; border: 1px solid %(axis)s; border-radius: 2px;
               padding: 5px 12px; }
 QPushButton:hover { background: #ecebe6; }
-QScrollArea { border: none; background: %(panel)s; }
-QStatusBar { background: %(panel)s; border-top: 1px solid %(line)s; color: %(ink2)s; }
-""" % {"panel": PANEL, "ink": INK, "ink2": INK2, "muted": MUTED, "line": LINE,
-       "surface": SURFACE, "axis": AXIS, "font": FONT_UI, "mono": FONT_MONO,
-       "warn": STATUS["warning"]}
+QScrollArea { border: none; }
+QStatusBar { border-top: 1px solid %(line)s; color: %(ink2)s; }
+""" % {"panel": PANEL, "ink2": INK2, "muted": MUTED, "line": LINE,
+       "surface": SURFACE, "axis": AXIS, "warn": STATUS["warning"]}
+
+
+def configure_fonts(app) -> None:
+    """Шрифт приложения. Через QFont, а не через таблицу стилей -- см. QSS."""
+    from PySide6.QtGui import QFont
+
+    font = QFont(FONT_UI, 9)
+    app.setFont(font)
+    mono = QFont(FONT_MONO, 9)
+    mono.setStyleHint(QFont.Monospace)
+    return mono
+
+
+def configure_locale() -> None:
+    """Числа с точкой, а не с запятой.
+
+    Windows с русской локалью отдаёт QLocale по системе, и спинбоксы начинают
+    показывать «0,200 THz». В английском интерфейсе это неверно, а скопированное
+    в протокол число ещё и перестаёт разбираться обратно.
+    """
+    from PySide6.QtCore import QLocale
+
+    QLocale.setDefault(QLocale(QLocale.English, QLocale.UnitedStates))
 
 
 def configure_pyqtgraph() -> None:

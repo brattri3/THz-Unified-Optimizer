@@ -14,7 +14,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
@@ -39,6 +39,9 @@ def _spin(value, lo, hi, step, decimals, suffix=""):
         s.setSuffix(suffix)
     s.setKeyboardTracking(False)      # пересчёт по завершении ввода, не на символ
     s.setMinimumWidth(96)
+    f = QtGui.QFont("Cascadia Mono", 9)
+    f.setStyleHint(QtGui.QFont.Monospace)
+    s.setFont(f)
     return s
 
 

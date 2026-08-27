@@ -79,10 +79,12 @@ def main(argv=None) -> int:
     from attenuator_app.cwapp import theme
     from attenuator_app.cwapp.mainwindow import CwMainWindow
 
+    theme.configure_locale()
     theme.configure_pyqtgraph()
     app = QtWidgets.QApplication(sys.argv[:1])
     app.setApplicationName("THz Attenuator CW")
     app.setStyleSheet(theme.QSS)
+    theme.configure_fonts(app)
     _install_excepthook(app)
 
     window = CwMainWindow(args.calibration)
