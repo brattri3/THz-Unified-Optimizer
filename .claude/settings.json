@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/check-context-budget.sh",
+            "command": "python3 .claude/hooks/check-context-budget.py",
             "timeout": 10,
             "statusMessage": "Проверка бюджета холодного старта"
           }
